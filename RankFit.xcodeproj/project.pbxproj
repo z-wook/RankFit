@@ -9,6 +9,27 @@
 /* Begin PBXBuildFile section */
 		014B1673EE2FDCE543AFF4F2 /* Pods_RankFitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C065524F5E420FA02883AA8 /* Pods_RankFitTests.framework */; };
 		15CC3AD2BC95A9A1A4040123 /* Pods_RankFit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 423C216EBA3E6EAD43D54C12 /* Pods_RankFit.framework */; };
+		33657A4E294483E900164DB5 /* AerobicActivityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33657A4D294483E900164DB5 /* AerobicActivityViewController.swift */; };
+		33657A502944840100164DB5 /* DoExerciseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33657A4F2944840100164DB5 /* DoExerciseViewModel.swift */; };
+		33657A5229448C2500164DB5 /* ExerciseList.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 33657A5129448C2500164DB5 /* ExerciseList.storyboard */; };
+		33657A552944ACB800164DB5 /* ExerciseListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33657A542944ACB800164DB5 /* ExerciseListViewController.swift */; };
+		33657A572944ACD600164DB5 /* ExerciseInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33657A562944ACD600164DB5 /* ExerciseInfoCell.swift */; };
+		33657A592944ACE500164DB5 /* ExerciseListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33657A582944ACE500164DB5 /* ExerciseListViewModel.swift */; };
+		33657A5B2944B4AC00164DB5 /* saveExercise.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 33657A5A2944B4AC00164DB5 /* saveExercise.storyboard */; };
+		33657A5E2944B4F900164DB5 /* saveExerciseViewController1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33657A5D2944B4F900164DB5 /* saveExerciseViewController1.swift */; };
+		33657A602944B50400164DB5 /* saveExerciseViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33657A5F2944B50400164DB5 /* saveExerciseViewController2.swift */; };
+		33657A622944B51C00164DB5 /* saveExerciseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33657A612944B51C00164DB5 /* saveExerciseViewModel.swift */; };
+		33657A642944C7E000164DB5 /* Temp.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 33657A632944C7E000164DB5 /* Temp.storyboard */; };
+		33657A672944C84800164DB5 /* TempViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33657A662944C84800164DB5 /* TempViewController.swift */; };
+		33657A692944C87100164DB5 /* Setting.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 33657A682944C87100164DB5 /* Setting.storyboard */; };
+		33657A6C2944C89800164DB5 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33657A6B2944C89800164DB5 /* SettingViewController.swift */; };
+		33657A6E2944C8DC00164DB5 /* anaerobicExerciseInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33657A6D2944C8DC00164DB5 /* anaerobicExerciseInfo.swift */; };
+		33657A712944C92100164DB5 /* aerobicExerciseInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33657A702944C92100164DB5 /* aerobicExerciseInfo.swift */; };
+		33657A732944C93500164DB5 /* ExerciseInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33657A722944C93500164DB5 /* ExerciseInfo.swift */; };
+		33657A752944C98500164DB5 /* CustomBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33657A742944C98500164DB5 /* CustomBarItem.swift */; };
+		33657A782944C9AA00164DB5 /* BarButtonItemGenerate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33657A772944C9AA00164DB5 /* BarButtonItemGenerate.swift */; };
+		33657A7C2944CA6200164DB5 /* getTopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33657A7B2944CA6200164DB5 /* getTopViewController.swift */; };
+		33657A7F2944CB7B00164DB5 /* ConfigDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33657A7E2944CB7B00164DB5 /* ConfigDataStore.swift */; };
 		33E916F42943AC4A00FC074A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E916F32943AC4A00FC074A /* AppDelegate.swift */; };
 		33E916F62943AC4A00FC074A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E916F52943AC4A00FC074A /* SceneDelegate.swift */; };
 		33E916FB2943AC4A00FC074A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 33E916F92943AC4A00FC074A /* Main.storyboard */; };
@@ -51,6 +72,27 @@
 
 /* Begin PBXFileReference section */
 		1BAB57B374DD05BF2125AB8F /* Pods-RankFit-RankFitUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RankFit-RankFitUITests.release.xcconfig"; path = "Target Support Files/Pods-RankFit-RankFitUITests/Pods-RankFit-RankFitUITests.release.xcconfig"; sourceTree = "<group>"; };
+		33657A4D294483E900164DB5 /* AerobicActivityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AerobicActivityViewController.swift; sourceTree = "<group>"; };
+		33657A4F2944840100164DB5 /* DoExerciseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoExerciseViewModel.swift; sourceTree = "<group>"; };
+		33657A5129448C2500164DB5 /* ExerciseList.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ExerciseList.storyboard; sourceTree = "<group>"; };
+		33657A542944ACB800164DB5 /* ExerciseListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseListViewController.swift; sourceTree = "<group>"; };
+		33657A562944ACD600164DB5 /* ExerciseInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseInfoCell.swift; sourceTree = "<group>"; };
+		33657A582944ACE500164DB5 /* ExerciseListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseListViewModel.swift; sourceTree = "<group>"; };
+		33657A5A2944B4AC00164DB5 /* saveExercise.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = saveExercise.storyboard; sourceTree = "<group>"; };
+		33657A5D2944B4F900164DB5 /* saveExerciseViewController1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = saveExerciseViewController1.swift; sourceTree = "<group>"; };
+		33657A5F2944B50400164DB5 /* saveExerciseViewController2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = saveExerciseViewController2.swift; sourceTree = "<group>"; };
+		33657A612944B51C00164DB5 /* saveExerciseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = saveExerciseViewModel.swift; sourceTree = "<group>"; };
+		33657A632944C7E000164DB5 /* Temp.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Temp.storyboard; sourceTree = "<group>"; };
+		33657A662944C84800164DB5 /* TempViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TempViewController.swift; sourceTree = "<group>"; };
+		33657A682944C87100164DB5 /* Setting.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Setting.storyboard; sourceTree = "<group>"; };
+		33657A6B2944C89800164DB5 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
+		33657A6D2944C8DC00164DB5 /* anaerobicExerciseInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = anaerobicExerciseInfo.swift; sourceTree = "<group>"; };
+		33657A702944C92100164DB5 /* aerobicExerciseInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = aerobicExerciseInfo.swift; sourceTree = "<group>"; };
+		33657A722944C93500164DB5 /* ExerciseInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseInfo.swift; sourceTree = "<group>"; };
+		33657A742944C98500164DB5 /* CustomBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomBarItem.swift; sourceTree = "<group>"; };
+		33657A772944C9AA00164DB5 /* BarButtonItemGenerate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarButtonItemGenerate.swift; sourceTree = "<group>"; };
+		33657A7B2944CA6200164DB5 /* getTopViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = getTopViewController.swift; sourceTree = "<group>"; };
+		33657A7E2944CB7B00164DB5 /* ConfigDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigDataStore.swift; sourceTree = "<group>"; };
 		33E916F02943AC4A00FC074A /* RankFit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RankFit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		33E916F32943AC4A00FC074A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		33E916F52943AC4A00FC074A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -113,6 +155,74 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		33657A5329448C2A00164DB5 /* ExerciseList */ = {
+			isa = PBXGroup;
+			children = (
+				33657A5129448C2500164DB5 /* ExerciseList.storyboard */,
+				33657A542944ACB800164DB5 /* ExerciseListViewController.swift */,
+				33657A562944ACD600164DB5 /* ExerciseInfoCell.swift */,
+				33657A582944ACE500164DB5 /* ExerciseListViewModel.swift */,
+				33657A5C2944B4AF00164DB5 /* saveExercise */,
+			);
+			path = ExerciseList;
+			sourceTree = "<group>";
+		};
+		33657A5C2944B4AF00164DB5 /* saveExercise */ = {
+			isa = PBXGroup;
+			children = (
+				33657A5A2944B4AC00164DB5 /* saveExercise.storyboard */,
+				33657A5D2944B4F900164DB5 /* saveExerciseViewController1.swift */,
+				33657A5F2944B50400164DB5 /* saveExerciseViewController2.swift */,
+				33657A612944B51C00164DB5 /* saveExerciseViewModel.swift */,
+			);
+			path = saveExercise;
+			sourceTree = "<group>";
+		};
+		33657A652944C7F300164DB5 /* Temp */ = {
+			isa = PBXGroup;
+			children = (
+				33657A632944C7E000164DB5 /* Temp.storyboard */,
+				33657A662944C84800164DB5 /* TempViewController.swift */,
+			);
+			path = Temp;
+			sourceTree = "<group>";
+		};
+		33657A6A2944C88400164DB5 /* Setting */ = {
+			isa = PBXGroup;
+			children = (
+				33657A682944C87100164DB5 /* Setting.storyboard */,
+				33657A6B2944C89800164DB5 /* SettingViewController.swift */,
+			);
+			path = Setting;
+			sourceTree = "<group>";
+		};
+		33657A6F2944C8F400164DB5 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				33657A6D2944C8DC00164DB5 /* anaerobicExerciseInfo.swift */,
+				33657A702944C92100164DB5 /* aerobicExerciseInfo.swift */,
+				33657A722944C93500164DB5 /* ExerciseInfo.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		33657A762944C98E00164DB5 /* CustomBarButtonItem */ = {
+			isa = PBXGroup;
+			children = (
+				33657A742944C98500164DB5 /* CustomBarItem.swift */,
+				33657A772944C9AA00164DB5 /* BarButtonItemGenerate.swift */,
+			);
+			path = CustomBarButtonItem;
+			sourceTree = "<group>";
+		};
+		33657A7D2944CA7200164DB5 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				33657A7B2944CA6200164DB5 /* getTopViewController.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		33E916E72943AC4A00FC074A = {
 			isa = PBXGroup;
 			children = (
@@ -144,6 +254,11 @@
 				33E917302943B52E00FC074A /* Home */,
 				33E917352943B59B00FC074A /* Rank */,
 				33E9173A2943B62A00FC074A /* Exercise */,
+				33657A652944C7F300164DB5 /* Temp */,
+				33657A6A2944C88400164DB5 /* Setting */,
+				33657A762944C98E00164DB5 /* CustomBarButtonItem */,
+				33657A6F2944C8F400164DB5 /* Model */,
+				33657A7D2944CA7200164DB5 /* Extensions */,
 				33E916FF2943AC4B00FC074A /* Assets.xcassets */,
 				33E917012943AC4B00FC074A /* LaunchScreen.storyboard */,
 				33E917042943AC4B00FC074A /* Info.plist */,
@@ -203,6 +318,7 @@
 				33E917382943B62000FC074A /* ExerciseViewController.swift */,
 				33E9173B2943BBE300FC074A /* ExerciseViewModel.swift */,
 				33E9173D2943BC7600FC074A /* ExercisePlanCell.swift */,
+				33657A7E2944CB7B00164DB5 /* ConfigDataStore.swift */,
 				33E917412943C6B900FC074A /* DoExercise */,
 			);
 			path = Exercise;
@@ -213,6 +329,9 @@
 			children = (
 				33E9173F2943C6B500FC074A /* DoExercise.storyboard */,
 				33E917422943C6DC00FC074A /* AnaerobicActivityViewController.swift */,
+				33657A4D294483E900164DB5 /* AerobicActivityViewController.swift */,
+				33657A4F2944840100164DB5 /* DoExerciseViewModel.swift */,
+				33657A5329448C2A00164DB5 /* ExerciseList */,
 			);
 			path = DoExercise;
 			sourceTree = "<group>";
@@ -351,10 +470,14 @@
 			files = (
 				33E917372943B61400FC074A /* Exercise.storyboard in Resources */,
 				33E917322943B57200FC074A /* Rank.storyboard in Resources */,
+				33657A5229448C2500164DB5 /* ExerciseList.storyboard in Resources */,
 				33E917032943AC4B00FC074A /* LaunchScreen.storyboard in Resources */,
+				33657A642944C7E000164DB5 /* Temp.storyboard in Resources */,
 				33E917002943AC4B00FC074A /* Assets.xcassets in Resources */,
 				33E917402943C6B500FC074A /* DoExercise.storyboard in Resources */,
 				33E916FB2943AC4A00FC074A /* Main.storyboard in Resources */,
+				33657A5B2944B4AC00164DB5 /* saveExercise.storyboard in Resources */,
+				33657A692944C87100164DB5 /* Setting.storyboard in Resources */,
 				33E9172C2943B1F600FC074A /* Home.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -483,16 +606,33 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				33657A592944ACE500164DB5 /* ExerciseListViewModel.swift in Sources */,
+				33657A622944B51C00164DB5 /* saveExerciseViewModel.swift in Sources */,
+				33657A672944C84800164DB5 /* TempViewController.swift in Sources */,
+				33657A712944C92100164DB5 /* aerobicExerciseInfo.swift in Sources */,
 				33E9172E2943B21800FC074A /* HomeViewController.swift in Sources */,
+				33657A732944C93500164DB5 /* ExerciseInfo.swift in Sources */,
 				33E917392943B62000FC074A /* ExerciseViewController.swift in Sources */,
 				33E916F42943AC4A00FC074A /* AppDelegate.swift in Sources */,
 				33E917342943B58600FC074A /* RankViewController.swift in Sources */,
 				33E916F62943AC4A00FC074A /* SceneDelegate.swift in Sources */,
 				33E9173E2943BC7600FC074A /* ExercisePlanCell.swift in Sources */,
+				33657A782944C9AA00164DB5 /* BarButtonItemGenerate.swift in Sources */,
 				33E917292943B0DD00FC074A /* MainTabBarController.swift in Sources */,
+				33657A572944ACD600164DB5 /* ExerciseInfoCell.swift in Sources */,
+				33657A7F2944CB7B00164DB5 /* ConfigDataStore.swift in Sources */,
+				33657A752944C98500164DB5 /* CustomBarItem.swift in Sources */,
+				33657A6E2944C8DC00164DB5 /* anaerobicExerciseInfo.swift in Sources */,
+				33657A5E2944B4F900164DB5 /* saveExerciseViewController1.swift in Sources */,
+				33657A4E294483E900164DB5 /* AerobicActivityViewController.swift in Sources */,
 				33E9173C2943BBE300FC074A /* ExerciseViewModel.swift in Sources */,
+				33657A552944ACB800164DB5 /* ExerciseListViewController.swift in Sources */,
+				33657A6C2944C89800164DB5 /* SettingViewController.swift in Sources */,
 				33E917432943C6DC00FC074A /* AnaerobicActivityViewController.swift in Sources */,
 				33E916FE2943AC4A00FC074A /* RankFit.xcdatamodeld in Sources */,
+				33657A7C2944CA6200164DB5 /* getTopViewController.swift in Sources */,
+				33657A502944840100164DB5 /* DoExerciseViewModel.swift in Sources */,
+				33657A602944B50400164DB5 /* saveExerciseViewController2.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -673,6 +813,9 @@
 				DEVELOPMENT_TEAM = HJ943JVKX7;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = RankFit/Info.plist;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "지도에서 사용자의 위치를 확인하여 경로 기록을 하기 위해 권한이 필요합니다.(필수권한)";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "지도에서 사용자의 위치를 확인하여 경로 기록을 하기 위해 권한이 필요합니다.(필수권한)";
+				INFOPLIST_KEY_NSMotionUsageDescription = "사용자의 운동을 확인하기 위해 권한이 필요합니다.(필수권한)";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -702,6 +845,9 @@
 				DEVELOPMENT_TEAM = HJ943JVKX7;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = RankFit/Info.plist;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "지도에서 사용자의 위치를 확인하여 경로 기록을 하기 위해 권한이 필요합니다.(필수권한)";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "지도에서 사용자의 위치를 확인하여 경로 기록을 하기 위해 권한이 필요합니다.(필수권한)";
+				INFOPLIST_KEY_NSMotionUsageDescription = "사용자의 운동을 확인하기 위해 권한이 필요합니다.(필수권한)";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;

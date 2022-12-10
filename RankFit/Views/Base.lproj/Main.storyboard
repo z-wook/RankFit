@@ -3,58 +3,92 @@
     <device id="retina6_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Tab Bar Controller-->
+        <!--Main Tab Bar Controller-->
         <scene sceneID="kGQ-MO-2Zz">
             <objects>
-                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="7WW-vh-skv" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="MainTabBarController" automaticallyAdjustsScrollViewInsets="NO" id="7WW-vh-skv" customClass="MainTabBarController" customModule="RankFit" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="BBg-Us-er3">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="selectedImageTintColor" systemColor="systemPinkColor"/>
                     </tabBar>
                     <connections>
-                        <segue destination="R0E-Ak-ceV" kind="relationship" relationship="viewControllers" id="l6h-0q-2wG"/>
-                        <segue destination="mJx-Pw-O0c" kind="relationship" relationship="viewControllers" id="liD-Vq-tki"/>
-                        <segue destination="pwY-RR-5XV" kind="relationship" relationship="viewControllers" id="7ji-pR-Wpc"/>
+                        <segue destination="kX8-aA-G73" kind="relationship" relationship="viewControllers" id="tUe-Ia-kRU"/>
+                        <segue destination="jg5-63-FDK" kind="relationship" relationship="viewControllers" id="y12-cp-wBX"/>
+                        <segue destination="CSP-Sh-Xz0" kind="relationship" relationship="viewControllers" id="Jmx-l2-eB5"/>
+                        <segue destination="OSz-Z7-xI5" kind="relationship" relationship="viewControllers" id="udB-Xs-OMN"/>
+                        <segue destination="NXe-pc-nJ3" kind="relationship" relationship="viewControllers" id="KZg-V6-IKP"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="URp-cB-gmk" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="130.76923076923077" y="-27.014218009478672"/>
         </scene>
-        <!--Home-->
-        <scene sceneID="hHJ-fJ-faR">
+        <!--HomeViewController-->
+        <scene sceneID="7Hq-2Z-M3Q">
             <objects>
-                <viewControllerPlaceholder storyboardIdentifier="HomeViewController" storyboardName="Home" id="R0E-Ak-ceV" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="YwO-Ib-Zrf"/>
+                <viewControllerPlaceholder storyboardName="Home" referencedIdentifier="HomeViewController" id="kX8-aA-G73" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Home" image="house" catalog="system" id="u8y-2x-61j"/>
                 </viewControllerPlaceholder>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="MLz-Rq-jzF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="cSC-5Y-2Gk" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1015" y="-250"/>
+            <point key="canvasLocation" x="902" y="-249"/>
         </scene>
-        <!--Rank-->
-        <scene sceneID="xdM-li-1ZB">
+        <!--RankViewController-->
+        <scene sceneID="KnX-lm-D1p">
             <objects>
-                <viewControllerPlaceholder storyboardIdentifier="RankViewController" storyboardName="Rank" id="mJx-Pw-O0c" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="UK9-en-RQN"/>
+                <viewControllerPlaceholder storyboardName="Rank" referencedIdentifier="RankViewController" id="jg5-63-FDK" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Rank" image="person.2" catalog="system" id="A5x-k6-bUp"/>
                 </viewControllerPlaceholder>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="u6P-7M-JKw" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="BNK-lk-Nh3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1012" y="-152"/>
+            <point key="canvasLocation" x="892" y="-151"/>
         </scene>
-        <!--Exercise-->
-        <scene sceneID="kRf-Xc-rue">
+        <!--initialExercise-->
+        <scene sceneID="UCq-9P-Xqh">
             <objects>
-                <viewControllerPlaceholder storyboardIdentifier="ExerciseViewController" storyboardName="Exercise" id="pwY-RR-5XV" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="c15-hT-T1o"/>
+                <viewControllerPlaceholder storyboardName="Exercise" referencedIdentifier="initialExercise" id="CSP-Sh-Xz0" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Exercise" image="alarm" catalog="system" id="slM-eK-hYL"/>
                 </viewControllerPlaceholder>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="i6m-sZ-qnA" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="LVa-lf-mHI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1027" y="-65"/>
+            <point key="canvasLocation" x="921" y="-27"/>
+        </scene>
+        <!--initialTemp-->
+        <scene sceneID="iYD-Xk-FAt">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Temp" referencedIdentifier="initialTemp" id="OSz-Z7-xI5" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Temp" image="fork.knife" catalog="system" id="b32-at-NmL"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Emt-CC-3it" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="908" y="104"/>
+        </scene>
+        <!--SettingViewController-->
+        <scene sceneID="Pel-N4-A1e">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Setting" referencedIdentifier="SettingViewController" id="NXe-pc-nJ3" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Setting" image="gear" catalog="system" id="W2Q-zS-arG"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="uGc-Nr-f0F" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="915" y="215"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="alarm" catalog="system" width="123" height="128"/>
+        <image name="fork.knife" catalog="system" width="94" height="128"/>
+        <image name="gear" catalog="system" width="128" height="122"/>
+        <image name="house" catalog="system" width="128" height="104"/>
+        <image name="person.2" catalog="system" width="128" height="82"/>
+        <systemColor name="systemPinkColor">
+            <color red="1" green="0.17647058823529413" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
 </document>

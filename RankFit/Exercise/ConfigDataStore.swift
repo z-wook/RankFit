@@ -1,0 +1,172 @@
+//
+//  ConfigDataStore.swift
+//  RankFit
+//
+//  Created by 한지욱 on 2022/12/10.
+//
+
+import Foundation
+import CoreData
+import UIKit
+
+final class ConfigDataStore {
+    
+    static func hour_min_sec() -> String {
+        let nowDate = Date()
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "HH:mm:ss"
+        let currentTime = dateFormatter.string(from: nowDate)
+        
+        return currentTime
+    }
+    
+    static func saveCoreData(info: AnyHashable) {
+        let currentTime = ConfigDataStore.hour_min_sec()
+        
+        if let anaerobicInfo = info as? anaerobicExerciseInfo {
+            let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+            let entity = NSEntityDescription.entity(forEntityName: "Anaerobic", in: context)
+
+            if let entity = entity {
+                let object = NSManagedObject(entity: entity, insertInto: context)
+
+                object.setValue(anaerobicInfo.id, forKey: "id")
+                object.setValue(anaerobicInfo.exercise, forKey: "exercise")
+                object.setValue(anaerobicInfo.date, forKey: "date")
+                object.setValue(anaerobicInfo.set, forKey: "set")
+                object.setValue(anaerobicInfo.weight, forKey: "weight")
+                object.setValue(anaerobicInfo.count, forKey: "count")
+                object.setValue(currentTime, forKey: "saveTime")
+                object.setValue(anaerobicInfo.done, forKey: "done")
+
+                do {
+                    try context.save()
+                } catch {
+                    print(error.localizedDescription)
+                }
+            }
+        }
+        
+        if let aerobicInfo = info as? aerobicExerciseInfo {
+            let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+            let entity = NSEntityDescription.entity(forEntityName: "Aerobic", in: context)
+            
+            if let entity = entity {
+                let object = NSManagedObject(entity: entity, insertInto: context)
+                                
+                object.setValue(aerobicInfo.id, forKey: "id")
+                object.setValue(aerobicInfo.exercise, forKey: "exercise")
+                object.setValue(aerobicInfo.date, forKey: "date")
+                object.setValue(aerobicInfo.distance, forKey: "distance")
+                object.setValue(aerobicInfo.time, forKey: "time")
+                object.setValue(currentTime, forKey: "saveTime")
+                object.setValue(aerobicInfo.done, forKey: "done")
+                
+                do {
+                    try context.save()
+                } catch {
+                    print(error.localizedDescription)
+                }
+            }
+        }
+    }
+    
+    static func fetchCoreData(date: String) -> [AnyHashable] {
+        var exerciseInfoList: [AnyHashable] = []
+        
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+
+        do {
+            let anaerobicExList = try context.fetch(Anaerobic.fetchRequest()) as! [Anaerobic]
+            anaerobicExList.forEach {
+                if $0.date == date {
+                    let id = $0.id ?? UUID()
+                    let exerciseName = $0.exercise ?? ""
+                    let date = $0.date ?? ""
+                    let set = $0.set
+                    let weight = $0.weight
+                    let count = $0.count
+                    let saveTime = $0.saveTime ?? ""
+                    let done = $0.done
+
+                    let exerciseInfo = anaerobicExerciseInfo(id: id, exercise: exerciseName, date: date, set: set, weight: weight, count: count, saveTime: saveTime, done: done)
+                    exerciseInfoList.append(exerciseInfo)
+                }
+            }
+            
+            let aerobicExList = try context.fetch(Aerobic.fetchRequest()) as! [Aerobic]
+            aerobicExList.forEach {
+                if $0.date == date {
+                    let id = $0.id ?? UUID()
+                    let exerciseName = $0.exercise ?? ""
+                    let date = $0.date ?? ""
+                    let time = $0.time
+                    let distance = $0.distance
+                    let saveTime = $0.saveTime ?? ""
+                    let done = $0.done
+
+                    let exerciseInfo = aerobicExerciseInfo(id: id, exercise: exerciseName, date: date, time: time, distance: distance, saveTime: saveTime, done: done)
+                    exerciseInfoList.append(exerciseInfo)
+                }
+            }
+        } catch {
+            print(error.localizedDescription)
+        }
+        return exerciseInfoList
+    }
+    
+    static func updateCoreData(id: UUID, entityName: String , distance: Double? = nil, time: Int16? = nil, done: Bool) -> Bool {
+        print("update")
+        
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return false }
+        let managedContext = appDelegate.persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>.init(entityName: entityName)
+        fetchRequest.predicate = NSPredicate(format: "id = %@", id as CVarArg)
+        
+        do {
+            let result = try managedContext.fetch(fetchRequest)
+            let object = result[0] as! NSManagedObject
+            
+            switch entityName {
+            case "Aerobic":
+                object.setValue(distance, forKey: "distance")
+                object.setValue(time, forKey: "time")
+                object.setValue(done, forKey: "done")
+                
+            case "Anaerobic":
+                object.setValue(done, forKey: "done")
+                
+            default: break
+            }
+            
+            try managedContext.save()
+            return true
+        } catch let error as NSError {
+            print("Could not update. \(error), \(error.userInfo)")
+            return false
+        }
+    }
+    
+    static func deleteCoreData(id: UUID, entityName: String) -> Bool {
+        print("delete")
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return false }
+        let managedContext = appDelegate.persistentContainer.viewContext
+        
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>.init(entityName: entityName)
+        
+        fetchRequest.predicate = NSPredicate(format: "id = %@", id as CVarArg)
+        
+        do {
+            let result = try managedContext.fetch(fetchRequest)
+            let objectToDelete = result[0] as! NSManagedObject
+            managedContext.delete(objectToDelete)
+            
+            try managedContext.save()
+            return true
+        } catch let error as NSError {
+            print("Could not delete. \(error), \(error.userInfo)")
+            return false
+        }
+    }
+}
