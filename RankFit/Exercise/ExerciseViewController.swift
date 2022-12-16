@@ -93,11 +93,10 @@ class ExerciseViewController: UIViewController {
     }
     
     private func layout() -> UICollectionViewCompositionalLayout {
-//        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(140))
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(140))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(140))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-//        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(140))
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(140))
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(140))
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
 
         let section = NSCollectionLayoutSection(group: group)

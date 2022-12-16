@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_0" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -23,27 +24,27 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YDz-DE-nPf">
                                         <rect key="frame" x="0.0" y="0.0" width="390" height="50"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rdm-pZ-svr">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JuA-b8-4ok">
                                                 <rect key="frame" x="342" y="10" width="40" height="40"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" secondItem="Rdm-pZ-svr" secondAttribute="height" multiplier="1:1" id="kUr-46-o2Z"/>
+                                                    <constraint firstAttribute="width" secondItem="JuA-b8-4ok" secondAttribute="height" multiplier="1:1" id="9S6-Au-WJx"/>
                                                 </constraints>
-                                                <state key="normal" title="Button"/>
-                                                <buttonConfiguration key="configuration" style="plain">
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <state key="normal">
                                                     <imageReference key="image" image="multiply.circle" catalog="system" renderingMode="original"/>
-                                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="30"/>
-                                                </buttonConfiguration>
+                                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="40"/>
+                                                </state>
                                                 <connections>
-                                                    <action selector="closeButton:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="ZkH-FK-6bi"/>
+                                                    <action selector="closeButton:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="K5t-9h-C36"/>
                                                 </connections>
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="2Vo-yf-PJd"/>
-                                            <constraint firstItem="Rdm-pZ-svr" firstAttribute="top" secondItem="YDz-DE-nPf" secondAttribute="top" constant="10" id="70J-89-oo5"/>
-                                            <constraint firstAttribute="bottom" secondItem="Rdm-pZ-svr" secondAttribute="bottom" id="Oh8-jl-MhN"/>
-                                            <constraint firstAttribute="trailing" secondItem="Rdm-pZ-svr" secondAttribute="trailing" constant="8" id="rbj-Xe-8eL"/>
+                                            <constraint firstAttribute="trailing" secondItem="JuA-b8-4ok" secondAttribute="trailing" constant="8" id="7Vu-e2-DuZ"/>
+                                            <constraint firstItem="JuA-b8-4ok" firstAttribute="top" secondItem="YDz-DE-nPf" secondAttribute="top" constant="10" id="SiJ-uG-B1t"/>
+                                            <constraint firstAttribute="bottom" secondItem="JuA-b8-4ok" secondAttribute="bottom" id="e0l-S2-OPQ"/>
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ugf-qL-4zb">
@@ -216,28 +217,27 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dqI-LN-3ng">
                                         <rect key="frame" x="0.0" y="0.0" width="390" height="50"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aIN-6M-YZW">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QMp-oG-W5S">
                                                 <rect key="frame" x="342" y="10" width="40" height="40"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" secondItem="aIN-6M-YZW" secondAttribute="height" multiplier="1:1" id="zfB-Ga-FNd"/>
+                                                    <constraint firstAttribute="width" secondItem="QMp-oG-W5S" secondAttribute="height" multiplier="1:1" id="oOV-xM-htJ"/>
                                                 </constraints>
                                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                                <state key="normal" title="Button"/>
-                                                <buttonConfiguration key="configuration" style="plain">
+                                                <state key="normal">
                                                     <imageReference key="image" image="multiply.circle" catalog="system" renderingMode="original"/>
-                                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="30"/>
-                                                </buttonConfiguration>
+                                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="40"/>
+                                                </state>
                                                 <connections>
-                                                    <action selector="closeButton:" destination="4OD-yM-GvH" eventType="touchUpInside" id="3vB-1C-7SM"/>
+                                                    <action selector="closeButton:" destination="4OD-yM-GvH" eventType="touchUpInside" id="kcD-gM-Zbm"/>
                                                 </connections>
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <constraints>
-                                            <constraint firstAttribute="bottom" secondItem="aIN-6M-YZW" secondAttribute="bottom" id="IPG-vS-7qC"/>
-                                            <constraint firstItem="aIN-6M-YZW" firstAttribute="top" secondItem="dqI-LN-3ng" secondAttribute="top" constant="10" id="ikx-Ga-W9v"/>
+                                            <constraint firstItem="QMp-oG-W5S" firstAttribute="top" secondItem="dqI-LN-3ng" secondAttribute="top" constant="10" id="3yT-9F-A8c"/>
+                                            <constraint firstAttribute="trailing" secondItem="QMp-oG-W5S" secondAttribute="trailing" constant="8" id="CgF-bV-Xbf"/>
                                             <constraint firstAttribute="height" constant="50" id="wT3-pD-gJK"/>
-                                            <constraint firstAttribute="trailing" secondItem="aIN-6M-YZW" secondAttribute="trailing" constant="8" id="yjm-6m-aJa"/>
+                                            <constraint firstAttribute="bottom" secondItem="QMp-oG-W5S" secondAttribute="bottom" id="zpJ-kx-Waj"/>
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="p4P-cF-bar">

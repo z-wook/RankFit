@@ -106,7 +106,7 @@ class ExerciseListViewController: UIViewController {
         let shareItem = UIBarButtonItem.generate(with: shareConfig, width: 30)
 
         navigationItem.rightBarButtonItems = [moreItem, shareItem]
-        navigationItem.backButtonDisplayMode = .minimal
+//        navigationItem.backButtonDisplayMode = .minimal
     }
 
     private func embedSearchBar() {

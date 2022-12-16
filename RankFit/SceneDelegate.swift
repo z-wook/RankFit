@@ -63,7 +63,43 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         locationManager.requestAlwaysAuthorization()
         locationManager.startUpdatingLocation()
     }
-
-
 }
 
+//extension SceneDelegate {
+//
+//    public class Storage {
+//        static func isFirstTime() -> Bool {
+//            let defaults = UserDefaults.standard
+//
+//            // 여기 삭제
+//            return true
+//
+//
+////            if defaults.object(forKey: "isFirstTime") == nil {
+////                defaults.set("No", forKey:"isFirstTime")
+////                return true
+////            } else {
+////                return false
+////            }
+//        }
+//    }
+//
+//    private func setRootViewController(_ scene: UIScene){
+//        if Storage.isFirstTime() {
+//            setRootViewController(scene, name: "Onboarding", identifier: "StartOnboarding")
+//        } else {
+//            setRootViewController(scene, name: "Main", identifier: "MainTabBarController")
+//        }
+//    }
+//
+//    private func setRootViewController(_ scene: UIScene, name: String, identifier: String) {
+//        if let windowScene = scene as? UIWindowScene {
+//            let window = UIWindow(windowScene: windowScene)
+//            let storyboard = UIStoryboard(name: name, bundle: nil)
+//            let viewController = storyboard.instantiateViewController(withIdentifier: identifier)
+//            window.rootViewController = viewController
+//            self.window = window
+//            window.makeKeyAndVisible()
+//        }
+//    }
+//}
