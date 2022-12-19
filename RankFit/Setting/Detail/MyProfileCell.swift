@@ -28,6 +28,23 @@ class MyProfileCell: UITableViewCell {
     
     func configCell(title: String, infomation: String) {
         self.title.text = title
-        self.infomation.text = infomation
+        
+        switch title {
+        case "성별":
+            if infomation == "0" {
+                self.infomation.text = "남성"
+            } else if infomation == "1" {
+                self.infomation.text = "여성"
+            } else { return }
+            
+        case "나이":
+            self.infomation.text = infomation + "세"
+            
+        case "몸무게":
+            self.infomation.text = infomation + "kg"
+            
+        default :
+            self.infomation.text = infomation
+        }
     }
 }

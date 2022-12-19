@@ -9,21 +9,29 @@ import UIKit
 
 class MyProfileViewController: UIViewController {
 
-    // 성별, 나이, 몸무게 입력
-    // 닉네임 변경
-    // 탈퇴
-    
     @IBOutlet weak var tableView: UITableView!
     
     let sectionHeader = ["내 정보", "계정"]
-    let section0 = ["이메일", "닉네임", "성별", "나이", "몸무게"]
+    let section0 = ["이메일", "성별", "닉네임", "나이", "몸무게"]
     let section1 = ["서비스 탈퇴"]
+    
+    
+    let user = getUserInfo()
+    
+    
+    var userInfomation: [Any] = [] // [이메일, 성별, 닉네임, 나이, 몸무게]
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         tableView.dataSource = self
         tableView.delegate = self
+        navigationItem.backButtonDisplayMode = .minimal
+        
+        
+        userInfomation = [user.getEmail(), user.getGender(),
+                          user.getNickName(), user.getAge(), user.getWeight()]
     }
 }
 
@@ -59,7 +67,10 @@ extension MyProfileViewController: UITableViewDataSource, UITableViewDelegate {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "MyProfileCell", for: indexPath) as? MyProfileCell else {
                 return UITableViewCell()
             }
-            cell.configCell(title: section0[indexPath.item], infomation: "none")
+            cell.configCell(title: section0[indexPath.item], infomation: "\(userInfomation[indexPath.item])")
+            if indexPath.item >= 2 && indexPath.item <= 4 {
+                cell.accessoryType = .disclosureIndicator
+            }
             return cell
         case 1:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "MyProfileCell", for: indexPath) as? MyProfileCell else {
@@ -77,10 +88,17 @@ extension MyProfileViewController: UITableViewDataSource, UITableViewDelegate {
         case 0:
             if indexPath.item == 1 {
                 // 닉네임
-            }
-            // 성별, 나이, 몸무게
-            else if (indexPath.item >= 2 && indexPath.item <= 4) {
                 
+                
+                
+                
+            }
+            // 나이, 몸무게
+            else if (indexPath.item == 3 || indexPath.item == 4) {
+                let sb = UIStoryboard(name: "InputInfo", bundle: nil)
+                let vc = sb.instantiateViewController(withIdentifier: "InputInfoViewController") as! InputInfoViewController
+                vc.configure(type: section0[indexPath.item])
+                self.navigationController?.pushViewController(vc, animated: true)
                 
                 
                 

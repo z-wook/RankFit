@@ -12,9 +12,9 @@ class RegisterAgeViewController: UIViewController {
     @IBOutlet weak var agePickerView: UIPickerView!
     @IBOutlet weak var nextButton: UIButton!
     
+    var viewModel: userInfo!
     var age: [String] = []
     var pickAge: String!
-    var viewModel: userInfo!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,6 +33,10 @@ class RegisterAgeViewController: UIViewController {
 
     private func buttonConfigure() {
         nextButton.layer.cornerRadius = 20
+        nextButton.layer.shadowColor = UIColor.gray.cgColor
+        nextButton.layer.shadowOpacity = 1.0
+        nextButton.layer.shadowOffset = CGSize.zero
+        nextButton.layer.shadowRadius = 7
     }
     
     private func pickerViewConfigure() {
@@ -74,7 +78,7 @@ extension RegisterAgeViewController: UIPickerViewDataSource, UIPickerViewDelegat
     }
     
     func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
-        return NSAttributedString(string: age[row] + "세", attributes: [.foregroundColor:UIColor.white])
+        return NSAttributedString(string: age[row] + "세", attributes: [.foregroundColor:UIColor.label])
     }
     
     func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {

@@ -12,9 +12,9 @@ class RegisterWeightViewController: UIViewController {
     @IBOutlet weak var weightPickerView: UIPickerView!
     @IBOutlet weak var nextButton: UIButton!
     
+    var viewModel: userInfo!
     var weight: [String] = []
     var pickWeight: String!
-    var viewModel: userInfo!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,6 +33,10 @@ class RegisterWeightViewController: UIViewController {
     
     private func buttonConfigure() {
         nextButton.layer.cornerRadius = 20
+        nextButton.layer.shadowColor = UIColor.gray.cgColor
+        nextButton.layer.shadowOpacity = 1.0
+        nextButton.layer.shadowOffset = CGSize.zero
+        nextButton.layer.shadowRadius = 7
     }
     
     private func pickerViewConfigure() {
@@ -69,7 +73,7 @@ extension RegisterWeightViewController: UIPickerViewDataSource, UIPickerViewDele
     }
     
     func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
-        return NSAttributedString(string: weight[row] + "kg", attributes: [.foregroundColor:UIColor.white])
+        return NSAttributedString(string: weight[row] + "kg", attributes: [.foregroundColor:UIColor.label])
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {

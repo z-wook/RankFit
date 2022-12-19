@@ -6,10 +6,15 @@
 //
 
 import UIKit
+import Combine
 
 class SettingViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
+//    @IBOutlet var tableView: UITableView!
+    
+    static var userNickName = CurrentValueSubject<String, Never>("")
+    var subscriptions = Set<AnyCancellable>()
     
     let sectionHeader = ["내 프로필", "앱 설정", "이용 안내", "기타"]
     let section0 = ["마이페이지"] // userInfomation
@@ -24,8 +29,19 @@ class SettingViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         updateNavigationItem()
+        bind()
     }
-   
+    
+    func bind() {
+        SettingViewController.userNickName.receive(on: RunLoop.main)
+            .sink { result in
+                if result != "" {
+                    self.tableView.reloadData()
+                } else {
+                    return
+                }
+            }.store(in: &subscriptions)
+    }
 }
 
 extension SettingViewController: UITableViewDataSource, UITableViewDelegate {
@@ -67,8 +83,7 @@ extension SettingViewController: UITableViewDataSource, UITableViewDelegate {
             guard let profileCell = tableView.dequeueReusableCell(withIdentifier: "ProfileCell", for: indexPath) as? ProfileCell else {
                 return UITableViewCell()
             }
-//            profileCell.profileImage =
-            profileCell.nickName.text = "정보없음"
+            profileCell.configCell()
             return profileCell
         case 1:
             guard let defaultCell = tableView.dequeueReusableCell(withIdentifier: "DefaultCell", for: indexPath) as? DefaultCell else {
@@ -105,10 +120,20 @@ extension SettingViewController {
         
         switch indexPath.section {
         case 0:
-            let sb = UIStoryboard(name: "MyProfile", bundle: nil)
-            let vc = sb.instantiateViewController(withIdentifier: "MyProfileViewController") as! MyProfileViewController
             
-            self.navigationController?.pushViewController(vc, animated: true)
+            if checkRegister.shared.isNewUser() {
+                let sb = UIStoryboard(name: "Register", bundle: nil)
+                let vc = sb.instantiateViewController(withIdentifier: "RegisterGenderViewController") as! RegisterGenderViewController
+                
+                self.navigationController?.pushViewController(vc, animated: true)
+//                vc.modalPresentationStyle = .fullScreen
+//                present(vc, animated: true)
+            } else {
+                let sb = UIStoryboard(name: "MyProfile", bundle: nil)
+                let vc = sb.instantiateViewController(withIdentifier: "MyProfileViewController") as! MyProfileViewController
+                
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
             
             
         case 1:
@@ -123,6 +148,20 @@ extension SettingViewController {
         
     }
 }
+
+class checkRegister {
+    static let shared = checkRegister()
+    
+    func isNewUser() -> Bool {
+        return !UserDefaults.standard.bool(forKey: "checkRegister")
+    }
+    
+    func setIsNotNewUser() {
+        UserDefaults.standard.set(true, forKey: "checkRegister")
+    }
+}
+
+
 
 extension SettingViewController {
     private func updateNavigationItem() {

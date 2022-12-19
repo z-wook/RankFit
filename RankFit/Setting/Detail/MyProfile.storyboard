@@ -17,7 +17,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="insetGrouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="qyF-di-Gid">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="insetGrouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="qyF-di-Gid">
                                 <rect key="frame" x="0.0" y="0.0" width="390" height="810"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="MyProfileCell" id="L6f-aw-j1G" customClass="MyProfileCell" customModule="RankFit" customModuleProvider="target">
@@ -34,15 +34,15 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="infomation" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m2i-KL-Owv">
-                                                    <rect key="frame" x="249.66666666666666" y="11.666666666666666" width="80.333333333333343" height="20.333333333333336"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <rect key="frame" x="257.66666666666669" y="13" width="72.333333333333314" height="18"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="trailing" secondItem="m2i-KL-Owv" secondAttribute="trailing" constant="20" id="C3T-PW-ccT"/>
                                                 <constraint firstItem="m2i-KL-Owv" firstAttribute="centerY" secondItem="5j0-nA-WaA" secondAttribute="centerY" id="Ipf-qJ-bpL"/>
+                                                <constraint firstAttribute="trailing" secondItem="m2i-KL-Owv" secondAttribute="trailing" constant="20" id="b75-yI-EIU"/>
                                                 <constraint firstItem="ilU-2c-wbg" firstAttribute="leading" secondItem="5j0-nA-WaA" secondAttribute="leading" constant="20" id="nVn-aW-fy1"/>
                                                 <constraint firstItem="ilU-2c-wbg" firstAttribute="centerY" secondItem="5j0-nA-WaA" secondAttribute="centerY" id="ngl-fM-tXg"/>
                                             </constraints>

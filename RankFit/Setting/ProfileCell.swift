@@ -15,12 +15,25 @@ class ProfileCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        
+        configCell()
     }
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
     }
 
+    func configCell() {
+        guard let nickNameObject = UserDefaults.standard.object(forKey: "NickName") as? [String : String] else {
+            nickName.text = "로그인이 필요합니다."
+            return
+        }
+        if let nickname = nickNameObject["nickname"] {
+            nickName.text = nickname
+        } else {
+            nickName.text = "로그인이 필요합니다."
+        }
+    }
 }
