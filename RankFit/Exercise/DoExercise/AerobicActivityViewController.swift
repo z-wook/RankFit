@@ -26,7 +26,6 @@ class AerobicActivityViewController: UIViewController {
     var timer: Timer?
     let interval = 1.0
     var count = 0
-//    var timerCounting: Bool = true
     
     var locationManager: CLLocationManager?
     var motionManager: CMMotionActivityManager?
@@ -49,8 +48,10 @@ class AerobicActivityViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        self.locationManager?.stopUpdatingLocation()
-        self.motionManager?.stopActivityUpdates()
+        // 정지할 이유가 없다.
+//        self.locationManager?.stopUpdatingLocation()
+//        self.motionManager?.stopActivityUpdates()
+        
         timer?.invalidate()
     }
 
@@ -114,23 +115,6 @@ extension AerobicActivityViewController {
             showAlert(reason: "동작 및 피트니스 요청 거부됨", discription: "피트니스 추적을 할 수 없습니다. 기기의 '설정 > 개인정보 보호 및 보안 > 동작 및 피트니스'에서 피트니스 추적을 켜주세요.(필수권한)")
         }
     }
-    
-//    func triggerActivityPermissionRequest() {
-//        if motionManager == nil {
-//            motionManager = CMMotionActivityManager()
-//        }
-//        let today = Date()
-//        motionManager?.queryActivityStarting(from: today, to: today, to: OperationQueue.main, withHandler: { (activities: [CMMotionActivity]?, error: Error?) -> () in
-//            if error != nil {
-//                let errorCode = (error! as NSError).code
-//                if errorCode == Int(CMErrorMotionActivityNotAuthorized.rawValue) {
-//                }
-//            } else {
-//                self.startActivity()
-//            }
-////            self.motionManager.stopActivityUpdates()
-//        })
-//    }
 }
 
 extension AerobicActivityViewController {
@@ -178,27 +162,42 @@ extension AerobicActivityViewController {
                     // CMMotionActivity @ 21432.287857,<startDate,2022-12-01 16:00:59 +0000,confidence,2,unknown,0,stationary,0,walking,0,running,0,automotive,0,cycling,0>
                     // 이런식으로 아무것도 아닌 경우도 생긴다.
                 else { // activity.unknown || 전부 0인 상태
+                    
+                    // 실제로 어떤 상태인지 모르기 때문에 일단은 위치 업데이트를 시키지만 러닝이 아닌 경우
+                    self.locationManager?.startUpdatingLocation()
+                    
                     self.state.text = "상태: unknown"
                     let speed = Double(currentSpeed ?? 0)
                     
-                    if speed <= 0.8333 { // 약 3km/h - 정지라고 판단
-                        self.locationManager?.stopUpdatingLocation()
-                        self.state.text = "상태: unknown 정지판단"
-                        self.updateLabelText(speed: 0)
-                        print("-------->: \(activity)")
-                    }
-                    else if speed <= 11.111 { // 약 40km/h
-//                        self.locationManager?.stopUpdatingLocation()
-                        self.locationManager?.startUpdatingLocation()
-                        print("-------->: \(activity)")
-                    }
-                    else { // 약 40km/h 이상
+                    // -------> 여기도 didUpdateLocations에서 처리 가능
+                    if speed > 11.111 { // 약 40km/h 초과
                         self.motionManager?.stopActivityUpdates()
                         self.locationManager?.stopUpdatingLocation()
                         self.timer?.invalidate()
                         self.state.text = "상태: unknown, 속도 오버"
                         self.showAlert()
                     }
+                    
+//                    if speed <= 0.8333 { // 약 3km/h - 정지라고 판단
+//                        // ---------------> 여기서 에러 / 여기 들어오면 unknwon에서 다음 속도는 계속 0
+//                        self.locationManager?.startUpdatingLocation()
+////                        self.locationManager?.stopUpdatingLocation()
+//                        self.state.text = "상태: unknown 정지판단"
+//                        self.updateLabelText(speed: 0)
+//                        print("-------->: \(activity)")
+//                    }
+//                    else if speed <= 11.111 { // 약 40km/h 이하
+////                        self.locationManager?.stopUpdatingLocation()
+//                        self.locationManager?.startUpdatingLocation()
+//                        print("-------->: \(activity)")
+//                    }
+//                    else { // 약 40km/h 초과
+//                        self.motionManager?.stopActivityUpdates()
+//                        self.locationManager?.stopUpdatingLocation()
+//                        self.timer?.invalidate()
+//                        self.state.text = "상태: unknown, 속도 오버"
+//                        self.showAlert()
+//                    }
                 }
                 
             case "싸이클":
@@ -258,6 +257,7 @@ extension AerobicActivityViewController {
         let alert = UIAlertController(title:"경고", message: "이동수단 사용", preferredStyle: .alert)
         let ok = UIAlertAction(title: "확인", style: .destructive) { _ in
 //            self.TTSstart(input: "운동을 종료합니다.")
+            self.motionManager?.stopActivityUpdates()
             self.locationManager?.stopUpdatingLocation()
             self.navigationController?.popViewController(animated: true)
         }
@@ -328,9 +328,21 @@ extension AerobicActivityViewController: CLLocationManagerDelegate {
             let pTOp_Distance = Double(calcDistance(from: point1, to: point2)) // PtoP_distance: 미터(m), useTime: 초(s)
             exerciseSequence(PtoP_distance: pTOp_Distance)
             
-            // draw
-            let lineDraw = MKPolyline(coordinates: points, count:points.count)
-            self.mapView.addOverlay(lineDraw)
+            
+            // ------------> edit 분기
+            
+            let speed = Double(manager.location?.speed ?? 0) // m/s
+            
+            if speed <= 0.8333 { // 약 3km/h 이하
+                self.state.text = "상태: 속도 3 이하"
+                return
+            } else { // 약 3km/h 초과일 때만 지도에 경로 그리기
+                // draw
+                let lineDraw = MKPolyline(coordinates: points, count:points.count)
+                self.mapView.addOverlay(lineDraw)
+            }
+            
+            // 달리기때 약 40km/h 초과시 강제종료 조건문 추가
         }
         self.previousLocation = location
     }
@@ -342,15 +354,14 @@ extension AerobicActivityViewController: CLLocationManagerDelegate {
     }
     
     func exerciseSequence(PtoP_distance: Double) {
-        let Speed: Double = locationManager?.location?.speed ?? 0
+        var Speed: Double = locationManager?.location?.speed ?? 0
+//        totalDistance += PtoP_distance
         
-        totalDistance += PtoP_distance
-        
-//        if Speed <= 0 {
-//            Speed = 0
-//        } else {
-//            totalDistance += PtoP_distance
-//        }
+        if Speed <= 0 {
+            Speed = 0
+        } else {
+            totalDistance += PtoP_distance
+        }
         
         updateLabelText(speed: Speed)
     }

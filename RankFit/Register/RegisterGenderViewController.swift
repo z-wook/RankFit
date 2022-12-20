@@ -63,7 +63,6 @@ extension RegisterGenderViewController: UIPickerViewDataSource, UIPickerViewDele
         return gender.count
     }
     
-    
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         pickGender = row
     }

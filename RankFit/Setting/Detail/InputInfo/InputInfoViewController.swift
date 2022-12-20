@@ -35,6 +35,10 @@ class InputInfoViewController: UIViewController {
     
     private func buttonConfigure() {
         saveBtn.layer.cornerRadius = 20
+        saveBtn.layer.shadowColor = UIColor.gray.cgColor
+        saveBtn.layer.shadowOpacity = 1.0
+        saveBtn.layer.shadowOffset = CGSize.zero
+        saveBtn.layer.shadowRadius = 7
     }
     
     func configure(type: String) {
@@ -135,23 +139,25 @@ class InputInfoViewController: UIViewController {
                 print(responseBody)
                 
                 if responseBody == "true" {
-                    
                     switch type {
                     case "나이":
                         UserDefaults.standard.set(["age": age, "year": calcDate().currentYear()], forKey: "Age")
+                        
                     case "몸무게":
                         UserDefaults.standard.set(weight, forKey: "Weight")
+                        
                     default: return
+                        
                     }
                 } else {
                     // responseBody == "false"
                     // error 알리기
                     return
                 }
-                
-                
-                
 //                self.saveUserInfoState.send(responseBody)
+                self.navigationController?.popViewController(animated: true)
+                
+                
             } else {
                 
                 // error 사용자에게 알리기
@@ -181,13 +187,13 @@ extension InputInfoViewController: UIPickerViewDataSource, UIPickerViewDelegate 
     func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
         
         if type == "나이" {
-            return NSAttributedString(string: list[row] + "세", attributes: [.foregroundColor:UIColor.black])
+            return NSAttributedString(string: list[row] + "세", attributes: [.foregroundColor:UIColor.label])
         }
         else if type == "몸무게" {
-            return NSAttributedString(string: list[row] + "kg", attributes: [.foregroundColor:UIColor.black])
+            return NSAttributedString(string: list[row] + "kg", attributes: [.foregroundColor:UIColor.label])
         }
         else {
-            return NSAttributedString(string: list[row], attributes: [.foregroundColor:UIColor.black])
+            return NSAttributedString(string: list[row], attributes: [.foregroundColor:UIColor.label])
         }
     }
     
