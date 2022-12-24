@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		014B1673EE2FDCE543AFF4F2 /* Pods_RankFitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C065524F5E420FA02883AA8 /* Pods_RankFitTests.framework */; };
 		15CC3AD2BC95A9A1A4040123 /* Pods_RankFit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 423C216EBA3E6EAD43D54C12 /* Pods_RankFit.framework */; };
+		3307C094295332C70050BAA4 /* ChangeNickNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3307C093295332C70050BAA4 /* ChangeNickNameViewController.swift */; };
 		3315FC4D2946312300716C33 /* RegisterGenderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3315FC4C2946312300716C33 /* RegisterGenderViewController.swift */; };
 		33182E87295044F500A57741 /* getUserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33182E86295044F500A57741 /* getUserInfo.swift */; };
 		331D34682945D1C800E4CE20 /* Onboarding.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 331D34672945D1C800E4CE20 /* Onboarding.storyboard */; };
@@ -93,6 +94,7 @@
 
 /* Begin PBXFileReference section */
 		1BAB57B374DD05BF2125AB8F /* Pods-RankFit-RankFitUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RankFit-RankFitUITests.release.xcconfig"; path = "Target Support Files/Pods-RankFit-RankFitUITests/Pods-RankFit-RankFitUITests.release.xcconfig"; sourceTree = "<group>"; };
+		3307C093295332C70050BAA4 /* ChangeNickNameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeNickNameViewController.swift; sourceTree = "<group>"; };
 		3315FC4C2946312300716C33 /* RegisterGenderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterGenderViewController.swift; sourceTree = "<group>"; };
 		33182E86295044F500A57741 /* getUserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = getUserInfo.swift; sourceTree = "<group>"; };
 		331D34672945D1C800E4CE20 /* Onboarding.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Onboarding.storyboard; sourceTree = "<group>"; };
@@ -273,6 +275,7 @@
 				33657A702944C92100164DB5 /* aerobicExerciseInfo.swift */,
 				33657A722944C93500164DB5 /* ExerciseInfo.swift */,
 				33A541972948B3D9006CD6CB /* userInfo.swift */,
+				33182E86295044F500A57741 /* getUserInfo.swift */,
 				335CCD85294F2A76002E569A /* calcDate.swift */,
 			);
 			path = Model;
@@ -291,7 +294,6 @@
 			isa = PBXGroup;
 			children = (
 				33657A7B2944CA6200164DB5 /* getTopViewController.swift */,
-				33182E86295044F500A57741 /* getUserInfo.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -434,6 +436,7 @@
 			isa = PBXGroup;
 			children = (
 				33F8F273294CFFB7007A4691 /* InputInfo.storyboard */,
+				3307C093295332C70050BAA4 /* ChangeNickNameViewController.swift */,
 				33F8F271294CFAF1007A4691 /* InputInfoViewController.swift */,
 			);
 			path = InputInfo;
@@ -747,6 +750,7 @@
 				33657A5E2944B4F900164DB5 /* saveExerciseViewController1.swift in Sources */,
 				33DE94B4294CC3EF005AF20C /* MyProfileCell.swift in Sources */,
 				33657A4E294483E900164DB5 /* AerobicActivityViewController.swift in Sources */,
+				3307C094295332C70050BAA4 /* ChangeNickNameViewController.swift in Sources */,
 				33DE94AF294C6B93005AF20C /* MyProfileViewController.swift in Sources */,
 				3315FC4D2946312300716C33 /* RegisterGenderViewController.swift in Sources */,
 				33E9173C2943BBE300FC074A /* ExerciseViewModel.swift in Sources */,

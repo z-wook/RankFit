@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 class MyProfileViewController: UIViewController {
 
@@ -15,12 +16,10 @@ class MyProfileViewController: UIViewController {
     let section0 = ["이메일", "성별", "닉네임", "나이", "몸무게"]
     let section1 = ["서비스 탈퇴"]
     
-    
     let user = getUserInfo()
-    
-    
     var userInfomation: [Any] = [] // [이메일, 성별, 닉네임, 나이, 몸무게]
-    
+    static var userWeight = PassthroughSubject<Int, Never>()
+    var subscriptions = Set<AnyCancellable>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,9 +28,17 @@ class MyProfileViewController: UIViewController {
         tableView.delegate = self
         navigationItem.backButtonDisplayMode = .minimal
         
-        
         userInfomation = [user.getEmail(), user.getGender(),
                           user.getNickName(), user.getAge(), user.getWeight()]
+        bind()
+    }
+    
+    func bind() {
+        MyProfileViewController.userWeight.receive(on: RunLoop.main)
+            .sink { infoWeight in
+                self.userInfomation[4] = infoWeight
+                self.tableView.reloadData()
+            }.store(in: &subscriptions)
     }
 }
 
@@ -70,6 +77,8 @@ extension MyProfileViewController: UITableViewDataSource, UITableViewDelegate {
             cell.configCell(title: section0[indexPath.item], infomation: "\(userInfomation[indexPath.item])")
             if indexPath.item >= 2 && indexPath.item <= 4 {
                 cell.accessoryType = .disclosureIndicator
+            } else {
+                cell.accessoryType = .none
             }
             return cell
         case 1:
@@ -86,12 +95,11 @@ extension MyProfileViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.section {
         case 0:
-            if indexPath.item == 1 {
+            if indexPath.item == 2 {
                 // 닉네임
-                
-                
-                
-                
+                let sb = UIStoryboard(name: "InputInfo", bundle: nil)
+                let vc = sb.instantiateViewController(withIdentifier: "ChangeNickNameViewController") as! ChangeNickNameViewController
+                self.navigationController?.pushViewController(vc, animated: true)
             }
             // 나이, 몸무게
             else if (indexPath.item == 3 || indexPath.item == 4) {

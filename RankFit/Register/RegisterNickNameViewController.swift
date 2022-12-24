@@ -12,19 +12,18 @@ import Combine
 class RegisterNickNameViewController: UIViewController {
     
     @IBOutlet weak var nickName: UITextField!
-    @IBOutlet weak var nickNameCheck: UIButton!
+    @IBOutlet weak var checkButton: UIButton!
     @IBOutlet weak var stateLabel: UILabel!
     @IBOutlet weak var saveBtn: UIButton!
     
     var viewModel: AuthenticationModel!
-    var nickNameCheckState = CurrentValueSubject<String, Never>("")
-    var saveUserInfoState = CurrentValueSubject<String, Never>("")
+    let nickNameCheckState = PassthroughSubject<String, Never>()
+    let saveUserInfoState = PassthroughSubject<String, Never>()
     var subscriptions = Set<AnyCancellable>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        nickName.delegate = self
         buttonConfigure()
         nickNamePass()
         savePass()
@@ -52,7 +51,7 @@ class RegisterNickNameViewController: UIViewController {
                 if result != "" {
                     if result == "true" {
                         // 서버 전송 성공
-                        print("======> 성공: \(self.saveUserInfoState.value)")
+                        print("======> 성공")
                         if let info = self.viewModel.userInfoData.value {
                             let calc = calcDate()
                             UserDefaults.standard.set(info.email, forKey: "Email")
@@ -60,9 +59,9 @@ class RegisterNickNameViewController: UIViewController {
                             if let nickNameString = self.nickName.text {
                                 UserDefaults.standard.set(["nickname": nickNameString, "date": calc.after30days()], forKey: "NickName")
                             }
-                            UserDefaults.standard.set(["age": info.age ?? -1, "year": calc.currentYear()], forKey: "Age")
                             UserDefaults.standard.set(info.gender, forKey: "Gender")
-                            UserDefaults.standard.set(info.weight, forKey: "Weight")
+                            UserDefaults.standard.set(["age": info.age ?? -1, "year": calc.nextYear()], forKey: "Age")
+                            UserDefaults.standard.set(["weight": info.weight ?? -1, "date": calc.after1Day()], forKey: "Weight")
                         }
                         checkRegister.shared.setIsNotNewUser()
                         if let nickNameString = self.nickName.text {
@@ -72,7 +71,7 @@ class RegisterNickNameViewController: UIViewController {
                     } else {
                         // 서버 전송 실패
                         // 나중에 시도하라는 메시지 전송 후 pop
-                        print("======> 실패 : \(self.saveUserInfoState.value)")
+                        print("======> 실패")
                         return
                     }
                 }
@@ -80,6 +79,7 @@ class RegisterNickNameViewController: UIViewController {
     }
     
     private func buttonConfigure() {
+        nickName.delegate = self
         stateLabel.layer.isHidden = true
         saveBtn.layer.cornerRadius = 20
         saveBtn.layer.shadowColor = UIColor.gray.cgColor
@@ -88,18 +88,18 @@ class RegisterNickNameViewController: UIViewController {
         saveBtn.layer.shadowRadius = 7
         saveBtn.isEnabled = false
         saveBtn.backgroundColor = .darkGray
-        nickNameCheck.layer.isHidden = true
+        checkButton.layer.isHidden = true
     }
     
     private func buttonON() {
-        nickNameCheck.layer.isHidden = true
+        checkButton.layer.isHidden = true
         stateLabel.layer.isHidden = false
         saveBtn.isEnabled = true
         saveBtn.backgroundColor = .systemIndigo
     }
     
     private func buttonOff() {
-        nickNameCheck.layer.isHidden = false
+        checkButton.layer.isHidden = false
         stateLabel.layer.isHidden = true
         saveBtn.isEnabled = false
         saveBtn.backgroundColor = .darkGray
@@ -141,10 +141,10 @@ class RegisterNickNameViewController: UIViewController {
                 if let responseBody = response.value {
                     // 성공하면 조건 추가
                     if responseBody == "true" {
-                        
+                        self.saveUserInfoState.send(responseBody)
+                    } else { // false
+                        // 실패 조건 추가
                     }
-                    
-                    self.saveUserInfoState.send(responseBody)
                 } else {
                     // error 사용자에게 알리기
                     return
@@ -166,7 +166,7 @@ extension RegisterNickNameViewController: UITextFieldDelegate {
     func textFieldDidChangeSelection(_ textField: UITextField) {
         if textField.text == "" {
             buttonOff()
-            nickNameCheck.layer.isHidden = true
+            checkButton.layer.isHidden = true
         }
     }
     

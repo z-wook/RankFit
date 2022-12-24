@@ -57,7 +57,6 @@ class ExerciseListViewController: UIViewController {
                     vc.viewModel = saveExerciseViewModel(DetailItem: selectedExercise)
                     self.present(vc, animated: true)
                 }
-//                self.navigationController?.pushViewController(vc, animated: true)
             }.store(in: &subscriptions)
     }
   
@@ -106,7 +105,6 @@ class ExerciseListViewController: UIViewController {
         let shareItem = UIBarButtonItem.generate(with: shareConfig, width: 30)
 
         navigationItem.rightBarButtonItems = [moreItem, shareItem]
-//        navigationItem.backButtonDisplayMode = .minimal
     }
 
     private func embedSearchBar() {

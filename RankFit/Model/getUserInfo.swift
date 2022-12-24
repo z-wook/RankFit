@@ -11,6 +11,7 @@ final class getUserInfo {
     
     func getUserID() -> String {
         let userID = UserDefaults.standard.string(forKey: "UserID")
+        
         if let strUserID = userID {
             return strUserID
         } else { return "-1" }
@@ -18,6 +19,7 @@ final class getUserInfo {
     
     func getEmail() -> String {
         let email = UserDefaults.standard.string(forKey: "Email")
+        
         if let strEmail = email {
             return strEmail
         } else { return "-1" }
@@ -26,6 +28,7 @@ final class getUserInfo {
     func getNickName() -> String {
         guard let nickNameObject = UserDefaults.standard.object(forKey: "NickName")
                 as? [String : Any] else { return "-1" }
+        
         if let NickName = nickNameObject["nickname"] {
             let strNickName = NickName as! String
             return strNickName
@@ -35,6 +38,7 @@ final class getUserInfo {
     func getNickNameDays() -> String {
         guard let nickNameObject = UserDefaults.standard.object(forKey: "NickName")
                 as? [String : Any] else { return "-1" }
+        
         if let NickNameDate = nickNameObject["date"] {
             let strNickNameDate = NickNameDate as! String
             return strNickNameDate
@@ -42,8 +46,23 @@ final class getUserInfo {
     }
     
     func getWeight() -> Int {
-        let weight = UserDefaults.standard.integer(forKey: "Weight")
-        return weight
+        guard let weightObject = UserDefaults.standard.object(forKey: "Weight")
+                as? [String : Any] else { return -1 }
+        
+        if let weight = weightObject["weight"] {
+            let intWeight = weight as! Int
+            return intWeight
+        } else { return -1 }
+    }
+    
+    func getWeightDay() -> String {
+        guard let weightObject = UserDefaults.standard.object(forKey: "Weight")
+                as? [String : Any] else { return "-1" }
+        
+        if let WeightDate = weightObject["date"] {
+            let strWeightDate = WeightDate as! String
+            return strWeightDate
+        } else { return "-1" }
     }
     
     func getGender() -> Int {
@@ -58,8 +77,7 @@ final class getUserInfo {
         if let age = ageObject["age"] {
             let intAge = age as! Int
             return intAge
-        }
-        else { return -1 }
+        } else { return -1 }
     }
     
     func getAgeYear() -> String {

@@ -42,10 +42,6 @@ class ExerciseViewController: UIViewController {
     
 
     override func viewWillAppear(_ animated: Bool) {
-        let todayDate = calendarView.today!
-        let today = dateFormatter.string(from: todayDate)
-        ExerciseViewController.today = today
-        
         viewModel.selectDate(date: ExerciseViewController.pickDate)
     }
 

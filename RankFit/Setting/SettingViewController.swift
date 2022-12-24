@@ -11,9 +11,8 @@ import Combine
 class SettingViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
-//    @IBOutlet var tableView: UITableView!
     
-    static var userNickName = CurrentValueSubject<String, Never>("")
+    static var userNickName = PassthroughSubject<String, Never>()
     var subscriptions = Set<AnyCancellable>()
     
     let sectionHeader = ["내 프로필", "앱 설정", "이용 안내", "기타"]
@@ -21,7 +20,6 @@ class SettingViewController: UIViewController {
     let section1 = ["다크모드", "기타 등등"]
     let section2 = ["버전 정보", "개인 정보 취급 방침", "이용약관", "공지사항", "문의하기"]
     let section3 = ["로그아웃"]
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,12 +32,8 @@ class SettingViewController: UIViewController {
     
     func bind() {
         SettingViewController.userNickName.receive(on: RunLoop.main)
-            .sink { result in
-                if result != "" {
-                    self.tableView.reloadData()
-                } else {
-                    return
-                }
+            .sink { _ in
+                self.tableView.reloadData()
             }.store(in: &subscriptions)
     }
 }

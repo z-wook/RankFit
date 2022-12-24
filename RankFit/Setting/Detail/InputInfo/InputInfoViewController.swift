@@ -19,7 +19,7 @@ class InputInfoViewController: UIViewController {
     var list: [String] = []
     var pickElement: String!
     let userInfo = getUserInfo()
-    let currentYear = calcDate().currentYear()
+    let calc = calcDate()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,12 +60,11 @@ class InputInfoViewController: UIViewController {
             }
             let age = getUserInfo().getAge()
             defaultRow = age - 10
-            
             pickerView.selectRow(defaultRow, inComponent: 0, animated: true)
             pickElement = list[defaultRow]
             
             let year = userInfo.getAgeYear()
-            if currentYear > year && year != "-1" {
+            if (calc.currentYear() >= year && year != "-1") {
                 // 변경 가능
                 messageLabel.layer.isHidden = true
                 saveBtn.isEnabled = true
@@ -88,8 +87,20 @@ class InputInfoViewController: UIViewController {
             defaultRow = weight - 35
             pickerView.selectRow(defaultRow, inComponent: 0, animated: true)
             pickElement = list[defaultRow]
-            messageLabel.layer.isHidden = true
-            saveBtn.isEnabled = true
+            
+            let day = userInfo.getWeightDay()
+            if (calc.currentDate() >= day && day != "-1") {
+                // 변경 가능
+                messageLabel.layer.isHidden = true
+                saveBtn.isEnabled = true
+            } else {
+                messageLabel.text = """
+                현재 몸무게를 변경할 수 없습니다. \n
+                내일 변경할 수 있습니다.
+                """
+                saveBtn.isEnabled = false
+                saveBtn.backgroundColor = .darkGray
+            }
             
         default:
             descriptionLabel.text = "현재 변경할 수 없습니다."
@@ -134,27 +145,30 @@ class InputInfoViewController: UIViewController {
 
         AF.request("http://rankfit.site/RegisterTest.php", method: .post, parameters: parameters).validate(statusCode: 200..<300).responseString {
             response in
-
-            if let responseBody = response.value {
-                print(responseBody)
-                
+            if let responseBody = response.value {                
                 if responseBody == "true" {
+                    let calc = calcDate()
+                    
                     switch type {
                     case "나이":
-                        UserDefaults.standard.set(["age": age, "year": calcDate().currentYear()], forKey: "Age")
+                        UserDefaults.standard.set(["age": age, "year": calc.nextYear()], forKey: "Age")
+                        
+                        // 여기서 나이 변경되면 알려주기
+//                        MyProfileViewController.userWeight.send(weight)
+                        
+                     
                         
                     case "몸무게":
-                        UserDefaults.standard.set(weight, forKey: "Weight")
+                        UserDefaults.standard.set(["weight": weight, "date": calc.after1Day()], forKey: "Weight")
+                        MyProfileViewController.userWeight.send(weight)
                         
                     default: return
-                        
                     }
                 } else {
                     // responseBody == "false"
                     // error 알리기
                     return
                 }
-//                self.saveUserInfoState.send(responseBody)
                 self.navigationController?.popViewController(animated: true)
                 
                 
