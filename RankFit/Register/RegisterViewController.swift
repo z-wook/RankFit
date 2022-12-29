@@ -6,22 +6,28 @@
 //
 
 import UIKit
-import KakaoSDKUser
-import KakaoSDKAuth
 import Alamofire
 import Combine
+import KakaoSDKUser
+import KakaoSDKAuth
+import NaverThirdPartyLogin
 
-class RegisterViewController: UIViewController {
-
+class RegisterViewController: UIViewController, NaverThirdPartyLoginConnectionDelegate {
+    
     var info: userInfo!
     var viewModel: AuthenticationModel!
     var subscriptions = Set<AnyCancellable>()
+    
+    let loginInstance = NaverThirdPartyLoginConnection.getSharedInstance()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel = AuthenticationModel()
         bind()
         navigationItem.backButtonDisplayMode = .minimal
+        
+        // Naver
+        loginInstance?.delegate = self
     }
     
     private func bind() {
@@ -50,7 +56,7 @@ class RegisterViewController: UIViewController {
                     
                     _ = oauthToken
                     // 로그인 관련 메소드 추가
-                    self.getUserInfo()
+                    self.getKakaoUserInfo()
                 }
             }
         } else {
@@ -63,13 +69,75 @@ class RegisterViewController: UIViewController {
                     
                     _ = oauthToken
                     // 로그인 관련 메소드 추가
-                    self.getUserInfo()
+                    self.getKakaoUserInfo()
                 }
             }
         }
     }
     
-    func getUserInfo() {
+    
+    
+    @IBAction func naver_Login(_ sender: UIButton) {
+        loginInstance?.requestThirdPartyLogin()
+    }
+    
+    
+    @IBAction func naver_Logout(_ sender: UIButton) {
+        loginInstance?.requestDeleteToken()
+    }
+    
+    // 로그인에 성공한 경우 호출
+    func oauth20ConnectionDidFinishRequestACTokenWithAuthCode() {
+        print("Success login")
+        getNaverUserInfo()
+    }
+    // referesh token
+    func oauth20ConnectionDidFinishRequestACTokenWithRefreshToken() {
+        print("Naver Token = \(loginInstance?.accessToken ?? "nil")")
+    }
+    // 로그아웃
+    func oauth20ConnectionDidFinishDeleteToken() {
+        print("log out")
+    }
+    // 모든 error
+    func oauth20Connection(_ oauthConnection: NaverThirdPartyLoginConnection!, didFailWithError error: Error!) {
+        print("error = \(error.localizedDescription)")
+    }
+    
+    func getNaverUserInfo() {
+        guard let isValidAccessToken = loginInstance?.isValidAccessTokenExpireTimeNow() else { return }
+        
+        if !isValidAccessToken {
+            return
+        }
+        
+        guard let tokenType = loginInstance?.tokenType else { return }
+        guard let accessToken = loginInstance?.accessToken else { return }
+        let requestUrl = "https://openapi.naver.com/v1/nid/me"
+        let url = URL(string: requestUrl)!
+        
+        let authorization = "\(tokenType) \(accessToken)"
+        
+        let req = AF.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: ["Authorization": authorization])
+        
+        req.responseJSON { response in
+            guard let result = response.value as? [String: Any] else { return }
+            guard let object = result["response"] as? [String: Any] else { return }
+            
+            guard let name = object["name"] as? String else { return }
+            guard let email = object["email"] as? String else { return }
+//            guard let nickname = object["nickname"] as? String else { return }
+            
+            print(response)
+            print(result)
+            print(object)
+            print(name)
+            print(email)
+            
+        }
+    }
+    
+    func getKakaoUserInfo() {
         UserApi.shared.me() {(user, error) in
             if let error = error {
                 print(error)

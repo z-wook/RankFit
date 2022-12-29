@@ -41,15 +41,15 @@
             </objects>
             <point key="canvasLocation" x="902" y="-249"/>
         </scene>
-        <!--RankViewController-->
+        <!--initialRank-->
         <scene sceneID="KnX-lm-D1p">
             <objects>
-                <viewControllerPlaceholder storyboardName="Rank" referencedIdentifier="RankViewController" id="jg5-63-FDK" sceneMemberID="viewController">
+                <viewControllerPlaceholder storyboardName="Rank" referencedIdentifier="initialRank" id="jg5-63-FDK" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Rank" image="person.2" catalog="system" id="A5x-k6-bUp"/>
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BNK-lk-Nh3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="925" y="-47"/>
+            <point key="canvasLocation" x="918" y="-27"/>
         </scene>
         <!--initialExercise-->
         <scene sceneID="UCq-9P-Xqh">

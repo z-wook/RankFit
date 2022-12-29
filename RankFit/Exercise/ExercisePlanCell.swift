@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 class ExercisePlanCell: UICollectionViewCell {
     
@@ -19,19 +20,36 @@ class ExercisePlanCell: UICollectionViewCell {
     @IBOutlet weak var stateLabel: UILabel!
     @IBOutlet weak var startBtn: UIButton!
     
+    var sendState: PassthroughSubject<Bool, Never>!
+    var subscriptions = Set<AnyCancellable>()
     var viewModel: ExerciseViewModel!
     var exerciseInfo: AnyHashable!
     var exerciseUUID: UUID!
     var exerciseEntityName: String!
     
     @IBAction func removeBtn(_ sender: UIButton) {
-        let deleteState = ConfigDataStore.deleteCoreData(id: exerciseUUID, entityName: exerciseEntityName) // return T/F
-        
-        if deleteState {
-            viewModel.selectDate(date: ExerciseViewController.pickDate)
-        } else {
-            print("Delete Error")
+        guard let aerobicInfo = exerciseInfo as? aerobicExerciseInfo else {
+            let anaerobicInfo = exerciseInfo as! anaerobicExerciseInfo
+            SendAnaerobicEx.sendDeleteEx(info: anaerobicInfo, subject: sendState)
+            return
         }
+        SendAerobicEx.sendDeleteEx(info: aerobicInfo, subject: sendState)
+    }
+    
+    func bind() {
+        sendState.receive(on: RunLoop.main)
+            .sink { result in
+                if result == true {
+                    let deleteState = ConfigDataStore.deleteCoreData(id: self.exerciseUUID, entityName: self.exerciseEntityName) // return T/F
+                    if deleteState {
+                        self.viewModel.selectDate(date: ExerciseViewController.pickDate)
+                    } else {
+                        print("App Delete Error")
+                    }
+                } else {
+                    print("서버에 삭제 요청 에러")
+                }
+            }.store(in: &subscriptions)
     }
 }
 
@@ -44,11 +62,15 @@ extension ExercisePlanCell {
             self.exerciseUUID = anaerobicInfo.id
             self.exerciseEntityName = "Anaerobic"
             self.viewModel = vm
+            sendState = PassthroughSubject()
+            bind()
             return AnaerobicCellUpdate(info: anaerobicInfo)
         }
         self.exerciseUUID = aerobicInfo.id
         self.exerciseEntityName = "Aerobic"
         self.viewModel = vm
+        sendState = PassthroughSubject()
+        bind()
         AerobicCellUpdate(info: aerobicInfo)
     }
     

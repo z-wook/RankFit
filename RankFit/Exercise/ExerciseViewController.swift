@@ -40,6 +40,14 @@ class ExerciseViewController: UIViewController {
         bind()
     }
     
+    private func bind() {
+        viewModel.storedExercises
+            .receive(on: RunLoop.main)
+            .sink { exerciseList in
+                print("exerciseList: \(exerciseList)")
+                self.applyItems(items: exerciseList)
+            }.store(in: &subscriptions)
+    }
 
     override func viewWillAppear(_ animated: Bool) {
         viewModel.selectDate(date: ExerciseViewController.pickDate)
@@ -97,7 +105,8 @@ class ExerciseViewController: UIViewController {
 
         let section = NSCollectionLayoutSection(group: group)
 //        section.interGroupSpacing = 10
-        return UICollectionViewCompositionalLayout(section: section)
+        let layout = UICollectionViewCompositionalLayout(section: section)
+        return layout
     }
     
     private func applyItems(items: [AnyHashable]) {
@@ -112,15 +121,6 @@ class ExerciseViewController: UIViewController {
             datasource.apply(snapshot)
             removeBtnTapState = false
         }
-    }
-    
-    private func bind() {
-        viewModel.storedExercises
-            .receive(on: RunLoop.main)
-            .sink { exerciseList in
-                print("exerciseList: \(exerciseList)")
-                self.applyItems(items: exerciseList)
-            }.store(in: &subscriptions)
     }
 }
 
@@ -161,7 +161,6 @@ extension ExerciseViewController: FSCalendarDelegate, FSCalendarDataSource, FSCa
 }
 
 extension ExerciseViewController {
-    
     private func updateNavigationItem() {
         let titleConfig = CustomBarItemConfiguration(
             title: "운동",

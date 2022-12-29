@@ -32,15 +32,13 @@ class RegisterNickNameViewController: UIViewController {
     private func nickNamePass() {
         nickNameCheckState.receive(on: RunLoop.main)
             .sink { result in
-                if result != "" {
-                    if result == "true" { // 중복검사 통과
-                        self.stateLabel.text = "사용 가능한 닉네임 입니다!"
-                        self.buttonON()
-                        
-                    } else { // 중복검사 통과 못함, 다른 아이디 입력
-                        self.stateLabel.layer.isHidden = false
-                        self.stateLabel.text = "이미 존재하는 닉네임입니다."
-                    }
+                if result == "true" { // 중복검사 통과
+                    self.stateLabel.text = "사용 가능한 닉네임 입니다!"
+                    self.buttonON()
+                    
+                } else { // 중복검사 통과 못함, 다른 아이디 입력
+                    self.stateLabel.layer.isHidden = false
+                    self.stateLabel.text = "이미 존재하는 닉네임입니다."
                 }
             }.store(in: &subscriptions)
     }
@@ -48,32 +46,30 @@ class RegisterNickNameViewController: UIViewController {
     private func savePass() {
         saveUserInfoState.receive(on: RunLoop.main)
             .sink { result in
-                if result != "" {
-                    if result == "true" {
-                        // 서버 전송 성공
-                        print("======> 성공")
-                        if let info = self.viewModel.userInfoData.value {
-                            let calc = calcDate()
-                            UserDefaults.standard.set(info.email, forKey: "Email")
-                            UserDefaults.standard.set(info.userID, forKey: "UserID")
-                            if let nickNameString = self.nickName.text {
-                                UserDefaults.standard.set(["nickname": nickNameString, "date": calc.after30days()], forKey: "NickName")
-                            }
-                            UserDefaults.standard.set(info.gender, forKey: "Gender")
-                            UserDefaults.standard.set(["age": info.age ?? -1, "year": calc.nextYear()], forKey: "Age")
-                            UserDefaults.standard.set(["weight": info.weight ?? -1, "date": calc.after1Day()], forKey: "Weight")
-                        }
-                        checkRegister.shared.setIsNotNewUser()
+                if result == "true" {
+                    // 서버 전송 성공
+                    print("======> 성공")
+                    if let info = self.viewModel.userInfoData.value {
+                        let calc = calcDate()
+                        UserDefaults.standard.set(info.email, forKey: "Email")
+                        UserDefaults.standard.set(info.userID, forKey: "UserID")
                         if let nickNameString = self.nickName.text {
-                            SettingViewController.userNickName.send(nickNameString)
+                            UserDefaults.standard.set(["nickname": nickNameString, "date": calc.after30days()], forKey: "NickName")
                         }
-                        self.navigationController?.popToRootViewController(animated: true)
-                    } else {
-                        // 서버 전송 실패
-                        // 나중에 시도하라는 메시지 전송 후 pop
-                        print("======> 실패")
-                        return
+                        UserDefaults.standard.set(info.gender, forKey: "Gender")
+                        UserDefaults.standard.set(["age": info.age ?? -1, "year": calc.nextYear()], forKey: "Age")
+                        UserDefaults.standard.set(["weight": info.weight ?? -1, "date": calc.after1Day()], forKey: "Weight")
                     }
+                    checkRegister.shared.setIsNotNewUser()
+                    if let nickNameString = self.nickName.text {
+                        SettingViewController.userNickName.send(nickNameString)
+                    }
+                    self.navigationController?.popToRootViewController(animated: true)
+                } else {
+                    // 서버 전송 실패
+                    // 나중에 시도하라는 메시지 전송 후 pop
+                    print("======> 실패")
+                    return
                 }
             }.store(in: &subscriptions)
     }

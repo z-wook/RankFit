@@ -266,35 +266,49 @@
                                         <rect key="frame" x="0.0" y="120" width="390" height="300"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Buy-vC-qug">
-                                                <rect key="frame" x="103.66666666666669" y="52.666666666666686" width="183" height="45"/>
+                                                <rect key="frame" x="95" y="46" width="200" height="45"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="200" id="J0H-8V-3Sd"/>
+                                                </constraints>
                                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                 <state key="normal" image="kakao_login_medium_narrow"/>
                                                 <connections>
                                                     <action selector="kakao_Login:" destination="v4H-rf-W7b" eventType="touchUpInside" id="y1S-OO-O7o"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WTH-gP-sO0">
-                                                <rect key="frame" x="103.66666666666669" y="127.66666666666669" width="183" height="45"/>
-                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                                <state key="normal" image="kakao_login_medium_narrow">
-                                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                </state>
-                                            </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="slN-eV-yvi">
-                                                <rect key="frame" x="103.66666666666669" y="202.66666666666669" width="183" height="45"/>
+                                                <rect key="frame" x="159.66666666666666" y="209" width="71" height="44"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="26"/>
                                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                                <state key="normal" image="kakao_login_medium_narrow"/>
+                                                <state key="normal" title="logout">
+                                                    <color key="titleColor" systemColor="labelColor"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="naver_Logout:" destination="v4H-rf-W7b" eventType="touchUpInside" id="j8l-gG-4js"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WTH-gP-sO0">
+                                                <rect key="frame" x="105" y="126" width="180" height="48"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="180" id="6b7-eA-rag"/>
+                                                    <constraint firstAttribute="width" secondItem="WTH-gP-sO0" secondAttribute="height" multiplier="15:4" id="9hW-hM-2hL"/>
+                                                </constraints>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <state key="normal" image="btnG_완성형"/>
+                                                <connections>
+                                                    <action selector="naver_Login:" destination="v4H-rf-W7b" eventType="touchUpInside" id="pYK-fq-7H7"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
-                                            <constraint firstItem="WTH-gP-sO0" firstAttribute="centerX" secondItem="AFB-v5-agy" secondAttribute="centerX" id="FrO-Hk-XsD"/>
-                                            <constraint firstItem="WTH-gP-sO0" firstAttribute="centerY" secondItem="AFB-v5-agy" secondAttribute="centerY" id="GbW-lM-ysU"/>
                                             <constraint firstItem="Buy-vC-qug" firstAttribute="centerX" secondItem="AFB-v5-agy" secondAttribute="centerX" id="PMW-rx-Rlo"/>
+                                            <constraint firstItem="slN-eV-yvi" firstAttribute="top" secondItem="WTH-gP-sO0" secondAttribute="bottom" constant="35" id="R9j-7N-cxh"/>
                                             <constraint firstItem="slN-eV-yvi" firstAttribute="centerX" secondItem="AFB-v5-agy" secondAttribute="centerX" id="Rnf-uq-Tmh"/>
+                                            <constraint firstItem="WTH-gP-sO0" firstAttribute="centerX" secondItem="AFB-v5-agy" secondAttribute="centerX" id="Tfj-MP-veu"/>
                                             <constraint firstAttribute="height" constant="300" id="bjN-P0-lW7"/>
-                                            <constraint firstItem="WTH-gP-sO0" firstAttribute="top" secondItem="Buy-vC-qug" secondAttribute="bottom" constant="30" id="dGW-jh-Hzn"/>
-                                            <constraint firstItem="slN-eV-yvi" firstAttribute="top" secondItem="WTH-gP-sO0" secondAttribute="bottom" constant="30" id="zOz-GZ-P96"/>
+                                            <constraint firstItem="WTH-gP-sO0" firstAttribute="top" secondItem="Buy-vC-qug" secondAttribute="bottom" constant="35" id="f24-cF-9jI"/>
+                                            <constraint firstItem="WTH-gP-sO0" firstAttribute="centerY" secondItem="AFB-v5-agy" secondAttribute="centerY" id="qUu-DP-HKp"/>
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UwP-Js-L6a">
@@ -467,7 +481,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="V1R-Cl-BEO" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1128" y="663"/>
+            <point key="canvasLocation" x="1127.6923076923076" y="661.84834123222743"/>
         </scene>
         <!--Register Nick Name View Controller-->
         <scene sceneID="EeD-CK-vAC">
@@ -955,6 +969,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="btnG_완성형" width="750" height="200"/>
         <image name="kakao_login_medium_narrow" width="183" height="45"/>
         <systemColor name="labelColor">
             <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

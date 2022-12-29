@@ -17,6 +17,9 @@ class saveExerciseViewController2: UIViewController {
     @IBOutlet weak var saveBtn: UIButton!
     
     var viewModel: saveExerciseViewModel!
+    var exInfo: aerobicExerciseInfo!
+    static let sendState = PassthroughSubject<Bool, Never>()
+    var cancelable: Cancellable?
     var subscriptions = Set<AnyCancellable>()
     
     // getTopViewController
@@ -34,6 +37,10 @@ class saveExerciseViewController2: UIViewController {
         bind()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        cancelable?.cancel()
+    }
+    
     func textFieldConfigure() {
         distanceField.delegate = self
         hourField.delegate = self
@@ -48,6 +55,30 @@ class saveExerciseViewController2: UIViewController {
             .sink { detail in
                 self.exerciseLabel.text = detail?.exerciseName
             }.store(in: &subscriptions)
+        
+        let subject = saveExerciseViewController2.sendState.receive(on: RunLoop.main)
+            .sink { result in
+                if result == true {
+                    if let vc = self.keyWindow?.visibleViewController {
+                        let save = ConfigDataStore.saveCoreData(info: self.exInfo)
+                        if save == true {
+                            print("운동 저장 완료")
+                            self.viewModel.saveSuccessExMessage(View: vc)
+                        } else {
+                            print("운동 저장 실패")
+                            self.viewModel.saveFailExMessage(View: vc)
+                        }
+                    } else {
+                        print("error")
+                        self.dismiss(animated: true)
+                    }
+                }
+                else {
+                    print("서버 전송 오류, 잠시 후 다시 시도해 주세요.")
+                    self.dismiss(animated: true)
+                }
+            }
+        cancelable = subject
     }
     
     func buttonConfigure() {
@@ -79,7 +110,6 @@ class saveExerciseViewController2: UIViewController {
             }
             
             guard let field2 = hourField.text, !field2.isEmpty else {
-                
                 guard let field3 = minuteField.text, !field3.isEmpty else {
                     // 시간, 분 둘다 비어있을 때
                     return viewModel.warningExerciseMessage(ment: "시간과 분 중에 하나를 입력하세요", View: vc)
@@ -97,7 +127,7 @@ class saveExerciseViewController2: UIViewController {
                 }
                 // 여기서 시간 없고 분만 있는 경우 -> 분으로 저장
                 saveEx(distanceNum: checkedDistanceNum, timeNum: checkedMinuteNum)
-                return viewModel.saveExerciseMessage(View: vc)
+                return
             }
             // 시간 있을 때 체크
             let checkedHourlNum = viewModel.stringToInt(input: field2)
@@ -120,7 +150,7 @@ class saveExerciseViewController2: UIViewController {
                 }
                 let resultTime = calcTime(hour: checkedHourlNum)
                 saveEx(distanceNum: checkedDistanceNum, timeNum: resultTime)
-                return viewModel.saveExerciseMessage(View: vc)
+                return
             }
             
             // 시간, 분 모두 있을 때
@@ -136,7 +166,7 @@ class saveExerciseViewController2: UIViewController {
             if checkMinuteNum == 0 {
                 let resultTime = calcTime(hour: checkedHourlNum)
                 saveEx(distanceNum: checkedDistanceNum, timeNum: resultTime)
-                return viewModel.saveExerciseMessage(View: vc)
+                return viewModel.saveSuccessExMessage(View: vc)
             }
             if checkMinuteNum < 0 {
                 return viewModel.warningExerciseMessage(ment: "올바른 시간(분)을 입력해 주세요.", View: vc)
@@ -147,7 +177,6 @@ class saveExerciseViewController2: UIViewController {
             // 모든 경우 통과
             let resultTime = calcTime(hour: checkedHourlNum, min: checkMinuteNum)
             saveEx(distanceNum: checkedDistanceNum, timeNum: resultTime)
-            return viewModel.saveExerciseMessage(View: vc)
         }
     }
     
@@ -158,10 +187,8 @@ class saveExerciseViewController2: UIViewController {
     }
     
     func saveEx(distanceNum: Double, timeNum: Int16) {
-        let saveExerciseInfo = aerobicExerciseInfo(exercise: exerciseLabel.text ?? "운동 없음", date: ExerciseViewController.pickDate, time: timeNum, distance: distanceNum)
-        print(timeNum)
-        print("Info: \(saveExerciseInfo)")
-        ConfigDataStore.saveCoreData(info: saveExerciseInfo)
+        exInfo = aerobicExerciseInfo(exercise: exerciseLabel.text ?? "운동 없음", date: ExerciseViewController.pickDate, time: timeNum, distance: distanceNum, saveTime: ConfigDataStore.date_Time())
+        SendAerobicEx.sendSaveEx(info: exInfo)
     }
 }
 

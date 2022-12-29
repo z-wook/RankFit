@@ -55,8 +55,17 @@ extension saveExerciseViewModel {
         vc.present(alert, animated: true, completion: nil)
     }
 
-    func saveExerciseMessage(View vc: UIViewController) {
-        let alert = UIAlertController(title:"저장 완료",message: "운동이 저장되었습니다.",preferredStyle: UIAlertController.Style.alert)
+    func saveSuccessExMessage(View vc: UIViewController) {
+        let alert = UIAlertController(title:"저장 완료", message: "운동이 저장되었습니다.", preferredStyle: UIAlertController.Style.alert)
+        let ok = UIAlertAction(title: "확인", style: .default, handler: { _ in
+            vc.dismiss(animated: true)
+        })
+        alert.addAction(ok)
+        vc.present(alert, animated: true, completion: nil)
+    }
+    
+    func saveFailExMessage(View vc: UIViewController) {
+        let alert = UIAlertController(title:"저장 실패", message: "잠시 후 다시 시도해 주세요.", preferredStyle: UIAlertController.Style.alert)
         let ok = UIAlertAction(title: "확인", style: .default, handler: { _ in
             vc.dismiss(animated: true)
         })

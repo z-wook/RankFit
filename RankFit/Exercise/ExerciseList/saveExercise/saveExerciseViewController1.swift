@@ -17,10 +17,12 @@ class saveExerciseViewController1: UIViewController {
     @IBOutlet weak var weightLabel: UILabel!
     @IBOutlet weak var saveBtn: UIButton!
     
-    var testID: UUID!
     var viewModel: saveExerciseViewModel!
-    var subscriptions = Set<AnyCancellable>()
+    var exInfo: anaerobicExerciseInfo!
     var hideCheck: Bool = true // 무게가 필요있는 운동이면 true
+    static let sendState = PassthroughSubject<Bool, Never>()
+    var cancelable: Cancellable?
+    var subscriptions = Set<AnyCancellable>()
     
     // getTopViewController
     let keyWindow = UIApplication.shared.connectedScenes.filter({ $0.activationState == .foregroundActive })
@@ -31,20 +33,24 @@ class saveExerciseViewController1: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         buttonConfigure()
         textFieldConfigure()
         bind()
     }
     
-    func textFieldConfigure() {
+    override func viewWillDisappear(_ animated: Bool) {
+        cancelable?.cancel()
+    }
+    
+    private func textFieldConfigure() {
         setField.delegate = self
         weightField.delegate = self
         countField.delegate = self
         weightField.tag = 1
     }
     
-    func bind() {
+    private func bind() {
         viewModel.$DetailItem
 //            .compactMap { $0 }
             .receive(on: RunLoop.main)
@@ -56,6 +62,29 @@ class saveExerciseViewController1: UIViewController {
                     self.hideCheck = false // 무게 필요없는 운동이면 false
                 }
             }.store(in: &subscriptions)
+        
+        let subject = saveExerciseViewController1.sendState.receive(on: RunLoop.main)
+            .sink { result in
+                if result == true { // true
+                    if let vc = self.keyWindow?.visibleViewController {
+                        let save = ConfigDataStore.saveCoreData(info: self.exInfo)
+                        if save == true {
+                            print("운동 저장 완료")
+                            self.viewModel.saveSuccessExMessage(View: vc)
+                        } else {
+                            print("운동 저장 실패")
+                            self.viewModel.saveFailExMessage(View: vc)
+                        }
+                    } else {
+                        print("error")
+                        self.dismiss(animated: true)
+                    }
+                } else {
+                    print("서버 전송 오류, 잠시 후 다시 시도해 주세요.")
+                    self.dismiss(animated: true)
+                }
+            }
+        cancelable = subject
     }
     
     func buttonConfigure() {
@@ -118,14 +147,12 @@ class saveExerciseViewController1: UIViewController {
             
             // 무게가 필요없는 운동은 무게를 0으로 저장
             saveEx(setNum: checkedSetNum, weightNum: weightNum, countNum: checkCountNum)
-            return viewModel.saveExerciseMessage(View: vc)
         }
     }
     
     func saveEx(setNum: Int16, weightNum: Float, countNum: Int16) {
-        let saveExerciseInfo = anaerobicExerciseInfo(exercise: exerciseLabel.text ?? "운동 없음", date: ExerciseViewController.pickDate, set: setNum, weight: weightNum, count: countNum)
-        testID = saveExerciseInfo.id
-        ConfigDataStore.saveCoreData(info: saveExerciseInfo)
+        exInfo = anaerobicExerciseInfo(exercise: exerciseLabel.text ?? "운동 없음", date: ExerciseViewController.pickDate, set: setNum, weight: weightNum, count: countNum, saveTime: ConfigDataStore.date_Time())
+        SendAnaerobicEx.sendSaveEx(info: exInfo)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 class AnaerobicActivityViewController: UIViewController {
 
@@ -21,7 +22,11 @@ class AnaerobicActivityViewController: UIViewController {
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var playButton: UIButton!
     
+    static let sendState = PassthroughSubject<Bool, Never>()
+    var cancelable: Cancellable?
+    
     var viewModel: DoExerciseViewModel!
+    var info: anaerobicExerciseInfo!
     var timer: Timer?
     let interval: Double = 1.0
     var count: Int = 0
@@ -32,6 +37,31 @@ class AnaerobicActivityViewController: UIViewController {
 
         configure()
         timer = Timer.scheduledTimer(timeInterval: interval, target: self, selector: #selector(timerCounter), userInfo: nil, repeats: true)
+        bind()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        cancelable?.cancel()
+    }
+    
+    func bind() {
+        let subject = AnaerobicActivityViewController.sendState.receive(on: RunLoop.main)
+            .sink { result in
+                if result == true { // true
+                    let update = ConfigDataStore.updateCoreData(id: self.info.id, entityName: "Anaerobic", done: true)
+                    if update == true {
+                        print("운동 완료 후 업데이트 성공")
+                        self.navigationController?.popViewController(animated: true)   
+                    } else {
+                        print("운동 완료 후 업데이트 실패")
+                        self.navigationController?.popViewController(animated: true)
+                    }
+                } else { // else
+                    print("서버 전송 오류, 잠시 후 다시 시도해 주세요.")
+                    self.navigationController?.popViewController(animated: true)
+                }
+            }
+        cancelable = subject
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -42,6 +72,8 @@ class AnaerobicActivityViewController: UIViewController {
         guard let info = viewModel.ExerciseInfo as? anaerobicExerciseInfo else {
             return
         }
+        self.info = info
+        
         exerciseLabel.text = info.exercise
         setNumLabel.text = "\(info.set)"
         weightNumLabel.text = "\(info.weight)"
@@ -79,19 +111,7 @@ class AnaerobicActivityViewController: UIViewController {
         let alert = UIAlertController(title: "운동을 종료하시겠습니까?", message: "기록이 저장됩니다.", preferredStyle: UIAlertController.Style.alert)
         let cancle = UIAlertAction(title: "취소", style: .destructive, handler: nil)
         let ok = UIAlertAction(title: "확인", style: .default) { _ in
-            
-            guard let info = self.viewModel.ExerciseInfo as? anaerobicExerciseInfo else {
-                return
-            }
-            let update = ConfigDataStore.updateCoreData(id: info.id, entityName: "Anaerobic", done: true)
-            
-            if update == true {
-                print("운동 완료")
-                // reload
-                
-            } else { return }
-            
-            self.navigationController?.popViewController(animated: true)
+            SendAnaerobicEx.sendCompleteEx(info: self.info, time: self.count)
         }
         alert.addAction(cancle)
         alert.addAction(ok)

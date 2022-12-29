@@ -24,9 +24,10 @@ class MyProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        updateNavigationItem()
+        
         tableView.dataSource = self
         tableView.delegate = self
-        navigationItem.backButtonDisplayMode = .minimal
         
         userInfomation = [user.getEmail(), user.getGender(),
                           user.getNickName(), user.getAge(), user.getWeight()]
@@ -122,5 +123,13 @@ extension MyProfileViewController: UITableViewDataSource, UITableViewDelegate {
         default: return
         }
     }
-    
+}
+
+extension MyProfileViewController {
+    private func updateNavigationItem() {
+        navigationItem.backButtonDisplayMode = .minimal
+        navigationItem.largeTitleDisplayMode = .never
+        navigationItem.title = "내 정보"
+//        navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.label]
+    }
 }

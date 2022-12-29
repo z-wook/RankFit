@@ -11,18 +11,17 @@ import UIKit
 
 final class ConfigDataStore {
     
-    static func hour_min_sec() -> String {
+    static func date_Time() -> String {
         let nowDate = Date()
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "HH:mm:ss"
-        let currentTime = dateFormatter.string(from: nowDate)
+        dateFormatter.dateFormat = "yyyy-MM-dd/HH:mm:ss"
+        let currentDate_Time = dateFormatter.string(from: nowDate)
         
-        return currentTime
+        return currentDate_Time
     }
     
-    static func saveCoreData(info: AnyHashable) {
-        let currentTime = ConfigDataStore.hour_min_sec()
-        
+    static func saveCoreData(info: AnyHashable) -> Bool {
+        print("Save CorreData")
         if let anaerobicInfo = info as? anaerobicExerciseInfo {
             let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
             let entity = NSEntityDescription.entity(forEntityName: "Anaerobic", in: context)
@@ -36,13 +35,15 @@ final class ConfigDataStore {
                 object.setValue(anaerobicInfo.set, forKey: "set")
                 object.setValue(anaerobicInfo.weight, forKey: "weight")
                 object.setValue(anaerobicInfo.count, forKey: "count")
-                object.setValue(currentTime, forKey: "saveTime")
+                object.setValue(anaerobicInfo.saveTime, forKey: "saveTime")
                 object.setValue(anaerobicInfo.done, forKey: "done")
 
                 do {
                     try context.save()
+                    return true
                 } catch {
                     print(error.localizedDescription)
+                    return false
                 }
             }
         }
@@ -59,19 +60,23 @@ final class ConfigDataStore {
                 object.setValue(aerobicInfo.date, forKey: "date")
                 object.setValue(aerobicInfo.distance, forKey: "distance")
                 object.setValue(aerobicInfo.time, forKey: "time")
-                object.setValue(currentTime, forKey: "saveTime")
+                object.setValue(aerobicInfo.saveTime, forKey: "saveTime")
                 object.setValue(aerobicInfo.done, forKey: "done")
                 
                 do {
                     try context.save()
+                    return true
                 } catch {
                     print(error.localizedDescription)
+                    return false
                 }
             }
         }
+        return false
     }
     
     static func fetchCoreData(date: String) -> [AnyHashable] {
+        print("Read CorreData")
         var exerciseInfoList: [AnyHashable] = []
         
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -117,8 +122,7 @@ final class ConfigDataStore {
     }
     
     static func updateCoreData(id: UUID, entityName: String , distance: Double? = nil, time: Int16? = nil, done: Bool) -> Bool {
-        print("update")
-        
+        print("Update CorreData")
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return false }
         let managedContext = appDelegate.persistentContainer.viewContext
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>.init(entityName: entityName)
@@ -149,7 +153,7 @@ final class ConfigDataStore {
     }
     
     static func deleteCoreData(id: UUID, entityName: String) -> Bool {
-        print("delete")
+        print("Delete CorreData")
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return false }
         let managedContext = appDelegate.persistentContainer.viewContext
         

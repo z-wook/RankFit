@@ -17,6 +17,8 @@
 		331D346D2945D26300E4CE20 /* OnboardingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331D346C2945D26300E4CE20 /* OnboardingCell.swift */; };
 		331D346F2945D90100E4CE20 /* OnboardingMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331D346E2945D90100E4CE20 /* OnboardingMessage.swift */; };
 		331D34742946267000E4CE20 /* Register.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 331D34732946267000E4CE20 /* Register.storyboard */; };
+		333CAFED2959A9A5008902AA /* SendAnaerobicEx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333CAFEC2959A9A5008902AA /* SendAnaerobicEx.swift */; };
+		333CAFEF2959A9BC008902AA /* SendAerobicEx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333CAFEE2959A9BC008902AA /* SendAerobicEx.swift */; };
 		335CCD86294F2A76002E569A /* calcDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335CCD85294F2A76002E569A /* calcDate.swift */; };
 		33657A4E294483E900164DB5 /* AerobicActivityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33657A4D294483E900164DB5 /* AerobicActivityViewController.swift */; };
 		33657A502944840100164DB5 /* DoExerciseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33657A4F2944840100164DB5 /* DoExerciseViewModel.swift */; };
@@ -39,6 +41,7 @@
 		33657A782944C9AA00164DB5 /* BarButtonItemGenerate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33657A772944C9AA00164DB5 /* BarButtonItemGenerate.swift */; };
 		33657A7C2944CA6200164DB5 /* getTopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33657A7B2944CA6200164DB5 /* getTopViewController.swift */; };
 		33657A7F2944CB7B00164DB5 /* ConfigDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33657A7E2944CB7B00164DB5 /* ConfigDataStore.swift */; };
+		33897A1D295B5A9300986EC0 /* RankCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33897A1C295B5A9300986EC0 /* RankCell.swift */; };
 		33A541982948B3D9006CD6CB /* userInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A541972948B3D9006CD6CB /* userInfo.swift */; };
 		33A5419A2948BE26006CD6CB /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A541992948BE26006CD6CB /* RegisterViewController.swift */; };
 		33D6A08E2947005100C88657 /* RegisterAgeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D6A08D2947005100C88657 /* RegisterAgeViewController.swift */; };
@@ -102,6 +105,8 @@
 		331D346C2945D26300E4CE20 /* OnboardingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingCell.swift; sourceTree = "<group>"; };
 		331D346E2945D90100E4CE20 /* OnboardingMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingMessage.swift; sourceTree = "<group>"; };
 		331D34732946267000E4CE20 /* Register.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Register.storyboard; sourceTree = "<group>"; };
+		333CAFEC2959A9A5008902AA /* SendAnaerobicEx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendAnaerobicEx.swift; sourceTree = "<group>"; };
+		333CAFEE2959A9BC008902AA /* SendAerobicEx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendAerobicEx.swift; sourceTree = "<group>"; };
 		335CCD85294F2A76002E569A /* calcDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = calcDate.swift; sourceTree = "<group>"; };
 		33657A4D294483E900164DB5 /* AerobicActivityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AerobicActivityViewController.swift; sourceTree = "<group>"; };
 		33657A4F2944840100164DB5 /* DoExerciseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoExerciseViewModel.swift; sourceTree = "<group>"; };
@@ -124,6 +129,7 @@
 		33657A772944C9AA00164DB5 /* BarButtonItemGenerate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarButtonItemGenerate.swift; sourceTree = "<group>"; };
 		33657A7B2944CA6200164DB5 /* getTopViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = getTopViewController.swift; sourceTree = "<group>"; };
 		33657A7E2944CB7B00164DB5 /* ConfigDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigDataStore.swift; sourceTree = "<group>"; };
+		33897A1C295B5A9300986EC0 /* RankCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankCell.swift; sourceTree = "<group>"; };
 		33A541972948B3D9006CD6CB /* userInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = userInfo.swift; sourceTree = "<group>"; };
 		33A541992948BE26006CD6CB /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		33D6A08D2947005100C88657 /* RegisterAgeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterAgeViewController.swift; sourceTree = "<group>"; };
@@ -403,6 +409,7 @@
 			children = (
 				33E917312943B57200FC074A /* Rank.storyboard */,
 				33E917332943B58600FC074A /* RankViewController.swift */,
+				33897A1C295B5A9300986EC0 /* RankCell.swift */,
 			);
 			path = Rank;
 			sourceTree = "<group>";
@@ -428,6 +435,8 @@
 				33E917422943C6DC00FC074A /* AnaerobicActivityViewController.swift */,
 				33657A4D294483E900164DB5 /* AerobicActivityViewController.swift */,
 				33657A4F2944840100164DB5 /* DoExerciseViewModel.swift */,
+				333CAFEC2959A9A5008902AA /* SendAnaerobicEx.swift */,
+				333CAFEE2959A9BC008902AA /* SendAerobicEx.swift */,
 			);
 			path = DoExercise;
 			sourceTree = "<group>";
@@ -721,12 +730,15 @@
 				33657A622944B51C00164DB5 /* saveExerciseViewModel.swift in Sources */,
 				33D6A09029470BB500C88657 /* RegisterWeightViewController.swift in Sources */,
 				33657A672944C84800164DB5 /* TempViewController.swift in Sources */,
+				33897A1D295B5A9300986EC0 /* RankCell.swift in Sources */,
 				33657A712944C92100164DB5 /* aerobicExerciseInfo.swift in Sources */,
+				333CAFEF2959A9BC008902AA /* SendAerobicEx.swift in Sources */,
 				33DA75BD294C38EE002DAB31 /* ProfileCell.swift in Sources */,
 				33E9172E2943B21800FC074A /* HomeViewController.swift in Sources */,
 				33F8F277294DB95C007A4691 /* RegisterNickNameViewController.swift in Sources */,
 				331D346D2945D26300E4CE20 /* OnboardingCell.swift in Sources */,
 				33657A732944C93500164DB5 /* ExerciseInfo.swift in Sources */,
+				333CAFED2959A9A5008902AA /* SendAnaerobicEx.swift in Sources */,
 				33E917392943B62000FC074A /* ExerciseViewController.swift in Sources */,
 				33DA75C1294C4DFC002DAB31 /* DefaultCell.swift in Sources */,
 				33DA75B12949A568002DAB31 /* AuthenticationModel.swift in Sources */,

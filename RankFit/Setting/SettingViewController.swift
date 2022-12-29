@@ -185,6 +185,7 @@ extension SettingViewController {
         navigationController?.navigationBar.backIndicatorTransitionMaskImage = backImage
         navigationController?.navigationBar.tintColor = .systemBlue
         navigationItem.backButtonDisplayMode = .minimal
+        navigationItem.title = "설정"
         
         // backBarButtonTitle 설정
 //        let backBarButtonItem = UIBarButtonItem(title: "이전 페이지", style: .plain, target: self, action: nil)
