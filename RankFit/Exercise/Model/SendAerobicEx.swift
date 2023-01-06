@@ -43,21 +43,24 @@ final class SendAerobicEx {
     }
         
     static func sendCompleteEx(info: aerobicExerciseInfo, totalDis: Double, time: Int) {
-        let userID = getUserInfo().getUserID()                      // string
+        let userInfo = getUserInfo()
+        let userID = userInfo.getUserID()                           // string
         let exercise = info.exercise                                // string
         let date_time = info.saveTime                               // string
         let score = totalDis + (totalDis / Double((time / 60)))     // double
+        let userGender = userInfo.getGender()
         
         let parameters: Parameters = [
             "userID": userID,
             "userExercise": exercise,
             "userDate": date_time,      // 운동 저장 날짜(saveTime)
-            "distance": totalDis,       // 실제 운동 거리
-            "Time": time,               // 실제 운동 시간(분)
+            "userDistance": totalDis,       // 실제 운동 거리
+            "userTime": time,               // 실제 운동 시간(분)
             "Score": score,             // 거리 + 평균속도
-            "userState": 1              // 완료 1, 미완료 0
+            "userState": 1,             // 완료 1, 미완료 0
+            "userSex": userGender
         ]
-        print("--------> param: \(parameters)")
+        
         AF.request("http://rankfit.site/UpdateAerobic.php", method: .post, parameters: parameters).validate(statusCode: 200..<300).responseString {
             response in
             print("====== response: \(response)")

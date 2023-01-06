@@ -19,6 +19,9 @@ class ExercisePlanCell: UICollectionViewCell {
     @IBOutlet weak var label3_num: UILabel!
     @IBOutlet weak var stateLabel: UILabel!
     @IBOutlet weak var startBtn: UIButton!
+    @IBOutlet weak var Label1_Leading: NSLayoutConstraint!
+    @IBOutlet weak var Label2_Leading: NSLayoutConstraint! // 25
+    @IBOutlet weak var Label2_Trailing: NSLayoutConstraint! // 28
     
     var sendState: PassthroughSubject<Bool, Never>!
     var subscriptions = Set<AnyCancellable>()
@@ -26,6 +29,13 @@ class ExercisePlanCell: UICollectionViewCell {
     var exerciseInfo: AnyHashable!
     var exerciseUUID: UUID!
     var exerciseEntityName: String!
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+//        contentView.backgroundColor = UIColor.separator
+        contentView.layer.cornerRadius = 10
+    }
+    
     
     @IBAction func removeBtn(_ sender: UIButton) {
         guard let aerobicInfo = exerciseInfo as? aerobicExerciseInfo else {
@@ -83,6 +93,9 @@ extension ExercisePlanCell {
         label3.text = ""
         label3_num.text = ""
         
+        Label2_Leading.constant = 35
+        Label2_Trailing.constant = 35
+        
         if info.done {
             stateLabel.text = "완료"
             stateLabel.textColor = .systemPink
@@ -107,10 +120,18 @@ extension ExercisePlanCell {
         label2_num.text = "\(info.count)"
         label3.text = "무게(kg)"
         label3_num.text = "\(info.weight)"
+        
+        Label2_Leading.constant = 40
+        Label2_Trailing.constant = 40
+        
         if info.weight == 0 {
             label3.isHidden = true
             label3_num.isHidden = true
+        } else {
+            label3.isHidden = false
+            label3_num.isHidden = false
         }
+        
         if info.done {
             stateLabel.text = "완료"
             stateLabel.textColor = .systemPink

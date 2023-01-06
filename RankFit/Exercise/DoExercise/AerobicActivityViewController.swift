@@ -26,7 +26,7 @@ class AerobicActivityViewController: UIViewController {
     @IBOutlet weak var etc: UILabel!
     
     static let sendState = PassthroughSubject<Bool, Never>()
-    var cancelable: Cancellable?
+    var cancellable: Cancellable?
     
     var exerciseInfo: aerobicExerciseInfo!
     var viewModel: DoExerciseViewModel!
@@ -48,7 +48,6 @@ class AerobicActivityViewController: UIViewController {
         
         configure()
         requestLocationAuthorization() // location config & permission
-        
 //        requestActivityAuthorization()
         bind()
     }
@@ -63,8 +62,7 @@ class AerobicActivityViewController: UIViewController {
         timer?.invalidate()
         motionManager?.stopActivityUpdates()
         locationManager?.stopUpdatingLocation()
-        cancelable?.cancel()
-        
+        cancellable?.cancel()
     }
     
     private func bind() {
@@ -91,15 +89,13 @@ class AerobicActivityViewController: UIViewController {
                     self.navigationController?.popViewController(animated: true)
                 }
             }
-        cancelable = subject
+        cancellable = subject
     }
 
     @IBAction func currentLocationBtn(_ sender: UIButton) {
         let status = locationManager?.authorizationStatus
         switch status {
         case .authorizedAlways, .authorizedWhenInUse:
-            mapView.isZoomEnabled = true
-            mapView.delegate = self
             mapView.showsUserLocation = true
             mapView.setUserTrackingMode(.followWithHeading, animated: true)
 
@@ -134,7 +130,7 @@ extension AerobicActivityViewController {
     private func requestLocationAuthorization() {
         if locationManager == nil {
             locationManager = CLLocationManager()
-            
+            locationManager?.delegate = self
             locationManager!.desiredAccuracy = kCLLocationAccuracyBest // 정확도 설정
             locationManager!.requestWhenInUseAuthorization() // 포그라운드 위치 추적
             
@@ -144,9 +140,16 @@ extension AerobicActivityViewController {
             locationManager?.allowsBackgroundLocationUpdates = true
             locationManager?.pausesLocationUpdatesAutomatically = false
             
-//            locationManager?.distanceFilter = 5 // 5m 마다 위치 업데이트
-
-            locationManager!.delegate = self
+            
+            
+            
+            // 여기 테스트
+            locationManager?.distanceFilter = 5 // 5m 마다 위치 업데이트
+            
+            
+            
+            
+            
             locationManagerDidChangeAuthorization(locationManager!) // 권한 변경 확인
         } else {
             //사용자의 위치가 바뀌고 있는지 확인하는 메소드
@@ -202,7 +205,6 @@ extension AerobicActivityViewController {
                         self.state.text = "상태: 러닝 중"
                         
                         // walking || running이면서 약 40km/h 초과시 강제종료
-//                        let speed = Double(currentSpeed ?? 0)
                         if speed > 11.111 { // 약 40km/h 초과
                             self.state.text = "상태: 속도 오버"
                             self.showAlert()
@@ -217,7 +219,7 @@ extension AerobicActivityViewController {
                 else if (activity.cycling == true || activity.automotive == true) {
                     self.state.text = "상태: 이동수단"
                     self.showAlert()
-                    }
+                }
                 
                     // CMMotionActivity @ 21432.287857,<startDate,2022-12-01 16:00:59 +0000,confidence,2,unknown,0,stationary,0,walking,0,running,0,automotive,0,cycling,0>
                     // 이런식으로 아무것도 아닌 경우도 생긴다.
@@ -359,8 +361,10 @@ extension AerobicActivityViewController: CLLocationManagerDelegate {
 
         switch status {
         case .authorizedAlways, .authorizedWhenInUse: // GPS 권한 설정됨
-            self.mapView.showsUserLocation = true
-            self.mapView.setUserTrackingMode(.followWithHeading, animated: true)
+            mapView.delegate = self
+            mapView.isZoomEnabled = true
+            mapView.showsUserLocation = true
+            mapView.setUserTrackingMode(.followWithHeading, animated: true)
             
             startActivity() // permission true -> start activity
             
@@ -400,30 +404,18 @@ extension AerobicActivityViewController: CLLocationManagerDelegate {
             points.append(point2)
             
             let pTOp_Distance = Double(calcDistance(from: point1, to: point2)) // PtoP_distance: 미터(m), useTime: 초(s)
-//            exerciseSequence(PtoP_distance: pTOp_Distance, Points: points, Counts: points.count)
             
             let speed = Double(manager.location?.speed ?? 0) // m/s
-            if speed < 0.8333 { // // 약 3km/h 미만일 때 정지라고 판단
-                print("========> here1")
+            if speed < 0.6944 { // 약 2.5km/h 미만일 때 정지라고 판단
+                
                 self.updateLabelText(speed: 0)
-                self.etc.text = "정지속도" + " / \(location.speed)"
+                self.etc.text = "정지속도" + " / \(location.speed * 3.6)"
                 return
             } else {
-                print("========> here2")
-                self.etc.text = "움직임판단" + " / \(location.speed)"
-                exerciseSequence(PtoP_distance: pTOp_Distance, Points: points, Counts: points.count)
+                self.etc.text = "움직임판단" + " / \(location.speed * 3.6)"
+//                exerciseSequence(PtoP_distance: pTOp_Distance, Points: points, Counts: points.count)
             }
-            
-//            if speed <= 0.8333 { // 약 3km/h 이하
-//                self.state.text = "상태: 속도 3 이하"
-//                return
-//            } else { // 약 3km/h 초과일 때만 지도에 경로 그리기
-//                // draw
-//                let lineDraw = MKPolyline(coordinates: points, count: points.count)
-//                self.mapView.addOverlay(lineDraw)
-//            }
-            
-//            exerciseSequence(PtoP_distance: pTOp_Distance, Points: points, Counts: points.count)
+            exerciseSequence(PtoP_distance: pTOp_Distance, Points: points, Counts: points.count)
         }
         self.previousLocation = location
     }

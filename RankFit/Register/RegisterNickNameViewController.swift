@@ -131,7 +131,7 @@ class RegisterNickNameViewController: UIViewController {
                 "userWeight": userData.weight ?? -1
             ]
 
-            AF.request("http://rankfit.site/RegisterTest.php", method: .post, parameters: parameters).validate(statusCode: 200..<300).responseString {
+            AF.request("http://rankfit.site/Register.php", method: .post, parameters: parameters).validate(statusCode: 200..<300).responseString {
                 response in
 
                 if let responseBody = response.value {

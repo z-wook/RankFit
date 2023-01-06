@@ -4,8 +4,10 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="UIMenu" message="Requires Xcode 11 or later." minToolsVersion="11.0" requiredIntegratedClassName="UICommandDiff"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -13,7 +15,7 @@
         <!--Rank-->
         <scene sceneID="s0d-6b-0kx">
             <objects>
-                <viewController storyboardIdentifier="RankViewController" id="Y6W-OH-hqX" customClass="RankViewController" customModule="RankFit" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MyRankViewController" id="Y6W-OH-hqX" customClass="MyRankViewController" customModule="RankFit" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -28,26 +30,94 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="RankCell" id="8hz-fT-ZSf" customClass="RankCell" customModule="RankFit" customModuleProvider="target">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="MyRankCell" id="8hz-fT-ZSf" customClass="MyRankCell" customModule="RankFit" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="390" height="128"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="PP4-1r-5ji">
                                             <rect key="frame" x="0.0" y="0.0" width="390" height="128"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eWa-BQ-Ee4">
-                                                    <rect key="frame" x="157" y="45" width="77" height="39"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="완료한 운동" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eWa-BQ-Ee4">
+                                                    <rect key="frame" x="20.000000000000007" y="50.333333333333336" width="104.66666666666669" height="27.666666666666664"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="23"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1위" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8xb-XV-PsB">
+                                                    <rect key="frame" x="320" y="53.666666666666657" width="50" height="21"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="50" id="i9V-ti-Xq8"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <color key="backgroundColor" systemColor="systemYellowColor"/>
+                                            <constraints>
+                                                <constraint firstItem="eWa-BQ-Ee4" firstAttribute="centerY" secondItem="PP4-1r-5ji" secondAttribute="centerY" id="KDy-fE-pLb"/>
+                                                <constraint firstItem="eWa-BQ-Ee4" firstAttribute="leading" secondItem="PP4-1r-5ji" secondAttribute="leading" constant="20" id="TT7-MC-gfh"/>
+                                                <constraint firstItem="8xb-XV-PsB" firstAttribute="centerY" secondItem="PP4-1r-5ji" secondAttribute="centerY" id="Xdg-XT-bWv"/>
+                                                <constraint firstAttribute="trailing" secondItem="8xb-XV-PsB" secondAttribute="trailing" constant="20" id="nmf-GZ-HrH"/>
+                                            </constraints>
                                         </collectionViewCellContentView>
                                         <size key="customSize" width="390" height="128"/>
                                         <connections>
+                                            <outlet property="rank" destination="8xb-XV-PsB" id="eIY-Qt-PbK"/>
                                             <outlet property="titleLabel" destination="eWa-BQ-Ee4" id="0V0-rA-Tpe"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="OptionCell" id="opn-Hk-X3G" customClass="OptionCell" customModule="RankFit" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="138" width="390" height="128"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="geG-aO-wa1">
+                                            <rect key="frame" x="0.0" y="0.0" width="390" height="128"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1위" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b6o-mp-vWc">
+                                                    <rect key="frame" x="20" y="53.666666666666657" width="23" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9KV-Kb-BHd">
+                                                    <rect key="frame" x="73" y="24" width="80" height="80"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" secondItem="9KV-Kb-BHd" secondAttribute="height" multiplier="1:1" id="PTc-X6-ADD"/>
+                                                        <constraint firstAttribute="width" constant="80" id="d0e-r9-PiS"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="닉네임" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vom-VF-m7m">
+                                                    <rect key="frame" x="193" y="53.666666666666657" width="45" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="점수" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oeP-DD-SWy">
+                                                    <rect key="frame" x="298" y="53.666666666666657" width="30" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="Vom-VF-m7m" firstAttribute="leading" secondItem="9KV-Kb-BHd" secondAttribute="trailing" constant="40" id="1aH-u5-s89"/>
+                                                <constraint firstItem="b6o-mp-vWc" firstAttribute="leading" secondItem="geG-aO-wa1" secondAttribute="leading" constant="20" id="Alr-Xe-goZ"/>
+                                                <constraint firstItem="b6o-mp-vWc" firstAttribute="centerY" secondItem="geG-aO-wa1" secondAttribute="centerY" id="HSY-pc-M9N"/>
+                                                <constraint firstItem="Vom-VF-m7m" firstAttribute="centerY" secondItem="geG-aO-wa1" secondAttribute="centerY" id="JsH-5o-xKU"/>
+                                                <constraint firstItem="oeP-DD-SWy" firstAttribute="leading" relation="lessThanOrEqual" secondItem="Vom-VF-m7m" secondAttribute="trailing" constant="60" id="ZJU-Yw-t4Z"/>
+                                                <constraint firstItem="oeP-DD-SWy" firstAttribute="centerY" secondItem="geG-aO-wa1" secondAttribute="centerY" id="ici-g8-nuK"/>
+                                                <constraint firstItem="9KV-Kb-BHd" firstAttribute="centerY" secondItem="geG-aO-wa1" secondAttribute="centerY" id="igt-j3-CVl"/>
+                                                <constraint firstAttribute="trailing" secondItem="oeP-DD-SWy" secondAttribute="trailing" constant="62" id="mg9-mq-vs7"/>
+                                                <constraint firstItem="9KV-Kb-BHd" firstAttribute="leading" secondItem="b6o-mp-vWc" secondAttribute="trailing" constant="30" id="t1C-md-ElN"/>
+                                            </constraints>
+                                        </collectionViewCellContentView>
+                                        <size key="customSize" width="390" height="128"/>
+                                        <connections>
+                                            <outlet property="nickName" destination="Vom-VF-m7m" id="5vG-Ku-Q22"/>
+                                            <outlet property="profile" destination="9KV-Kb-BHd" id="RSq-Wg-ds3"/>
+                                            <outlet property="rank" destination="b6o-mp-vWc" id="sDW-h7-8BP"/>
+                                            <outlet property="score" destination="oeP-DD-SWy" id="hHR-mb-d9J"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -63,15 +133,42 @@
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Rank" image="person.2" catalog="system" id="WLX-Im-MiT"/>
-                    <navigationItem key="navigationItem" id="iRh-dj-g6s"/>
+                    <navigationItem key="navigationItem" id="iRh-dj-g6s">
+                        <barButtonItem key="rightBarButtonItem" style="done" id="YUY-ck-KRl">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="8X4-GH-TK3">
+                                <rect key="frame" x="259.66666666666669" y="4.3333333333333321" width="114.33333333333331" height="35.666666666666671"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <menu key="menu" id="5HZ-GU-UYU">
+                                    <children>
+                                        <command title="마이랭킹" id="MXP-2j-5oC"/>
+                                        <command title="성별" id="Gmn-hT-HP9"/>
+                                        <command title="나이" id="sh2-VH-OXb"/>
+                                        <command title="맞춤(종합)" id="GMN-ez-UaY"/>
+                                    </children>
+                                </menu>
+                                <state key="normal" title="마이랭킹">
+                                    <imageReference key="image" image="list.bullet" catalog="system" symbolScale="large"/>
+                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large" weight="bold"/>
+                                </state>
+                                <buttonConfiguration key="configuration" style="plain" title="마이랭킹">
+                                    <imageReference key="image" image="list.bullet" catalog="system" symbolScale="large"/>
+                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" scale="large" weight="bold"/>
+                                    <fontDescription key="titleFontDescription" type="system" pointSize="18"/>
+                                </buttonConfiguration>
+                            </button>
+                        </barButtonItem>
+                    </navigationItem>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="collectionView" destination="tDP-4g-ewN" id="EYq-D5-Rp5"/>
+                        <outlet property="optionButton" destination="8X4-GH-TK3" id="y3n-i0-yJS"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1060" y="-34.123222748815166"/>
+            <point key="canvasLocation" x="936.92307692307691" y="-34.123222748815166"/>
         </scene>
         <!--Rank-->
         <scene sceneID="jK0-q0-eU5">
@@ -100,6 +197,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="list.bullet" catalog="system" width="128" height="87"/>
         <image name="person.2" catalog="system" width="128" height="82"/>
         <systemColor name="linkColor">
             <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

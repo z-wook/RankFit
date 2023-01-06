@@ -104,7 +104,8 @@ class ExerciseViewController: UIViewController {
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
 
         let section = NSCollectionLayoutSection(group: group)
-//        section.interGroupSpacing = 10
+        section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 20, bottom: 10, trailing: 20)
+        section.interGroupSpacing = 10
         let layout = UICollectionViewCompositionalLayout(section: section)
         return layout
     }
@@ -131,12 +132,19 @@ extension ExerciseViewController: UICollectionViewDelegate {
 }
 
 extension ExerciseViewController: FSCalendarDelegate, FSCalendarDataSource, FSCalendarDelegateAppearance {
-    
     func createCalender() {
         calendarView.locale = Locale(identifier: "ko_KR")
+        calendarView.scope = .month
         calendarView.scrollDirection = .horizontal
-        calendarView.appearance.titleFont = UIFont(name: "NotoSansKR-Regular", size: 14)
-
+        // 헤더 폰트 설정
+        calendarView.appearance.headerTitleFont = UIFont(name: "NotoSansKR-Medium", size: 16)
+        // Weekday 폰트 설정
+        calendarView.appearance.weekdayFont = UIFont(name: "NotoSansKR-Regular", size: 14)
+        // 각각의 일(날짜) 폰트 설정
+        calendarView.appearance.titleFont = UIFont(name: "NotoSansKR-Regular", size: 15)
+        
+        calendarView.layer.cornerRadius = 20
+        
         let todayDate = calendarView.today!
         let defaultDate = dateFormatter.string(from: todayDate)
         ExerciseViewController.today = defaultDate

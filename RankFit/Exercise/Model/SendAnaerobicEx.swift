@@ -45,7 +45,8 @@ final class SendAnaerobicEx {
     }
     
     static func sendCompleteEx(info: anaerobicExerciseInfo, time: Int) {
-        let userID = getUserInfo().getUserID()          // string
+        let userInfo = getUserInfo()
+        let userID = userInfo.getUserID()               // string
         let exercise = info.exercise                    // string
         let date_time = info.saveTime                   // string
         let set = info.set                              // int16
@@ -53,7 +54,7 @@ final class SendAnaerobicEx {
         let count = info.count                          // int16
         let score = Float(time) / Float(set * count)    // float
         let changed_score = Float(String(format: "%.2f", score)) ?? 0
-        
+        let userGender = userInfo.getGender()           // int
         
         let parameters: Parameters = [
             "userID": userID,           // 사용자 ID
@@ -64,7 +65,8 @@ final class SendAnaerobicEx {
             "userCount": count,         // exercise count(개수)
             "Score": changed_score,     // 점수
             "userTime": time,           // 운동 시간
-            "userState": 1              // 완료 1, 미완료 0
+            "userState": 1,             // 완료 1, 미완료 0
+            "userSex": userGender
         ]
         
         AF.request("http://rankfit.site/UpdateAnaerobic.php", method: .post, parameters: parameters).validate(statusCode: 200..<300).responseString {

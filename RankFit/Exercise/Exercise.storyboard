@@ -21,7 +21,6 @@
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ONx-Jk-cHM" customClass="FSCalendar">
                                 <rect key="frame" x="0.0" y="91" width="390" height="180"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="180" id="3wk-Dl-Y91"/>
                                 </constraints>
@@ -57,7 +56,7 @@
                             </view>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="ffR-c2-MTd">
                                 <rect key="frame" x="0.0" y="271" width="390" height="490"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <color key="backgroundColor" systemColor="systemGray6Color"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="vdK-Oe-RWI">
                                     <size key="itemSize" width="390" height="140"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -121,49 +120,37 @@
                                                             <rect key="frame" x="0.0" y="51" width="390" height="89"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="세트" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kdJ-bV-l4o">
-                                                                    <rect key="frame" x="20" y="14.999999999999998" width="68" height="20.333333333333329"/>
-                                                                    <constraints>
-                                                                        <constraint firstAttribute="width" constant="68" id="aCq-QU-BKT"/>
-                                                                    </constraints>
+                                                                    <rect key="frame" x="20" y="14.999999999999998" width="29.666666666666671" height="20.333333333333329"/>
                                                                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="999" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AJS-aQ-1sM">
-                                                                    <rect key="frame" x="20" y="55.333333333333336" width="68" height="20.333333333333336"/>
-                                                                    <constraints>
-                                                                        <constraint firstAttribute="width" constant="68" id="P6Z-Bq-kfV"/>
-                                                                    </constraints>
+                                                                    <rect key="frame" x="19.333333333333336" y="55.333333333333336" width="31.333333333333336" height="20.333333333333336"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="개수" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gzq-7O-wTb">
-                                                                    <rect key="frame" x="113" y="14.999999999999998" width="68" height="20.333333333333329"/>
-                                                                    <constraints>
-                                                                        <constraint firstAttribute="width" constant="68" id="44h-21-vap"/>
-                                                                    </constraints>
+                                                                    <rect key="frame" x="74.666666666666671" y="14.999999999999998" width="29.666666666666671" height="20.333333333333329"/>
                                                                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="999" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5FI-Tr-g6m">
-                                                                    <rect key="frame" x="131.33333333333334" y="55.333333333333336" width="31.333333333333343" height="20.333333333333336"/>
+                                                                    <rect key="frame" x="74" y="55.333333333333336" width="31.333333333333329" height="20.333333333333336"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="무게(kg)" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="58D-w5-LNt">
-                                                                    <rect key="frame" x="209" y="14.999999999999998" width="68" height="20.333333333333329"/>
-                                                                    <constraints>
-                                                                        <constraint firstAttribute="width" constant="68" id="Tvd-ro-sc5"/>
-                                                                    </constraints>
+                                                                    <rect key="frame" x="132.33333333333334" y="14.999999999999998" width="61" height="20.333333333333329"/>
                                                                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="999.9" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z6u-G1-pCD">
-                                                                    <rect key="frame" x="220.66666666666666" y="55.333333333333336" width="44.999999999999972" height="20.333333333333336"/>
+                                                                    <rect key="frame" x="140.33333333333334" y="55.333333333333336" width="45" height="20.333333333333336"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
@@ -232,6 +219,9 @@
                                         </collectionViewCellContentView>
                                         <size key="customSize" width="390" height="140"/>
                                         <connections>
+                                            <outlet property="Label1_Leading" destination="265-Qu-59g" id="F3X-Ch-Rt6"/>
+                                            <outlet property="Label2_Leading" destination="QU8-ec-ngQ" id="ziu-1J-TC2"/>
+                                            <outlet property="Label2_Trailing" destination="D84-vc-8Mo" id="WBb-5b-Lmn"/>
                                             <outlet property="exerciseNameLabel" destination="1gx-C7-dgE" id="P3t-uy-4dC"/>
                                             <outlet property="label1" destination="kdJ-bV-l4o" id="hxL-wy-r5z"/>
                                             <outlet property="label1_num" destination="AJS-aQ-1sM" id="2rv-ep-W0C"/>
@@ -262,7 +252,7 @@
                     <navigationItem key="navigationItem" id="7ld-nm-wbB"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="calendarView" destination="ONx-Jk-cHM" id="fxU-xa-heN"/>
+                        <outlet property="calendarView" destination="ONx-Jk-cHM" id="hI3-is-eSh"/>
                         <outlet property="collectionView" destination="ffR-c2-MTd" id="WRP-GX-34Z"/>
                     </connections>
                 </viewController>
@@ -301,6 +291,9 @@
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGray6Color">
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemGreenColor">
             <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

@@ -76,7 +76,6 @@ final class ConfigDataStore {
     }
     
     static func fetchCoreData(date: String) -> [AnyHashable] {
-        print("Read CorreData")
         var exerciseInfoList: [AnyHashable] = []
         
         let appDelegate = UIApplication.shared.delegate as! AppDelegate

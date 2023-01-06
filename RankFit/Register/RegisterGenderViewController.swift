@@ -13,7 +13,7 @@ class RegisterGenderViewController: UIViewController {
     @IBOutlet weak var nextButton: UIButton!
     
     var viewModel: userInfo!
-    let gender: [String] = ["남성", "여성"]
+    let gender: [String] = ["남성", "여성"] // 남성 0, 여성 1
     var pickGender: Int!
     
     override func viewDidLoad() {

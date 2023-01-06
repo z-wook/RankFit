@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		014B1673EE2FDCE543AFF4F2 /* Pods_RankFitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C065524F5E420FA02883AA8 /* Pods_RankFitTests.framework */; };
 		15CC3AD2BC95A9A1A4040123 /* Pods_RankFit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 423C216EBA3E6EAD43D54C12 /* Pods_RankFit.framework */; };
+		3305F13029672F1D00C86C75 /* OptionRankCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3305F12F29672F1D00C86C75 /* OptionRankCell.swift */; };
 		3307C094295332C70050BAA4 /* ChangeNickNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3307C093295332C70050BAA4 /* ChangeNickNameViewController.swift */; };
 		3315FC4D2946312300716C33 /* RegisterGenderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3315FC4C2946312300716C33 /* RegisterGenderViewController.swift */; };
 		33182E87295044F500A57741 /* getUserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33182E86295044F500A57741 /* getUserInfo.swift */; };
@@ -17,8 +18,14 @@
 		331D346D2945D26300E4CE20 /* OnboardingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331D346C2945D26300E4CE20 /* OnboardingCell.swift */; };
 		331D346F2945D90100E4CE20 /* OnboardingMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331D346E2945D90100E4CE20 /* OnboardingMessage.swift */; };
 		331D34742946267000E4CE20 /* Register.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 331D34732946267000E4CE20 /* Register.storyboard */; };
+		333A4FA42960A9CF004C494C /* OptionRankViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333A4FA32960A9CF004C494C /* OptionRankViewController.swift */; };
+		333A4FA62960A9F0004C494C /* OptionRank.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 333A4FA52960A9F0004C494C /* OptionRank.storyboard */; };
 		333CAFED2959A9A5008902AA /* SendAnaerobicEx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333CAFEC2959A9A5008902AA /* SendAnaerobicEx.swift */; };
 		333CAFEF2959A9BC008902AA /* SendAerobicEx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333CAFEE2959A9BC008902AA /* SendAerobicEx.swift */; };
+		3344DDAC2962D46D0060B21C /* MyDetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3344DDAB2962D46D0060B21C /* MyDetailCell.swift */; };
+		3344DDAE2962E1910060B21C /* MyDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3344DDAD2962E1910060B21C /* MyDetailViewModel.swift */; };
+		3344DDB12963775C0060B21C /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3344DDB02963775C0060B21C /* DetailViewController.swift */; };
+		3344DDB62963EE810060B21C /* OptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3344DDB52963EE810060B21C /* OptionCell.swift */; };
 		335CCD86294F2A76002E569A /* calcDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335CCD85294F2A76002E569A /* calcDate.swift */; };
 		33657A4E294483E900164DB5 /* AerobicActivityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33657A4D294483E900164DB5 /* AerobicActivityViewController.swift */; };
 		33657A502944840100164DB5 /* DoExerciseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33657A4F2944840100164DB5 /* DoExerciseViewModel.swift */; };
@@ -41,9 +48,16 @@
 		33657A782944C9AA00164DB5 /* BarButtonItemGenerate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33657A772944C9AA00164DB5 /* BarButtonItemGenerate.swift */; };
 		33657A7C2944CA6200164DB5 /* getTopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33657A7B2944CA6200164DB5 /* getTopViewController.swift */; };
 		33657A7F2944CB7B00164DB5 /* ConfigDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33657A7E2944CB7B00164DB5 /* ConfigDataStore.swift */; };
-		33897A1D295B5A9300986EC0 /* RankCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33897A1C295B5A9300986EC0 /* RankCell.swift */; };
+		33684C7729685CEE0035C308 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33684C7629685CEE0035C308 /* HomeViewModel.swift */; };
+		3373E8542961ADEF00680290 /* MyRankViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3373E8532961ADEE00680290 /* MyRankViewModel.swift */; };
+		3373E8562962210300680290 /* MyDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3373E8552962210300680290 /* MyDetailViewController.swift */; };
+		3373E85A2962213900680290 /* MyDetail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3373E8592962213900680290 /* MyDetail.storyboard */; };
+		33897A1D295B5A9300986EC0 /* MyRankCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33897A1C295B5A9300986EC0 /* MyRankCell.swift */; };
+		339D23D42965DC270022BB94 /* OptionRankViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339D23D32965DC270022BB94 /* OptionRankViewModel.swift */; };
+		339D23D62965E34C0022BB94 /* receiveOptionRankInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339D23D52965E34C0022BB94 /* receiveOptionRankInfo.swift */; };
 		33A541982948B3D9006CD6CB /* userInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A541972948B3D9006CD6CB /* userInfo.swift */; };
 		33A5419A2948BE26006CD6CB /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A541992948BE26006CD6CB /* RegisterViewController.swift */; };
+		33C4F2662967D39500CB70D3 /* Charts in Frameworks */ = {isa = PBXBuildFile; productRef = 33C4F2652967D39500CB70D3 /* Charts */; };
 		33D6A08E2947005100C88657 /* RegisterAgeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D6A08D2947005100C88657 /* RegisterAgeViewController.swift */; };
 		33D6A09029470BB500C88657 /* RegisterWeightViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D6A08F29470BB500C88657 /* RegisterWeightViewController.swift */; };
 		33DA75B12949A568002DAB31 /* AuthenticationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33DA75B02949A568002DAB31 /* AuthenticationModel.swift */; };
@@ -65,7 +79,7 @@
 		33E9172C2943B1F600FC074A /* Home.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 33E9172B2943B1F600FC074A /* Home.storyboard */; };
 		33E9172E2943B21800FC074A /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E9172D2943B21800FC074A /* HomeViewController.swift */; };
 		33E917322943B57200FC074A /* Rank.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 33E917312943B57200FC074A /* Rank.storyboard */; };
-		33E917342943B58600FC074A /* RankViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E917332943B58600FC074A /* RankViewController.swift */; };
+		33E917342943B58600FC074A /* MyRankViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E917332943B58600FC074A /* MyRankViewController.swift */; };
 		33E917372943B61400FC074A /* Exercise.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 33E917362943B61400FC074A /* Exercise.storyboard */; };
 		33E917392943B62000FC074A /* ExerciseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E917382943B62000FC074A /* ExerciseViewController.swift */; };
 		33E9173C2943BBE300FC074A /* ExerciseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E9173B2943BBE300FC074A /* ExerciseViewModel.swift */; };
@@ -97,6 +111,7 @@
 
 /* Begin PBXFileReference section */
 		1BAB57B374DD05BF2125AB8F /* Pods-RankFit-RankFitUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RankFit-RankFitUITests.release.xcconfig"; path = "Target Support Files/Pods-RankFit-RankFitUITests/Pods-RankFit-RankFitUITests.release.xcconfig"; sourceTree = "<group>"; };
+		3305F12F29672F1D00C86C75 /* OptionRankCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionRankCell.swift; sourceTree = "<group>"; };
 		3307C093295332C70050BAA4 /* ChangeNickNameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeNickNameViewController.swift; sourceTree = "<group>"; };
 		3315FC4C2946312300716C33 /* RegisterGenderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterGenderViewController.swift; sourceTree = "<group>"; };
 		33182E86295044F500A57741 /* getUserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = getUserInfo.swift; sourceTree = "<group>"; };
@@ -105,8 +120,14 @@
 		331D346C2945D26300E4CE20 /* OnboardingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingCell.swift; sourceTree = "<group>"; };
 		331D346E2945D90100E4CE20 /* OnboardingMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingMessage.swift; sourceTree = "<group>"; };
 		331D34732946267000E4CE20 /* Register.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Register.storyboard; sourceTree = "<group>"; };
+		333A4FA32960A9CF004C494C /* OptionRankViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionRankViewController.swift; sourceTree = "<group>"; };
+		333A4FA52960A9F0004C494C /* OptionRank.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = OptionRank.storyboard; sourceTree = "<group>"; };
 		333CAFEC2959A9A5008902AA /* SendAnaerobicEx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendAnaerobicEx.swift; sourceTree = "<group>"; };
 		333CAFEE2959A9BC008902AA /* SendAerobicEx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendAerobicEx.swift; sourceTree = "<group>"; };
+		3344DDAB2962D46D0060B21C /* MyDetailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyDetailCell.swift; sourceTree = "<group>"; };
+		3344DDAD2962E1910060B21C /* MyDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyDetailViewModel.swift; sourceTree = "<group>"; };
+		3344DDB02963775C0060B21C /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		3344DDB52963EE810060B21C /* OptionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionCell.swift; sourceTree = "<group>"; };
 		335CCD85294F2A76002E569A /* calcDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = calcDate.swift; sourceTree = "<group>"; };
 		33657A4D294483E900164DB5 /* AerobicActivityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AerobicActivityViewController.swift; sourceTree = "<group>"; };
 		33657A4F2944840100164DB5 /* DoExerciseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoExerciseViewModel.swift; sourceTree = "<group>"; };
@@ -129,7 +150,13 @@
 		33657A772944C9AA00164DB5 /* BarButtonItemGenerate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarButtonItemGenerate.swift; sourceTree = "<group>"; };
 		33657A7B2944CA6200164DB5 /* getTopViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = getTopViewController.swift; sourceTree = "<group>"; };
 		33657A7E2944CB7B00164DB5 /* ConfigDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigDataStore.swift; sourceTree = "<group>"; };
-		33897A1C295B5A9300986EC0 /* RankCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankCell.swift; sourceTree = "<group>"; };
+		33684C7629685CEE0035C308 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		3373E8532961ADEE00680290 /* MyRankViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyRankViewModel.swift; sourceTree = "<group>"; };
+		3373E8552962210300680290 /* MyDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyDetailViewController.swift; sourceTree = "<group>"; };
+		3373E8592962213900680290 /* MyDetail.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MyDetail.storyboard; sourceTree = "<group>"; };
+		33897A1C295B5A9300986EC0 /* MyRankCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyRankCell.swift; sourceTree = "<group>"; };
+		339D23D32965DC270022BB94 /* OptionRankViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionRankViewModel.swift; sourceTree = "<group>"; };
+		339D23D52965E34C0022BB94 /* receiveOptionRankInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = receiveOptionRankInfo.swift; sourceTree = "<group>"; };
 		33A541972948B3D9006CD6CB /* userInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = userInfo.swift; sourceTree = "<group>"; };
 		33A541992948BE26006CD6CB /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		33D6A08D2947005100C88657 /* RegisterAgeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterAgeViewController.swift; sourceTree = "<group>"; };
@@ -157,7 +184,7 @@
 		33E9172B2943B1F600FC074A /* Home.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Home.storyboard; sourceTree = "<group>"; };
 		33E9172D2943B21800FC074A /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		33E917312943B57200FC074A /* Rank.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Rank.storyboard; sourceTree = "<group>"; };
-		33E917332943B58600FC074A /* RankViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankViewController.swift; sourceTree = "<group>"; };
+		33E917332943B58600FC074A /* MyRankViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyRankViewController.swift; sourceTree = "<group>"; };
 		33E917362943B61400FC074A /* Exercise.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Exercise.storyboard; sourceTree = "<group>"; };
 		33E917382943B62000FC074A /* ExerciseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseViewController.swift; sourceTree = "<group>"; };
 		33E9173B2943BBE300FC074A /* ExerciseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseViewModel.swift; sourceTree = "<group>"; };
@@ -183,6 +210,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				15CC3AD2BC95A9A1A4040123 /* Pods_RankFit.framework in Frameworks */,
+				33C4F2662967D39500CB70D3 /* Charts in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -228,6 +256,35 @@
 				33DA75B02949A568002DAB31 /* AuthenticationModel.swift */,
 			);
 			path = Register;
+			sourceTree = "<group>";
+		};
+		333A4FA72960AA11004C494C /* Option */ = {
+			isa = PBXGroup;
+			children = (
+				333A4FA52960A9F0004C494C /* OptionRank.storyboard */,
+				333A4FA32960A9CF004C494C /* OptionRankViewController.swift */,
+				3305F12F29672F1D00C86C75 /* OptionRankCell.swift */,
+			);
+			path = Option;
+			sourceTree = "<group>";
+		};
+		3344DDAF2962FF760060B21C /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				33657A7E2944CB7B00164DB5 /* ConfigDataStore.swift */,
+				339D23D52965E34C0022BB94 /* receiveOptionRankInfo.swift */,
+				333CAFEC2959A9A5008902AA /* SendAnaerobicEx.swift */,
+				333CAFEE2959A9BC008902AA /* SendAerobicEx.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		3344DDB2296377600060B21C /* Detail */ = {
+			isa = PBXGroup;
+			children = (
+				3344DDB02963775C0060B21C /* DetailViewController.swift */,
+			);
+			path = Detail;
 			sourceTree = "<group>";
 		};
 		33657A5329448C2A00164DB5 /* ExerciseList */ = {
@@ -302,6 +359,17 @@
 				33657A7B2944CA6200164DB5 /* getTopViewController.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		3373E85B2962214000680290 /* MyDetail */ = {
+			isa = PBXGroup;
+			children = (
+				3373E8592962213900680290 /* MyDetail.storyboard */,
+				3373E8552962210300680290 /* MyDetailViewController.swift */,
+				3344DDAD2962E1910060B21C /* MyDetailViewModel.swift */,
+				3344DDAB2962D46D0060B21C /* MyDetailCell.swift */,
+			);
+			path = MyDetail;
 			sourceTree = "<group>";
 		};
 		33DA75AB29497EFD002DAB31 /* LaunchScreen */ = {
@@ -400,6 +468,7 @@
 			children = (
 				33E9172B2943B1F600FC074A /* Home.storyboard */,
 				33E9172D2943B21800FC074A /* HomeViewController.swift */,
+				33684C7629685CEE0035C308 /* HomeViewModel.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -408,8 +477,14 @@
 			isa = PBXGroup;
 			children = (
 				33E917312943B57200FC074A /* Rank.storyboard */,
-				33E917332943B58600FC074A /* RankViewController.swift */,
-				33897A1C295B5A9300986EC0 /* RankCell.swift */,
+				33E917332943B58600FC074A /* MyRankViewController.swift */,
+				33897A1C295B5A9300986EC0 /* MyRankCell.swift */,
+				3344DDB52963EE810060B21C /* OptionCell.swift */,
+				3373E8532961ADEE00680290 /* MyRankViewModel.swift */,
+				339D23D32965DC270022BB94 /* OptionRankViewModel.swift */,
+				3373E85B2962214000680290 /* MyDetail */,
+				333A4FA72960AA11004C494C /* Option */,
+				3344DDB2296377600060B21C /* Detail */,
 			);
 			path = Rank;
 			sourceTree = "<group>";
@@ -421,9 +496,9 @@
 				33E917382943B62000FC074A /* ExerciseViewController.swift */,
 				33E9173B2943BBE300FC074A /* ExerciseViewModel.swift */,
 				33E9173D2943BC7600FC074A /* ExercisePlanCell.swift */,
-				33657A7E2944CB7B00164DB5 /* ConfigDataStore.swift */,
 				33657A5329448C2A00164DB5 /* ExerciseList */,
 				33E917412943C6B900FC074A /* DoExercise */,
+				3344DDAF2962FF760060B21C /* Model */,
 			);
 			path = Exercise;
 			sourceTree = "<group>";
@@ -435,8 +510,6 @@
 				33E917422943C6DC00FC074A /* AnaerobicActivityViewController.swift */,
 				33657A4D294483E900164DB5 /* AerobicActivityViewController.swift */,
 				33657A4F2944840100164DB5 /* DoExerciseViewModel.swift */,
-				333CAFEC2959A9A5008902AA /* SendAnaerobicEx.swift */,
-				333CAFEE2959A9BC008902AA /* SendAerobicEx.swift */,
 			);
 			path = DoExercise;
 			sourceTree = "<group>";
@@ -492,6 +565,9 @@
 			dependencies = (
 			);
 			name = RankFit;
+			packageProductDependencies = (
+				33C4F2652967D39500CB70D3 /* Charts */,
+			);
 			productName = RankFit;
 			productReference = 33E916F02943AC4A00FC074A /* RankFit.app */;
 			productType = "com.apple.product-type.application";
@@ -567,6 +643,9 @@
 				Base,
 			);
 			mainGroup = 33E916E72943AC4A00FC074A;
+			packageReferences = (
+				33C4F2642967D39500CB70D3 /* XCRemoteSwiftPackageReference "Charts" */,
+			);
 			productRefGroup = 33E916F12943AC4A00FC074A /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -584,6 +663,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				33E917372943B61400FC074A /* Exercise.storyboard in Resources */,
+				3373E85A2962213900680290 /* MyDetail.storyboard in Resources */,
+				333A4FA62960A9F0004C494C /* OptionRank.storyboard in Resources */,
 				33E917322943B57200FC074A /* Rank.storyboard in Resources */,
 				33657A5229448C2500164DB5 /* ExerciseList.storyboard in Resources */,
 				331D34682945D1C800E4CE20 /* Onboarding.storyboard in Resources */,
@@ -727,16 +808,20 @@
 			files = (
 				335CCD86294F2A76002E569A /* calcDate.swift in Sources */,
 				33657A592944ACE500164DB5 /* ExerciseListViewModel.swift in Sources */,
+				3373E8542961ADEF00680290 /* MyRankViewModel.swift in Sources */,
 				33657A622944B51C00164DB5 /* saveExerciseViewModel.swift in Sources */,
 				33D6A09029470BB500C88657 /* RegisterWeightViewController.swift in Sources */,
 				33657A672944C84800164DB5 /* TempViewController.swift in Sources */,
-				33897A1D295B5A9300986EC0 /* RankCell.swift in Sources */,
+				33897A1D295B5A9300986EC0 /* MyRankCell.swift in Sources */,
 				33657A712944C92100164DB5 /* aerobicExerciseInfo.swift in Sources */,
 				333CAFEF2959A9BC008902AA /* SendAerobicEx.swift in Sources */,
+				3344DDB12963775C0060B21C /* DetailViewController.swift in Sources */,
 				33DA75BD294C38EE002DAB31 /* ProfileCell.swift in Sources */,
 				33E9172E2943B21800FC074A /* HomeViewController.swift in Sources */,
 				33F8F277294DB95C007A4691 /* RegisterNickNameViewController.swift in Sources */,
+				3305F13029672F1D00C86C75 /* OptionRankCell.swift in Sources */,
 				331D346D2945D26300E4CE20 /* OnboardingCell.swift in Sources */,
+				339D23D62965E34C0022BB94 /* receiveOptionRankInfo.swift in Sources */,
 				33657A732944C93500164DB5 /* ExerciseInfo.swift in Sources */,
 				333CAFED2959A9A5008902AA /* SendAnaerobicEx.swift in Sources */,
 				33E917392943B62000FC074A /* ExerciseViewController.swift in Sources */,
@@ -744,8 +829,9 @@
 				33DA75B12949A568002DAB31 /* AuthenticationModel.swift in Sources */,
 				331D346F2945D90100E4CE20 /* OnboardingMessage.swift in Sources */,
 				33E916F42943AC4A00FC074A /* AppDelegate.swift in Sources */,
-				33E917342943B58600FC074A /* RankViewController.swift in Sources */,
+				33E917342943B58600FC074A /* MyRankViewController.swift in Sources */,
 				33D6A08E2947005100C88657 /* RegisterAgeViewController.swift in Sources */,
+				3344DDAC2962D46D0060B21C /* MyDetailCell.swift in Sources */,
 				33E916F62943AC4A00FC074A /* SceneDelegate.swift in Sources */,
 				33182E87295044F500A57741 /* getUserInfo.swift in Sources */,
 				33E9173E2943BC7600FC074A /* ExercisePlanCell.swift in Sources */,
@@ -756,19 +842,25 @@
 				33657A782944C9AA00164DB5 /* BarButtonItemGenerate.swift in Sources */,
 				33E917292943B0DD00FC074A /* MainTabBarController.swift in Sources */,
 				33657A572944ACD600164DB5 /* ExerciseInfoCell.swift in Sources */,
+				3373E8562962210300680290 /* MyDetailViewController.swift in Sources */,
 				33657A7F2944CB7B00164DB5 /* ConfigDataStore.swift in Sources */,
 				33657A752944C98500164DB5 /* CustomBarItem.swift in Sources */,
 				33657A6E2944C8DC00164DB5 /* anaerobicExerciseInfo.swift in Sources */,
 				33657A5E2944B4F900164DB5 /* saveExerciseViewController1.swift in Sources */,
 				33DE94B4294CC3EF005AF20C /* MyProfileCell.swift in Sources */,
 				33657A4E294483E900164DB5 /* AerobicActivityViewController.swift in Sources */,
+				33684C7729685CEE0035C308 /* HomeViewModel.swift in Sources */,
+				333A4FA42960A9CF004C494C /* OptionRankViewController.swift in Sources */,
 				3307C094295332C70050BAA4 /* ChangeNickNameViewController.swift in Sources */,
 				33DE94AF294C6B93005AF20C /* MyProfileViewController.swift in Sources */,
 				3315FC4D2946312300716C33 /* RegisterGenderViewController.swift in Sources */,
+				339D23D42965DC270022BB94 /* OptionRankViewModel.swift in Sources */,
 				33E9173C2943BBE300FC074A /* ExerciseViewModel.swift in Sources */,
 				33657A552944ACB800164DB5 /* ExerciseListViewController.swift in Sources */,
+				3344DDAE2962E1910060B21C /* MyDetailViewModel.swift in Sources */,
 				33657A6C2944C89800164DB5 /* SettingViewController.swift in Sources */,
 				33E917432943C6DC00FC074A /* AnaerobicActivityViewController.swift in Sources */,
+				3344DDB62963EE810060B21C /* OptionCell.swift in Sources */,
 				33E916FE2943AC4A00FC074A /* RankFit.xcdatamodeld in Sources */,
 				33657A7C2944CA6200164DB5 /* getTopViewController.swift in Sources */,
 				33657A502944840100164DB5 /* DoExerciseViewModel.swift in Sources */,
@@ -1128,6 +1220,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		33C4F2642967D39500CB70D3 /* XCRemoteSwiftPackageReference "Charts" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/danielgindi/Charts.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.1.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		33C4F2652967D39500CB70D3 /* Charts */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 33C4F2642967D39500CB70D3 /* XCRemoteSwiftPackageReference "Charts" */;
+			productName = Charts;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		33E916FC2943AC4A00FC074A /* RankFit.xcdatamodeld */ = {

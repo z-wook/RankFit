@@ -21,7 +21,7 @@ class saveExerciseViewController1: UIViewController {
     var exInfo: anaerobicExerciseInfo!
     var hideCheck: Bool = true // 무게가 필요있는 운동이면 true
     static let sendState = PassthroughSubject<Bool, Never>()
-    var cancelable: Cancellable?
+    var cancellable: Cancellable?
     var subscriptions = Set<AnyCancellable>()
     
     // getTopViewController
@@ -40,7 +40,7 @@ class saveExerciseViewController1: UIViewController {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        cancelable?.cancel()
+        cancellable?.cancel()
     }
     
     private func textFieldConfigure() {
@@ -84,7 +84,7 @@ class saveExerciseViewController1: UIViewController {
                     self.dismiss(animated: true)
                 }
             }
-        cancelable = subject
+        cancellable = subject
     }
     
     func buttonConfigure() {
