@@ -104,6 +104,13 @@ class HomeViewController: UIViewController {
         super.viewDidLayoutSubviews()
         
         if Core.shared.isNewUser() {
+            // (앱 삭제 후 재설치하는 경우를 위해)저장되있던 keyChain 삭제
+            saveUserData.removeKeychain(forKey: .Email)
+            saveUserData.removeKeychain(forKey: .UserID)
+            saveUserData.removeKeychain(forKey: .NickName)
+            saveUserData.removeKeychain(forKey: .Gender)
+            saveUserData.removeKeychain(forKey: .Age)
+            
             // show Onboarding
             let sb = UIStoryboard(name: "Onboarding", bundle: nil)
             let vc = sb.instantiateViewController(withIdentifier: "OnboardingViewController") as! OnboardingViewController
@@ -114,29 +121,24 @@ class HomeViewController: UIViewController {
     
     @IBAction func test(_ sender: UIButton) {
 
-        let parameters: Parameters = [
-            "userID": getUserInfo().getUserID(),
-            "userAge": getUserInfo().getAge()
-        ]
-
-        AF.request("http://rankfit.site/AgeRank.php", method: .post, parameters: parameters).responseJSON {
-            response in
-            switch response.result {
-            case .success(let values):
-                let data = values as! NSDictionary
-                print("data: \(data)")
-                let aaa = data["My_Ranking"] as! String
-
-                print(aaa)
-
-                let bbb = data["count"] as! Int
-                print(bbb)
-
-            case .failure(let error):
-                print("error!!!: \(error)")
-                break;
-            }
-        }
+//        let parameters: Parameters = [
+//            "userID": getUserInfo().getUserID(),
+//            "userSex": getUserInfo().getGender(),
+//            "userAge": getUserInfo().getAge()
+//        ]
+//
+//        AF.request("http://rankfit.site/CustomRank.php", method: .post, parameters: parameters).responseJSON {
+//            response in
+//            switch response.result {
+//            case .success(let values):
+//                let data = values as! NSDictionary
+//                print("data: \(data)")
+//
+//            case .failure(let error):
+//                print("error!!!: \(error)")
+//                break;
+//            }
+//        }
     }
 }
 

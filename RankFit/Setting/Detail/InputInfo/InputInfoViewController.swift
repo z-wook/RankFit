@@ -18,7 +18,7 @@ class InputInfoViewController: UIViewController {
     var type: String!
     var list: [String] = []
     var pickElement: String!
-    let userInfo = getUserInfo()
+    let userInfo = getSavedDateInfo()
     let calc = calcDate()
     
     override func viewDidLoad() {
@@ -58,12 +58,12 @@ class InputInfoViewController: UIViewController {
             for i in 10...100 {
                 list.append("\(i)")
             }
-            let age = getUserInfo().getAge()
+            let age = saveUserData.getKeychainIntValue(forKey: .Age) ?? 35
             defaultRow = age - 10
             pickerView.selectRow(defaultRow, inComponent: 0, animated: true)
             pickElement = list[defaultRow]
             
-            let year = userInfo.getAgeYear()
+            let year = userInfo.getAgeDate()
             if (calc.currentYear() >= year && year != "-1") {
                 // 변경 가능
                 messageLabel.layer.isHidden = true
@@ -83,12 +83,12 @@ class InputInfoViewController: UIViewController {
             for i in 35...150 {
                 list.append("\(i)")
             }
-            let weight = getUserInfo().getWeight()
+            let weight = saveUserData.getKeychainIntValue(forKey: .Weight) ?? 100
             defaultRow = weight - 35
             pickerView.selectRow(defaultRow, inComponent: 0, animated: true)
             pickElement = list[defaultRow]
             
-            let day = userInfo.getWeightDay()
+            let day = userInfo.getWeightDate()
             if (calc.currentDate() >= day && day != "-1") {
                 // 변경 가능
                 messageLabel.layer.isHidden = true
@@ -118,13 +118,12 @@ class InputInfoViewController: UIViewController {
     }
     
     func sendServer(type: String , element: Int) {
-        let id = userInfo.getUserID()
-        let email = userInfo.getEmail()
-        let nickName = userInfo.getNickName()
-        
-        var age = userInfo.getAge()
-        let gender = userInfo.getGender()
-        var weight = userInfo.getWeight()
+        let id = saveUserData.getKeychainStringValue(forKey: .UserID) ?? "정보없음"
+        let email = saveUserData.getKeychainStringValue(forKey: .Email) ?? "정보없음"
+        let nickName = saveUserData.getKeychainStringValue(forKey: .NickName) ?? "정보없음"
+        var age = saveUserData.getKeychainIntValue(forKey: .Age) ?? 1
+        let gender = saveUserData.getKeychainIntValue(forKey: .Gender) ?? 0
+        var weight = saveUserData.getKeychainIntValue(forKey: .Weight) ?? 1
         
         switch type {
         case "나이":
@@ -135,31 +134,36 @@ class InputInfoViewController: UIViewController {
         }
         
         let parameters: Parameters = [
-            "userID": id, // 플랫폼 고유 아이디
-            "userEmail": email , // 이메일
+            "userID": id,   // 플랫폼 고유 아이디
+            "userEmail": email,
             "userNickname": nickName,
             "userAge": age,
             "userSex": gender,
             "userWeight": weight
         ]
 
-        AF.request("http://rankfit.site/RegisterTest.php", method: .post, parameters: parameters).validate(statusCode: 200..<300).responseString {
+        AF.request("http://rankfit.site/Register.php", method: .post, parameters: parameters).validate(statusCode: 200..<300).responseString {
             response in
+            print("response: \(response)")
             if let responseBody = response.value {                
                 if responseBody == "true" {
                     let calc = calcDate()
                     
                     switch type {
                     case "나이":
-                        UserDefaults.standard.set(["age": age, "year": calc.nextYear()], forKey: "Age")
+                        // 키체인은 덮어쓰기가 안되기 때문에 기존에 저장된 값 삭제 후 새로운 값 저장
+                        saveUserData.removeKeychain(forKey: .Age)
+                        saveUserData.setKeychain(age, forKey: .Age)
+                        UserDefaults.standard.set(calc.nextYear(), forKey: "age_date")
                         
                         // 여기서 나이 변경되면 알려주기
 //                        MyProfileViewController.userWeight.send(weight)
                         
-                     
-                        
                     case "몸무게":
-                        UserDefaults.standard.set(["weight": weight, "date": calc.after1Day()], forKey: "Weight")
+                        // 키체인은 덮어쓰기가 안되기 때문에 기존에 저장된 값 삭제 후 새로운 값 저장
+                        saveUserData.removeKeychain(forKey: .Weight)
+                        saveUserData.setKeychain(weight, forKey: .Weight)
+                        UserDefaults.standard.set(calc.after1Day(), forKey: "weight_date")
                         MyProfileViewController.userWeight.send(weight)
                         
                     default: return

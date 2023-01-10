@@ -22,15 +22,16 @@ class OptionCell: UICollectionViewCell {
     
     func config(info: receiveRankInfo) {
         if info.Nickname == "나의 랭킹" { // 맨 처음 나의 랭킹만 예외로 적용
-            contentView.backgroundColor = .cyan
+            contentView.backgroundColor = .brown
             profile.layer.isHidden = true
-            nickName.layer.isHidden = true
+//            nickName.layer.isHidden = true
+            nickName.text = info.Ranking
             rank.text = info.Nickname
             score.text = info.Score
         } else {
             contentView.backgroundColor = .orange
             profile.layer.isHidden = false
-            nickName.layer.isHidden = false
+//            nickName.layer.isHidden = false
             rank.text = info.Ranking
             nickName.text = info.Nickname
             score.text = info.Score

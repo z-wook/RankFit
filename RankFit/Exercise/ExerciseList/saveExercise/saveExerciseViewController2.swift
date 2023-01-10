@@ -21,6 +21,7 @@ class saveExerciseViewController2: UIViewController {
     static let sendState = PassthroughSubject<Bool, Never>()
     var cancelable: Cancellable?
     var subscriptions = Set<AnyCancellable>()
+    var tableName: String!
     
     // getTopViewController
     let keyWindow = UIApplication.shared.connectedScenes.filter({ $0.activationState == .foregroundActive })
@@ -52,8 +53,9 @@ class saveExerciseViewController2: UIViewController {
         viewModel.$DetailItem
 //            .compactMap { $0 }
             .receive(on: RunLoop.main)
-            .sink { detail in
-                self.exerciseLabel.text = detail?.exerciseName
+            .sink { info in
+                self.exerciseLabel.text = info?.exerciseName
+                self.tableName = info?.table_name
             }.store(in: &subscriptions)
         
         let subject = saveExerciseViewController2.sendState.receive(on: RunLoop.main)
@@ -187,7 +189,7 @@ class saveExerciseViewController2: UIViewController {
     }
     
     func saveEx(distanceNum: Double, timeNum: Int16) {
-        exInfo = aerobicExerciseInfo(exercise: exerciseLabel.text ?? "운동 없음", date: ExerciseViewController.pickDate, time: timeNum, distance: distanceNum, saveTime: ConfigDataStore.date_Time())
+        exInfo = aerobicExerciseInfo(exercise: exerciseLabel.text ?? "운동 없음", table_Name: tableName, date: ExerciseViewController.pickDate, time: timeNum, distance: distanceNum, saveTime: ConfigDataStore.date_Time())
         SendAerobicEx.sendSaveEx(info: exInfo)
     }
 }

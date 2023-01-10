@@ -10,6 +10,7 @@ import Foundation
 struct anaerobicExerciseInfo: Codable, Hashable {
     var id = UUID()
     let exercise: String
+    let tableName: String
     let date: String
     let set: Int16
     let weight: Float
@@ -19,8 +20,9 @@ struct anaerobicExerciseInfo: Codable, Hashable {
 }
 
 extension anaerobicExerciseInfo {
-    init(exercise: String, date: String, set: Int16, weight: Float, count: Int16, saveTime: String? = nil, done: Bool? = nil) {
+    init(exercise: String, table_Name: String, date: String, set: Int16, weight: Float, count: Int16, saveTime: String? = nil, done: Bool? = nil) {
         self.exercise = exercise
+        self.tableName = table_Name
         self.date = date
         self.set = set
         self.weight = weight

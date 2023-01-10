@@ -40,9 +40,9 @@ class MyRankViewController: UIViewController {
         configureCollectionView()
         bind()
         
-        let sortlist = MyViewModel.getSortedExList() // 완료한 운동 get
-        list = sortlist
-        myExercise.send(sortlist) // 완료 운동 전송
+//        let sortlist = MyViewModel.getSortedExList() // 완료한 운동 get
+//        list = sortlist
+//        myExercise.send(sortlist) // 완료 운동 전송
     }
     
     private func bind() {
@@ -55,6 +55,19 @@ class MyRankViewController: UIViewController {
             .sink { rankList in
                 self.applyOptionRankItems(items: rankList)
             }.store(in: &subscriptions)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        let sortlist = MyViewModel.getSortedExList() // 완료한 운동 get
+        if list != sortlist {
+            list = sortlist
+            myExercise.send(sortlist) // 완료 운동 전송
+        }
+        // 오직 데이터만 reload
+//        snapshot.reloadSections([.main])
+        
+//        MyRankDatasource.apply(snapshot)
+//        OptionRankDatasource.apply(snapshot)
     }
 }
 
@@ -226,10 +239,15 @@ extension MyRankViewController {
         })
         
         let grade = UIAction(title: "종합", handler: { _ in
-            if self.type == "맞춤(종합)" { return }
+            if self.type == "종합" { return }
             self.navigationItem.title = "주간 종합 랭킹"
             self.type = "종합"
             self.optionButton.setTitle("종합", for: .normal)
+            self.OptionViewModel.getCustomRank()
+            
+            
+            
+            
         })
         
         let buttonMenu = UIMenu(title: "옵션", image: UIImage(systemName: "list.bullet") , children: [me, gender, age, grade])

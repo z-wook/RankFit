@@ -10,7 +10,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Setting View Controller-->
+        <!--Item-->
         <scene sceneID="s0d-6b-0kx">
             <objects>
                 <viewController storyboardIdentifier="SettingViewController" id="Y6W-OH-hqX" customClass="SettingViewController" customModule="RankFit" customModuleProvider="target" sceneMemberID="viewController">
@@ -20,6 +20,7 @@
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="insetGrouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="383-5Z-EBT">
                                 <rect key="frame" x="0.0" y="0.0" width="390" height="761"/>
+                                <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ProfileCell" rowHeight="100" id="7Od-eE-50U" customClass="ProfileCell" customModule="RankFit" customModuleProvider="target">
                                         <rect key="frame" x="20" y="38" width="350" height="100"/>
@@ -50,6 +51,7 @@
                                                 <constraint firstItem="d5R-XE-gfN" firstAttribute="centerY" secondItem="FGa-PG-4al" secondAttribute="centerY" id="rtL-lO-rx5"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <color key="backgroundColor" systemColor="systemGray5Color"/>
                                         <connections>
                                             <outlet property="nickName" destination="d5R-XE-gfN" id="5ce-Tc-deM"/>
                                             <outlet property="profileImage" destination="peb-d3-pIt" id="62e-LM-uFd"/>
@@ -85,6 +87,7 @@
                                                 <constraint firstItem="lI7-hq-x6U" firstAttribute="centerY" secondItem="XMU-LL-ymw" secondAttribute="centerY" id="hiS-Ev-2t7"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <color key="backgroundColor" systemColor="systemGray5Color"/>
                                         <connections>
                                             <outlet property="imgView" destination="Gqi-Ks-BDu" id="Duc-dm-OGy"/>
                                             <outlet property="title" destination="lI7-hq-x6U" id="Bkp-XI-wOp"/>
@@ -95,7 +98,7 @@
                             </tableView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="383-5Z-EBT" secondAttribute="trailing" id="0hJ-vr-dDa"/>
                             <constraint firstItem="383-5Z-EBT" firstAttribute="top" secondItem="5EZ-qb-Rvc" secondAttribute="top" id="Esx-Z7-C78"/>
@@ -103,6 +106,7 @@
                             <constraint firstItem="383-5Z-EBT" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="pG2-wu-e0V"/>
                         </constraints>
                     </view>
+                    <tabBarItem key="tabBarItem" title="Item" selectedImage="gear" catalog="system" id="VWa-Tn-2qg"/>
                     <navigationItem key="navigationItem" id="8Pv-u5-dWO"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
@@ -146,8 +150,11 @@
         <systemColor name="labelColor">
             <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        <systemColor name="secondarySystemBackgroundColor">
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemGray5Color">
+            <color red="0.89803921568627454" green="0.89803921568627454" blue="0.91764705882352937" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemOrangeColor">
             <color red="1" green="0.58431372549019611" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

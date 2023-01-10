@@ -17,8 +17,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         
         // Kakao Login
-        KakaoSDK.initSDK(appKey: "705ae4e6562b274f6779e3528c455566")
-
+        KakaoSDK.initSDK(appKey: Storage().kakaoAppkey)
+//        705ae4e6562b274f6779e3528c455566
 //        application.registerForRemoteNotifications()
         
         // Naver Login
@@ -38,7 +38,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // 애플리케이션 등록 후 발급받은 클라이언트 아이디
         instance?.consumerKey = "hr42UgQm1cAgkldFHv4R"
         // 애플리케이션 등록 후 발급받은 클라이언트 시크릿
-        instance?.consumerSecret = "tJL2Ph7wh0"
+        instance?.consumerSecret = Storage().clientSecret
         // 애플리케이션 이름
         instance?.appName = "RankFit"
         

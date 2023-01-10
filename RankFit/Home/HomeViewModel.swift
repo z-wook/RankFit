@@ -8,7 +8,8 @@
 import Foundation
 
 final class HomeViewModel {
-    
+    let numDaysInWeek = 7
+
     func getPercentList() -> [Double] {
         let dates = getDate()
         var percentList: [Double] = []
@@ -48,62 +49,65 @@ final class HomeViewModel {
         return percentList
     }
     
-    func getWeek() -> String {
+    // Improved the code by ChatGPT!
+    func getDayOfWeekInKorean() -> String {
         let nowDate = Date()
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: "ko")
         dateFormatter.dateFormat = "E요일"
-        let date_string = dateFormatter.string(from: nowDate)
-        return date_string
+        let dayOfWeek = dateFormatter.string(from: nowDate)
+        return dayOfWeek
     }
-    
-    func 요일_날짜(num: Int) -> [String] {
-        var dateList: [String] = []
+
+    func getDatesForNumDaysBeforeAndAfterToday(daysBefore: Int, daysAfter: Int) -> [String] {
+        var dates: [String] = []
         let nowDate = Date()
         let dateFormatter = DateFormatter()
-        var date_string: String = ""
         dateFormatter.locale = Locale(identifier: "ko")
         dateFormatter.dateFormat = "yyyy/MM/dd"
         
-        // 과거
-        if num != 6 {
-            for i in (1...6-num).reversed() {
-                let calc = Date(timeIntervalSinceNow: TimeInterval(-86400 * i))
-                date_string = dateFormatter.string(from: calc)
-                dateList.append(date_string)
-            }
-        }
-        // 오늘
-        date_string = dateFormatter.string(from: nowDate)
-        dateList.append(date_string)
+        let calendar = Calendar.current
         
-        // 미래
-        if num != 0 {
-            for i in 1...num {
-                let calc = Date(timeIntervalSinceNow: TimeInterval(86400 * i))
-                date_string = dateFormatter.string(from: calc)
-                dateList.append(date_string)
+        // Past dates
+        if daysBefore != 0 {
+            for i in (1...daysBefore).reversed() {
+                let pastDate = calendar.date(byAdding: .day, value: -i, to: nowDate)!
+                let dateString = dateFormatter.string(from: pastDate)
+                dates.append(dateString)
             }
         }
-        return dateList
+        
+        // Today's date
+        let todayString = dateFormatter.string(from: nowDate)
+        dates.append(todayString)
+        
+        // Future dates
+        if daysAfter != 0 {
+            for i in 1...daysAfter {
+                let futureDate = calendar.date(byAdding: .day, value: i, to: nowDate)!
+                let dateString = dateFormatter.string(from: futureDate)
+                dates.append(dateString)
+            }
+        }
+        return dates
     }
     
     func getDate() -> [String] {
-        switch getWeek() {
+        switch getDayOfWeekInKorean() {
         case "월요일":
-            return 요일_날짜(num: 6)
+            return getDatesForNumDaysBeforeAndAfterToday(daysBefore: numDaysInWeek - 7, daysAfter: 6)
         case "화요일":
-            return 요일_날짜(num: 5)
+            return getDatesForNumDaysBeforeAndAfterToday(daysBefore: numDaysInWeek - 6, daysAfter: 5)
         case "수요일":
-            return 요일_날짜(num: 4)
+            return getDatesForNumDaysBeforeAndAfterToday(daysBefore: numDaysInWeek - 5, daysAfter: 4)
         case "목요일":
-            return 요일_날짜(num: 3)
+            return getDatesForNumDaysBeforeAndAfterToday(daysBefore: numDaysInWeek - 4, daysAfter: 3)
         case "금요일":
-            return 요일_날짜(num: 2)
+            return getDatesForNumDaysBeforeAndAfterToday(daysBefore: numDaysInWeek - 3, daysAfter: 2)
         case "토요일":
-            return 요일_날짜(num: 1)
+            return getDatesForNumDaysBeforeAndAfterToday(daysBefore: numDaysInWeek - 2, daysAfter: 1)
         case "일요일":
-            return 요일_날짜(num: 0)
+            return getDatesForNumDaysBeforeAndAfterToday(daysBefore: numDaysInWeek - 1, daysAfter: 0)
         default:
             return []
         }

@@ -12,7 +12,7 @@ import Combine
 final class SendAnaerobicEx {
     
     static func sendSaveEx(info: anaerobicExerciseInfo) {
-        let userID = getUserInfo().getUserID()  // string
+        let userID = saveUserData.getKeychainStringValue(forKey: .UserID) ?? "정보없음"
         let exercise = info.exercise            // string
         let date_time = info.saveTime           // string
         let set = info.set                      // int16
@@ -45,20 +45,21 @@ final class SendAnaerobicEx {
     }
     
     static func sendCompleteEx(info: anaerobicExerciseInfo, time: Int) {
-        let userInfo = getUserInfo()
-        let userID = userInfo.getUserID()               // string
+        let userID = saveUserData.getKeychainStringValue(forKey: .UserID) ?? "정보없음"
         let exercise = info.exercise                    // string
+        let tableName = info.tableName                  // string
         let date_time = info.saveTime                   // string
         let set = info.set                              // int16
         let weight = info.weight                        // float
         let count = info.count                          // int16
         let score = Float(time) / Float(set * count)    // float
         let changed_score = Float(String(format: "%.2f", score)) ?? 0
-        let userGender = userInfo.getGender()           // int
+        let userGender = saveUserData.getKeychainIntValue(forKey: .Gender) ?? 0
         
         let parameters: Parameters = [
             "userID": userID,           // 사용자 ID
             "userExercise": exercise,   // 운동 이름
+            "eng": tableName,           // 테이블 이름
             "userDate": date_time,      // 운동 저장 날짜(saveTime)
             "userSet": set,             // 세트
             "userWeight": weight,       // 무게
@@ -85,9 +86,9 @@ final class SendAnaerobicEx {
     }
     
     static func sendDeleteEx(info: anaerobicExerciseInfo, subject: PassthroughSubject<Bool, Never>) {
-        let userID = getUserInfo().getUserID()  // string
-        let exercise = info.exercise            // string
-        let date_time = info.saveTime           // string
+        let userID = saveUserData.getKeychainStringValue(forKey: .UserID) ?? "정보없음"
+        let exercise = info.exercise    // string
+        let date_time = info.saveTime   // string
         
         let parameters: Parameters = [
             "userID": userID,           // 사용자 ID

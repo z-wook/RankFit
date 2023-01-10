@@ -47,19 +47,22 @@ class RegisterNickNameViewController: UIViewController {
         saveUserInfoState.receive(on: RunLoop.main)
             .sink { result in
                 if result == "true" {
-                    // 서버 전송 성공
                     print("======> 성공")
                     if let info = self.viewModel.userInfoData.value {
                         let calc = calcDate()
-                        UserDefaults.standard.set(info.email, forKey: "Email")
-                        UserDefaults.standard.set(info.userID, forKey: "UserID")
+                        saveUserData.setKeychain(info.email ?? "정보없음", forKey: .Email)
+                        saveUserData.setKeychain(info.userID ?? "정보없음", forKey: .UserID)
                         if let nickNameString = self.nickName.text {
-                            UserDefaults.standard.set(["nickname": nickNameString, "date": calc.after30days()], forKey: "NickName")
+                            saveUserData.setKeychain(nickNameString, forKey: .NickName)
+                            UserDefaults.standard.set(calc.after30days(), forKey: "nick_date")
                         }
-                        UserDefaults.standard.set(info.gender, forKey: "Gender")
-                        UserDefaults.standard.set(["age": info.age ?? -1, "year": calc.nextYear()], forKey: "Age")
-                        UserDefaults.standard.set(["weight": info.weight ?? -1, "date": calc.after1Day()], forKey: "Weight")
+                        saveUserData.setKeychain(info.gender ?? 0, forKey: .Gender)
+                        saveUserData.setKeychain(info.age ?? 1, forKey: .Age)
+                        UserDefaults.standard.set(calc.nextYear(), forKey: "age_date")
+                        saveUserData.setKeychain(info.weight ?? 1, forKey: .Weight)
+                        UserDefaults.standard.set(calc.after1Day(), forKey: "weight_date")
                     }
+                    
                     checkRegister.shared.setIsNotNewUser()
                     if let nickNameString = self.nickName.text {
                         SettingViewController.userNickName.send(nickNameString)
@@ -120,15 +123,14 @@ class RegisterNickNameViewController: UIViewController {
     }
     
     @IBAction func saveAndStart(_ sender: UIButton) {
-        
         if let userData = viewModel.userInfoData.value {
             let parameters: Parameters = [
                 "userID": userData.userID ?? "정보없음", // 플랫폼 고유 아이디
                 "userEmail": userData.email ?? "정보없음", // 이메일
                 "userNickname": nickName.text ?? "정보없음",
-                "userAge": userData.age ?? -1,
-                "userSex": userData.gender ?? -1,
-                "userWeight": userData.weight ?? -1
+                "userAge": userData.age ?? 1,
+                "userSex": userData.gender ?? 0,
+                "userWeight": userData.weight ?? 1
             ]
 
             AF.request("http://rankfit.site/Register.php", method: .post, parameters: parameters).validate(statusCode: 200..<300).responseString {

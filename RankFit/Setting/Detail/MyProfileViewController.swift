@@ -16,21 +16,25 @@ class MyProfileViewController: UIViewController {
     let section0 = ["이메일", "성별", "닉네임", "나이", "몸무게"]
     let section1 = ["서비스 탈퇴"]
     
-    let user = getUserInfo()
+    let user = getSavedDateInfo()
     var userInfomation: [Any] = [] // [이메일, 성별, 닉네임, 나이, 몸무게]
     static var userWeight = PassthroughSubject<Int, Never>()
     var subscriptions = Set<AnyCancellable>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        updateNavigationItem()
         
         tableView.dataSource = self
         tableView.delegate = self
+        updateNavigationItem()
         
-        userInfomation = [user.getEmail(), user.getGender(),
-                          user.getNickName(), user.getAge(), user.getWeight()]
+        let email = saveUserData.getKeychainStringValue(forKey: .Email) ?? "정보 없음"
+        let gender = saveUserData.getKeychainIntValue(forKey: .Gender) ?? 0
+        let nickname = saveUserData.getKeychainStringValue(forKey: .NickName) ?? "정보 없음"
+        let age = saveUserData.getKeychainIntValue(forKey: .Age) ?? 1
+        let weight = saveUserData.getKeychainIntValue(forKey: .Weight) ?? 1
+        
+        userInfomation = [email, gender, nickname, age, weight]
         bind()
     }
     

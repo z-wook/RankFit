@@ -12,7 +12,7 @@
 		3305F13029672F1D00C86C75 /* OptionRankCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3305F12F29672F1D00C86C75 /* OptionRankCell.swift */; };
 		3307C094295332C70050BAA4 /* ChangeNickNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3307C093295332C70050BAA4 /* ChangeNickNameViewController.swift */; };
 		3315FC4D2946312300716C33 /* RegisterGenderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3315FC4C2946312300716C33 /* RegisterGenderViewController.swift */; };
-		33182E87295044F500A57741 /* getUserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33182E86295044F500A57741 /* getUserInfo.swift */; };
+		33182E87295044F500A57741 /* getSavedDateInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33182E86295044F500A57741 /* getSavedDateInfo.swift */; };
 		331D34682945D1C800E4CE20 /* Onboarding.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 331D34672945D1C800E4CE20 /* Onboarding.storyboard */; };
 		331D346B2945D23100E4CE20 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331D346A2945D23100E4CE20 /* OnboardingViewController.swift */; };
 		331D346D2945D26300E4CE20 /* OnboardingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331D346C2945D26300E4CE20 /* OnboardingCell.swift */; };
@@ -27,6 +27,7 @@
 		3344DDB12963775C0060B21C /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3344DDB02963775C0060B21C /* DetailViewController.swift */; };
 		3344DDB62963EE810060B21C /* OptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3344DDB52963EE810060B21C /* OptionCell.swift */; };
 		335CCD86294F2A76002E569A /* calcDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335CCD85294F2A76002E569A /* calcDate.swift */; };
+		33611EFA296D7E4C003ED0E8 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33611EF9296D7E4C003ED0E8 /* Storage.swift */; };
 		33657A4E294483E900164DB5 /* AerobicActivityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33657A4D294483E900164DB5 /* AerobicActivityViewController.swift */; };
 		33657A502944840100164DB5 /* DoExerciseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33657A4F2944840100164DB5 /* DoExerciseViewModel.swift */; };
 		33657A5229448C2500164DB5 /* ExerciseList.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 33657A5129448C2500164DB5 /* ExerciseList.storyboard */; };
@@ -53,6 +54,7 @@
 		3373E8562962210300680290 /* MyDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3373E8552962210300680290 /* MyDetailViewController.swift */; };
 		3373E85A2962213900680290 /* MyDetail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3373E8592962213900680290 /* MyDetail.storyboard */; };
 		33897A1D295B5A9300986EC0 /* MyRankCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33897A1C295B5A9300986EC0 /* MyRankCell.swift */; };
+		3394F0C7296C218E009BC159 /* saveUserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3394F0C6296C218E009BC159 /* saveUserData.swift */; };
 		339D23D42965DC270022BB94 /* OptionRankViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339D23D32965DC270022BB94 /* OptionRankViewModel.swift */; };
 		339D23D62965E34C0022BB94 /* receiveOptionRankInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339D23D52965E34C0022BB94 /* receiveOptionRankInfo.swift */; };
 		33A541982948B3D9006CD6CB /* userInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A541972948B3D9006CD6CB /* userInfo.swift */; };
@@ -114,7 +116,7 @@
 		3305F12F29672F1D00C86C75 /* OptionRankCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionRankCell.swift; sourceTree = "<group>"; };
 		3307C093295332C70050BAA4 /* ChangeNickNameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeNickNameViewController.swift; sourceTree = "<group>"; };
 		3315FC4C2946312300716C33 /* RegisterGenderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterGenderViewController.swift; sourceTree = "<group>"; };
-		33182E86295044F500A57741 /* getUserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = getUserInfo.swift; sourceTree = "<group>"; };
+		33182E86295044F500A57741 /* getSavedDateInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = getSavedDateInfo.swift; sourceTree = "<group>"; };
 		331D34672945D1C800E4CE20 /* Onboarding.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Onboarding.storyboard; sourceTree = "<group>"; };
 		331D346A2945D23100E4CE20 /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 		331D346C2945D26300E4CE20 /* OnboardingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingCell.swift; sourceTree = "<group>"; };
@@ -129,6 +131,7 @@
 		3344DDB02963775C0060B21C /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		3344DDB52963EE810060B21C /* OptionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionCell.swift; sourceTree = "<group>"; };
 		335CCD85294F2A76002E569A /* calcDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = calcDate.swift; sourceTree = "<group>"; };
+		33611EF9296D7E4C003ED0E8 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
 		33657A4D294483E900164DB5 /* AerobicActivityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AerobicActivityViewController.swift; sourceTree = "<group>"; };
 		33657A4F2944840100164DB5 /* DoExerciseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoExerciseViewModel.swift; sourceTree = "<group>"; };
 		33657A5129448C2500164DB5 /* ExerciseList.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ExerciseList.storyboard; sourceTree = "<group>"; };
@@ -155,6 +158,7 @@
 		3373E8552962210300680290 /* MyDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyDetailViewController.swift; sourceTree = "<group>"; };
 		3373E8592962213900680290 /* MyDetail.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MyDetail.storyboard; sourceTree = "<group>"; };
 		33897A1C295B5A9300986EC0 /* MyRankCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyRankCell.swift; sourceTree = "<group>"; };
+		3394F0C6296C218E009BC159 /* saveUserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = saveUserData.swift; sourceTree = "<group>"; };
 		339D23D32965DC270022BB94 /* OptionRankViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionRankViewModel.swift; sourceTree = "<group>"; };
 		339D23D52965E34C0022BB94 /* receiveOptionRankInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = receiveOptionRankInfo.swift; sourceTree = "<group>"; };
 		33A541972948B3D9006CD6CB /* userInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = userInfo.swift; sourceTree = "<group>"; };
@@ -338,8 +342,9 @@
 				33657A702944C92100164DB5 /* aerobicExerciseInfo.swift */,
 				33657A722944C93500164DB5 /* ExerciseInfo.swift */,
 				33A541972948B3D9006CD6CB /* userInfo.swift */,
-				33182E86295044F500A57741 /* getUserInfo.swift */,
+				33182E86295044F500A57741 /* getSavedDateInfo.swift */,
 				335CCD85294F2A76002E569A /* calcDate.swift */,
+				3394F0C6296C218E009BC159 /* saveUserData.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -416,12 +421,13 @@
 		33E916F22943AC4A00FC074A /* RankFit */ = {
 			isa = PBXGroup;
 			children = (
+				33611EF9296D7E4C003ED0E8 /* Storage.swift */,
 				33E916F32943AC4A00FC074A /* AppDelegate.swift */,
 				33E916F52943AC4A00FC074A /* SceneDelegate.swift */,
 				33E9172F2943B3FF00FC074A /* Views */,
 				33E917302943B52E00FC074A /* Home */,
-				33E917352943B59B00FC074A /* Rank */,
 				33E9173A2943B62A00FC074A /* Exercise */,
+				33E917352943B59B00FC074A /* Rank */,
 				33657A652944C7F300164DB5 /* Temp */,
 				33657A6A2944C88400164DB5 /* Setting */,
 				33657A762944C98E00164DB5 /* CustomBarButtonItem */,
@@ -807,6 +813,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				335CCD86294F2A76002E569A /* calcDate.swift in Sources */,
+				3394F0C7296C218E009BC159 /* saveUserData.swift in Sources */,
 				33657A592944ACE500164DB5 /* ExerciseListViewModel.swift in Sources */,
 				3373E8542961ADEF00680290 /* MyRankViewModel.swift in Sources */,
 				33657A622944B51C00164DB5 /* saveExerciseViewModel.swift in Sources */,
@@ -833,7 +840,7 @@
 				33D6A08E2947005100C88657 /* RegisterAgeViewController.swift in Sources */,
 				3344DDAC2962D46D0060B21C /* MyDetailCell.swift in Sources */,
 				33E916F62943AC4A00FC074A /* SceneDelegate.swift in Sources */,
-				33182E87295044F500A57741 /* getUserInfo.swift in Sources */,
+				33182E87295044F500A57741 /* getSavedDateInfo.swift in Sources */,
 				33E9173E2943BC7600FC074A /* ExercisePlanCell.swift in Sources */,
 				331D346B2945D23100E4CE20 /* OnboardingViewController.swift in Sources */,
 				33A5419A2948BE26006CD6CB /* RegisterViewController.swift in Sources */,
@@ -849,6 +856,7 @@
 				33657A5E2944B4F900164DB5 /* saveExerciseViewController1.swift in Sources */,
 				33DE94B4294CC3EF005AF20C /* MyProfileCell.swift in Sources */,
 				33657A4E294483E900164DB5 /* AerobicActivityViewController.swift in Sources */,
+				33611EFA296D7E4C003ED0E8 /* Storage.swift in Sources */,
 				33684C7729685CEE0035C308 /* HomeViewModel.swift in Sources */,
 				333A4FA42960A9CF004C494C /* OptionRankViewController.swift in Sources */,
 				3307C094295332C70050BAA4 /* ChangeNickNameViewController.swift in Sources */,

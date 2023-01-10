@@ -2,7 +2,7 @@
 //  Aerobic+CoreDataProperties.swift
 //  
 //
-//  Created by 한지욱 on 2022/12/10.
+//  Created by 한지욱 on 2023/01/09.
 //
 //
 
@@ -23,5 +23,6 @@ extension Aerobic {
     @NSManaged public var id: UUID?
     @NSManaged public var saveTime: String?
     @NSManaged public var time: Int16
+    @NSManaged public var tableName: String?
 
 }

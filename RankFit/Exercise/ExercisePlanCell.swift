@@ -32,7 +32,6 @@ class ExercisePlanCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-//        contentView.backgroundColor = UIColor.separator
         contentView.layer.cornerRadius = 10
     }
     

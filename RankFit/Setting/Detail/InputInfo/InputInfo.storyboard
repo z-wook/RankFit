@@ -30,7 +30,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                         </subviews>
-                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
                                         <constraints>
                                             <constraint firstItem="bTS-Wk-4g4" firstAttribute="centerY" secondItem="cJ8-WP-aPM" secondAttribute="centerY" id="QzZ-03-CNq"/>
                                             <constraint firstAttribute="trailing" secondItem="bTS-Wk-4g4" secondAttribute="trailing" constant="20" id="fp5-q7-Ao6"/>
@@ -48,7 +48,7 @@
                                                 </constraints>
                                             </pickerView>
                                         </subviews>
-                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="200" id="2ZI-HF-LJ1"/>
                                             <constraint firstItem="Cve-v3-Ux3" firstAttribute="leading" secondItem="iNs-yA-pHf" secondAttribute="leading" constant="70" id="7Av-pT-KaT"/>
@@ -66,7 +66,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                         </subviews>
-                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
                                         <constraints>
                                             <constraint firstItem="Fnz-t0-nhL" firstAttribute="centerX" secondItem="gEE-h2-Sxu" secondAttribute="centerX" id="AjV-7D-R9B"/>
                                             <constraint firstItem="Fnz-t0-nhL" firstAttribute="leading" secondItem="gEE-h2-Sxu" secondAttribute="leading" constant="20" id="Hzc-1q-jVj"/>
@@ -94,7 +94,7 @@
                                                 </connections>
                                             </button>
                                         </subviews>
-                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
                                         <constraints>
                                             <constraint firstAttribute="trailing" secondItem="mH0-7T-YAQ" secondAttribute="trailing" constant="50" id="5h3-hf-Nfd"/>
                                             <constraint firstAttribute="height" constant="100" id="70a-WC-Erp"/>
@@ -107,7 +107,7 @@
                             </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="G1G-z6-iaI" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="d7g-8L-5zy"/>
                             <constraint firstItem="G1G-z6-iaI" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="lmu-4l-N4h"/>
@@ -155,7 +155,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                         </subviews>
-                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
                                         <constraints>
                                             <constraint firstItem="9xG-u8-nfo" firstAttribute="leading" secondItem="ffd-06-e3O" secondAttribute="leading" constant="15" id="3O2-S4-GAn"/>
                                             <constraint firstItem="9gW-kS-1ZV" firstAttribute="top" secondItem="ffd-06-e3O" secondAttribute="top" id="QSc-cu-FRj"/>
@@ -172,6 +172,7 @@
                                         <subviews>
                                             <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="닉네임 8글자 입력" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="yIp-dG-KDw">
                                                 <rect key="frame" x="25" y="40" width="200" height="34"/>
+                                                <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="200" id="bDJ-Hw-fc8"/>
                                                 </constraints>
@@ -324,7 +325,7 @@
                                                 </connections>
                                             </button>
                                         </subviews>
-                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
                                         <constraints>
                                             <constraint firstAttribute="trailing" relation="lessThanOrEqual" secondItem="GJe-8k-YxM" secondAttribute="trailing" constant="70" id="1LC-wW-4Z8"/>
                                             <constraint firstItem="Td4-rG-CrB" firstAttribute="centerX" secondItem="vdH-c8-v2Q" secondAttribute="centerX" id="5X2-8K-xBa"/>
@@ -346,7 +347,7 @@
                             </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="MPT-bp-7RK"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="Y0d-a7-OEe" firstAttribute="leading" secondItem="MPT-bp-7RK" secondAttribute="leading" id="anD-cZ-ivb"/>
                             <constraint firstItem="MPT-bp-7RK" firstAttribute="bottom" secondItem="Y0d-a7-OEe" secondAttribute="bottom" id="ghe-WI-oJ1"/>
@@ -373,8 +374,8 @@
         <systemColor name="linkColor">
             <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        <systemColor name="secondarySystemBackgroundColor">
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemIndigoColor">
             <color red="0.34509803921568627" green="0.33725490196078434" blue="0.83921568627450982" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

@@ -16,7 +16,7 @@ class ChangeNickNameViewController: UIViewController {
     @IBOutlet var stateLabel: UILabel!
     @IBOutlet var saveBtn: UIButton!
     
-    let info = getUserInfo()
+    let info = getSavedDateInfo()
     let nickNameCheckState = PassthroughSubject<String, Never>()
     let saveUserInfoState = PassthroughSubject<String, Never>()
     var subscriptions = Set<AnyCancellable>()
@@ -45,18 +45,14 @@ class ChangeNickNameViewController: UIViewController {
     private func savePass() {
         saveUserInfoState.receive(on: RunLoop.main)
             .sink { result in
-                if result == "true" {
-                    // 서버 전송 성공
+                if result == "true" { // 서버 전송 성공
                     print("======> 성공")
-                    UserDefaults.standard.set(self.info.getEmail(), forKey: "Email")
-                    UserDefaults.standard.set(self.info.getUserID(), forKey: "UserID")
+                    // 기존에 저장되있던 값 삭제 keyChain은 덮어쓰기 못함
+                    saveUserData.removeKeychain(forKey: .NickName)
                     if let nickNameString = self.nickName.text {
-                        UserDefaults.standard.set(["nickname": nickNameString, "date": calcDate().after30days()], forKey: "NickName")
+                        saveUserData.setKeychain(nickNameString, forKey: .NickName)
+                        UserDefaults.standard.set(calcDate().after30days(), forKey: "nick_date")
                     }
-                    UserDefaults.standard.set(self.info.getGender(), forKey: "Gender")
-                    UserDefaults.standard.set(["age": self.info.getAge(), "year": self.info.getAgeYear()], forKey: "Age")
-                    UserDefaults.standard.set(["weight": self.info.getWeight(), "date": self.info.getWeightDay()], forKey: "Weight")
-                    
                     self.navigationController?.popToRootViewController(animated: true)
                 } else { // "false"
                     // 서버 전송 실패
@@ -78,7 +74,7 @@ class ChangeNickNameViewController: UIViewController {
         saveBtn.isEnabled = false
         saveBtn.backgroundColor = .darkGray
         checkButton.layer.isHidden = true
-        if calcDate().currentDate() < info.getNickNameDays() {
+        if calcDate().currentDate() < info.getNickNameDate() {
             stateLabel.layer.isHidden = false
             
             // text size reduce
@@ -124,17 +120,22 @@ class ChangeNickNameViewController: UIViewController {
     }
     
     @IBAction func sendNickName(_ sender: UIButton) {
+        let id = saveUserData.getKeychainStringValue(forKey: .UserID) ?? "정보없음"
+        let email = saveUserData.getKeychainStringValue(forKey: .Email) ?? "정보없음"
+        let age = saveUserData.getKeychainIntValue(forKey: .Age) ?? 1
+        let gender = saveUserData.getKeychainIntValue(forKey: .Gender) ?? 0
+        let weight = saveUserData.getKeychainIntValue(forKey: .Weight) ?? 1
         
         let parameters: Parameters = [
-            "userID": info.getUserID(), // 플랫폼 고유 아이디
-            "userEmail": info.getEmail(), // 이메일
+            "userID": id, // 플랫폼 고유 아이디
+            "userEmail": email,
             "userNickname": nickName.text ?? "정보없음",
-            "userAge": info.getAge(),
-            "userSex": info.getGender(),
-            "userWeight": info.getWeight()
+            "userAge": age ,
+            "userSex": gender ,
+            "userWeight": weight
         ]
         
-        AF.request("http://rankfit.site/RegisterTest.php", method: .post, parameters: parameters).validate(statusCode: 200..<300).responseString { response in
+        AF.request("http://rankfit.site/Register.php", method: .post, parameters: parameters).validate(statusCode: 200..<300).responseString { response in
             
             if let responseBody = response.value {
                 // 성공하면 조건 추가

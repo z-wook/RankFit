@@ -26,14 +26,10 @@ class ProfileCell: UITableViewCell {
     }
 
     func configCell() {
-        guard let nickNameObject = UserDefaults.standard.object(forKey: "NickName") as? [String : String] else {
+        guard let nick_name = saveUserData.getKeychainStringValue(forKey: .NickName) else {
             nickName.text = "로그인이 필요합니다."
             return
         }
-        if let nickname = nickNameObject["nickname"] {
-            nickName.text = nickname
-        } else {
-            nickName.text = "로그인이 필요합니다."
-        }
+        nickName.text = nick_name
     }
 }

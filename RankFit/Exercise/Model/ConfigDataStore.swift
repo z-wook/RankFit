@@ -28,9 +28,9 @@ final class ConfigDataStore {
 
             if let entity = entity {
                 let object = NSManagedObject(entity: entity, insertInto: context)
-
                 object.setValue(anaerobicInfo.id, forKey: "id")
                 object.setValue(anaerobicInfo.exercise, forKey: "exercise")
+                object.setValue(anaerobicInfo.tableName, forKey: "tableName")
                 object.setValue(anaerobicInfo.date, forKey: "date")
                 object.setValue(anaerobicInfo.set, forKey: "set")
                 object.setValue(anaerobicInfo.weight, forKey: "weight")
@@ -54,9 +54,9 @@ final class ConfigDataStore {
             
             if let entity = entity {
                 let object = NSManagedObject(entity: entity, insertInto: context)
-                                
                 object.setValue(aerobicInfo.id, forKey: "id")
                 object.setValue(aerobicInfo.exercise, forKey: "exercise")
+                object.setValue(aerobicInfo.tableName, forKey: "tableName")
                 object.setValue(aerobicInfo.date, forKey: "date")
                 object.setValue(aerobicInfo.distance, forKey: "distance")
                 object.setValue(aerobicInfo.time, forKey: "time")
@@ -87,6 +87,7 @@ final class ConfigDataStore {
                 if $0.date == date {
                     let id = $0.id ?? UUID()
                     let exerciseName = $0.exercise ?? ""
+                    let tableName = $0.tableName ?? ""
                     let date = $0.date ?? ""
                     let set = $0.set
                     let weight = $0.weight
@@ -94,7 +95,7 @@ final class ConfigDataStore {
                     let saveTime = $0.saveTime ?? ""
                     let done = $0.done
 
-                    let exerciseInfo = anaerobicExerciseInfo(id: id, exercise: exerciseName, date: date, set: set, weight: weight, count: count, saveTime: saveTime, done: done)
+                    let exerciseInfo = anaerobicExerciseInfo(id: id, exercise: exerciseName, tableName: tableName, date: date, set: set, weight: weight, count: count, saveTime: saveTime, done: done)
                     exerciseInfoList.append(exerciseInfo)
                 }
             }
@@ -104,13 +105,14 @@ final class ConfigDataStore {
                 if $0.date == date {
                     let id = $0.id ?? UUID()
                     let exerciseName = $0.exercise ?? ""
+                    let tableName = $0.tableName ?? ""
                     let date = $0.date ?? ""
                     let time = $0.time
                     let distance = $0.distance
                     let saveTime = $0.saveTime ?? ""
                     let done = $0.done
 
-                    let exerciseInfo = aerobicExerciseInfo(id: id, exercise: exerciseName, date: date, time: time, distance: distance, saveTime: saveTime, done: done)
+                    let exerciseInfo = aerobicExerciseInfo(id: id, exercise: exerciseName, tableName: tableName, date: date, time: time, distance: distance, saveTime: saveTime, done: done)
                     exerciseInfoList.append(exerciseInfo)
                 }
             }
