@@ -27,7 +27,7 @@
 		3344DDB12963775C0060B21C /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3344DDB02963775C0060B21C /* DetailViewController.swift */; };
 		3344DDB62963EE810060B21C /* OptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3344DDB52963EE810060B21C /* OptionCell.swift */; };
 		335CCD86294F2A76002E569A /* calcDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335CCD85294F2A76002E569A /* calcDate.swift */; };
-		33611EFA296D7E4C003ED0E8 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33611EF9296D7E4C003ED0E8 /* Storage.swift */; };
+		33611EFC296D8C9E003ED0E8 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33611EFB296D8C9E003ED0E8 /* Storage.swift */; };
 		33657A4E294483E900164DB5 /* AerobicActivityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33657A4D294483E900164DB5 /* AerobicActivityViewController.swift */; };
 		33657A502944840100164DB5 /* DoExerciseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33657A4F2944840100164DB5 /* DoExerciseViewModel.swift */; };
 		33657A5229448C2500164DB5 /* ExerciseList.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 33657A5129448C2500164DB5 /* ExerciseList.storyboard */; };
@@ -131,7 +131,7 @@
 		3344DDB02963775C0060B21C /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		3344DDB52963EE810060B21C /* OptionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionCell.swift; sourceTree = "<group>"; };
 		335CCD85294F2A76002E569A /* calcDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = calcDate.swift; sourceTree = "<group>"; };
-		33611EF9296D7E4C003ED0E8 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
+		33611EFB296D8C9E003ED0E8 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
 		33657A4D294483E900164DB5 /* AerobicActivityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AerobicActivityViewController.swift; sourceTree = "<group>"; };
 		33657A4F2944840100164DB5 /* DoExerciseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoExerciseViewModel.swift; sourceTree = "<group>"; };
 		33657A5129448C2500164DB5 /* ExerciseList.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ExerciseList.storyboard; sourceTree = "<group>"; };
@@ -421,9 +421,9 @@
 		33E916F22943AC4A00FC074A /* RankFit */ = {
 			isa = PBXGroup;
 			children = (
-				33611EF9296D7E4C003ED0E8 /* Storage.swift */,
 				33E916F32943AC4A00FC074A /* AppDelegate.swift */,
 				33E916F52943AC4A00FC074A /* SceneDelegate.swift */,
+				33611EFB296D8C9E003ED0E8 /* Storage.swift */,
 				33E9172F2943B3FF00FC074A /* Views */,
 				33E917302943B52E00FC074A /* Home */,
 				33E9173A2943B62A00FC074A /* Exercise */,
@@ -856,7 +856,7 @@
 				33657A5E2944B4F900164DB5 /* saveExerciseViewController1.swift in Sources */,
 				33DE94B4294CC3EF005AF20C /* MyProfileCell.swift in Sources */,
 				33657A4E294483E900164DB5 /* AerobicActivityViewController.swift in Sources */,
-				33611EFA296D7E4C003ED0E8 /* Storage.swift in Sources */,
+				33611EFC296D8C9E003ED0E8 /* Storage.swift in Sources */,
 				33684C7729685CEE0035C308 /* HomeViewModel.swift in Sources */,
 				333A4FA42960A9CF004C494C /* OptionRankViewController.swift in Sources */,
 				3307C094295332C70050BAA4 /* ChangeNickNameViewController.swift in Sources */,
