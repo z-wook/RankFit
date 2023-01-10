@@ -18,7 +18,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Kakao Login
         KakaoSDK.initSDK(appKey: Storage().kakaoAppkey)
-//        705ae4e6562b274f6779e3528c455566
 //        application.registerForRemoteNotifications()
         
         // Naver Login
@@ -36,7 +35,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // 애플리케이션을 등록할 때 입력한 URL Scheme
         instance?.serviceUrlScheme = "naverlogin"
         // 애플리케이션 등록 후 발급받은 클라이언트 아이디
-        instance?.consumerKey = "hr42UgQm1cAgkldFHv4R"
+        instance?.consumerKey = Storage().clientID
         // 애플리케이션 등록 후 발급받은 클라이언트 시크릿
         instance?.consumerSecret = Storage().clientSecret
         // 애플리케이션 이름
