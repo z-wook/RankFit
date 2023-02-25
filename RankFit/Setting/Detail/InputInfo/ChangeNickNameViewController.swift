@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import Alamofire
 import Combine
 
 class ChangeNickNameViewController: UIViewController {
@@ -15,68 +14,87 @@ class ChangeNickNameViewController: UIViewController {
     @IBOutlet var checkButton: UIButton!
     @IBOutlet var stateLabel: UILabel!
     @IBOutlet var saveBtn: UIButton!
+    @IBOutlet weak var backgroundView: UIView!
+    @IBOutlet weak var indicator: UIActivityIndicatorView!
     
+    let viewModel = InputInfoViewModel()
     let info = getSavedDateInfo()
-    let nickNameCheckState = PassthroughSubject<String, Never>()
-    let saveUserInfoState = PassthroughSubject<String, Never>()
+    let nickNameCheckState = PassthroughSubject<Bool, Never>()
+    let fireState = PassthroughSubject<Bool, Never>()
+    let serverState = PassthroughSubject<Bool, Never>()
     var subscriptions = Set<AnyCancellable>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        buttonConfigure()
-        nickNamePass()
-        savePass()
+        configure()
+        bind()
     }
     
-    private func nickNamePass() {
-        nickNameCheckState.receive(on: RunLoop.main)
-            .sink { result in
-                if result == "true" { // 중복검사 통과
-                    self.stateLabel.text = "사용 가능한 닉네임 입니다!"
-                    self.buttonON()
-                } else { // 중복검사 통과 못함, 다른 아이디 입력
-                    self.stateLabel.layer.isHidden = false
-                    self.stateLabel.text = "이미 존재하는 닉네임입니다."
-                }
-            }.store(in: &subscriptions)
+    override func viewWillDisappear(_ animated: Bool) {
+        self.tabBarController?.tabBar.isUserInteractionEnabled = true
     }
-
-    private func savePass() {
-        saveUserInfoState.receive(on: RunLoop.main)
-            .sink { result in
-                if result == "true" { // 서버 전송 성공
-                    print("======> 성공")
-                    // 기존에 저장되있던 값 삭제 keyChain은 덮어쓰기 못함
-                    saveUserData.removeKeychain(forKey: .NickName)
-                    if let nickNameString = self.nickName.text {
-                        saveUserData.setKeychain(nickNameString, forKey: .NickName)
-                        UserDefaults.standard.set(calcDate().after30days(), forKey: "nick_date")
-                    }
-                    self.navigationController?.popToRootViewController(animated: true)
-                } else { // "false"
-                    // 서버 전송 실패
-                    // 나중에 시도하라는 메시지 전송 후 pop
-                    print("======> 실패")
+    
+    private func bind() {
+        nickNameCheckState.receive(on: RunLoop.main).sink { result in
+            if result {
+                self.stateLabel.text = "사용 가능한 닉네임 입니다!"
+                self.buttonON()
+            } else {
+                self.stateLabel.layer.isHidden = false
+                self.stateLabel.text = "이미 존재하는 닉네임입니다."
+            }
+        }.store(in: &subscriptions)
+        
+        fireState.receive(on: RunLoop.main).sink { result in
+            if result {
+                let nickName = self.nickName.text!
+                self.viewModel.sendNickName(nickName: nickName, subject: self.serverState)
+            } else {
+                self.indicator.stopAnimating()
+                self.showAlert()
+            }
+        }.store(in: &subscriptions)
+        
+        serverState.receive(on: RunLoop.main).sink { result in
+            self.indicator.stopAnimating()
+            if result {
+                // 기존에 저장되있던 값 삭제 keyChain은 덮어쓰기 못함
+                saveUserData.removeKeychain(forKey: .NickName)
+                guard let nickNameStr = self.nickName.text else {
+                    configFirebase.errorReport(type: "ChangeNickNameVC.subject", descriptions: "nickName.text == nil")
                     return
                 }
-            }.store(in: &subscriptions)
+                saveUserData.setKeychain(nickNameStr, forKey: .NickName)
+                UserDefaults.standard.set(calcDate().after30days(), forKey: "nick_date")
+                SettingViewController.reloadProfile.send(true)
+                self.navigationController?.popToRootViewController(animated: true)
+            } else {
+                self.showAlert()
+            }
+        }.store(in: &subscriptions)
     }
     
-    private func buttonConfigure() {
+    private func showAlert() {
+        let alert = UIAlertController(title: "닉네임 변경 오류", message: "잠시 후 다시 시도해 주세요.", preferredStyle: .alert)
+        let ok = UIAlertAction(title: "확인", style: .default) { _ in
+            self.navigationController?.popViewController(animated: true)
+        }
+        alert.addAction(ok)
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    private func configure() {
         nickName.delegate = self
         stateLabel.layer.isHidden = true
         saveBtn.layer.cornerRadius = 20
-        saveBtn.layer.shadowColor = UIColor.gray.cgColor
-        saveBtn.layer.shadowOpacity = 1.0
-        saveBtn.layer.shadowOffset = CGSize.zero
-        saveBtn.layer.shadowRadius = 7
         saveBtn.isEnabled = false
         saveBtn.backgroundColor = .darkGray
         checkButton.layer.isHidden = true
+        backgroundView.backgroundColor = .black.withAlphaComponent(0.6)
+        backgroundView.isHidden = true
         if calcDate().currentDate() < info.getNickNameDate() {
             stateLabel.layer.isHidden = false
-            
             // text size reduce
             stateLabel.font = UIFont.systemFont(ofSize: 13)
             stateLabel.text = """
@@ -102,54 +120,25 @@ class ChangeNickNameViewController: UIViewController {
     }
     
     @IBAction func nickNameCheck(_ sender: UIButton) {
-        // 중복 검사
-        let parameters: Parameters = [
-            "userNickname": nickName.text ?? "정보없음"
-        ]
-        AF.request("http://rankfit.site/Check.php", method: .post, parameters: parameters).validate(statusCode: 200..<300).responseString {
-            response in
-            // success("true") / success("false")
-            
-            if let responseBody = response.value {
-                self.nickNameCheckState.send(responseBody)
-            } else {
-                // response.value == nil
-                return
-            }
+        guard let nickName = nickName.text else { return }
+        // 키보드 내리기
+        view.endEditing(true)
+        if SlangFilter().nickNameFilter(nickName: nickName) {
+            viewModel.nickNameCheck(nickName: nickName, subject: nickNameCheckState)
+        } else { // 비속어 포함
+            stateLabel.textColor = .red
+            stateLabel.layer.isHidden = false
+            stateLabel.text = "비속어, 음란성 단어는 사용할 수 없습니다."
+            checkButton.layer.isHidden = true
         }
     }
     
     @IBAction func sendNickName(_ sender: UIButton) {
-        let id = saveUserData.getKeychainStringValue(forKey: .UserID) ?? "정보없음"
-        let email = saveUserData.getKeychainStringValue(forKey: .Email) ?? "정보없음"
-        let age = saveUserData.getKeychainIntValue(forKey: .Age) ?? 1
-        let gender = saveUserData.getKeychainIntValue(forKey: .Gender) ?? 0
-        let weight = saveUserData.getKeychainIntValue(forKey: .Weight) ?? 1
-        
-        let parameters: Parameters = [
-            "userID": id, // 플랫폼 고유 아이디
-            "userEmail": email,
-            "userNickname": nickName.text ?? "정보없음",
-            "userAge": age ,
-            "userSex": gender ,
-            "userWeight": weight
-        ]
-        
-        AF.request("http://rankfit.site/Register.php", method: .post, parameters: parameters).validate(statusCode: 200..<300).responseString { response in
-            
-            if let responseBody = response.value {
-                // 성공하면 조건 추가
-                if responseBody == "true" {
-                    self.saveUserInfoState.send(responseBody)
-                } else { // false
-                    // 실패 조건 추가
-                }
-                
-            } else {
-                // error 사용자에게 알리기
-                return
-            }
-        }
+        guard let nickName = nickName.text else { return }
+        backgroundView.layer.isHidden = false
+        indicator.startAnimating()
+        self.tabBarController?.tabBar.isUserInteractionEnabled = false
+        configFirebase.updateNickName(nickName: nickName, subject: fireState)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -159,36 +148,37 @@ class ChangeNickNameViewController: UIViewController {
 
 extension ChangeNickNameViewController: UITextFieldDelegate {
     func textFieldDidChangeSelection(_ textField: UITextField) {
-        if textField.text == "" {
-            buttonOff()
-            checkButton.layer.isHidden = true
+        if let text = textField.text {
+            if text == "" {
+                buttonOff()
+                checkButton.layer.isHidden = true
+            } else {
+                buttonOff()
+                checkButton.layer.isHidden = false
+                
+                if text.count > 8 {
+                    buttonOff()
+                    checkButton.layer.isHidden = true
+                    stateLabel.layer.isHidden = false
+                    stateLabel.text = "닉네임은 8글자까지 설정할 수 있습니다."
+                    stateLabel.textColor = .red
+                } else {
+                    stateLabel.layer.isHidden = true
+                }
+            }
         }
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-       
         let utf8Char = string.cString(using: .utf8)
         let isBackSpace = strcmp(utf8Char, "\\b")
-        
         if isBackSpace == -92 { // 백스페이스면 무조건 true
             buttonOff()
             return true
-        }
-        else {
-            guard let text = textField.text else { return false }
-            if text.count >= 8 { // 8자리 초과시 false
-                return false
-            }
-            else {
-                if string.hasCharacters() { // 8자리 이하일때 string 검사
-                    buttonOff()
-                    return true
-                }
-                else {
-                    return false
-                }
-            }
+        } else {
+            // 8자리 이하일때 string 검사
+            if string.hasCharacters() { return true }
+            else { return false }
         }
     }
 }
-

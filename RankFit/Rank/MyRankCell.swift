@@ -18,8 +18,12 @@ class MyRankCell: UICollectionViewCell {
         contentView.layer.cornerRadius = 20
     }
     
-    func config(info: String) {
-        titleLabel.text = info
-        
+    func config(info: MyRankInfo) {
+        titleLabel.text = info.Exercise
+        if info.My_Ranking == "" {
+            rank.text = ""
+        } else {
+            rank.text = info.My_Ranking + "위"
+        }
     }
 }

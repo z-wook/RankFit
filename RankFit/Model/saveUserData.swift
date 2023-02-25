@@ -14,12 +14,13 @@ final class saveUserData {
      - Authors: han
      */
     enum KeychainKey: String {
+        case UID        // Firebase UID
         case Email
-        case UserID
         case NickName
         case Gender
-        case Age
+        case Birth
         case Weight
+        case Token      // FCM Token
     }
     
     /**

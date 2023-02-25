@@ -7,12 +7,14 @@
 
 import UIKit
 import Combine
+import FirebaseAuth
 
 class SettingViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
-    static var userNickName = PassthroughSubject<String, Never>()
+    static var reloadProfile = PassthroughSubject<Bool, Never>()
+    let logoutState = PassthroughSubject<Bool, Never>()
     var subscriptions = Set<AnyCancellable>()
     
     let sectionHeader = ["내 프로필", "앱 설정", "이용 안내", "기타"]
@@ -30,11 +32,31 @@ class SettingViewController: UIViewController {
         bind()
     }
     
-    func bind() {
-        SettingViewController.userNickName.receive(on: RunLoop.main)
-            .sink { _ in
+    private func bind() {
+        SettingViewController.reloadProfile.receive(on: RunLoop.main).sink { _ in
+            print("Setting Reload")
+            self.tableView.reloadData()
+        }.store(in: &subscriptions)
+        
+        logoutState.receive(on: RunLoop.main).sink { _ in
+            do {
+                try Auth.auth().signOut()
+                print("로그아웃 성공")
+                // 저장된 개인 정보 삭제
+                saveUserData.removeKeychain(forKey: .Email)
+                saveUserData.removeKeychain(forKey: .UID)
+                saveUserData.removeKeychain(forKey: .NickName)
+                saveUserData.removeKeychain(forKey: .Gender)
+                saveUserData.removeKeychain(forKey: .Birth)
+                saveUserData.removeKeychain(forKey: .Weight)
+                // 프로필 업데이트
                 self.tableView.reloadData()
-            }.store(in: &subscriptions)
+            } catch {
+                print("error: " + error.localizedDescription)
+                configFirebase.errorReport(type: "SettingVC.bind", descriptions: error.localizedDescription)
+                self.showAlert(title: "로그아웃 실패", description: "잠시 후 다시 시도해 주세요.")
+            }
+        }.store(in: &subscriptions)
     }
 }
 
@@ -53,7 +75,6 @@ extension SettingViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
         switch section {
         case 0: return section0.count
         case 1: return section1.count
@@ -65,13 +86,12 @@ extension SettingViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch indexPath.section {
-        case 0: return 100.0
+        case 0: return 120.0
         default: return 50.0
         }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         switch indexPath.section {
         case 0:
             guard let profileCell = tableView.dequeueReusableCell(withIdentifier: "ProfileCell", for: indexPath) as? ProfileCell else {
@@ -79,6 +99,7 @@ extension SettingViewController: UITableViewDataSource, UITableViewDelegate {
             }
             profileCell.configCell()
             return profileCell
+            
         case 1:
             guard let defaultCell = tableView.dequeueReusableCell(withIdentifier: "DefaultCell", for: indexPath) as? DefaultCell else {
                 return UITableViewCell()
@@ -111,35 +132,71 @@ extension SettingViewController: UITableViewDataSource, UITableViewDelegate {
 
 extension SettingViewController {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
         switch indexPath.section {
         case 0:
-            
-            if checkRegister.shared.isNewUser() {
+            if checkRegister().isNewUser() { // 회원가입 창 방문 전
                 let sb = UIStoryboard(name: "Register", bundle: nil)
-                let vc = sb.instantiateViewController(withIdentifier: "RegisterGenderViewController") as! RegisterGenderViewController
-                
-                self.navigationController?.pushViewController(vc, animated: true)
-//                vc.modalPresentationStyle = .fullScreen
-//                present(vc, animated: true)
+                let vc = sb.instantiateViewController(withIdentifier: "ChoiceWayViewController") as! ChoiceWayViewController
+                navigationController?.pushViewController(vc, animated: true)
             } else {
-                let sb = UIStoryboard(name: "MyProfile", bundle: nil)
-                let vc = sb.instantiateViewController(withIdentifier: "MyProfileViewController") as! MyProfileViewController
-                
-                self.navigationController?.pushViewController(vc, animated: true)
+                let user = Auth.auth().currentUser
+                if user != nil { // 로그인 된 상태 -> 프로필 창으로
+                    let sb = UIStoryboard(name: "MyProfile", bundle: nil)
+                    let vc = sb.instantiateViewController(withIdentifier: "MyProfileViewController") as! MyProfileViewController
+                    navigationController?.pushViewController(vc, animated: true)
+                } else { // 로그아웃 상태 -> 로그인 창으로
+                    let sb = UIStoryboard(name: "Login", bundle: nil)
+                    let vc = sb.instantiateViewController(withIdentifier: "LoginViewController") as! LoginViewController
+                    navigationController?.pushViewController(vc, animated: true)
+                }
             }
             
-            
         case 1:
-            
             return
+            
+        case 2:
+            return
+            
+        case 3:
+            let user = Auth.auth().currentUser
+            if user != nil { // 로그인 된 상태
+                showLogOutConfirmAlert()
+            } else {
+                showAlert(title: "로그아웃", description: "이미 로그아웃 된 상태입니다.")
+            }
             
         default:
             return
         }
-        
-        
-        
+    }
+    
+    private func showAlert(title: String, description: String) {
+        let alert = UIAlertController(title: title, message: description, preferredStyle: .alert)
+        let ok = UIAlertAction(title: "확인", style: .default)
+        alert.addAction(ok)
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    private func showLogOutConfirmAlert() {
+        let alert = UIAlertController(title: "로그아웃하시겠습니까?", message: "로그아웃하시면 랭크핏 서비스를 이용할 수 없습니다.", preferredStyle: .alert)
+        let cancel = UIAlertAction(title: "로그인 유지", style: .default)
+        let ok = UIAlertAction(title: "로그아웃", style: .destructive) { _ in
+            self.logoutState.send(true)
+        }
+        alert.addAction(ok)
+        alert.addAction(cancel)
+        self.present(alert, animated: true, completion: nil)
+    }
+}
+
+extension SettingViewController {
+    private func updateNavigationItem() {
+        let backImage = UIImage(systemName: "arrow.backward")
+        navigationController?.navigationBar.backIndicatorImage = backImage
+        navigationController?.navigationBar.backIndicatorTransitionMaskImage = backImage
+        navigationController?.navigationBar.tintColor = .systemBlue
+        navigationItem.backButtonDisplayMode = .minimal
+        navigationItem.title = "설정"
     }
 }
 
@@ -152,43 +209,5 @@ class checkRegister {
     
     func setIsNotNewUser() {
         UserDefaults.standard.set(true, forKey: "checkRegister")
-    }
-}
-
-
-
-extension SettingViewController {
-    private func updateNavigationItem() {
-//        let titleConfig = CustomBarItemConfiguration(
-//            title: "운동",
-//            handler: { }
-//        )
-//        let titleItem = UIBarButtonItem.generate(with: titleConfig)
-//
-//        let feedConfig = CustomBarItemConfiguration(
-//            image: UIImage(systemName: "plus"),
-//            handler: {
-//                let sb = UIStoryboard(name: "ExerciseList", bundle: nil)
-//                let vc = sb.instantiateViewController(withIdentifier: "ExerciseListViewController") as! ExerciseListViewController
-//                vc.viewModel = ExerciseListViewModel(items: ExerciseInfo.sortedList)
-//                self.navigationController?.pushViewController(vc, animated: true)
-//            }
-//        )
-//        let feedItem = UIBarButtonItem.generate(with: feedConfig, width: 30)
-//
-//        navigationItem.leftBarButtonItem = titleItem
-//        navigationItem.rightBarButtonItems = [feedItem]
-//        navigationItem.title = "운동"
-        
-        let backImage = UIImage(systemName: "arrow.backward")
-        navigationController?.navigationBar.backIndicatorImage = backImage
-        navigationController?.navigationBar.backIndicatorTransitionMaskImage = backImage
-        navigationController?.navigationBar.tintColor = .systemBlue
-        navigationItem.backButtonDisplayMode = .minimal
-        navigationItem.title = "설정"
-        
-        // backBarButtonTitle 설정
-//        let backBarButtonItem = UIBarButtonItem(title: "이전 페이지", style: .plain, target: self, action: nil)
-//        navigationItem.backBarButtonItem = backBarButtonItem
     }
 }

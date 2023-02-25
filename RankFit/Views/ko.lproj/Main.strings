@@ -1,0 +1,15 @@
+
+/* Class = "UITabBarItem"; title = "Rank"; ObjectID = "A5x-k6-bUp"; */
+"A5x-k6-bUp.title" = "Rank";
+
+/* Class = "UITabBarItem"; title = "Setting"; ObjectID = "W2Q-zS-arG"; */
+"W2Q-zS-arG.title" = "Setting";
+
+/* Class = "UITabBarItem"; title = "Diary"; ObjectID = "b32-at-NmL"; */
+"b32-at-NmL.title" = "Diary";
+
+/* Class = "UITabBarItem"; title = "Fitness"; ObjectID = "slM-eK-hYL"; */
+"slM-eK-hYL.title" = "Fitness";
+
+/* Class = "UITabBarItem"; title = "Home"; ObjectID = "u8y-2x-61j"; */
+"u8y-2x-61j.title" = "Home";

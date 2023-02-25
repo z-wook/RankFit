@@ -7,25 +7,43 @@
 
 import UIKit
 import CoreLocation
-import KakaoSDKAuth
-import NaverThirdPartyLogin
+import FirebaseAuth
+import Combine
+import FirebaseMessaging
+import NotificationCenter
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-
-    func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
-        // Kakao Login
-        if let url = URLContexts.first?.url {
-            if (AuthApi.isKakaoTalkLoginUrl(url)) {
-                _ = AuthController.handleOpenUrl(url: url)
+    
+    // FirebaseAuth
+    func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
+        guard let webpageURL = userActivity.webpageURL else { return }
+        let link = webpageURL.absoluteString
+        
+        if Auth.auth().isSignIn(withEmailLink: link) {
+            if checkRegister.shared.isNewUser() {
+                if UserDefaults.standard.bool(forKey: "login") {
+                    print("로그인")
+                    LoginViewController.emailAuth.send(link)
+                    return
+                } else {
+                    print("회원가입")
+                    RegisterAccountViewController.emailAuth.send(link)
+                    return
+                }
+            } else {
+                if UserDefaults.standard.bool(forKey: "revoke") {
+                    print("탈퇴")
+                    RevokeViewController.emailAuth.send(link)
+                    return
+                } else {
+                    print("로그인")
+                    LoginViewController.emailAuth.send(link)
+                    return
+                }
             }
         }
-        
-        // Naver Login
-        NaverThirdPartyLoginConnection
-            .getSharedInstance()?
-            .receiveAccessToken(URLContexts.first?.url)
     }
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
@@ -55,6 +73,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func sceneWillEnterForeground(_ scene: UIScene) {
         // Called as the scene transitions from the background to the foreground.
         // Use this method to undo the changes made on entering the background.
+        
+//        UIApplication.shared.applicationIconBadgeNumber = 0 // 알림 배지를 초기화
     }
 
     func sceneDidEnterBackground(_ scene: UIScene) {
@@ -63,50 +83,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // to restore the scene back to its current state.
 
         // Save changes in the application's managed object context when the application transitions to the background.
-        (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
         
-        let locationManager = CLLocationManager()
-        locationManager.allowsBackgroundLocationUpdates = true
-        locationManager.requestAlwaysAuthorization()
-        locationManager.startUpdatingLocation()
+        
+//        (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
+//
+//        let locationManager = CLLocationManager()
+//        locationManager.allowsBackgroundLocationUpdates = true
+//        locationManager.requestAlwaysAuthorization()
+//        locationManager.startUpdatingLocation()
     }
 }
-
-//extension SceneDelegate {
-//
-//    public class Storage {
-//        static func isFirstTime() -> Bool {
-//            let defaults = UserDefaults.standard
-//
-//            // 여기 삭제
-//            return true
-//
-//
-////            if defaults.object(forKey: "isFirstTime") == nil {
-////                defaults.set("No", forKey:"isFirstTime")
-////                return true
-////            } else {
-////                return false
-////            }
-//        }
-//    }
-//
-//    private func setRootViewController(_ scene: UIScene){
-//        if Storage.isFirstTime() {
-//            setRootViewController(scene, name: "Onboarding", identifier: "StartOnboarding")
-//        } else {
-//            setRootViewController(scene, name: "Main", identifier: "MainTabBarController")
-//        }
-//    }
-//
-//    private func setRootViewController(_ scene: UIScene, name: String, identifier: String) {
-//        if let windowScene = scene as? UIWindowScene {
-//            let window = UIWindow(windowScene: windowScene)
-//            let storyboard = UIStoryboard(name: name, bundle: nil)
-//            let viewController = storyboard.instantiateViewController(withIdentifier: identifier)
-//            window.rootViewController = viewController
-//            self.window = window
-//            window.makeKeyAndVisible()
-//        }
-//    }
-//}

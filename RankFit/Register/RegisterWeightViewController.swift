@@ -12,7 +12,7 @@ class RegisterWeightViewController: UIViewController {
     @IBOutlet weak var weightPickerView: UIPickerView!
     @IBOutlet weak var nextButton: UIButton!
     
-    var viewModel: userInfo!
+    var infomation: userInfo!
     var weight: [String] = []
     var pickWeight: String!
     
@@ -26,7 +26,7 @@ class RegisterWeightViewController: UIViewController {
     }
     
     private func addWeight() {
-        for i in 40...150 {
+        for i in 35...150 {
             weight.append("\(i)")
         }
     }
@@ -43,27 +43,22 @@ class RegisterWeightViewController: UIViewController {
         weightPickerView.delegate = self
         weightPickerView.dataSource = self
         // pickerView 초기값 세팅
-        let defaultRow = 20
+        let defaultRow = 25
         weightPickerView.selectRow(defaultRow, inComponent: 0, animated: true)
         pickWeight = weight[defaultRow]
     }
     
     @IBAction func gotoNext(_ sender: UIButton) {
         let IntWeight = Int(pickWeight) ?? 0
-        if (IntWeight >= 40 && IntWeight <= 150) {
-            self.viewModel = userInfo(gender: viewModel.gender, age: viewModel.age, weight: IntWeight)
-            let sb = UIStoryboard(name: "Register", bundle: nil)
-            let vc = sb.instantiateViewController(withIdentifier: "RegisterViewController") as! RegisterViewController
-            vc.info = self.viewModel
-            self.navigationController?.pushViewController(vc, animated: true)
-        } else {
-            print("========> 다시 선택하기")
-        }
+        self.infomation = userInfo(gender: infomation.gender, birth: infomation.birth, weight: IntWeight)
+        let sb = UIStoryboard(name: "Register", bundle: nil)
+        let vc = sb.instantiateViewController(withIdentifier: "RegisterAccountViewController") as! RegisterAccountViewController
+        vc.infomation = self.infomation
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 }
 
 extension RegisterWeightViewController: UIPickerViewDataSource, UIPickerViewDelegate {
-    // wheel 2개 / 정수부분, 실수부분
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }

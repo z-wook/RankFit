@@ -9,16 +9,18 @@ import Foundation
 
 struct userInfo {
     var gender: Int?
-    var age: Int?
+    var birth: String?
     var weight: Int?
-    var userID: String?
+    var uid: String?
     var email: String?
+    var nickName: String?
     
-    init(gender: Int? = nil, age: Int? = nil, weight: Int? = nil, userID: String? = nil, email: String? = nil) {
+    init(gender: Int? = nil, birth: String? = nil, weight: Int? = nil, uid: String? = nil, email: String? = nil, nickName: String? = nil) {
         self.gender = gender // 남성은 0, 여성은 1로 서버에 전송하기
-        self.age = age
+        self.birth = birth
         self.weight = weight
-        self.userID = userID
+        self.uid = uid
         self.email = email
+        self.nickName = nickName
     }
 }

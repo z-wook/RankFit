@@ -13,10 +13,11 @@
             <objects>
                 <tabBarController storyboardIdentifier="MainTabBarController" automaticallyAdjustsScrollViewInsets="NO" id="7WW-vh-skv" customClass="MainTabBarController" customModule="RankFit" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="BBg-Us-er3">
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" id="BBg-Us-er3">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="barTintColor" systemColor="systemBackgroundColor"/>
                         <color key="selectedImageTintColor" systemColor="systemPinkColor"/>
                     </tabBar>
                     <connections>
@@ -39,7 +40,7 @@
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cSC-5Y-2Gk" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="902" y="-249"/>
+            <point key="canvasLocation" x="953" y="-250"/>
         </scene>
         <!--initialRank-->
         <scene sceneID="KnX-lm-D1p">
@@ -55,17 +56,17 @@
         <scene sceneID="UCq-9P-Xqh">
             <objects>
                 <viewControllerPlaceholder storyboardName="Exercise" referencedIdentifier="initialExercise" id="CSP-Sh-Xz0" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Exercise" image="alarm" catalog="system" id="slM-eK-hYL"/>
+                    <tabBarItem key="tabBarItem" title="Fitness" image="calendar.badge.plus" catalog="system" id="slM-eK-hYL"/>
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LVa-lf-mHI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="893" y="-151"/>
+            <point key="canvasLocation" x="932" y="-153"/>
         </scene>
-        <!--initialTemp-->
+        <!--initialDiary-->
         <scene sceneID="iYD-Xk-FAt">
             <objects>
-                <viewControllerPlaceholder storyboardName="Temp" referencedIdentifier="initialTemp" id="OSz-Z7-xI5" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Temp" image="fork.knife" catalog="system" id="b32-at-NmL"/>
+                <viewControllerPlaceholder storyboardName="Diary" referencedIdentifier="initialDiary" id="OSz-Z7-xI5" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Diary" image="photo.on.rectangle.angled" catalog="system" id="b32-at-NmL"/>
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Emt-CC-3it" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -83,11 +84,14 @@
         </scene>
     </scenes>
     <resources>
-        <image name="alarm" catalog="system" width="123" height="128"/>
-        <image name="fork.knife" catalog="system" width="94" height="128"/>
+        <image name="calendar.badge.plus" catalog="system" width="128" height="108"/>
         <image name="gear" catalog="system" width="128" height="122"/>
         <image name="house" catalog="system" width="128" height="104"/>
         <image name="person.2" catalog="system" width="128" height="82"/>
+        <image name="photo.on.rectangle.angled" catalog="system" width="128" height="98"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
         <systemColor name="systemPinkColor">
             <color red="1" green="0.17647058823529413" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

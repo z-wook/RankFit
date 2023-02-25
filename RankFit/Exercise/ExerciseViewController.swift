@@ -6,84 +6,133 @@
 //
 
 import UIKit
-import Combine
 import FSCalendar
 import CoreData
+import FirebaseAuth
+import Combine
 
 class ExerciseViewController: UIViewController {
 
     @IBOutlet weak var calendarView: FSCalendar!
     @IBOutlet weak var collectionView: UICollectionView!
     
+    var datasource: UICollectionViewDiffableDataSource<Section, Item>!
+    let viewModel = ExerciseViewModel()
+    let dateFormatter = DateFormatter()
+    static var reloadEx = PassthroughSubject<Bool, Never>()
+    let serverState = PassthroughSubject<Bool, Never>()
+    let firebaseState = PassthroughSubject<Bool, Never>()
+    var subscriptions = Set<AnyCancellable>()
     static var today: String!
     static var pickDate: String = ""
-    var removeBtnTapState = false
-    let dateFormatter = DateFormatter()
-    
-    let viewModel = ExerciseViewModel()
-    var subscriptions = Set<AnyCancellable>()
+    var exUUID: UUID!
+    var exEntityName: String!
+    var reloading = false
     
     typealias Item = AnyHashable
     enum Section {
         case main
     }
     
-    var datasource: UICollectionViewDiffableDataSource<Section, Item>!
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        dateFormatter.dateFormat = "yyyy/MM/dd"
         
+        dateFormatter.dateFormat = "yyyy-MM-dd"
         createCalender()
         updateNavigationItem()
-        configureCollectionView()
+        configCollectionView()
         bind()
     }
     
-    private func bind() {
-        viewModel.storedExercises
-            .receive(on: RunLoop.main)
-            .sink { exerciseList in
-                print("exerciseList: \(exerciseList)")
-                self.applyItems(items: exerciseList)
-            }.store(in: &subscriptions)
-    }
-
     override func viewWillAppear(_ animated: Bool) {
         viewModel.selectDate(date: ExerciseViewController.pickDate)
     }
-
-    @IBAction func removeBtnTapped(_ sender: UIButton) {
-        removeBtnTapState = true
+    
+    private func bind() {
+        ExerciseViewController.reloadEx.receive(on: RunLoop.main).sink { _ in
+            print("Exercise Reload")
+            self.viewModel.selectDate(date: ExerciseViewController.pickDate)
+        }.store(in: &subscriptions)
+        
+        viewModel.storedExercises.receive(on: RunLoop.main).sink { exerciseList in
+            print("exerciseList: \(exerciseList)")
+            self.applyItems(items: exerciseList)
+        }.store(in: &subscriptions)
+        
+        serverState.receive(on: RunLoop.main).sink { result in
+            if result == true {
+                configFirebase.deleteEx(
+                    date: ExerciseViewController.pickDate,
+                    uuid: self.exUUID.uuidString,
+                    subject: self.firebaseState)
+            } else {
+                print("서버 운동 삭제 실패")
+                self.showAlert()
+            }
+        }.store(in: &subscriptions)
+        
+        firebaseState.receive(on: RunLoop.main).sink { result in
+            if result == true {
+                print("Firebase에서 운동 삭제 성공")
+                let deleteState = ExerciseCoreData.deleteCoreData(id: self.exUUID, entityName: self.exEntityName) // return T/F
+                if deleteState {
+                    self.viewModel.selectDate(date: ExerciseViewController.pickDate)
+                } else {
+                    print("CoreData 삭제 실패")
+                    configFirebase.errorReport(type: "ExerciseVC.bind_firebaseState", descriptions: "CoreData에서 운동 삭제 실패")
+                    self.showAlert()
+                }
+            } else {
+                print("Firebase에서 운동 삭제 실패")
+            }
+        }.store(in: &subscriptions)
+    }
+    
+    @IBAction func deleteExBtn(_ sender: UIButton) {
+        let user = Auth.auth().currentUser
+        guard user != nil else {
+            loginAlert(type: "삭제")
+            return
+        }
+        deleteOK(index: sender.tag, deleteBtn: sender)
     }
     
     @IBAction func startExerciseBtn(_ sender: UIButton) {
-        // 시작 버튼 눌렀을 때 인덱스 번호를 통해 운동정보 전달
-        let info = viewModel.storedExercises
-        let exerciseTypeInfo = info.value[sender.tag]
-        
-        let sb = UIStoryboard(name: "DoExercise", bundle: nil)
-        
-        if ((exerciseTypeInfo as? anaerobicExerciseInfo) != nil) {
-            let vc = sb.instantiateViewController(withIdentifier: "AnaerobicActivityViewController") as! AnaerobicActivityViewController
-            vc.viewModel = DoExerciseViewModel(ExerciseInfo: exerciseTypeInfo)
-            self.navigationController?.pushViewController(vc, animated: true)
+        let user = Auth.auth().currentUser
+        guard user != nil else {
+            loginAlert(type: "시작")
+            return
         }
-        if ((exerciseTypeInfo as? aerobicExerciseInfo) != nil) {
+        // 시작 버튼 눌렀을 때 인덱스 번호를 통해 운동정보 전달
+        reloading = true
+        let info = viewModel.storedExercises
+        let exTypeInfo = info.value[sender.tag]
+        let sb = UIStoryboard(name: "DoExercise", bundle: nil)
+        if let anaeroEx = exTypeInfo as? anaerobicExerciseInfo {
+            if anaeroEx.exercise == "플랭크" {
+                let vc = sb.instantiateViewController(withIdentifier: "PlankActivityViewController") as! PlankActivityViewController
+                vc.viewModel = DoExerciseViewModel(ExerciseInfo: exTypeInfo)
+                self.navigationController?.pushViewController(vc, animated: true)
+            } else {
+                let vc = sb.instantiateViewController(withIdentifier: "AnaerobicActivityViewController") as! AnaerobicActivityViewController
+                vc.viewModel = DoExerciseViewModel(ExerciseInfo: exTypeInfo)
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
+        } else {
             let vc = sb.instantiateViewController(withIdentifier: "AerobicActivityViewController") as! AerobicActivityViewController
-            vc.viewModel = DoExerciseViewModel(ExerciseInfo: exerciseTypeInfo)
+            vc.viewModel = DoExerciseViewModel(ExerciseInfo: exTypeInfo)
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }
-    
-    private func configureCollectionView() {
+}
+
+extension ExerciseViewController {
+    private func configCollectionView() {
         datasource = UICollectionViewDiffableDataSource<Section, Item>(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ExercisePlanCell", for: indexPath) as? ExercisePlanCell else { return nil }
-            cell.configure(item: itemIdentifier, vm: self.viewModel) // 여기서 셀 설정됨
+            cell.configure(item: itemIdentifier, vm: self.viewModel)
+            cell.deleteBtn.tag = indexPath.item
             cell.startBtn.tag = indexPath.item
-            
-            print("item: \(itemIdentifier)")
-            
             return cell
         })
         collectionView.collectionViewLayout = layout()
@@ -116,18 +165,59 @@ class ExerciseViewController: UIViewController {
         snapshot.appendItems(items, toSection: .main)
         datasource.apply(snapshot)
         
-        if removeBtnTapState {
+        if reloading {
             // 오직 데이터만 reload
             snapshot.reloadSections([.main])
             datasource.apply(snapshot)
-            removeBtnTapState = false
+            reloading = false
         }
+    }
+    
+    private func loginAlert(type: String) {
+        let alert = UIAlertController(title: "로그아웃 상태", message: "현재 로그아웃 되어있어 운동을 \(type)할 수 없습니다.\n로그인을 먼저 해주세요.", preferredStyle: .alert)
+        let ok = UIAlertAction(title: "확인", style: .default)
+        alert.addAction(ok)
+        present(alert, animated: true, completion: nil)
+    }
+    
+    private func showAlert() {
+        let alert = UIAlertController(title: "운동 삭제 실패", message: "잠시 후 다시 시도해 주세요.", preferredStyle: .alert)
+        let ok = UIAlertAction(title: "확인", style: .default)
+        alert.addAction(ok)
+        present(alert, animated: true, completion: nil)
+    }
+    
+    private func deleteOK(index: Int, deleteBtn: UIButton) {
+        let alert = UIAlertController(title: "운동을 삭제하시겠습니까?", message: nil, preferredStyle: .actionSheet)
+        let ok = UIAlertAction(title: "삭제", style: .destructive) { action in
+            self.reloading = true
+            deleteBtn.isEnabled = false
+            DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+                deleteBtn.isEnabled = true
+            }
+            let info = self.viewModel.storedExercises
+            let exTypeInfo = info.value[index]
+            guard let aerobicInfo = exTypeInfo as? aerobicExerciseInfo else {
+                let anaerobicInfo = exTypeInfo as! anaerobicExerciseInfo
+                self.exUUID = anaerobicInfo.id
+                self.exEntityName = "Anaerobic"
+                SendAnaerobicEx.sendDeleteEx(info: anaerobicInfo, subject: self.serverState)
+                return
+            }
+            self.exUUID = aerobicInfo.id
+            self.exEntityName = "Aerobic"
+            SendAerobicEx.sendDeleteEx(info: aerobicInfo, subject: self.serverState)
+        }
+        let cancel = UIAlertAction(title: "취소", style: .cancel)
+        alert.addAction(ok)
+        alert.addAction(cancel)
+        present(alert, animated: true, completion: nil)
     }
 }
 
 extension ExerciseViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("select: \(indexPath.item)")
+        print("list: \(viewModel.storedExercises.value[indexPath.item])")
     }
 }
 

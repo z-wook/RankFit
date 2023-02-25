@@ -10,7 +10,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Item-->
+        <!--Setting-->
         <scene sceneID="s0d-6b-0kx">
             <objects>
                 <viewController storyboardIdentifier="SettingViewController" id="Y6W-OH-hqX" customClass="SettingViewController" customModule="RankFit" customModuleProvider="target" sceneMemberID="viewController">
@@ -22,32 +22,34 @@
                                 <rect key="frame" x="0.0" y="0.0" width="390" height="761"/>
                                 <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ProfileCell" rowHeight="100" id="7Od-eE-50U" customClass="ProfileCell" customModule="RankFit" customModuleProvider="target">
-                                        <rect key="frame" x="20" y="38" width="350" height="100"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ProfileCell" rowHeight="120" id="7Od-eE-50U" customClass="ProfileCell" customModule="RankFit" customModuleProvider="target">
+                                        <rect key="frame" x="20" y="38" width="350" height="120"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="7Od-eE-50U" id="FGa-PG-4al">
-                                            <rect key="frame" x="0.0" y="0.0" width="319.66666666666669" height="100"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="319.66666666666669" height="120"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="peb-d3-pIt">
-                                                    <rect key="frame" x="20" y="17" width="70" height="66.666666666666671"/>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="peb-d3-pIt">
+                                                    <rect key="frame" x="10" y="7" width="110" height="106.66666666666667"/>
+                                                    <color key="tintColor" systemColor="labelColor"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="70" id="ZEm-J6-lve"/>
-                                                        <constraint firstAttribute="width" secondItem="peb-d3-pIt" secondAttribute="height" multiplier="1:1" id="imu-YJ-EkO"/>
+                                                        <constraint firstAttribute="width" secondItem="peb-d3-pIt" secondAttribute="height" multiplier="1:1" id="GoU-L0-bX2"/>
                                                     </constraints>
-                                                    <imageReference key="image" image="person.fill" catalog="system" renderingMode="original"/>
+                                                    <imageReference key="image" image="person.fill" catalog="system" renderingMode="template"/>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NickName" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d5R-XE-gfN">
-                                                    <rect key="frame" x="110" y="40" width="78.666666666666686" height="20.333333333333329"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <rect key="frame" x="140" y="48.666666666666664" width="89.666666666666686" height="22.999999999999993"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="19"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="peb-d3-pIt" firstAttribute="leading" secondItem="FGa-PG-4al" secondAttribute="leading" constant="20" id="3to-vn-Q2w"/>
-                                                <constraint firstItem="peb-d3-pIt" firstAttribute="centerY" secondItem="FGa-PG-4al" secondAttribute="centerY" id="8Zt-lm-1V7"/>
-                                                <constraint firstItem="d5R-XE-gfN" firstAttribute="leading" secondItem="peb-d3-pIt" secondAttribute="trailing" constant="20" id="gpK-IM-TCv"/>
+                                                <constraint firstAttribute="trailing" relation="lessThanOrEqual" secondItem="d5R-XE-gfN" secondAttribute="trailing" constant="128.33000000000001" id="1Kb-ph-e34"/>
+                                                <constraint firstItem="peb-d3-pIt" firstAttribute="centerY" secondItem="FGa-PG-4al" secondAttribute="centerY" id="Mo0-MY-4vM"/>
+                                                <constraint firstItem="d5R-XE-gfN" firstAttribute="leading" secondItem="peb-d3-pIt" secondAttribute="trailing" constant="20" id="W6O-pg-x9y"/>
+                                                <constraint firstItem="peb-d3-pIt" firstAttribute="leading" secondItem="FGa-PG-4al" secondAttribute="leading" constant="10" id="aS0-lj-wyL"/>
+                                                <constraint firstItem="peb-d3-pIt" firstAttribute="top" secondItem="FGa-PG-4al" secondAttribute="top" constant="5" id="dtZ-t3-Koe"/>
                                                 <constraint firstItem="d5R-XE-gfN" firstAttribute="centerY" secondItem="FGa-PG-4al" secondAttribute="centerY" id="rtL-lO-rx5"/>
                                             </constraints>
                                         </tableViewCellContentView>
@@ -58,7 +60,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="DefaultCell" rowHeight="50" id="0Hj-Z1-eu6" customClass="DefaultCell" customModule="RankFit" customModuleProvider="target">
-                                        <rect key="frame" x="20" y="138" width="350" height="50"/>
+                                        <rect key="frame" x="20" y="158" width="350" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="0Hj-Z1-eu6" id="XMU-LL-ymw">
                                             <rect key="frame" x="0.0" y="0.0" width="319.66666666666669" height="50"/>
@@ -106,7 +108,7 @@
                             <constraint firstItem="383-5Z-EBT" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="pG2-wu-e0V"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item" selectedImage="gear" catalog="system" id="VWa-Tn-2qg"/>
+                    <tabBarItem key="tabBarItem" title="Setting" image="gear" catalog="system" id="VWa-Tn-2qg"/>
                     <navigationItem key="navigationItem" id="8Pv-u5-dWO"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
@@ -115,13 +117,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="826" y="-34"/>
+            <point key="canvasLocation" x="824.61538461538464" y="-34.123222748815166"/>
         </scene>
-        <!--Setting-->
+        <!--Navigation Controller-->
         <scene sceneID="Tdp-fj-E7S">
             <objects>
                 <navigationController storyboardIdentifier="initialSetting" automaticallyAdjustsScrollViewInsets="NO" id="xEa-LT-ZPv" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Setting" image="gear" catalog="system" id="uYm-5e-3Jb"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="YjX-wu-pel">
                         <rect key="frame" x="0.0" y="47" width="390" height="96"/>

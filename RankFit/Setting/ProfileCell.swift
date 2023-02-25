@@ -14,22 +14,26 @@ class ProfileCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
         
-        configCell()
+        profileImage.layer.cornerRadius = 20
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
 
     func configCell() {
         guard let nick_name = saveUserData.getKeychainStringValue(forKey: .NickName) else {
             nickName.text = "로그인이 필요합니다."
+            profileImage.image = UIImage(systemName: "person.fill")
             return
         }
         nickName.text = nick_name
+        let image = configLocalStorage.loadImageFromDocumentDirectory(imageName: "profileImage.jpeg")
+        guard let image = image else {
+            profileImage.image = UIImage(systemName: "person.fill")
+            return
+        }
+        profileImage.image = image
     }
 }

@@ -1,2 +1,5 @@
 ## AppKey
-Storage.swift
+Store.swift
+Info.plist
+GoogleService-Info.plist
+

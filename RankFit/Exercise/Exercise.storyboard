@@ -11,7 +11,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Exercise-->
+        <!--Fitness-->
         <scene sceneID="s0d-6b-0kx">
             <objects>
                 <viewController storyboardIdentifier="ExerciseViewController" id="Y6W-OH-hqX" customClass="ExerciseViewController" customModule="RankFit" customModuleProvider="target" sceneMemberID="viewController">
@@ -94,8 +94,7 @@
                                                                         <imageReference key="image" image="trash" catalog="system" renderingMode="original"/>
                                                                     </state>
                                                                     <connections>
-                                                                        <action selector="removeBtn:" destination="c22-Y1-bF9" eventType="touchUpInside" id="2KT-js-raX"/>
-                                                                        <action selector="removeBtnTapped:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="OvR-40-o1w"/>
+                                                                        <action selector="deleteExBtn:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="kfu-zS-qa2"/>
                                                                     </connections>
                                                                 </button>
                                                             </subviews>
@@ -220,6 +219,7 @@
                                             <outlet property="Label1_Leading" destination="265-Qu-59g" id="F3X-Ch-Rt6"/>
                                             <outlet property="Label2_Leading" destination="QU8-ec-ngQ" id="ziu-1J-TC2"/>
                                             <outlet property="Label2_Trailing" destination="D84-vc-8Mo" id="WBb-5b-Lmn"/>
+                                            <outlet property="deleteBtn" destination="EJl-7c-3wH" id="g8X-py-9FS"/>
                                             <outlet property="exerciseNameLabel" destination="1gx-C7-dgE" id="P3t-uy-4dC"/>
                                             <outlet property="label1" destination="kdJ-bV-l4o" id="hxL-wy-r5z"/>
                                             <outlet property="label1_num" destination="AJS-aQ-1sM" id="2rv-ep-W0C"/>
@@ -246,7 +246,7 @@
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="ffR-c2-MTd" secondAttribute="bottom" id="aZx-O5-2Sz"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Exercise" image="alarm" catalog="system" id="juh-Es-WL2"/>
+                    <tabBarItem key="tabBarItem" title="Fitness" image="calendar.badge.plus" catalog="system" id="juh-Es-WL2"/>
                     <navigationItem key="navigationItem" id="7ld-nm-wbB"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
@@ -279,7 +279,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="alarm" catalog="system" width="123" height="128"/>
+        <image name="calendar.badge.plus" catalog="system" width="128" height="108"/>
         <image name="trash" catalog="system" width="117" height="128"/>
         <systemColor name="labelColor">
             <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

@@ -12,6 +12,7 @@ class ExerciseListViewController: UIViewController {
 
     @IBOutlet weak var collectionView: UICollectionView!
     
+    let searchBar = UISearchBar()
     var items: [ExerciseInfo] = ExerciseInfo.sortedList
     
     typealias Item = ExerciseInfo
@@ -50,9 +51,9 @@ class ExerciseListViewController: UIViewController {
                     vc.viewModel = saveExerciseViewModel(DetailItem: selectedExercise)
                     self.present(vc, animated: true)
                     
-                default:
+                default: // group4 == 플랭크 운동
                     let sb = UIStoryboard(name: "saveExercise", bundle: nil)
-                    let vc = sb.instantiateViewController(withIdentifier: "saveExerciseViewController1") as! saveExerciseViewController1
+                    let vc = sb.instantiateViewController(withIdentifier: "savePlankViewController") as! savePlankViewController
                     vc.viewModel = saveExerciseViewModel(DetailItem: selectedExercise)
                     self.present(vc, animated: true)
                 }
@@ -107,8 +108,7 @@ class ExerciseListViewController: UIViewController {
     }
 
     private func embedSearchBar() {
-        let searchBar = UISearchBar()
-        searchBar.placeholder = "Search"
+        searchBar.placeholder = "검색"
         self.navigationItem.titleView = searchBar
         searchBar.delegate = self
     }
@@ -128,10 +128,8 @@ extension ExerciseListViewController: UISearchBarDelegate {
         searchExercise(with: searchText)
     }
     
-    // 없어도 될거같다.
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let keyword = searchBar.text, !keyword.isEmpty else { return }
-        print("---> key word: \(keyword)")
         searchBar.endEditing(true)
     }
 }
@@ -139,6 +137,11 @@ extension ExerciseListViewController: UISearchBarDelegate {
 extension ExerciseListViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        searchBar.resignFirstResponder()
         viewModel.didSelect(at: indexPath)
+    }
+    
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        searchBar.resignFirstResponder()
     }
 }

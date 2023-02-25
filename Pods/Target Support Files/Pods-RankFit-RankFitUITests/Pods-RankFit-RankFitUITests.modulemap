@@ -1,0 +1,6 @@
+framework module Pods_RankFit_RankFitUITests {
+  umbrella header "Pods-RankFit-RankFitUITests-umbrella.h"
+
+  export *
+  module * { export * }
+}

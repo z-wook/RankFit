@@ -12,24 +12,17 @@ class MyProfileCell: UITableViewCell {
     @IBOutlet weak var title: UILabel!
     @IBOutlet weak var infomation: UILabel!
     
-    
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
         
     }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
-
     
     func configCell(title: String, infomation: String) {
         self.title.text = title
         
         switch title {
+        case "이메일": self.infomation.text = infomation
+            
         case "성별":
             if infomation == "0" {
                 self.infomation.text = "남성"
@@ -38,13 +31,19 @@ class MyProfileCell: UITableViewCell {
             } else { return }
             
         case "나이":
-            self.infomation.text = infomation + "세"
+            self.infomation.text = "만 " + infomation + "세"
             
         case "몸무게":
             self.infomation.text = infomation + "kg"
+        
+        case "닉네임":
+            self.infomation.text = infomation
+            
+        case "프로필":
+            self.infomation.text = "사진 변경"
             
         default :
-            self.infomation.text = infomation
+            self.infomation.text = ""
         }
     }
 }

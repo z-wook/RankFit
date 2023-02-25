@@ -12,7 +12,7 @@ class RegisterGenderViewController: UIViewController {
     @IBOutlet weak var genderPickerView: UIPickerView!
     @IBOutlet weak var nextButton: UIButton!
     
-    var viewModel: userInfo!
+    var infomation: userInfo!
     let gender: [String] = ["남성", "여성"] // 남성 0, 여성 1
     var pickGender: Int!
     
@@ -41,17 +41,16 @@ class RegisterGenderViewController: UIViewController {
     }
 
     @IBAction func gotoAgeVC(_ sender: UIButton) {
-        self.viewModel = userInfo(gender: pickGender)
+        self.infomation = userInfo(gender: pickGender)
         
         let sb = UIStoryboard(name: "Register", bundle: nil)
         let vc = sb.instantiateViewController(withIdentifier: "RegisterAgeViewController") as! RegisterAgeViewController
-        vc.viewModel = self.viewModel
+        vc.infomation = self.infomation
         self.navigationController?.pushViewController(vc, animated: true)
     }
 }
 
 extension RegisterGenderViewController: UIPickerViewDataSource, UIPickerViewDelegate {
-    
     // pickerView에 담긴 아이템의 컴포넌트 개수
     // pickerView는 여러 개의 wheel이 있을 수 있다.
     // 여기서는 1개의 wheel을 가진 pickerView

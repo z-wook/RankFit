@@ -6,113 +6,108 @@
 //
 
 import Foundation
+import Combine
+import Alamofire
 
 final class MyRankViewModel {
-    let numDaysInWeek = 7
-
-    func getDoneEx(dates: [String]) -> [String] {
-        var resultList: [String] = []
+    
+    let MySubject = PassthroughSubject<[MyRankInfo]?, Never>()
+    let receiveSubject = PassthroughSubject<MyRankInfo?, Never>()
+    var subscriptions = Set<AnyCancellable>()
+    
+    var myRankList: [MyRankInfo] = []
+    var count: Int!
+    
+    init() {
+        receiveSubject.receive(on: RunLoop.main).sink { result in
+            guard result != nil else {
+                self.MySubject.send(nil)
+                self.myRankList.removeAll()
+                return
+            }
+            if self.myRankList.count == self.count {
+                // 순서대로 응답받는다는 보장이 없으므로 이름순으로 정렬 후 전송
+                let sortedList = self.myRankList.sorted { prev, next in
+                    prev.Exercise < next.Exercise
+                }
+                self.MySubject.send(sortedList)
+                self.myRankList.removeAll()
+            }
+        }.store(in: &subscriptions)
+    }
+    
+    func getMyRank() {
+        let url = "http://rankfit.site/MyRank.php"
+        let sortedList = getSortedExList()
+        count = sortedList.count
+        
+        let birth = saveUserData.getKeychainStringValue(forKey: .Birth)
+        let age = calcDate().getAge(BDay: birth!)
+        let start_Timestamp = TimeStamp.getStart_OR_End_Timestamp(start_or_end: "start")
+        let end_Timestamp = TimeStamp.getStart_OR_End_Timestamp(start_or_end: "end")
+        
+        for i in 0...sortedList.count-1 {
+            let parameters: Parameters = [
+                "userID": saveUserData.getKeychainStringValue(forKey: .UID) ?? "정보없음",
+                "userSex": saveUserData.getKeychainIntValue(forKey: .Gender) ?? 0,
+                "userAge": age,
+                "kor": sortedList[i]["exName"]!,
+                "eng": sortedList[i]["tName"]!,
+                "start": start_Timestamp,
+                "end": end_Timestamp
+            ]
+            print("params: \(parameters)")
+            
+            AF.request(url, method: .post, parameters: parameters).responseDecodable(of: MyRankInfo.self) { response in
+                print("response: \(response)")
+                switch response.result {
+                case .success(let object):
+                    self.myRankList.append(object)
+                    self.receiveSubject.send(object)
+                    
+                case .failure(let error):
+                    print("error: " + error.localizedDescription)
+                    configFirebase.errorReport(type: "MyRankVM.getMyRank", descriptions: error.localizedDescription, server: response.debugDescription)
+                    self.receiveSubject.send(nil)
+                }
+            }
+        }
+    }
+    
+    private func getDoneEx(dates: [String]) -> [[String: String]] {
+        var resultList: [[String: String]] = []
         
         for i in dates {
-            let exInfoList = ConfigDataStore.fetchCoreData(date: i)
-            let doneExList: [String] = exInfoList.map { info in
+            let exInfoList = ExerciseCoreData.fetchCoreData(date: i)
+            let doneExList: [[String: String]] = exInfoList.map { info in
                 if let anaerobicEx = info as? anaerobicExerciseInfo {
                     if anaerobicEx.done {
-                        return anaerobicEx.exercise
+                        return ["exName": anaerobicEx.exercise, "tName": anaerobicEx.tableName]
                     }
                 } else {
                     let aerobicEx = info as! aerobicExerciseInfo
                     if aerobicEx.done {
-                        return aerobicEx.exercise
+                        return ["exName": aerobicEx.exercise, "tName": aerobicEx.tableName]
                     }
                 }
-                return ""
+                return [:]
             }
             resultList += doneExList
         }
         return resultList
     }
     
-    func getSortedExList() -> [String] {
-        let Dates = getDate()
-        
+    func getSortedExList() -> [[String : String]] {
+        let Dates = getDateString().getDate()
         let doneExList = getDoneEx(dates: Dates)
         let filteredEx = doneExList.filter { exName in
-            if exName != "" {
-                return true
-            } else {
-                return false
-            }
+            if exName != [:] { return true }
+            else { return false }
         }
         let setList = Set(filteredEx)
         let sortedList = setList.sorted { prev, next in
-            return prev < next
+            return prev["exName"]! < next["exName"]!
         }
         return sortedList
     }
-    
-    // Improved the code by ChatGPT!
-    func getDayOfWeekInKorean() -> String {
-        let nowDate = Date()
-        let dateFormatter = DateFormatter()
-        dateFormatter.locale = Locale(identifier: "ko")
-        dateFormatter.dateFormat = "E요일"
-        let dayOfWeek = dateFormatter.string(from: nowDate)
-        return dayOfWeek
-    }
-
-    func getDatesForNumDaysBeforeAndAfterToday(daysBefore: Int, daysAfter: Int) -> [String] {
-        var dates: [String] = []
-        let nowDate = Date()
-        let dateFormatter = DateFormatter()
-        dateFormatter.locale = Locale(identifier: "ko")
-        dateFormatter.dateFormat = "yyyy/MM/dd"
-        
-        let calendar = Calendar.current
-        
-        // Past dates
-        if daysBefore != 0 {
-            for i in (1...daysBefore).reversed() {
-                let pastDate = calendar.date(byAdding: .day, value: -i, to: nowDate)!
-                let dateString = dateFormatter.string(from: pastDate)
-                dates.append(dateString)
-            }
-        }
-        
-        // Today's date
-        let todayString = dateFormatter.string(from: nowDate)
-        dates.append(todayString)
-        
-        // Future dates
-        if daysAfter != 0 {
-            for i in 1...daysAfter {
-                let futureDate = calendar.date(byAdding: .day, value: i, to: nowDate)!
-                let dateString = dateFormatter.string(from: futureDate)
-                dates.append(dateString)
-            }
-        }
-        return dates
-    }
-    
-    func getDate() -> [String] {
-        switch getDayOfWeekInKorean() {
-        case "월요일":
-            return getDatesForNumDaysBeforeAndAfterToday(daysBefore: numDaysInWeek - 7, daysAfter: 6)
-        case "화요일":
-            return getDatesForNumDaysBeforeAndAfterToday(daysBefore: numDaysInWeek - 6, daysAfter: 5)
-        case "수요일":
-            return getDatesForNumDaysBeforeAndAfterToday(daysBefore: numDaysInWeek - 5, daysAfter: 4)
-        case "목요일":
-            return getDatesForNumDaysBeforeAndAfterToday(daysBefore: numDaysInWeek - 4, daysAfter: 3)
-        case "금요일":
-            return getDatesForNumDaysBeforeAndAfterToday(daysBefore: numDaysInWeek - 3, daysAfter: 2)
-        case "토요일":
-            return getDatesForNumDaysBeforeAndAfterToday(daysBefore: numDaysInWeek - 2, daysAfter: 1)
-        case "일요일":
-            return getDatesForNumDaysBeforeAndAfterToday(daysBefore: numDaysInWeek - 1, daysAfter: 0)
-        default:
-            return []
-        }
-    }
 }
-

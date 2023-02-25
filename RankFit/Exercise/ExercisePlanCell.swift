@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 import Combine
 
 class ExercisePlanCell: UICollectionViewCell {
@@ -18,72 +19,29 @@ class ExercisePlanCell: UICollectionViewCell {
     @IBOutlet weak var label3: UILabel!
     @IBOutlet weak var label3_num: UILabel!
     @IBOutlet weak var stateLabel: UILabel!
+    @IBOutlet weak var deleteBtn: UIButton!
     @IBOutlet weak var startBtn: UIButton!
     @IBOutlet weak var Label1_Leading: NSLayoutConstraint!
     @IBOutlet weak var Label2_Leading: NSLayoutConstraint! // 25
     @IBOutlet weak var Label2_Trailing: NSLayoutConstraint! // 28
     
-    var sendState: PassthroughSubject<Bool, Never>!
-    var subscriptions = Set<AnyCancellable>()
-    var viewModel: ExerciseViewModel!
-    var exerciseInfo: AnyHashable!
-    var exerciseUUID: UUID!
-    var exerciseEntityName: String!
-    
     override func awakeFromNib() {
         super.awakeFromNib()
+        
         contentView.layer.cornerRadius = 10
-    }
-    
-    
-    @IBAction func removeBtn(_ sender: UIButton) {
-        guard let aerobicInfo = exerciseInfo as? aerobicExerciseInfo else {
-            let anaerobicInfo = exerciseInfo as! anaerobicExerciseInfo
-            SendAnaerobicEx.sendDeleteEx(info: anaerobicInfo, subject: sendState)
-            return
-        }
-        SendAerobicEx.sendDeleteEx(info: aerobicInfo, subject: sendState)
-    }
-    
-    func bind() {
-        sendState.receive(on: RunLoop.main)
-            .sink { result in
-                if result == true {
-                    let deleteState = ConfigDataStore.deleteCoreData(id: self.exerciseUUID, entityName: self.exerciseEntityName) // return T/F
-                    if deleteState {
-                        self.viewModel.selectDate(date: ExerciseViewController.pickDate)
-                    } else {
-                        print("App Delete Error")
-                    }
-                } else {
-                    print("서버에 삭제 요청 에러")
-                }
-            }.store(in: &subscriptions)
     }
 }
 
 extension ExercisePlanCell {
-    
     func configure(item: AnyHashable, vm: ExerciseViewModel) {
-        exerciseInfo = item
         guard let aerobicInfo = item as? aerobicExerciseInfo else {
             let anaerobicInfo = item as! anaerobicExerciseInfo
-            self.exerciseUUID = anaerobicInfo.id
-            self.exerciseEntityName = "Anaerobic"
-            self.viewModel = vm
-            sendState = PassthroughSubject()
-            bind()
             return AnaerobicCellUpdate(info: anaerobicInfo)
         }
-        self.exerciseUUID = aerobicInfo.id
-        self.exerciseEntityName = "Aerobic"
-        self.viewModel = vm
-        sendState = PassthroughSubject()
-        bind()
         AerobicCellUpdate(info: aerobicInfo)
     }
     
-    func AerobicCellUpdate(info: aerobicExerciseInfo) {
+    private func AerobicCellUpdate(info: aerobicExerciseInfo) {
         exerciseNameLabel.text = info.exercise
         label1.text = "거리(km)"
         label1_num.text = "\(info.distance)"
@@ -111,7 +69,7 @@ extension ExercisePlanCell {
         }
     }
     
-    func AnaerobicCellUpdate(info: anaerobicExerciseInfo) {
+    private func AnaerobicCellUpdate(info: anaerobicExerciseInfo) {
         exerciseNameLabel.text = info.exercise
         label1.text = "세트"
         label1_num.text = "\(info.set)"
@@ -131,6 +89,12 @@ extension ExercisePlanCell {
             label3_num.isHidden = false
         }
         
+        if info.exercise == "플랭크" {
+            let timeStr = String(format: "%.0f", info.exTime)
+            label2.text = "시간(초)"
+            label2_num.text = timeStr
+        }
+        
         if info.done {
             stateLabel.text = "완료"
             stateLabel.textColor = .systemPink
@@ -138,7 +102,6 @@ extension ExercisePlanCell {
         } else {
             stateLabel.text = "미완료"
             stateLabel.textColor = .lightGray
-         
             if ExerciseViewController.today == info.date {
                 startBtn.isHidden = false
             } else {

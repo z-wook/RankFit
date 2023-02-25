@@ -1,0 +1,4 @@
+${PODS_ROOT}/Target Support Files/Pods-RankFit-RankFitUITests/Pods-RankFit-RankFitUITests-frameworks.sh
+${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework
+${BUILT_PRODUCTS_DIR}/FSCalendar/FSCalendar.framework
+${BUILT_PRODUCTS_DIR}/SwiftKeychainWrapper/SwiftKeychainWrapper.framework

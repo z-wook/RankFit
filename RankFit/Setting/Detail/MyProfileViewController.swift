@@ -13,35 +13,26 @@ class MyProfileViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
     let sectionHeader = ["내 정보", "계정"]
-    let section0 = ["이메일", "성별", "닉네임", "나이", "몸무게"]
+    let section0 = ["이메일", "성별", "나이", "몸무게", "닉네임", "프로필"]
     let section1 = ["서비스 탈퇴"]
     
     let user = getSavedDateInfo()
-    var userInfomation: [Any] = [] // [이메일, 성별, 닉네임, 나이, 몸무게]
+    var userInfomation: [Any] = [] // ["성별", "나이", "몸무게", "닉네임", "프로필"]
     static var userWeight = PassthroughSubject<Int, Never>()
     var subscriptions = Set<AnyCancellable>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        tableView.dataSource = self
-        tableView.delegate = self
         updateNavigationItem()
-        
-        let email = saveUserData.getKeychainStringValue(forKey: .Email) ?? "정보 없음"
-        let gender = saveUserData.getKeychainIntValue(forKey: .Gender) ?? 0
-        let nickname = saveUserData.getKeychainStringValue(forKey: .NickName) ?? "정보 없음"
-        let age = saveUserData.getKeychainIntValue(forKey: .Age) ?? 1
-        let weight = saveUserData.getKeychainIntValue(forKey: .Weight) ?? 1
-        
-        userInfomation = [email, gender, nickname, age, weight]
+        configure()
         bind()
     }
     
     func bind() {
         MyProfileViewController.userWeight.receive(on: RunLoop.main)
             .sink { infoWeight in
-                self.userInfomation[4] = infoWeight
+                self.userInfomation[3] = infoWeight
                 self.tableView.reloadData()
             }.store(in: &subscriptions)
     }
@@ -73,14 +64,13 @@ extension MyProfileViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         switch indexPath.section {
         case 0:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "MyProfileCell", for: indexPath) as? MyProfileCell else {
                 return UITableViewCell()
             }
             cell.configCell(title: section0[indexPath.item], infomation: "\(userInfomation[indexPath.item])")
-            if indexPath.item >= 2 && indexPath.item <= 4 {
+            if indexPath.item >= 3 && indexPath.item <= 5 {
                 cell.accessoryType = .disclosureIndicator
             } else {
                 cell.accessoryType = .none
@@ -100,29 +90,24 @@ extension MyProfileViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.section {
         case 0:
-            if indexPath.item == 2 {
-                // 닉네임
+            if section0[indexPath.item] == "몸무게" {
+                let sb = UIStoryboard(name: "InputInfo", bundle: nil)
+                let vc = sb.instantiateViewController(withIdentifier: "ChangeWeightViewController") as! ChangeWeightViewController
+                self.navigationController?.pushViewController(vc, animated: true)
+            } else if section0[indexPath.item] == "닉네임" {
                 let sb = UIStoryboard(name: "InputInfo", bundle: nil)
                 let vc = sb.instantiateViewController(withIdentifier: "ChangeNickNameViewController") as! ChangeNickNameViewController
                 self.navigationController?.pushViewController(vc, animated: true)
-            }
-            // 나이, 몸무게
-            else if (indexPath.item == 3 || indexPath.item == 4) {
+            } else if section0[indexPath.item] == "프로필" {
                 let sb = UIStoryboard(name: "InputInfo", bundle: nil)
-                let vc = sb.instantiateViewController(withIdentifier: "InputInfoViewController") as! InputInfoViewController
-                vc.configure(type: section0[indexPath.item])
+                let vc = sb.instantiateViewController(withIdentifier: "ChangeProfileViewController") as! ChangeProfileViewController
                 self.navigationController?.pushViewController(vc, animated: true)
-                
-                
-                
-                
-            } else {
-                return
-            }
+            } else { return }
             
-        case 1:
-            // 서비스 탈퇴
-            return
+        case 1: // 서비스 탈퇴
+            let sb = UIStoryboard(name: "Revoke", bundle: nil)
+            let vc = sb.instantiateViewController(withIdentifier: "RevokeViewController") as! RevokeViewController
+            self.navigationController?.pushViewController(vc, animated: true)
             
         default: return
         }
@@ -134,6 +119,21 @@ extension MyProfileViewController {
         navigationItem.backButtonDisplayMode = .minimal
         navigationItem.largeTitleDisplayMode = .never
         navigationItem.title = "내 정보"
-//        navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.label]
+        
+    }
+    
+    private func configure() {
+        tableView.dataSource = self
+        tableView.delegate = self
+        
+        let email = saveUserData.getKeychainStringValue(forKey: .Email) ?? "정보 없음"
+        let gender = saveUserData.getKeychainIntValue(forKey: .Gender) ?? 0
+        let nickname = saveUserData.getKeychainStringValue(forKey: .NickName) ?? "정보 없음"
+        let birth = saveUserData.getKeychainStringValue(forKey: .Birth)
+        let age = calcDate().getAge(BDay: birth!)
+        let weight = saveUserData.getKeychainIntValue(forKey: .Weight) ?? 1
+        let profile = "blank_profile"
+        
+        userInfomation = [email, gender, age, weight, nickname, profile]
     }
 }

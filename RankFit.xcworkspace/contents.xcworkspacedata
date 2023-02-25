@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <Group
+      location = "container:"
+      name = "Data">
+      <FileRef
+         location = "group:Aerobic+CoreDataClass.swift">
+      </FileRef>
+      <FileRef
+         location = "group:Anaerobic+CoreDataClass.swift">
+      </FileRef>
+      <FileRef
+         location = "group:PhotoInfo+CoreDataClass.swift">
+      </FileRef>
+      <FileRef
+         location = "group:Aerobic+CoreDataProperties.swift">
+      </FileRef>
+      <FileRef
+         location = "group:Anaerobic+CoreDataProperties.swift">
+      </FileRef>
+      <FileRef
+         location = "group:PhotoInfo+CoreDataProperties.swift">
+      </FileRef>
+   </Group>
+   <FileRef
+      location = "group:RankFit.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:Pods/Pods.xcodeproj">
+   </FileRef>
+</Workspace>

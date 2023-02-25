@@ -1,0 +1,24 @@
+PODS:
+  - Alamofire (5.5.0)
+  - FSCalendar (2.8.2)
+  - SwiftKeychainWrapper (4.0.1)
+
+DEPENDENCIES:
+  - Alamofire
+  - FSCalendar
+  - SwiftKeychainWrapper
+
+SPEC REPOS:
+  trunk:
+    - Alamofire
+    - FSCalendar
+    - SwiftKeychainWrapper
+
+SPEC CHECKSUMS:
+  Alamofire: 1c4fb5369c3fe93d2857c780d8bbe09f06f97e7c
+  FSCalendar: e6a2eb9c571bf0719ed797ef807e08426753c241
+  SwiftKeychainWrapper: 807ba1d63c33a7d0613288512399cd1eda1e470c
+
+PODFILE CHECKSUM: 1ff6817d436df1e90b2890cf253511ad87f97d58
+
+COCOAPODS: 1.11.3

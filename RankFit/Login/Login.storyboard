@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_0" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Login View Controller-->
+        <scene sceneID="s0d-6b-0kx">
+            <objects>
+                <viewController storyboardIdentifier="LoginViewController" hidesBottomBarWhenPushed="YES" id="Y6W-OH-hqX" customClass="LoginViewController" customModule="RankFit" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="랭크핏을 이용하기 위해 로그인을 해주세요." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GyI-s6-IoM">
+                                <rect key="frame" x="20" y="147" width="350" height="71.666666666666686"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="30"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="이메일 입력" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="90s-Yb-EoG">
+                                <rect key="frame" x="20" y="283.66666666666669" width="200" height="34"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="200" id="SrG-g3-D2k"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" smartDashesType="no" smartInsertDeleteType="no" smartQuotesType="no" textContentType="email"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="35I-fO-nz3">
+                                <rect key="frame" x="240" y="285.66666666666669" width="69" height="30"/>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="이메일 인증"/>
+                                <connections>
+                                    <action selector="sendEmail:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="hMx-fe-dU2"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="※ 회원가입 시 사용한 이메일을 입력해 주세요." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k30-cH-EKI">
+                                <rect key="frame" x="20" y="327.66666666666669" width="350" height="18"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mFZ-IT-sbv">
+                                <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+                                <subviews>
+                                    <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="0af-oq-G2C">
+                                        <rect key="frame" x="176.66666666666666" y="403.66666666666669" width="37" height="37"/>
+                                        <color key="color" systemColor="systemOrangeColor"/>
+                                    </activityIndicatorView>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="0af-oq-G2C" firstAttribute="centerX" secondItem="mFZ-IT-sbv" secondAttribute="centerX" id="G2a-Rj-Vaw"/>
+                                    <constraint firstItem="0af-oq-G2C" firstAttribute="centerY" secondItem="mFZ-IT-sbv" secondAttribute="centerY" id="W20-Cw-jVZ"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
+                        <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" relation="lessThanOrEqual" secondItem="35I-fO-nz3" secondAttribute="trailing" constant="81" id="0sk-kV-GLz"/>
+                            <constraint firstItem="35I-fO-nz3" firstAttribute="leading" secondItem="90s-Yb-EoG" secondAttribute="trailing" constant="20" id="2af-Iy-MiK"/>
+                            <constraint firstItem="GyI-s6-IoM" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="20" id="5eD-Oj-sap"/>
+                            <constraint firstItem="90s-Yb-EoG" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="20" id="E3j-Df-pjW"/>
+                            <constraint firstItem="90s-Yb-EoG" firstAttribute="top" secondItem="GyI-s6-IoM" secondAttribute="bottom" constant="65" id="Ez7-VZ-Efg"/>
+                            <constraint firstItem="GyI-s6-IoM" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="100" id="IXX-yX-wtk"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="mFZ-IT-sbv" secondAttribute="trailing" id="JdK-cc-NOn"/>
+                            <constraint firstItem="mFZ-IT-sbv" firstAttribute="bottom" secondItem="5EZ-qb-Rvc" secondAttribute="bottom" id="QzQ-hh-cz1"/>
+                            <constraint firstAttribute="top" secondItem="mFZ-IT-sbv" secondAttribute="top" id="Wp3-Fw-qEg"/>
+                            <constraint firstItem="mFZ-IT-sbv" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="ekQ-b0-UnT"/>
+                            <constraint firstItem="k30-cH-EKI" firstAttribute="top" secondItem="90s-Yb-EoG" secondAttribute="bottom" constant="10" id="erB-DX-atH"/>
+                            <constraint firstItem="35I-fO-nz3" firstAttribute="centerY" secondItem="90s-Yb-EoG" secondAttribute="centerY" id="fqJ-xr-Ygx"/>
+                            <constraint firstItem="k30-cH-EKI" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="20" id="iao-CA-T4w"/>
+                            <constraint firstItem="k30-cH-EKI" firstAttribute="centerX" secondItem="vDu-zF-Fre" secondAttribute="centerX" id="icK-8n-4Yh"/>
+                            <constraint firstItem="GyI-s6-IoM" firstAttribute="centerX" secondItem="vDu-zF-Fre" secondAttribute="centerX" id="qqJ-zg-ytk"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="backgroundView" destination="mFZ-IT-sbv" id="U2C-le-zvp"/>
+                        <outlet property="emailCheck" destination="35I-fO-nz3" id="sER-5q-xm6"/>
+                        <outlet property="emailField" destination="90s-Yb-EoG" id="h2B-g8-l8o"/>
+                        <outlet property="emailState" destination="k30-cH-EKI" id="Hwa-ZP-FqR"/>
+                        <outlet property="indicator" destination="0af-oq-G2C" id="PzA-TD-nfI"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="46.153846153846153" y="-27.014218009478672"/>
+        </scene>
+    </scenes>
+    <resources>
+        <systemColor name="secondarySystemBackgroundColor">
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemOrangeColor">
+            <color red="1" green="0.58431372549019611" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>

@@ -6,48 +6,113 @@
 //
 
 import UIKit
+import FirebaseAuth
+import FirebaseCore
+import FirebaseMessaging
+import UserNotifications
 import CoreData
-import KakaoSDKCommon
-import NaverThirdPartyLogin
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        UIApplication.shared.applicationIconBadgeNumber = 0 // 알림 배지를 초기화
+        // Firebase 초기화 세팅
+        FirebaseApp.configure()
         
-        // Kakao Login
-        KakaoSDK.initSDK(appKey: Storage().kakaoAppkey)
-//        application.registerForRemoteNotifications()
-        
-        // Naver Login
-        let instance = NaverThirdPartyLoginConnection.getSharedInstance()
-        // 네이버 앱으로 인증하는 방식을 활성화
-        instance?.isNaverAppOauthEnable = true
-        
-        // SafariViewController에서 인증하는 방식을 활성화
-        instance?.isInAppOauthEnable = true
-        
-        // 인증 화면을 iPhone의 세로 모드에서만 사용하기
-        instance?.isOnlyPortraitSupportedInIphone()
-        
-        // 네이버 아이디로 로그인하기 설정
-        // 애플리케이션을 등록할 때 입력한 URL Scheme
-        instance?.serviceUrlScheme = "naverlogin"
-        // 애플리케이션 등록 후 발급받은 클라이언트 아이디
-        instance?.consumerKey = Storage().clientID
-        // 애플리케이션 등록 후 발급받은 클라이언트 시크릿
-        instance?.consumerSecret = Storage().clientSecret
-        // 애플리케이션 이름
-        instance?.appName = "RankFit"
-        
+        if Core.shared.isNewUser() == false {
+            // 앱이 시작될 때마다 푸시 알림 등록을 시도
+            registerRemoteNotification()
+            // auth reload
+            Auth.auth().currentUser?.reload(completion: { error in
+                if let error = error {
+                    let error = error.localizedDescription
+                    if error == "The user account has been disabled by an administrator." {
+                        DispatchQueue.main.async {
+                            self.suspendtAlert()
+                        }
+                    }
+                }
+            })
+        }
+        // 메시지 delegate 설정
+        Messaging.messaging().delegate = self
         return true
     }
     
-    // Naver Login
-    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
-        NaverThirdPartyLoginConnection.getSharedInstance()?.application(app, open: url, options: options)
-            return true
+    func registerRemoteNotification() {
+        // 푸시 알림 권한 설정 및 푸시 알림에 앱 등록(foreground)
+        let center = UNUserNotificationCenter.current()
+        center.delegate = self
+        let options: UNAuthorizationOptions = [.alert, .sound, .badge]
+        center.requestAuthorization(options: options) { granted, _ in
+            print("Permission granted: \(granted)")
+            guard granted else {
+                print("----> 알림 수신 거부")
+                return
+            }
+            self.getNotificationSettings()
+        }
+    }
+    
+    private func getNotificationSettings() {
+        UNUserNotificationCenter.current().getNotificationSettings { settings in
+            print("Notification settings: \(settings)")
+            guard settings.authorizationStatus == .authorized else { return }
+            // APNs에 device token 등록 요청
+            DispatchQueue.main.async {
+                UIApplication.shared.registerForRemoteNotifications()
+            }
+        }
+    }
+    
+    // APNs 토큰과 등록 토큰 매핑
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        Messaging.messaging().apnsToken = deviceToken
+    }
+
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        print("Failed to register: \(error.localizedDescription)")
+        configFirebase.errorReport(type: "AppDelegate.didFailToRegisterForRemoteNotificationsWithError", descriptions: error.localizedDescription)
+    }
+    
+    // 백그라운드에서 자동 푸시 알림 처리
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        // If you are receiving a notification message while your app is in the background,
+        // this callback will not be fired till the user taps on the notification launching the application.
+
+        // With swizzling disabled you must let Messaging know about the message, for Analytics
+        Messaging.messaging().appDidReceiveMessage(userInfo)
+        let user = Auth.auth().currentUser
+        // 계정 정지 처리
+        let suspension = userInfo["Suspension"] as? String
+        let userID = userInfo["userID"] as? String
+        if let suspension = suspension, let userID = userID {
+            let uid = saveUserData.getKeychainStringValue(forKey: .UID)
+            if suspension == "true" && userID == uid { // 본인 확인 통과
+                if user == nil { // 로그아웃 상태면 알람만
+                    suspendtAlert()
+                } else {
+                    suspendUser()
+                }
+            }
+        }
+        completionHandler(UIBackgroundFetchResult.newData)
+    }
+    
+    func applicationDidBecomeActive(_ application: UIApplication) {
+        // auth reload
+        Auth.auth().currentUser?.reload(completion: { error in
+            if let error = error {
+                let error = error.localizedDescription
+                if error == "The user account has been disabled by an administrator." {
+                    DispatchQueue.main.async {
+                        self.suspendtAlert()
+                    }
+                }
+            }
+        })
     }
     
     // MARK: UISceneSession Lifecycle
@@ -108,6 +173,119 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
     }
-
+    
+    func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
+        // 화면 세로방향 고정
+        return UIInterfaceOrientationMask.portrait
+    }
 }
 
+extension AppDelegate: MessagingDelegate {
+    // 현재 등록 토큰 가져오기 / fcm 등록 토큰을 받았을 때
+    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
+        // TODO: - 디바이스 토큰을 보내는 서버통신 구현
+        let user = Auth.auth().currentUser
+        guard let fcmToken = fcmToken else {
+            print("fcmToken == nil")
+            configFirebase.errorReport(type: "AppDelegate.messaging", descriptions: "fcmToken == nil")
+            return
+        }
+        print("FCMToken 토큰: \(fcmToken)")
+        let token = saveUserData.getKeychainStringValue(forKey: .Token)
+        // 키체인 확인 후 다르면 저장
+        if token != fcmToken {
+            if token != nil { // token값이 저장되어 있는 경우
+                // 기존 토큰값 삭제 후 키체인에 저장
+                saveUserData.removeKeychain(forKey: .Token)
+                saveUserData.setKeychain(fcmToken, forKey: .Token)
+            } else {
+                // 키체인에 저장
+                saveUserData.setKeychain(fcmToken, forKey: .Token)
+            }
+            if user != nil {
+                configFirebase.updateToken(Token: fcmToken)
+            }
+        }
+    }
+}
+
+extension AppDelegate: UNUserNotificationCenterDelegate {    
+    // 푸시 메시지를 받았을 때(foreground)
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        let userInfo = notification.request.content.userInfo
+        let user = Auth.auth().currentUser
+        
+        // 계정 정지 처리
+        let suspension = userInfo["Suspension"] as? String
+        let userID = userInfo["userID"] as? String
+        if let suspension = suspension, let userID = userID {
+            let uid = saveUserData.getKeychainStringValue(forKey: .UID)
+            if suspension == "true" && userID == uid { // 본인 확인 통과
+                if user == nil { // 로그아웃 상태면 알람만
+                    suspendtAlert()
+                } else {
+                    suspendUser()
+                }
+            }
+        }
+        completionHandler([.badge, .banner, .sound])
+    }
+    
+    // 푸시 메시지를 받았을 때(background)
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        let userInfo = response.notification.request.content.userInfo
+        let user = Auth.auth().currentUser
+        // 계정 정지 처리
+        let suspension = userInfo["Suspension"] as? String
+        let userID = userInfo["userID"] as? String
+        if let suspension = suspension, let userID = userID {
+            let uid = saveUserData.getKeychainStringValue(forKey: .UID)
+            if suspension == "true" && userID == uid { // 본인 확인 통과
+                if user == nil { // 로그아웃 상태면 알람만
+                    suspendtAlert()
+                } else {
+                    suspendUser()
+                }
+            }
+        }
+        completionHandler()
+    }
+    
+    private func suspendUser() {
+        Auth.auth().currentUser?.reload(completion: { error in
+            if let error = error {
+                let error = error.localizedDescription
+                if error == "The user account has been disabled by an administrator." {
+                    DispatchQueue.main.async {
+                        self.suspendtAlert()
+                        return
+                    }
+                } else {
+                    let uid = saveUserData.getKeychainStringValue(forKey: .UID) ?? ""
+                    configFirebase.errorReport(type: "AppDelegate.suspendUser", descriptions: "사용자 계정 정지 실패_ \(uid)")
+                }
+            }
+        })
+    }
+    
+    // 계정 정지 알람
+    private func suspendtAlert() {
+        var vc: UIViewController?
+        // 현재 보이는 뷰 컨트롤러 가져오기
+        guard let window = UIApplication.shared.windows.first else { return }
+        if let currentVC = window.rootViewController?.presentedViewController {
+            vc = currentVC
+        } else if let currentVC = window.rootViewController {
+            vc = currentVC
+        } else {
+            print("현재 보이는 뷰가 없습니다.")
+        }
+        guard let vc = vc else { return }
+        let alertController = UIAlertController(title: "계정 사용 중지됨", message: "귀하의 계정이 사용 중지되었습니다. 문의사항은 관리자에게 해주세요.", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "확인", style: .destructive) { _ in
+            UIApplication.shared.applicationIconBadgeNumber = 0 // 알림 배지를 초기화
+        }
+        alertController.addAction(okAction)
+        vc.present(alertController, animated: true)
+    }
+}

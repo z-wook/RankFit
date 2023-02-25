@@ -14,11 +14,13 @@ struct CustomBarItemConfiguration {
     
     let title: String?
     let image: UIImage?
+    let color: UIColor?
     let handler: Handler
     
-    init(title: String? = nil, image: UIImage? = nil, handler: @escaping Handler) {
+    init(title: String? = nil, image: UIImage? = nil, color: UIColor? = .link, handler: @escaping Handler) {
         self.title = title
         self.image = image
+        self.color = color
         self.handler = handler
     }
 }
@@ -36,8 +38,8 @@ final class CustomBarItem: UIButton {
     
     private func setupStyle() {
         self.titleLabel?.font = .systemFont(ofSize: 20, weight: .bold)
-        self.setTitleColor(.systemBlue, for: .normal)
-        self.imageView?.tintColor = .systemBlue
+        self.setTitleColor(customBarItemConfig.color, for: .normal)
+        self.imageView?.tintColor = customBarItemConfig.color
     }
     
     private func updateConfig() {

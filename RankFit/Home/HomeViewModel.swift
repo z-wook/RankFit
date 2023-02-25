@@ -15,7 +15,7 @@ final class HomeViewModel {
         var percentList: [Double] = []
 
         for i in dates {
-            let exInfoList = ConfigDataStore.fetchCoreData(date: i)
+            let exInfoList = ExerciseCoreData.fetchCoreData(date: i)
 
             let checkExList: [Int] = exInfoList.map { info in
                 if let anaerobicEx = info as? anaerobicExerciseInfo {
@@ -64,7 +64,7 @@ final class HomeViewModel {
         let nowDate = Date()
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: "ko")
-        dateFormatter.dateFormat = "yyyy/MM/dd"
+        dateFormatter.dateFormat = "yyyy-MM-dd"
         
         let calendar = Calendar.current
         

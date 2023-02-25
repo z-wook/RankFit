@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 import Combine
 
 class saveExerciseViewController1: UIViewController {
@@ -16,12 +17,14 @@ class saveExerciseViewController1: UIViewController {
     @IBOutlet weak var weightField: UITextField!
     @IBOutlet weak var weightLabel: UILabel!
     @IBOutlet weak var saveBtn: UIButton!
+    @IBOutlet weak var backgroundView: UIView!
+    @IBOutlet weak var indicator: UIActivityIndicatorView!
     
     var viewModel: saveExerciseViewModel!
     var exInfo: anaerobicExerciseInfo!
     var hideCheck: Bool = true // 무게가 필요있는 운동이면 true
-    static let sendState = PassthroughSubject<Bool, Never>()
-    var cancellable: Cancellable?
+    let serverState = PassthroughSubject<Bool, Never>()
+    let firebaseState = PassthroughSubject<Bool, Never>()
     var subscriptions = Set<AnyCancellable>()
     var tableName: String!
     
@@ -35,16 +38,14 @@ class saveExerciseViewController1: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        buttonConfigure()
-        textFieldConfigure()
+        configure()
         bind()
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        cancellable?.cancel()
-    }
-    
-    private func textFieldConfigure() {
+    private func configure() {
+        backgroundView.backgroundColor = .black.withAlphaComponent(0.6)
+        backgroundView.isHidden = true
+        saveBtn.layer.cornerRadius = 30
         setField.delegate = self
         weightField.delegate = self
         countField.delegate = self
@@ -53,7 +54,6 @@ class saveExerciseViewController1: UIViewController {
     
     private func bind() {
         viewModel.$DetailItem
-//            .compactMap { $0 }
             .receive(on: RunLoop.main)
             .sink { info in
                 self.exerciseLabel.text = info?.exerciseName
@@ -65,39 +65,57 @@ class saveExerciseViewController1: UIViewController {
                 }
             }.store(in: &subscriptions)
         
-        let subject = saveExerciseViewController1.sendState.receive(on: RunLoop.main)
-            .sink { result in
-                if result == true { // true
-                    if let vc = self.keyWindow?.visibleViewController {
-                        let save = ConfigDataStore.saveCoreData(info: self.exInfo)
-                        if save == true {
-                            print("운동 저장 완료")
-                            self.viewModel.saveSuccessExMessage(View: vc)
-                        } else {
-                            print("운동 저장 실패")
-                            self.viewModel.saveFailExMessage(View: vc)
-                        }
+        serverState.receive(on: RunLoop.main).sink { result in
+            if result == true {
+                print("서버 운동 저장 성공")
+                SendAnaerobicEx.firebaseSave(
+                    exName: self.exInfo.exercise,
+                    time: self.exInfo.saveTime,
+                    uuid: "\(self.exInfo.id)",
+                    date: self.exInfo.date,
+                    subject: self.firebaseState)
+            } else {
+                print("서버 운동 저장 실패")
+                self.showAlert()
+            }
+        }.store(in: &subscriptions)
+        
+        firebaseState.receive(on: RunLoop.main).sink { result in
+            self.indicator.stopAnimating()
+            if result == true {
+                print("Firebase 저장 성공")
+                if let vc = self.keyWindow?.visibleViewController {
+                    let save = ExerciseCoreData.saveCoreData(info: self.exInfo)
+                    if save == true {
+                        print("CoreData 저장 완료")
+                        self.viewModel.saveSuccessExMessage(View: vc)
                     } else {
-                        print("error")
-                        self.dismiss(animated: true)
+                        print("운동 저장 실패")
+                        self.viewModel.saveFailExMessage(View: vc)
                     }
                 } else {
-                    print("서버 전송 오류, 잠시 후 다시 시도해 주세요.")
+                    print("keyWindow error")
+                    configFirebase.errorReport(type: "saveExerciseVC1.bind", descriptions: "keyWindow error")
                     self.dismiss(animated: true)
                 }
+            } else {
+                print("Firebase 저장 실패")
+                SendAnaerobicEx.sendDeleteEx(info: self.exInfo, subject: nil)
+                self.showAlert()
             }
-        cancellable = subject
+        }.store(in: &subscriptions)
     }
     
-    func buttonConfigure() {
-        saveBtn.layer.cornerRadius = 30
-    }
-
     @IBAction func closeButton(_ sender: UIButton) {
         dismiss(animated: true)
     }
     
     @IBAction func saveButton(_ sender: UIButton) {
+        let user = Auth.auth().currentUser
+        guard user != nil else {
+            loginAlert()
+            return
+        }
         if let vc = keyWindow?.visibleViewController {
             guard let field1 = setField.text, !field1.isEmpty else {
                 return viewModel.warningExerciseMessage(ment: "세트를 입력하세요.", View: vc)
@@ -146,19 +164,44 @@ class saveExerciseViewController1: UIViewController {
                 }
                 weightNum = checkedWeightNum
             }
+            saveBtn.isEnabled = false
+            // prevent modalView dismiss
+            self.isModalInPresentation = true
+            backgroundView.isHidden = false
+            indicator.startAnimating()
             
             // 무게가 필요없는 운동은 무게를 0으로 저장
             saveEx(setNum: checkedSetNum, weightNum: weightNum, countNum: checkCountNum)
         }
     }
     
-    func saveEx(setNum: Int16, weightNum: Float, countNum: Int16) {
-        exInfo = anaerobicExerciseInfo(exercise: exerciseLabel.text ?? "운동 없음", table_Name: tableName, date: ExerciseViewController.pickDate, set: setNum, weight: weightNum, count: countNum, saveTime: ConfigDataStore.date_Time())
-        SendAnaerobicEx.sendSaveEx(info: exInfo)
-    }
-    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
+    }
+}
+
+extension saveExerciseViewController1 {
+    private func showAlert() {
+        let alert = UIAlertController(title:"저장 실패", message: "잠시 후 다시 시도해 주세요.", preferredStyle: .alert)
+        let ok = UIAlertAction(title: "확인", style: .default, handler: { _ in
+            self.dismiss(animated: true)
+        })
+        alert.addAction(ok)
+        present(alert, animated: true, completion: nil)
+    }
+    
+    private func loginAlert() {
+        let alert = UIAlertController(title: "로그아웃 상태", message: "현재 로그아웃 되어있어 운동을 저장할 수 없습니다.\n로그인을 먼저 해주세요.", preferredStyle: .alert)
+        let ok = UIAlertAction(title: "확인", style: .default) { _ in
+            self.dismiss(animated: true)
+        }
+        alert.addAction(ok)
+        present(alert, animated: true, completion: nil)
+    }
+    
+    private func saveEx(setNum: Int16, weightNum: Float, countNum: Int16) {
+        exInfo = anaerobicExerciseInfo(exercise: exerciseLabel.text ?? "운동 없음", table_Name: tableName, date: ExerciseViewController.pickDate, set: setNum, weight: weightNum, count: countNum, saveTime: Int64(TimeStamp.getCurrentTimestamp()))
+        SendAnaerobicEx.sendSaveEx(info: exInfo, subject: serverState)
     }
 }
 
@@ -171,7 +214,6 @@ extension saveExerciseViewController1: UITextFieldDelegate {
                 return true
             }
         }
-        
         switch textField.tag {
         case 1:
             guard let text = textField.text else { return false }

@@ -18,7 +18,7 @@ final class ExerciseViewModel {
 
 extension ExerciseViewModel {
     func selectDate(date: String) {
-        let exerciseData = ConfigDataStore.fetchCoreData(date: date)
+        let exerciseData = ExerciseCoreData.fetchCoreData(date: date)
         
         // 시간순 정렬
         let sortedData = exerciseData.sorted { prev, next in

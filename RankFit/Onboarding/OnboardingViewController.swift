@@ -32,11 +32,11 @@ class OnboardingViewController: UIViewController {
         moveNext()
     }
     
-    func moveNext() {
+    private func moveNext() {
         let page = pageControl.currentPage
-        
         if (page == message.count - 1) {
             Core.shared.setIsNotNewUser()
+            AppDelegate().registerRemoteNotification()
             dismiss(animated: true)
         } else {
             collectionView.scrollToItem(at: NSIndexPath(item: page + 1, section: 0) as IndexPath, at: .right, animated: true)
@@ -58,7 +58,6 @@ extension OnboardingViewController: UICollectionViewDataSource, UICollectionView
 }
 
 extension OnboardingViewController: UICollectionViewDelegateFlowLayout {
-    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return collectionView.bounds.size
     }
@@ -73,7 +72,6 @@ extension OnboardingViewController: UICollectionViewDelegateFlowLayout {
 }
 
 extension OnboardingViewController: UIScrollViewDelegate {
-    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let index = Int(scrollView.contentOffset.x / self.collectionView.bounds.width)
         pageControl.currentPage = index

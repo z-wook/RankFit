@@ -2,7 +2,7 @@
 //  Anaerobic+CoreDataProperties.swift
 //  
 //
-//  Created by 한지욱 on 2023/01/09.
+//  Created by 한지욱 on 2023/02/05.
 //
 //
 
@@ -21,9 +21,10 @@ extension Anaerobic {
     @NSManaged public var done: Bool
     @NSManaged public var exercise: String?
     @NSManaged public var id: UUID?
-    @NSManaged public var saveTime: String?
+    @NSManaged public var saveTime: Int64
     @NSManaged public var set: Int16
-    @NSManaged public var weight: Float
     @NSManaged public var tableName: String?
+    @NSManaged public var weight: Float
+    @NSManaged public var exTime: Double
 
 }
