@@ -18,10 +18,10 @@ class RegisterGenderViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        navigationItem.backButtonDisplayMode = .minimal
         buttonConfigure()
         pickerViewConfigure()
-        navigationItem.backButtonDisplayMode = .minimal
     }
     
     private func buttonConfigure() {

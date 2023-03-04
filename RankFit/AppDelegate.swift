@@ -22,7 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FirebaseApp.configure()
         
         if Core.shared.isNewUser() == false {
-            // 앱이 시작될 때마다 푸시 알림 등록을 시도
+            // 앱이 시작될 때 푸시 알림 등록을 시도
             registerRemoteNotification()
             // auth reload
             Auth.auth().currentUser?.reload(completion: { error in
@@ -202,7 +202,7 @@ extension AppDelegate: MessagingDelegate {
                 // 키체인에 저장
                 saveUserData.setKeychain(fcmToken, forKey: .Token)
             }
-            if user != nil {
+            if user != nil { // 로그인 되어있다면 토큰 값 갱신
                 configFirebase.updateToken(Token: fcmToken)
             }
         }

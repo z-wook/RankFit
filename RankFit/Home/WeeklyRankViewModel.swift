@@ -33,19 +33,22 @@ class WeeklyRank: Hashable {
 }
 
 final class WeeklyRankViewModel {
-    func getWeeklyRank(subject: PassthroughSubject<[WeeklyRank], Never>) {
+    func getWeeklyRank(subject: CurrentValueSubject<[WeeklyRank]?, Never>) {
         AF.request("http://rankfit.site/weekEXrank.php", method: .post).responseDecodable(of: weekRank.self) { response in
+//            print("response: \(response.debugDescription)")
+            print("response: \(response)")
             switch response.result {
             case .success(let object):
                 let objectList = object.All
                 var list: [WeeklyRank] = []
                 for i in objectList {
-                    list.append(WeeklyRank(rank: i["Rank"]!, exercise: i["Exercise"]!))
+                    list.append(WeeklyRank(rank: i["Rank"] ?? "", exercise: i["Exercise"] ?? ""))
                     if i == objectList.last {
                         subject.send(list)
                         return
                     }
                 }
+                subject.send(list)
                 
             case .failure(let error):
                 print("error: \(error.localizedDescription)")

@@ -49,6 +49,11 @@ final class TimeStamp {
         return timestamp
     }
     
+    static func getTimeInterval(now: Date, before: Date) -> Int {
+        let timeInterval = now.timeIntervalSince(before)
+        return Int(timeInterval)
+    }
+    
     static func get_Timestamp(date_str: String, start_OR_end: String) -> Int {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd-HH:mm:ss"

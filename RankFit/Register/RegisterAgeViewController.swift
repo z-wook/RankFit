@@ -18,10 +18,10 @@ class RegisterAgeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        navigationItem.backButtonDisplayMode = .minimal
         formatter.dateFormat = "yyyy-MM-dd"        
         buttonConfigure()
         pickerViewConfigure()
-        navigationItem.backButtonDisplayMode = .minimal
     }
 
     private func pickerViewConfigure() {

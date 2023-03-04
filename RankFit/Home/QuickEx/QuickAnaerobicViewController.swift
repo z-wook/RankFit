@@ -1,45 +1,27 @@
 //
-//  AnaerobicActivityViewController.swift
+//  QuickExViewController.swift
 //  RankFit
 //
-//  Created by 한지욱 on 2022/12/10.
+//  Created by 한지욱 on 2023/02/28.
 //
 
 import UIKit
-import Combine
 
-class AnaerobicActivityViewController: UIViewController {
+class QuickAnaerobicViewController: UIViewController {
     
-    @IBOutlet weak var exerciseLabel: UILabel!
-    @IBOutlet weak var setLabel: UILabel!
-    @IBOutlet weak var setNumLabel: UILabel!
-    @IBOutlet weak var weightLabel: UILabel!
-    @IBOutlet weak var weightNumLabel: UILabel!
-    @IBOutlet weak var countLabel: UILabel!
-    @IBOutlet weak var countNumLabel: UILabel!
-    @IBOutlet weak var set_leading: NSLayoutConstraint!
-    @IBOutlet weak var count_trailing: NSLayoutConstraint!
+    @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var playButton: UIButton!
-    @IBOutlet weak var backgroundView: UIView!
-    @IBOutlet weak var indicator: UIActivityIndicatorView!
     
-    let sendState = PassthroughSubject<Bool, Never>()
-    let fireState = PassthroughSubject<Bool, Never>()
-    var subscriptions = Set<AnyCancellable>()
-    var viewModel: DoExerciseViewModel!
-    var info: anaerobicExerciseInfo!
     var timer: Timer?
     var count: Int = 0
     var timerCounting: Bool = true
-    var saveTime: Int64!
     var backgroundTime: Date? // Background로 진입한 시간
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         configure()
-        bind()
         prepareAnimation()
         showAnimation()
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
@@ -68,61 +50,17 @@ class AnaerobicActivityViewController: UIViewController {
         timerCounting = false
         playButton.setImage(UIImage(systemName: "play.circle"), for: .normal)
         timer?.invalidate()
-        if count < 60 { // 1분 미만의 운동은 제외하기
-            showExAlert()
-            return
-        }
+//        if count < 60 { // 1분 미만의 운동은 제외하기
+//            showExAlert()
+//            return
+//        }
         showAlert(title: "운동을 종료하시겠습니까?", message: "기록이 저장됩니다.")
     }
 }
 
-extension AnaerobicActivityViewController {
-    private func bind() {
-        sendState.receive(on: RunLoop.main).sink { result in
-            if result {
-                // firebase에 저장하기
-                configFirebase.saveDoneEx(exName: self.info.exercise, set: self.info.set, weight: self.info.weight, count: self.info.count, distance: 0, maxSpeed: 0, avgSpeed: 0, time: Int64(self.count), date: self.info.date)
-            } else {
-                print("서버 전송 오류, 잠시 후 다시 시도해 주세요.")
-                self.indicator.stopAnimating()
-                self.showError()
-            }
-        }.store(in: &subscriptions)
-        
-        fireState.receive(on: RunLoop.main).sink { result in
-            self.indicator.stopAnimating()
-            if result { print("Firebase에 저장 성공") }
-            else { print("Firebase에 저장 실패") }
-            let update = ExerciseCoreData.updateCoreData(id: self.info.id, entityName: "Anaerobic", saveTime: self.saveTime, done: true)
-            if update == true {
-                print("운동 완료 후 업데이트 성공")
-                ExerciseViewController.reloadEx.send(true)
-                self.navigationController?.popViewController(animated: true)
-            } else {
-                print("운동 완료 후 업데이트 실패")
-                self.showError()
-            }
-        }.store(in: &subscriptions)
-    }
-    
+extension QuickAnaerobicViewController {
     private func configure() {
-        backgroundView.backgroundColor = .black.withAlphaComponent(0.6)
-        backgroundView.isHidden = true
-        
-        guard let info = viewModel.ExerciseInfo as? anaerobicExerciseInfo else { return }
-        self.info = info
-        
-        exerciseLabel.text = info.exercise
-        setNumLabel.text = "\(info.set)"
-        weightNumLabel.text = "\(info.weight)"
-        countNumLabel.text = "\(info.count)"
-        if info.weight == 0 {
-            weightLabel.isHidden = true
-            weightNumLabel.isHidden = true
-            set_leading.constant = 100
-            count_trailing.constant = 100
-        }
-        
+        navigationItem.backButtonDisplayMode = .minimal
         let center = NotificationCenter.default
         center.addObserver(self, selector: #selector(enterForeground), name: NSNotification.Name("WillEnterForeground"), object: nil)
         
@@ -151,35 +89,33 @@ extension AnaerobicActivityViewController {
     }
     
     private func prepareAnimation() {
-        exerciseLabel.transform = CGAffineTransform(translationX: view.bounds.width, y: 0).scaledBy(x: 3, y: 3).rotated(by: 180)
+        titleLabel.transform = CGAffineTransform(translationX: view.bounds.width, y: 0).scaledBy(x: 3, y: 3).rotated(by: 180)
         timeLabel.transform = CGAffineTransform(translationX: view.bounds.width, y: 0).scaledBy(x: 3, y: 3).rotated(by: 180)
-        exerciseLabel.alpha = 0
+        titleLabel.alpha = 0
         timeLabel.alpha = 0
     }
     
     private func showAnimation() {
-        UIView.animate(withDuration: 1, delay: 0.1, usingSpringWithDamping: 0.6, initialSpringVelocity: 2, options: .allowUserInteraction, animations: {
-            self.exerciseLabel.transform = CGAffineTransform.identity
-            self.exerciseLabel.alpha = 1
+        UIView.animate(withDuration: 1, delay: 0.2, usingSpringWithDamping: 0.6, initialSpringVelocity: 2, options: .allowUserInteraction, animations: {
+            self.titleLabel.transform = CGAffineTransform.identity
+            self.titleLabel.alpha = 1
         }, completion: nil)
         
-        UIView.animate(withDuration: 1, delay: 0.2, usingSpringWithDamping: 0.6, initialSpringVelocity: 2, options: .allowUserInteraction, animations: {
+        UIView.animate(withDuration: 1, delay: 0.3, usingSpringWithDamping: 0.6, initialSpringVelocity: 2, options: .allowUserInteraction, animations: {
             self.timeLabel.transform = CGAffineTransform.identity
             self.timeLabel.alpha = 1
         }, completion: nil)
     }
 }
 
-extension AnaerobicActivityViewController {
+extension QuickAnaerobicViewController {
     private func showAlert(title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
         let cancle = UIAlertAction(title: "취소", style: .destructive, handler: nil)
         let ok = UIAlertAction(title: "확인", style: .default) { _ in
-            self.backgroundView.isHidden = false
-            self.indicator.startAnimating()
-            let time = Int64(TimeStamp.getCurrentTimestamp())
-            self.saveTime = time
-            configServer.sendCompleteEx(info: self.info, time: self.count, saveTime: time, subject: self.sendState)
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "QuickSaveViewController") as! QuickSaveViewController
+            vc.count = self.count
+            self.navigationController?.pushViewController(vc, animated: true)
         }
         alert.addAction(cancle)
         alert.addAction(ok)
@@ -192,18 +128,9 @@ extension AnaerobicActivityViewController {
         alert.addAction(ok)
         present(alert, animated: true, completion: nil)
     }
-    
-    private func showError() {
-        let alert = UIAlertController(title: "운동 완료 실패", message: "잠시 후 다시 시도해 주세요.", preferredStyle: UIAlertController.Style.alert)
-        let ok = UIAlertAction(title: "확인", style: .default) { _ in
-            self.navigationController?.popViewController(animated: true)
-        }
-        alert.addAction(ok)
-        present(alert, animated: true, completion: nil)
-    }
 }
 
-extension AnaerobicActivityViewController {
+extension QuickAnaerobicViewController {
     private func initTimer() -> Timer {
         let timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerCounter), userInfo: nil, repeats: true)
         return timer

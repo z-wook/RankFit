@@ -21,8 +21,7 @@ class RevokeViewController: UIViewController {
     @IBOutlet weak var backgroundView: UIView!
     @IBOutlet weak var indicator: UIActivityIndicatorView!
     
-    static let emailAuth = PassthroughSubject<String, Never>() // 이메일을 받기위한 subject
-    let revokeSubject = PassthroughSubject<String, Never>() // 실행 후 cancel 하기
+    static let emailAuth = PassthroughSubject<String, Never>()
     var subscriptions = Set<AnyCancellable>()
     var cancel: Cancellable?
     let viewModel = RevokeViewModel()
@@ -35,9 +34,8 @@ class RevokeViewController: UIViewController {
         bind()
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
+    override func viewDidDisappear(_ animated: Bool) {
         cancel?.cancel()
-        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
     }
     
     private func configure() {
@@ -47,17 +45,10 @@ class RevokeViewController: UIViewController {
         withdrawalBtn.isHidden = true
         backgroundView.isHidden = true
         backgroundView.backgroundColor = .black.withAlphaComponent(0.6)
-        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
     }
     
     private func bind() {
         let subject = RevokeViewController.emailAuth.receive(on: RunLoop.main).sink { link in
-            self.revokeSubject.send(link)
-        }
-        cancel = subject
-        
-        // 로그인 과정을 한번만 수행하기 위해 분리시켜놓음
-        revokeSubject.receive(on: RunLoop.main).sink { link in
             self.backgroundView.isHidden = false
             self.indicator.startAnimating()
             UserDefaults.standard.removeObject(forKey: "revoke")
@@ -86,7 +77,8 @@ class RevokeViewController: UIViewController {
                     }
                 }
             }
-        }.store(in: &subscriptions)
+        }
+        cancel = subject
         
         viewModel.allClearSubject.receive(on: RunLoop.main).sink { result in
             if result {

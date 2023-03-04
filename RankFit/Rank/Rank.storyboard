@@ -11,7 +11,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Rank-->
+        <!--랭킹-->
         <scene sceneID="s0d-6b-0kx">
             <objects>
                 <viewController storyboardIdentifier="MyRankViewController" id="Y6W-OH-hqX" customClass="MyRankViewController" customModule="RankFit" customModuleProvider="target" sceneMemberID="viewController">
@@ -176,7 +176,7 @@
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="tDP-4g-ewN" secondAttribute="bottom" id="vdn-VQ-nrN"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Rank" image="person.2" catalog="system" id="WLX-Im-MiT"/>
+                    <tabBarItem key="tabBarItem" title="랭킹" image="person.2" catalog="system" id="WLX-Im-MiT"/>
                     <navigationItem key="navigationItem" id="iRh-dj-g6s">
                         <barButtonItem key="rightBarButtonItem" style="done" id="YUY-ck-KRl">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="8X4-GH-TK3">

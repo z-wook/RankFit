@@ -12,17 +12,15 @@ class ExerciseListViewController: UIViewController {
 
     @IBOutlet weak var collectionView: UICollectionView!
     
+    let viewModel = ExerciseListViewModel(items: ExerciseInfo.sortedList)
     let searchBar = UISearchBar()
-    var items: [ExerciseInfo] = ExerciseInfo.sortedList
+    var datasource: UICollectionViewDiffableDataSource<Section, Item>!
+    var subscriptions = Set<AnyCancellable>()
     
     typealias Item = ExerciseInfo
     enum Section {
         case main
     }
-    
-    var datasource: UICollectionViewDiffableDataSource<Section, Item>!
-    var subscriptions = Set<AnyCancellable>()
-    var viewModel: ExerciseListViewModel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,7 +68,7 @@ class ExerciseListViewController: UIViewController {
         collectionView.collectionViewLayout = layout()
         var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
         snapshot.appendSections([.main])
-        snapshot.appendItems(items, toSection: .main)
+        snapshot.appendItems(viewModel.items.value, toSection: .main)
         datasource.apply(snapshot)
 
         collectionView.delegate = self
@@ -108,12 +106,12 @@ class ExerciseListViewController: UIViewController {
     }
 
     private func embedSearchBar() {
-        searchBar.placeholder = "검색"
         self.navigationItem.titleView = searchBar
+        searchBar.placeholder = "검색"
         searchBar.delegate = self
     }
     
-    func searchExercise(with text: String) {
+    private func searchExercise(with text: String) {
         viewModel.filteredExercises(filter: text)
         
         var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
@@ -135,7 +133,6 @@ extension ExerciseListViewController: UISearchBarDelegate {
 }
 
 extension ExerciseListViewController: UICollectionViewDelegate {
-    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         searchBar.resignFirstResponder()
         viewModel.didSelect(at: indexPath)

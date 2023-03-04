@@ -61,7 +61,6 @@ class SettingViewController: UIViewController {
 }
 
 extension SettingViewController: UITableViewDataSource, UITableViewDelegate {
-    
     func numberOfSections(in tableView: UITableView) -> Int {
         return sectionHeader.count
     }
@@ -155,7 +154,11 @@ extension SettingViewController {
             return
             
         case 2:
-            return
+            if indexPath.item == 3 { // 공지사항
+                let sb = UIStoryboard(name: "Notice", bundle: nil)
+                let vc = sb.instantiateViewController(withIdentifier: "NoticeViewController") as! NoticeViewController
+                navigationController?.pushViewController(vc, animated: true)
+            }
             
         case 3:
             let user = Auth.auth().currentUser

@@ -25,8 +25,6 @@
 		332672E92976FFD800D064A4 /* configFirebase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 332672E82976FFD800D064A4 /* configFirebase.swift */; };
 		3338F46A299BDBE3009B731A /* InputInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3338F469299BDBE3009B731A /* InputInfoViewModel.swift */; };
 		333A4FA62960A9F0004C494C /* OptionDetail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 333A4FA52960A9F0004C494C /* OptionDetail.storyboard */; };
-		333CAFED2959A9A5008902AA /* SendAnaerobicEx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333CAFEC2959A9A5008902AA /* SendAnaerobicEx.swift */; };
-		333CAFEF2959A9BC008902AA /* SendAerobicEx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333CAFEE2959A9BC008902AA /* SendAerobicEx.swift */; };
 		334146882999DB2F004380C4 /* ChangeProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334146872999DB2F004380C4 /* ChangeProfileViewController.swift */; };
 		3344DDAC2962D46D0060B21C /* MyDetailRankCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3344DDAB2962D46D0060B21C /* MyDetailRankCell.swift */; };
 		3344DDAE2962E1910060B21C /* MyDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3344DDAD2962E1910060B21C /* MyDetailViewModel.swift */; };
@@ -68,6 +66,8 @@
 		3373E8542961ADEF00680290 /* MyRankViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3373E8532961ADEE00680290 /* MyRankViewModel.swift */; };
 		3373E8562962210300680290 /* MyDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3373E8552962210300680290 /* MyDetailViewController.swift */; };
 		3373E85A2962213900680290 /* MyDetail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3373E8592962213900680290 /* MyDetail.storyboard */; };
+		3375F80B29AE5ABF001ACCB3 /* QuickAerobicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3375F80A29AE5ABF001ACCB3 /* QuickAerobicViewController.swift */; };
+		3375F80D29AEF2F5001ACCB3 /* QuickSaveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3375F80C29AEF2F5001ACCB3 /* QuickSaveViewController.swift */; };
 		337A91C5297734C200AA346A /* OptionDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337A91C4297734C200AA346A /* OptionDetailViewModel.swift */; };
 		337A91C72978018E00AA346A /* PickImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337A91C62978018E00AA346A /* PickImageViewController.swift */; };
 		337A91C92979459600AA346A /* configLocalStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337A91C82979459600AA346A /* configLocalStorage.swift */; };
@@ -77,6 +77,8 @@
 		339D23D42965DC270022BB94 /* OptionRankViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339D23D32965DC270022BB94 /* OptionRankViewModel.swift */; };
 		339D23D62965E34C0022BB94 /* receiveOptionRankInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339D23D52965E34C0022BB94 /* receiveOptionRankInfo.swift */; };
 		339EAFD1298A1B5F00BF5080 /* UserDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339EAFD0298A1B5F00BF5080 /* UserDetailViewController.swift */; };
+		33A19D6029B0CAB000D75519 /* QuickExPickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A19D5F29B0CAB000D75519 /* QuickExPickerCell.swift */; };
+		33A19D6429B2770400D75519 /* QuickSelectExCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A19D6329B2770400D75519 /* QuickSelectExCell.swift */; };
 		33A541982948B3D9006CD6CB /* userInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A541972948B3D9006CD6CB /* userInfo.swift */; };
 		33A56E1729A7AE6F00E6FCD8 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 33A56E1629A7AE6F00E6FCD8 /* FirebaseAuth */; };
 		33A56E1929A7AE6F00E6FCD8 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 33A56E1829A7AE6F00E6FCD8 /* FirebaseDatabase */; };
@@ -89,10 +91,17 @@
 		33A56E2729A7AE6F00E6FCD8 /* FirebaseRemoteConfig in Frameworks */ = {isa = PBXBuildFile; productRef = 33A56E2629A7AE6F00E6FCD8 /* FirebaseRemoteConfig */; };
 		33A56E2929A7AE6F00E6FCD8 /* FirebaseRemoteConfigSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 33A56E2829A7AE6F00E6FCD8 /* FirebaseRemoteConfigSwift */; };
 		33A56E2B29A7AE6F00E6FCD8 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 33A56E2A29A7AE6F00E6FCD8 /* FirebaseStorage */; };
+		33A56F6829ADF3950042FA3E /* QuickExercise.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 33A56F6729ADF3950042FA3E /* QuickExercise.storyboard */; };
+		33A56F6A29ADF4E70042FA3E /* QuickAnaerobicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A56F6929ADF4E70042FA3E /* QuickAnaerobicViewController.swift */; };
 		33B13778298E5E980006DA9B /* savePlankViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33B13777298E5E980006DA9B /* savePlankViewController.swift */; };
 		33C4F2662967D39500CB70D3 /* Charts in Frameworks */ = {isa = PBXBuildFile; productRef = 33C4F2652967D39500CB70D3 /* Charts */; };
 		33C6F1AE29A9528900474E29 /* weeklyRankCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C6F1AD29A9528900474E29 /* weeklyRankCell.swift */; };
 		33C6F1B029A95F3A00474E29 /* WeeklyRankViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C6F1AF29A95F3A00474E29 /* WeeklyRankViewModel.swift */; };
+		33CC6ECB29AA7962008BD3FD /* Notice.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 33CC6ECA29AA7962008BD3FD /* Notice.storyboard */; };
+		33CC6ECE29AA79AA008BD3FD /* NoticeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CC6ECD29AA79AA008BD3FD /* NoticeViewController.swift */; };
+		33CC6ED029AA7C44008BD3FD /* NoticeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CC6ECF29AA7C44008BD3FD /* NoticeCell.swift */; };
+		33CC6ED229AA820B008BD3FD /* NoticeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CC6ED129AA820B008BD3FD /* NoticeViewModel.swift */; };
+		33CC6ED429AABB60008BD3FD /* NoticeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CC6ED329AABB60008BD3FD /* NoticeDetailViewController.swift */; };
 		33D6A08E2947005100C88657 /* RegisterAgeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D6A08D2947005100C88657 /* RegisterAgeViewController.swift */; };
 		33D6A09029470BB500C88657 /* RegisterWeightViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D6A08F29470BB500C88657 /* RegisterWeightViewController.swift */; };
 		33D7DE58296DF3820034405E /* Diary.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 33D7DE57296DF3820034405E /* Diary.storyboard */; };
@@ -168,8 +177,6 @@
 		332672E82976FFD800D064A4 /* configFirebase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = configFirebase.swift; sourceTree = "<group>"; };
 		3338F469299BDBE3009B731A /* InputInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputInfoViewModel.swift; sourceTree = "<group>"; };
 		333A4FA52960A9F0004C494C /* OptionDetail.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = OptionDetail.storyboard; sourceTree = "<group>"; };
-		333CAFEC2959A9A5008902AA /* SendAnaerobicEx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendAnaerobicEx.swift; sourceTree = "<group>"; };
-		333CAFEE2959A9BC008902AA /* SendAerobicEx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendAerobicEx.swift; sourceTree = "<group>"; };
 		333EA56D297F5D240016D3DB /* RankFit.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RankFit.entitlements; sourceTree = "<group>"; };
 		334146872999DB2F004380C4 /* ChangeProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeProfileViewController.swift; sourceTree = "<group>"; };
 		3344DDAB2962D46D0060B21C /* MyDetailRankCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyDetailRankCell.swift; sourceTree = "<group>"; };
@@ -214,6 +221,8 @@
 		3373E8532961ADEE00680290 /* MyRankViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyRankViewModel.swift; sourceTree = "<group>"; };
 		3373E8552962210300680290 /* MyDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyDetailViewController.swift; sourceTree = "<group>"; };
 		3373E8592962213900680290 /* MyDetail.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MyDetail.storyboard; sourceTree = "<group>"; };
+		3375F80A29AE5ABF001ACCB3 /* QuickAerobicViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickAerobicViewController.swift; sourceTree = "<group>"; };
+		3375F80C29AEF2F5001ACCB3 /* QuickSaveViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickSaveViewController.swift; sourceTree = "<group>"; };
 		337A91C4297734C200AA346A /* OptionDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionDetailViewModel.swift; sourceTree = "<group>"; };
 		337A91C62978018E00AA346A /* PickImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickImageViewController.swift; sourceTree = "<group>"; };
 		337A91C82979459600AA346A /* configLocalStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = configLocalStorage.swift; sourceTree = "<group>"; };
@@ -223,10 +232,19 @@
 		339D23D32965DC270022BB94 /* OptionRankViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionRankViewModel.swift; sourceTree = "<group>"; };
 		339D23D52965E34C0022BB94 /* receiveOptionRankInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = receiveOptionRankInfo.swift; sourceTree = "<group>"; };
 		339EAFD0298A1B5F00BF5080 /* UserDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailViewController.swift; sourceTree = "<group>"; };
+		33A19D5F29B0CAB000D75519 /* QuickExPickerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickExPickerCell.swift; sourceTree = "<group>"; };
+		33A19D6329B2770400D75519 /* QuickSelectExCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickSelectExCell.swift; sourceTree = "<group>"; };
 		33A541972948B3D9006CD6CB /* userInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = userInfo.swift; sourceTree = "<group>"; };
+		33A56F6729ADF3950042FA3E /* QuickExercise.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = QuickExercise.storyboard; sourceTree = "<group>"; };
+		33A56F6929ADF4E70042FA3E /* QuickAnaerobicViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickAnaerobicViewController.swift; sourceTree = "<group>"; };
 		33B13777298E5E980006DA9B /* savePlankViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = savePlankViewController.swift; sourceTree = "<group>"; };
 		33C6F1AD29A9528900474E29 /* weeklyRankCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = weeklyRankCell.swift; sourceTree = "<group>"; };
 		33C6F1AF29A95F3A00474E29 /* WeeklyRankViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyRankViewModel.swift; sourceTree = "<group>"; };
+		33CC6ECA29AA7962008BD3FD /* Notice.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Notice.storyboard; sourceTree = "<group>"; };
+		33CC6ECD29AA79AA008BD3FD /* NoticeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeViewController.swift; sourceTree = "<group>"; };
+		33CC6ECF29AA7C44008BD3FD /* NoticeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeCell.swift; sourceTree = "<group>"; };
+		33CC6ED129AA820B008BD3FD /* NoticeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeViewModel.swift; sourceTree = "<group>"; };
+		33CC6ED329AABB60008BD3FD /* NoticeDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeDetailViewController.swift; sourceTree = "<group>"; };
 		33D6A08D2947005100C88657 /* RegisterAgeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterAgeViewController.swift; sourceTree = "<group>"; };
 		33D6A08F29470BB500C88657 /* RegisterWeightViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterWeightViewController.swift; sourceTree = "<group>"; };
 		33D7DE57296DF3820034405E /* Diary.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Diary.storyboard; sourceTree = "<group>"; };
@@ -356,8 +374,6 @@
 		3344DDAF2962FF760060B21C /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				333CAFEC2959A9A5008902AA /* SendAnaerobicEx.swift */,
-				333CAFEE2959A9BC008902AA /* SendAerobicEx.swift */,
 				33657A7E2944CB7B00164DB5 /* ExerciseCoreData.swift */,
 			);
 			path = Model;
@@ -430,7 +446,8 @@
 				33657A6B2944C89800164DB5 /* SettingViewController.swift */,
 				33DA75BC294C38EE002DAB31 /* ProfileCell.swift */,
 				33DA75C0294C4DFC002DAB31 /* DefaultCell.swift */,
-				33DE94B0294C6B9B005AF20C /* Detail */,
+				33DE94B0294C6B9B005AF20C /* ProfileDetail */,
+				33CC6ECC29AA796B008BD3FD /* Notice */,
 			);
 			path = Setting;
 			sourceTree = "<group>";
@@ -438,9 +455,9 @@
 		33657A6F2944C8F400164DB5 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				33657A722944C93500164DB5 /* ExerciseInfo.swift */,
 				33657A702944C92100164DB5 /* aerobicExerciseInfo.swift */,
 				33657A6D2944C8DC00164DB5 /* anaerobicExerciseInfo.swift */,
-				33657A722944C93500164DB5 /* ExerciseInfo.swift */,
 				33A541972948B3D9006CD6CB /* userInfo.swift */,
 				33FBDE562993C4EE009959C5 /* SlangFilter.swift */,
 				33139907297A00070074A73A /* PhotoInfomation.swift */,
@@ -502,6 +519,31 @@
 			path = DetailRank;
 			sourceTree = "<group>";
 		};
+		33A56F6B29ADF5090042FA3E /* QuickEx */ = {
+			isa = PBXGroup;
+			children = (
+				33A56F6729ADF3950042FA3E /* QuickExercise.storyboard */,
+				33A56F6929ADF4E70042FA3E /* QuickAnaerobicViewController.swift */,
+				33A19D6329B2770400D75519 /* QuickSelectExCell.swift */,
+				33A19D5F29B0CAB000D75519 /* QuickExPickerCell.swift */,
+				3375F80A29AE5ABF001ACCB3 /* QuickAerobicViewController.swift */,
+				3375F80C29AEF2F5001ACCB3 /* QuickSaveViewController.swift */,
+			);
+			path = QuickEx;
+			sourceTree = "<group>";
+		};
+		33CC6ECC29AA796B008BD3FD /* Notice */ = {
+			isa = PBXGroup;
+			children = (
+				33CC6ECA29AA7962008BD3FD /* Notice.storyboard */,
+				33CC6ECD29AA79AA008BD3FD /* NoticeViewController.swift */,
+				33CC6ED329AABB60008BD3FD /* NoticeDetailViewController.swift */,
+				33CC6ED129AA820B008BD3FD /* NoticeViewModel.swift */,
+				33CC6ECF29AA7C44008BD3FD /* NoticeCell.swift */,
+			);
+			path = Notice;
+			sourceTree = "<group>";
+		};
 		33D7DE59296DF3890034405E /* Diary */ = {
 			isa = PBXGroup;
 			children = (
@@ -523,7 +565,7 @@
 			path = LaunchScreen;
 			sourceTree = "<group>";
 		};
-		33DE94B0294C6B9B005AF20C /* Detail */ = {
+		33DE94B0294C6B9B005AF20C /* ProfileDetail */ = {
 			isa = PBXGroup;
 			children = (
 				33DE94B1294CBE8F005AF20C /* MyProfile.storyboard */,
@@ -531,7 +573,7 @@
 				33DE94B3294CC3EF005AF20C /* MyProfileCell.swift */,
 				33F8F275294CFFC0007A4691 /* InputInfo */,
 			);
-			path = Detail;
+			path = ProfileDetail;
 			sourceTree = "<group>";
 		};
 		33E916E72943AC4A00FC074A = {
@@ -620,6 +662,7 @@
 				33684C7629685CEE0035C308 /* HomeViewModel.swift */,
 				33C6F1AD29A9528900474E29 /* weeklyRankCell.swift */,
 				33C6F1AF29A95F3A00474E29 /* WeeklyRankViewModel.swift */,
+				33A56F6B29ADF5090042FA3E /* QuickEx */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -833,6 +876,7 @@
 			files = (
 				33E917372943B61400FC074A /* Exercise.storyboard in Resources */,
 				3351B6492983528B00DB3DD2 /* Login.storyboard in Resources */,
+				33CC6ECB29AA7962008BD3FD /* Notice.storyboard in Resources */,
 				3373E85A2962213900680290 /* MyDetail.storyboard in Resources */,
 				3351B64B298486EE00DB3DD2 /* Revoke.storyboard in Resources */,
 				33D7DE58296DF3820034405E /* Diary.storyboard in Resources */,
@@ -848,6 +892,7 @@
 				33E917402943C6B500FC074A /* DoExercise.storyboard in Resources */,
 				33E916FB2943AC4A00FC074A /* Main.storyboard in Resources */,
 				33657A5B2944B4AC00164DB5 /* saveExercise.storyboard in Resources */,
+				33A56F6829ADF3950042FA3E /* QuickExercise.storyboard in Resources */,
 				33657A692944C87100164DB5 /* Setting.storyboard in Resources */,
 				33E9172C2943B1F600FC074A /* Home.storyboard in Resources */,
 				33F8F274294CFFB7007A4691 /* InputInfo.storyboard in Resources */,
@@ -982,6 +1027,8 @@
 				3394F0C7296C218E009BC159 /* saveUserData.swift in Sources */,
 				334146882999DB2F004380C4 /* ChangeProfileViewController.swift in Sources */,
 				335EA1C729A3C7CC000336F7 /* ReturnToRankFit.swift in Sources */,
+				33A19D6029B0CAB000D75519 /* QuickExPickerCell.swift in Sources */,
+				33A56F6A29ADF4E70042FA3E /* QuickAnaerobicViewController.swift in Sources */,
 				33657A592944ACE500164DB5 /* ExerciseListViewModel.swift in Sources */,
 				3373E8542961ADEF00680290 /* MyRankViewModel.swift in Sources */,
 				33657A622944B51C00164DB5 /* saveExerciseViewModel.swift in Sources */,
@@ -991,7 +1038,6 @@
 				33897A1D295B5A9300986EC0 /* MyRankCell.swift in Sources */,
 				335F8CFA296EEC8B0056C5CA /* receiveMyRankInfo.swift in Sources */,
 				33657A712944C92100164DB5 /* aerobicExerciseInfo.swift in Sources */,
-				333CAFEF2959A9BC008902AA /* SendAerobicEx.swift in Sources */,
 				33DA75BD294C38EE002DAB31 /* ProfileCell.swift in Sources */,
 				33E9172E2943B21800FC074A /* HomeViewController.swift in Sources */,
 				330C66B92973FF7800C44515 /* OptionDetailViewController.swift in Sources */,
@@ -1000,8 +1046,8 @@
 				331D346D2945D26300E4CE20 /* OnboardingCell.swift in Sources */,
 				339D23D62965E34C0022BB94 /* receiveOptionRankInfo.swift in Sources */,
 				33657A732944C93500164DB5 /* ExerciseInfo.swift in Sources */,
-				333CAFED2959A9A5008902AA /* SendAnaerobicEx.swift in Sources */,
 				33FBDE572993C4EE009959C5 /* SlangFilter.swift in Sources */,
+				33CC6ED429AABB60008BD3FD /* NoticeDetailViewController.swift in Sources */,
 				33E917392943B62000FC074A /* ExerciseViewController.swift in Sources */,
 				33C6F1AE29A9528900474E29 /* weeklyRankCell.swift in Sources */,
 				3338F46A299BDBE3009B731A /* InputInfoViewModel.swift in Sources */,
@@ -1013,6 +1059,7 @@
 				33DAAEFA298956DD004E1C0F /* OptionDetailRankCell.swift in Sources */,
 				337A91C72978018E00AA346A /* PickImageViewController.swift in Sources */,
 				337A91C92979459600AA346A /* configLocalStorage.swift in Sources */,
+				3375F80D29AEF2F5001ACCB3 /* QuickSaveViewController.swift in Sources */,
 				334E1E4E297B1756005753C9 /* PhotoCoreData.swift in Sources */,
 				337A91C5297734C200AA346A /* OptionDetailViewModel.swift in Sources */,
 				33DA75B12949A568002DAB31 /* AuthenticationModel.swift in Sources */,
@@ -1024,9 +1071,11 @@
 				33E916F62943AC4A00FC074A /* SceneDelegate.swift in Sources */,
 				33182E87295044F500A57741 /* getSavedDateInfo.swift in Sources */,
 				33E9173E2943BC7600FC074A /* ExercisePlanCell.swift in Sources */,
+				33CC6ECE29AA79AA008BD3FD /* NoticeViewController.swift in Sources */,
 				331D346B2945D23100E4CE20 /* OnboardingViewController.swift in Sources */,
 				331399032979C95A0074A73A /* MyDiaryCell.swift in Sources */,
 				33A541982948B3D9006CD6CB /* userInfo.swift in Sources */,
+				3375F80B29AE5ABF001ACCB3 /* QuickAerobicViewController.swift in Sources */,
 				33F8F272294CFAF1007A4691 /* ChangeWeightViewController.swift in Sources */,
 				33657A782944C9AA00164DB5 /* BarButtonItemGenerate.swift in Sources */,
 				33E917292943B0DD00FC074A /* MainTabBarController.swift in Sources */,
@@ -1052,6 +1101,7 @@
 				33657A552944ACB800164DB5 /* ExerciseListViewController.swift in Sources */,
 				3344DDAE2962E1910060B21C /* MyDetailViewModel.swift in Sources */,
 				33657A6C2944C89800164DB5 /* SettingViewController.swift in Sources */,
+				33A19D6429B2770400D75519 /* QuickSelectExCell.swift in Sources */,
 				335A192C2985C85000D45F2A /* ChoiceWayViewController.swift in Sources */,
 				33E917432943C6DC00FC074A /* AnaerobicActivityViewController.swift in Sources */,
 				3344DDB62963EE810060B21C /* OptionCell.swift in Sources */,
@@ -1060,8 +1110,10 @@
 				33657A502944840100164DB5 /* DoExerciseViewModel.swift in Sources */,
 				33B13778298E5E980006DA9B /* savePlankViewController.swift in Sources */,
 				33DB715F2973D77C00B2C8FA /* TimeStamp.swift in Sources */,
+				33CC6ED229AA820B008BD3FD /* NoticeViewModel.swift in Sources */,
 				33657A602944B50400164DB5 /* saveExerciseViewController2.swift in Sources */,
 				33C6F1B029A95F3A00474E29 /* WeeklyRankViewModel.swift in Sources */,
+				33CC6ED029AA7C44008BD3FD /* NoticeCell.swift in Sources */,
 				334E59E829A0BE2B00BF9478 /* ZoomProfileViewController.swift in Sources */,
 				332672E92976FFD800D064A4 /* configFirebase.swift in Sources */,
 			);

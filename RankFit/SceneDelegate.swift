@@ -9,13 +9,12 @@ import UIKit
 import CoreLocation
 import FirebaseAuth
 import Combine
-import FirebaseMessaging
-import NotificationCenter
+//import NotificationCenter
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-    
+
     // FirebaseAuth
     func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
         guard let webpageURL = userActivity.webpageURL else { return }
@@ -75,6 +74,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to undo the changes made on entering the background.
         
 //        UIApplication.shared.applicationIconBadgeNumber = 0 // 알림 배지를 초기화
+
+        let notiName = NSNotification.Name("WillEnterForeground")
+        NotificationCenter.default.post(name: notiName, object: nil)
+        
     }
 
     func sceneDidEnterBackground(_ scene: UIScene) {
@@ -83,13 +86,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // to restore the scene back to its current state.
 
         // Save changes in the application's managed object context when the application transitions to the background.
-        
-        
-//        (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
 //
 //        let locationManager = CLLocationManager()
 //        locationManager.allowsBackgroundLocationUpdates = true
 //        locationManager.requestAlwaysAuthorization()
 //        locationManager.startUpdatingLocation()
+        
+        let notiName = NSNotification.Name("DidEnterBackground")
+        NotificationCenter.default.post(name: notiName, object: nil)
     }
 }

@@ -176,7 +176,7 @@ extension ChangeProfileViewController {
         let cameraConfig = CustomBarItemConfiguration(
             image: UIImage(systemName: "camera"),
             handler: {
-                let alert = UIAlertController(title: "사진 선택", message: "사진을 가져올 방법을 선택해 주세요.", preferredStyle: .actionSheet)
+                let alert = UIAlertController(title: "사진 선택", message: nil, preferredStyle: .actionSheet)
                 let library = UIAlertAction(title: "사진앨범", style: .default) { (action) in self.openLibrary()
                 }
                 let camera = UIAlertAction(title: "카메라", style: .default) { (action) in
@@ -193,7 +193,7 @@ extension ChangeProfileViewController {
         let moreConfig = CustomBarItemConfiguration(
             image: UIImage(systemName: "ellipsis"),
             handler: {
-                let alert = UIAlertController(title: "사진 선택", message: "사진을 가져올 방법을 선택해 주세요.", preferredStyle: .alert)
+                let alert = UIAlertController(title: "프로필 삭제", message: "프로필 사진을 삭제하시겠습니까?", preferredStyle: .alert)
                 let ok = UIAlertAction(title: "프로필 유지", style: .default)
                 let cancel = UIAlertAction(title: "프로필 삭제", style: .destructive) { _ in
                     let img = configLocalStorage.loadImageFromDocumentDirectory(imageName: "profileImage.jpeg")

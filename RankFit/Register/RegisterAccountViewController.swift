@@ -44,9 +44,8 @@ class RegisterAccountViewController: UIViewController {
         bind()
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
+    override func viewDidDisappear(_ animated: Bool) {
         cancel?.cancel()
-        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
     }
     
     private func bind() {
@@ -183,8 +182,7 @@ class RegisterAccountViewController: UIViewController {
     
     @IBAction func nickNameCheck(_ sender: UIButton) {
         guard let nickNameStr = nickNameField.text else { return }
-        // 키보드 내리기
-        view.endEditing(true)
+        view.endEditing(true) // 키보드 내리기
         if SlangFilter().nickNameFilter(nickName: nickNameStr) {
             self.nickName = nickNameStr
             let parameters: Parameters = [
@@ -214,8 +212,7 @@ class RegisterAccountViewController: UIViewController {
     @IBAction func sendEmail(_ sender: UIButton) {
         guard let email = emailField.text else { return }
         emailCheck.layer.isHidden = true
-        // 키보드 내리기
-        view.endEditing(true)
+        view.endEditing(true) // 키보드 내리기
         // 이메일 검사
         let result = isValidEmail(email: email)
         if result {
@@ -264,16 +261,20 @@ extension RegisterAccountViewController {
     private func showAlert(title: String, description: String, type: String) {
         let alert = UIAlertController(title: title, message: description, preferredStyle: .alert)
         let ok = UIAlertAction(title: "확인", style: .default) { _ in
-            if type == "email" { return }
-            else if type == "fail" {
+            switch type {
+            case "email": return
+                
+            case "fail":
                 self.navigationController?.popViewController(animated: true)
                 return
-            } else if type == "auth" {
+                
+            case "auth":
                 self.navigationController?.popToRootViewController(animated: true)
                 return
-            } else {
-                // Firebase에서 사진이 언제 저장 완료될지 모르기 때문에 1초 후 실행
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                
+            default:
+                // Firebase에서 사진이 언제 저장 완료될지 모르기 때문에 3초 후 실행
+                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                     DiaryViewController.reloadDiary.send(true)
                 }
                 self.navigationController?.popToRootViewController(animated: true)
@@ -294,7 +295,6 @@ extension RegisterAccountViewController {
         emailCheck.layer.isHidden = true
         backgroundView.isHidden = true
         backgroundView.backgroundColor = .black.withAlphaComponent(0.6)
-        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
     }
     
     private func buttonON() {

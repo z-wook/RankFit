@@ -55,7 +55,7 @@ class OptionCell: UICollectionViewCell {
         MyRankViewController.profileSubject.send(image)
     }
     
-    func config(info: OptionRankInfo) {
+    func configure(info: OptionRankInfo) {
         self.userInfo = info
         if info.Nickname == "나의 랭킹" { // 맨 처음 나의 랭킹만 예외로 적용
             contentView.backgroundColor = UIColor(cgColor: CGColor(red: 0.5, green: 0, blue: 0.5, alpha: 0.6))
@@ -99,7 +99,6 @@ extension OptionCell {
             "nickname": nickName
         ]
         request = AF.request("http://rankfit.site/imageDown.php", method: .post, parameters: parameters).responseData { response in
-//            print("response: \(response.debugDescription)")
             switch response.result {
             case .success(let data):
                 let image = UIImage(data: data)
@@ -119,7 +118,8 @@ extension OptionCell {
                 return
                 
             case .failure(let error):
-                print("error: " + error.localizedDescription)
+                if error.localizedDescription == "Request explicitly cancelled." { return } // 랭킹을 로딩 중 취소하는 경우
+                print("error: \(error.localizedDescription)")
                 configFirebase.errorReport(type: "OptionCell.loadImage", descriptions: error.localizedDescription, server: response.debugDescription)
                 DispatchQueue.main.async {
                     self.indicator.stopAnimating()

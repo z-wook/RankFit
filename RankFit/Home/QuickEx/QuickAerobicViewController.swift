@@ -1,34 +1,33 @@
 //
-//  AerobicActivityViewController.swift
+//  QuickAerobicViewController.swift
 //  RankFit
 //
-//  Created by 한지욱 on 2022/12/10.
+//  Created by 한지욱 on 2023/03/01.
 //
 
 import UIKit
 import MapKit
-import CoreLocation
-import Foundation
 import CoreMotion
 import Combine
 
-class AerobicActivityViewController: UIViewController {
+class QuickAerobicViewController: UIViewController {
     
-    @IBOutlet weak var goalDistance: UILabel!
-    @IBOutlet weak var goalTime: UILabel!
     @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var moveDistance: UILabel!
     @IBOutlet weak var currentSpeed: UILabel!
-    @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var maxSpeedLabel: UILabel!
     @IBOutlet weak var altitude: UILabel!
+    @IBOutlet weak var exerciseType: UISegmentedControl!
     @IBOutlet weak var backgroundView: UIView!
     @IBOutlet weak var indicator: UIActivityIndicatorView!
     
-    let sendState = PassthroughSubject<Bool, Never>()
+    let saveServer = PassthroughSubject<Bool, Never>()
+    let updateServer = PassthroughSubject<Bool, Never>()
+    let saveFirebase = PassthroughSubject<Bool, Never>()
+    let doneFirebase = PassthroughSubject<Bool, Never>()
     var subscriptions = Set<AnyCancellable>()
     var exerciseInfo: aerobicExerciseInfo!
-    var viewModel: DoExerciseViewModel!
     var timer: Timer?
     var count = 0
     var saveTime: Int64!
@@ -41,10 +40,11 @@ class AerobicActivityViewController: UIViewController {
     var totalDistance: Double = 0 // 실제 움직인 거리 m
     var maxSpeed: Double = 0
     var avgSpeed: Double = 0
+    var type: String = "러닝"
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         configure()
         requestLocationAuthorization() // location config & permission
         bind()
@@ -77,19 +77,20 @@ class AerobicActivityViewController: UIViewController {
         requestActivityAuthorization()
     }
     
-    @IBAction func saveExercise(_ sender: UIButton) {
-        // test용
-        exDoneAlert()
-        
-//        if (exerciseInfo.distance <= totalDistance * 0.001) { // 거리 달성
-//            exDoneAlert()
-//        } else { // 거리 미달성
-//            exCancelAlert()
-//        }
+    @IBAction func exType(_ sender: UISegmentedControl) {
+        if sender.selectedSegmentIndex == 0 {
+            self.type = "러닝"
+        } else {
+            self.type = "싸이클"
+        }
+    }
+    
+    @IBAction func saveEx(_ sender: UIButton) {
+        exDoneAlert(type: self.type)
     }
 }
 
-extension AerobicActivityViewController {
+extension QuickAerobicViewController {
     private func startActivity() {
         requestActivityAuthorization()
         
@@ -106,74 +107,50 @@ extension AerobicActivityViewController {
                 self.maxSpeed = speed
                 self.maxSpeedLabel.text = "최고속도: " + String(format: "%.2f", self.maxSpeed * 3.6) + "km/h"
             }
-            switch self.exerciseInfo.exercise {
-            case "러닝":
-                if activity.stationary == true {
-                    self.locationManager?.stopUpdatingLocation()
-                    self.updateLabelText(speed: 0)
-                } else if (activity.walking == true || activity.running == true) {
-                    if activity.stationary == false {
-                        self.locationManager?.startUpdatingLocation()
-                        // walking || running이면서 약 40km/h 초과시 강제종료
-                        if speed > 9.722 { // 약 35km/h 초과
-                            self.showAlert(activity: "activity.stationary", speed: speed)
-                            return
-                        }
-                    } else { // !!! 상태는 상호 독립적인 것이 아니다.
-                        self.locationManager?.stopUpdatingLocation()
-                        self.updateLabelText(speed: 0)
-                    }
-                } else if (activity.cycling == true || activity.automotive == true) {
-                    self.showAlert(activity: "cycling, automotive", speed: speed)
-                    return
-                }
-                // CMMotionActivity @ 21432.287857,<startDate,2022-12-01 16:00:59 +0000,confidence,2,unknown,0,stationary,0,walking,0,running,0,automotive,0,cycling,0>
-                // 이런식으로 아무것도 아닌 경우도 생긴다.
-                else { // activity.unknown || 전부 0인 상태
-                    // 실제로 어떤 상태인지 모르기 때문에 일단은 위치 업데이트를 시키지만 러닝이 아닌 경우
-                    self.locationManager?.startUpdatingLocation()
-                    // unknown이면서 약 40km/h 초과시 강제종료
-                    if speed > 9.722 { // 약 35km/h 초과
-                        self.showAlert(activity: "activity.unknown", speed: speed)
-                        return
-                    }
-                }
-                
-            case "싸이클":
-                if activity.stationary == true {
-                    self.locationManager?.stopUpdatingLocation()
-                    self.updateLabelText(speed: 0)
+            if activity.stationary == true {
+                self.locationManager?.stopUpdatingLocation()
+                self.updateLabelText(speed: 0)
+            } else if (activity.walking == true || activity.running == true || activity.cycling == true) {
+                // 움직임에 따라 자동적으로 SegmentControl 갱신
+                if activity.walking == true || activity.running == true {
+                    self.type = "러닝"
+                    self.exerciseType.selectedSegmentIndex = 0
                 }
                 if activity.cycling == true {
-                    if activity.stationary == false {
-                        self.locationManager?.startUpdatingLocation()
-                    } else {
-                        self.locationManager?.stopUpdatingLocation()
-                        self.updateLabelText(speed: 0)
-                    }
-                } else if activity.automotive == true {
-                    self.motionManager?.stopActivityUpdates()
-                    self.locationManager?.stopUpdatingLocation()
-                    self.timer?.invalidate()
-                    self.showAlert(activity: "activity.automotive", speed: speed)
-                    return
-                } else { // walking, running, unknown
+                    self.type = "싸이클"
+                    self.exerciseType.selectedSegmentIndex = 1
+                }
+                if activity.stationary == false {
                     self.locationManager?.startUpdatingLocation()
-                    // unknown이면서 약 50km/h 초과시 강제종료
-                    if speed > 13.888 {
-                        self.showAlert(activity: "walking, running, unknown", speed: speed)
+                    // walking || running || cycling 이면서 약 50km/h 초과시 강제종료
+                    if speed > 13.888 { // 약 50km/h 초과
+                        self.showAlert(activity: "stationary", speed: speed)
                         return
                     }
+                } else { // !!! 상태는 상호 독립적인 것이 아니다.
+                    self.locationManager?.stopUpdatingLocation()
+                    self.updateLabelText(speed: 0)
                 }
-                
-            default:
+            } else if activity.automotive == true {
+                self.showAlert(activity: "automotive", speed: speed)
                 return
+            }
+            // CMMotionActivity @ 21432.287857,<startDate,2022-12-01 16:00:59 +0000,confidence,2,unknown,0,stationary,0,walking,0,running,0,automotive,0,cycling,0>
+            // 이런식으로 아무것도 아닌 경우도 생긴다.
+            else { // activity.unknown || 전부 0인 상태
+                // 실제로 어떤 상태인지 모르기 때문에 일단은 위치 업데이트를 시키지만 러닝이 아닌 경우
+                self.locationManager?.startUpdatingLocation()
+                // unknown이면서 약 50km/h 초과시 강제종료
+                if speed > 13.888 { // 약 50km/h 초과
+                    self.showAlert(activity: "unknown", speed: speed)
+                    return
+                }
             }
         }
     }
 }
 
-extension AerobicActivityViewController: CLLocationManagerDelegate {
+extension QuickAerobicViewController: CLLocationManagerDelegate {
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         let status = manager.authorizationStatus
         switch status {
@@ -194,7 +171,6 @@ extension AerobicActivityViewController: CLLocationManagerDelegate {
         default:
             requestLocationAuthorization()
         }
-        
         if manager.accuracyAuthorization == .reducedAccuracy {
             showAlert(reason: "정확한 위치 요청 거부됨", discription: "위치 서비스를 사용할 수 없습니다. 기기의 '설정 > 개인정보 보호 및 보안'에서 위치 서비스를 켜주세요.(필수권한)")
         }
@@ -250,7 +226,7 @@ extension AerobicActivityViewController: CLLocationManagerDelegate {
     }
 }
 
-extension AerobicActivityViewController: MKMapViewDelegate {
+extension QuickAerobicViewController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         guard let polyLine = overlay as? MKPolyline else {
             print("Can't Draw Polyline")
@@ -265,69 +241,55 @@ extension AerobicActivityViewController: MKMapViewDelegate {
     }
 }
 
-extension AerobicActivityViewController {
+extension QuickAerobicViewController {
+    private func configure() {
+        backgroundView.backgroundColor = .black.withAlphaComponent(0.6)
+        backgroundView.isHidden = true
+        exerciseType.setTitleTextAttributes([.foregroundColor: UIColor.black], for: .selected)
+        exerciseType.selectedSegmentTintColor = .systemOrange.withAlphaComponent(0.8)
+        
+        let center = NotificationCenter.default
+        center.addObserver(self, selector: #selector(enterForeground), name: NSNotification.Name("WillEnterForeground"), object: nil)
+        center.addObserver(self, selector: #selector(enterBackground), name: NSNotification.Name("DidEnterBackground"), object: nil)
+    }
+    
     private func bind() {
-        sendState.receive(on: RunLoop.main).sink { result in
-            if result { 
-                print("서버 운동 업데이트 성공")
-                // CoreData 저장 단위가(분)이기 때문에 (분)으로 맞추는것으로 통일, int16형
-                let doubleCount = Double(self.count)
-                var countToMin = Int16(round(doubleCount / 60)) // minute
-                if countToMin < 1 {
-                    countToMin = 1
-                }
-                let update = ExerciseCoreData.updateCoreData(id: self.exerciseInfo.id, entityName: "Aerobic", distance: self.totalDistance * 0.001, time: countToMin, saveTime: self.saveTime, done: true)
-                if update {
-                    print("운동 완료 후 업데이트 성공")
-                    configFirebase.saveDoneEx(exName: self.exerciseInfo.exercise, set: 0, weight: 0, count: 0, distance: self.totalDistance, maxSpeed: self.maxSpeed * 3.6, avgSpeed: self.avgSpeed * 3.6, time: Int64(self.count), date: self.exerciseInfo.date)
-                    ExerciseViewController.reloadEx.send(true)
-                    self.navigationController?.popViewController(animated: true)
-                } else {
-                    print("운동 완료 후 업데이트 실패")
-                    self.indicator.stopAnimating()
-                    self.showError()
-                }
-            } else { // 서버 전송 실패
-                print("서버 전송 오류, 잠시 후 다시 시도해 주세요.")
+        // 서버 저장, 업데이트, coredata, firebase저장, 완료
+        saveServer.receive(on: RunLoop.main).sink { result in
+            if result == true {
+                print("서버 운동 저장 성공")
+                // 서버 운동 업데이트 시키기
+                configServer.sendCompleteEx(info: self.exerciseInfo, totalDis: self.exerciseInfo.distance, time: Int(self.exerciseInfo.time), saveTime: self.exerciseInfo.saveTime, subject: self.updateServer)
+            } else {
+                print("서버 운동 저장 실패")
                 self.indicator.stopAnimating()
                 self.showError()
             }
         }.store(in: &subscriptions)
         
-//        fireState.receive(on: RunLoop.main).sink { result in
-//            self.indicator.stopAnimating()
-//            // 서버가 메인이므로 Firebase는 실패하더라도 에러만 보고하고 통과
-//            if result { print("Firebase에 저장 성공")
-//            } else { print("Firebase에 저장 실패") }
-//            // CoreData 저장 단위가(분)이기 때문에 (분)으로 맞추는것으로 통일, int16형
-//            let doubleCount = Double(self.count)
-//            var countToMin = Int16(round(doubleCount / 60)) // minute
-//            if countToMin < 1 {
-//                countToMin = 1
-//            }
-//            let update = ExerciseCoreData.updateCoreData(id: self.exerciseInfo.id, entityName: "Aerobic", distance: self.totalDistance * 0.001, time: countToMin, saveTime: self.saveTime, done: true)
-//            if update {
-//                print("운동 완료 후 업데이트 성공")
-//                ExerciseViewController.reloadEx.send(true)
-//                self.navigationController?.popViewController(animated: true)
-//            } else {
-//                print("운동 완료 후 업데이트 실패")
-//                self.showError()
-//            }
-//        }.store(in: &subscriptions)
-    }
-    
-    private func configure() {
-        backgroundView.backgroundColor = .black.withAlphaComponent(0.6)
-        backgroundView.isHidden = true
-        guard let info = viewModel.ExerciseInfo as? aerobicExerciseInfo else { return }
-        exerciseInfo = info
-        goalDistance.text = "목표 거리: \(info.distance)km"
-        goalTime.text = "목표 시간: \(info.time)분"
-        
-        let center = NotificationCenter.default
-        center.addObserver(self, selector: #selector(enterForeground), name: NSNotification.Name("WillEnterForeground"), object: nil)
-        center.addObserver(self, selector: #selector(enterBackground), name: NSNotification.Name("DidEnterBackground"), object: nil)
+        updateServer.receive(on: RunLoop.main).sink { result in
+            self.indicator.stopAnimating()
+            if result {
+                print("서버 운동 업데이트 성공")
+                let save = ExerciseCoreData.saveCoreData(info: self.exerciseInfo)
+                if save {
+                    print("CoreData 저장 완료")
+                    // Firebase save, done
+                    configFirebase.saveEx(exName: self.exerciseInfo.exercise, time: self.exerciseInfo.saveTime, uuid: self.exerciseInfo.id.uuidString, date: self.exerciseInfo.date)
+                    let avgSpeed = self.totalDistance / Double(self.count)
+                    configFirebase.saveDoneEx(exName: self.exerciseInfo.exercise, set: 0, weight: 0, count: 0, distance: self.totalDistance, maxSpeed: self.maxSpeed * 3.6, avgSpeed: avgSpeed * 3.6, time: Int64(self.count), date: self.exerciseInfo.date)
+                    self.navigationController?.popViewController(animated: true)
+                } else {
+                    print("운동 저장 실패")
+                    configServer.sendDeleteEx(info: self.exerciseInfo)
+                    self.showError()
+                }
+            } else {
+                print("서버 운동 업데이트 실패")
+                configServer.sendDeleteEx(info: self.exerciseInfo)
+                self.showError()
+            }
+        }.store(in: &subscriptions)
     }
     
     @objc func enterForeground() {
@@ -357,19 +319,22 @@ extension AerobicActivityViewController {
     }
     
     private func showAnimation() {
-        UIView.animate(withDuration: 1, delay: 0.2, usingSpringWithDamping: 0.6, initialSpringVelocity: 2, options: .allowUserInteraction, animations: {
+        UIView.animate(withDuration: 1, delay: 0.3, usingSpringWithDamping: 0.6, initialSpringVelocity: 2, options: .allowUserInteraction, animations: {
             self.timeLabel.transform = CGAffineTransform.identity
             self.timeLabel.alpha = 1
         }, completion: nil)
     }
 }
 
-extension AerobicActivityViewController {
+extension QuickAerobicViewController {
     private func showAlert(activity: String, speed: Double) {
-        let alert = UIAlertController(title: "비정상적인 움직임 감지", message: "측정 중 비정상적인 움직임이 감지되어 운동을 종료합니다.", preferredStyle: .alert)
+        let alert = UIAlertController(title: "비정상적인 움직임 감지", message: "측정 중 비정상적인 움직임이 감지되어 기록으로 저장하지 않습니다.", preferredStyle: .alert)
         let ok = UIAlertAction(title: "확인", style: .destructive) { _ in
             let speed = String(format: "%.2f", speed * 3.6) + "km/h"
             configFirebase.reportAutomotive(type: activity, speed: speed)
+            self.timer?.invalidate()
+            self.motionManager?.stopActivityUpdates()
+            self.locationManager?.stopUpdatingLocation()
             self.navigationController?.popViewController(animated: true)
         }
         alert.addAction(ok)
@@ -390,32 +355,29 @@ extension AerobicActivityViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
-    private func exDoneAlert() {
-        let alert = UIAlertController(title: "운동을 종료하시겠습니까?", message: "기록이 저장됩니다.", preferredStyle: UIAlertController.Style.alert)
+    private func exDoneAlert(type: String) {
+        let exType = type // 해당 시점에 타입이 변하지 않게 하기 위해 따로 변수로 저장
+        let alert = UIAlertController(title: "\(exType)을 종료하시겠습니까?", message: "기록이 저장됩니다.", preferredStyle: UIAlertController.Style.alert)
         let cancle = UIAlertAction(title: "취소", style: .destructive, handler: nil)
         let ok = UIAlertAction(title: "확인", style: .default) { _ in
+            // 러닝 시 최대 속도 검사
+            if exType == "러닝" && self.maxSpeed > 9.722 { // 약 35km/h 초과
+                self.showAlert(activity: "running", speed: self.maxSpeed)
+                return
+            }
             self.backgroundView.isHidden = false
             self.indicator.startAnimating()
             // CoreData 저장 단위가(분)이기 때문에 (분)으로 맞추는것으로 통일, int형
             let doubleCount = Double(self.count)
-            var countToMin = Int(round(doubleCount / 60)) // minute
+            var countToMin = Int16(round(doubleCount / 60)) // minute
             if countToMin < 1 {
                 countToMin = 1
             }
             let time = Int64(TimeStamp.getCurrentTimestamp())
             self.saveTime = time
-            configServer.sendCompleteEx(info: self.exerciseInfo, totalDis: self.totalDistance * 0.001, time: countToMin, saveTime: time, subject: self.sendState)
-        }
-        alert.addAction(cancle)
-        alert.addAction(ok)
-        present(alert, animated: true, completion: nil)
-    }
-    
-    private func exCancelAlert() {
-        let alert = UIAlertController(title: "운동을 종료하시겠습니까?", message: "목표에 도달하지 못하여 기록이 저장되지 않습니다.", preferredStyle: UIAlertController.Style.alert)
-        let cancle = UIAlertAction(title: "취소", style: .destructive, handler: nil)
-        let ok = UIAlertAction(title: "확인", style: .default) { _ in
-            self.navigationController?.popViewController(animated: true)
+            let tableName = exType == "러닝" ? "running" : "cycle"
+            self.exerciseInfo = aerobicExerciseInfo(exercise: exType, table_Name: tableName, date: calcDate().currentDate(), time: countToMin, distance: self.totalDistance * 0.001, saveTime: time, done: true)
+            configServer.sendSaveEx(info: self.exerciseInfo, subject: self.saveServer)
         }
         alert.addAction(cancle)
         alert.addAction(ok)
@@ -432,7 +394,7 @@ extension AerobicActivityViewController {
     }
 }
 
-extension AerobicActivityViewController {
+extension QuickAerobicViewController {
     private func requestLocationAuthorization() {
         if locationManager == nil {
             locationManager = CLLocationManager()
@@ -467,7 +429,7 @@ extension AerobicActivityViewController {
     }
 }
 
-extension AerobicActivityViewController {
+extension QuickAerobicViewController {
     private func initTimer() -> Timer {
         let timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerCounter), userInfo: nil, repeats: true)
         return timer

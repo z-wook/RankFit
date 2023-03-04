@@ -19,7 +19,12 @@ class weeklyRankCell: UICollectionViewCell {
     }
     
     func configure(info: WeeklyRank) {
-        rankLabel.text = info.rank + "위"
-        exerciseLabel.text = info.exercise
+        if info.rank == "" {
+            rankLabel.text = ""
+            exerciseLabel.text = info.exercise
+        } else {
+            rankLabel.text = info.rank + " 순위"
+            exerciseLabel.text = info.exercise
+        }
     }
 }

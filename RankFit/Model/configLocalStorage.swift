@@ -39,7 +39,7 @@ final class configLocalStorage {
             subject.send(imageName + ".jpeg")
         } catch {
             print("로컬에 이미지 저장 실패")
-            print("error: " + error.localizedDescription)
+            print("error: \(error.localizedDescription)")
             configFirebase.errorReport(type: "configLocalStorage.saveImageToLocal", descriptions: error.localizedDescription)
             subject.send("false")
         }
@@ -55,6 +55,7 @@ final class configLocalStorage {
                 print("Document에서 이미지 삭제 완료")
             } catch {
                 print("Document에서 이미지 삭제 실패")
+                print("error: \(error.localizedDescription)")
                 configFirebase.errorReport(type: "configLocalStorage.deleteImageFromDocumentDirectory", descriptions: error.localizedDescription)
             }
         }

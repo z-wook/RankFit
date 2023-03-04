@@ -130,14 +130,12 @@ final class InputInfoViewModel {
         ]
         AF.request("http://rankfit.site/Register.php", method: .post, parameters: parameters).validate(statusCode: 200..<300).responseString {
             response in
-            print("response: \(response)")
             if let responseBody = response.value {
                 if responseBody == "true" {
                     // 키체인은 덮어쓰기가 안되기 때문에 기존에 저장된 값 삭제 후 새로운 값 저장
                     saveUserData.removeKeychain(forKey: .Weight)
                     saveUserData.setKeychain(newWeight, forKey: .Weight)
                     UserDefaults.standard.set(calcDate().after1Day(), forKey: "weight_date")
-                    MyProfileViewController.userWeight.send(newWeight)
                     subject.send(true)
                 } else { // responseBody == "false"
                     print("error: responseBody == false")

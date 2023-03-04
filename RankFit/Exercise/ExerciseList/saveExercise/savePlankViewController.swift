@@ -21,7 +21,7 @@ class savePlankViewController: UIViewController {
     var viewModel: saveExerciseViewModel!
     var exInfo: anaerobicExerciseInfo!
     let serverState = PassthroughSubject<Bool, Never>()
-    let firebaseState = PassthroughSubject<Bool, Never>()
+//    let firebaseState = PassthroughSubject<Bool, Never>()
     var subscriptions = Set<AnyCancellable>()
     var tableName: String!
     var minList: [String] = []
@@ -75,28 +75,18 @@ class savePlankViewController: UIViewController {
             }.store(in: &subscriptions)
         
         serverState.receive(on: RunLoop.main).sink { result in
-            if result == true {
-                print("서버 운동 저장 성공")
-                SendAnaerobicEx.firebaseSave(
-                    exName: self.exInfo.exercise,
-                    time: self.exInfo.saveTime,
-                    uuid: "\(self.exInfo.id)",
-                    date: self.exInfo.date,
-                    subject: self.firebaseState)
-            } else {
-                print("서버 운동 저장 실패")
-                self.showAlert()
-            }
-        }.store(in: &subscriptions)
-        
-        firebaseState.receive(on: RunLoop.main).sink { result in
             self.indicator.stopAnimating()
             if result == true {
-                print("Firebase 저장 성공")
+                print("서버 운동 저장 성공")
                 if let vc = self.keyWindow?.visibleViewController {
                     let save = ExerciseCoreData.saveCoreData(info: self.exInfo)
                     if save == true {
                         print("CoreData 저장 완료")
+                        configServer.firebaseSave(
+                            exName: self.exInfo.exercise,
+                            time: self.exInfo.saveTime,
+                            uuid: self.exInfo.id.uuidString,
+                            date: self.exInfo.date)
                         self.viewModel.saveSuccessExMessage(View: vc)
                     } else {
                         print("운동 저장 실패")
@@ -108,11 +98,35 @@ class savePlankViewController: UIViewController {
                     self.dismiss(animated: true)
                 }
             } else {
-                print("Firebase 저장 실패")
-                SendAnaerobicEx.sendDeleteEx(info: self.exInfo, subject: nil)
+                print("서버 운동 저장 실패")
                 self.showAlert()
             }
         }.store(in: &subscriptions)
+        
+//        firebaseState.receive(on: RunLoop.main).sink { result in
+//            self.indicator.stopAnimating()
+//            if result == true {
+//                print("Firebase 저장 성공")
+//                if let vc = self.keyWindow?.visibleViewController {
+//                    let save = ExerciseCoreData.saveCoreData(info: self.exInfo)
+//                    if save == true {
+//                        print("CoreData 저장 완료")
+//                        self.viewModel.saveSuccessExMessage(View: vc)
+//                    } else {
+//                        print("운동 저장 실패")
+//                        self.viewModel.saveFailExMessage(View: vc)
+//                    }
+//                } else {
+//                    print("keyWindow error")
+//                    configFirebase.errorReport(type: "saveExerciseVC1.bind", descriptions: "keyWindow error")
+//                    self.dismiss(animated: true)
+//                }
+//            } else {
+//                print("Firebase 저장 실패")
+//                configServer.sendDeleteEx(info: self.exInfo, subject: nil)
+//                self.showAlert()
+//            }
+//        }.store(in: &subscriptions)
     }
     
     @IBAction func closeButton(_ sender: UIButton) {
@@ -127,22 +141,30 @@ class savePlankViewController: UIViewController {
         }
         if let vc = keyWindow?.visibleViewController {
             guard let field = setField.text, !field.isEmpty else {
-                return viewModel.warningExerciseMessage(ment: "세트를 입력하세요.", View: vc)
+                return viewModel.warningExerciseMessage(ment: "세트를 입력해 주세요.", View: vc)
             }
             let checkedSetNum = viewModel.stringToInt(input: field)
             if checkedSetNum == -1 {
                 return viewModel.warningExerciseMessage(ment: "세트를 정확히 입력해 주세요.", View: vc)
             }
+            if checkedSetNum == 0 {
+                return viewModel.warningExerciseMessage(ment: "세트는 0개가 될 수 없습니다.", View: vc)
+            }
+            if checkedSetNum < 0 {
+                return viewModel.warningExerciseMessage(ment: "세트는 0개보다 적을 수 없습니다.", View: vc)
+            }
+            let minute = 60 * Double(min)!
+            let seconds = Double(sec)!
+            let time = minute + seconds // 초
+            if time <= 0 {
+                return viewModel.warningExerciseMessage(ment: "시간은 0초보다 적을 수 없습니다.", View: vc)
+            }
+            saveEx(setNum: checkedSetNum, exTime: time)
             saveBtn.isEnabled = false
             // prevent modalView dismiss
             self.isModalInPresentation = true
             backgroundView.isHidden = false
             indicator.startAnimating()
-            
-            let minute = 60 * Double(min)!
-            let seconds = Double(sec)!
-            let time = minute + seconds // 초
-            saveEx(setNum: checkedSetNum, exTime: time)
         }
     }
     
@@ -153,7 +175,7 @@ class savePlankViewController: UIViewController {
 
 extension savePlankViewController {
     private func showAlert() {
-        let alert = UIAlertController(title:"저장 실패", message: "잠시 후 다시 시도해 주세요.", preferredStyle: .alert)
+        let alert = UIAlertController(title:"운동 저장 실패", message: "잠시 후 다시 시도해 주세요.", preferredStyle: .alert)
         let ok = UIAlertAction(title: "확인", style: .default, handler: { _ in
             self.dismiss(animated: true)
         })
@@ -172,7 +194,7 @@ extension savePlankViewController {
     
     private func saveEx(setNum: Int16, exTime: Double) {
         exInfo = anaerobicExerciseInfo(exercise: exerciseLabel.text ?? "운동 없음", table_Name: tableName, date: ExerciseViewController.pickDate, set: setNum, weight: 0, count: 0, exTime: exTime, saveTime: Int64(TimeStamp.getCurrentTimestamp()))
-        SendAnaerobicEx.sendSaveEx(info: exInfo, subject: serverState)
+        configServer.sendSaveEx(info: exInfo, subject: serverState)
     }
 }
 

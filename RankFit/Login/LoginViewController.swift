@@ -32,28 +32,28 @@ class LoginViewController: UIViewController {
         bind()
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
+    override func viewDidDisappear(_ animated: Bool) {
         cancel?.cancel()
-        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
     }
-
+    
     private func configure() {
         navigationItem.largeTitleDisplayMode = .never
         emailField.delegate = self
         emailCheck.layer.isHidden = true
         backgroundView.isHidden = true
         backgroundView.backgroundColor = .black.withAlphaComponent(0.6)
-        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
     }
     
     private func bind() {
         let subject = LoginViewController.emailAuth.receive(on: RunLoop.main).sink { link in
+            print("link1: \(link)")
             guard self.email != nil else { return }
             self.loginSubject.send(link)
         }
         cancel = subject
         
         loginSubject.receive(on: RunLoop.main).sink { link in
+            print("link2: \(link)")
             self.backgroundView.isHidden = false
             self.indicator.startAnimating()
             UserDefaults.standard.removeObject(forKey: "login")
@@ -62,12 +62,12 @@ class LoginViewController: UIViewController {
                     print("email auth error: \(error.localizedDescription)")
                     configFirebase.errorReport(type: "LoginVC.bind", descriptions: error.localizedDescription)
                     self.indicator.stopAnimating()
-                    self.showAlert(title: "이메일 인증 실패", description: "이메일 인증에 실패하였습니다. 잠시 후 다시 시도해 주세요.")
+                    self.showAlert(title: "이메일 인증 실패", description: "이메일 인증에 실패하였습니다. 잠시 후 다시 시도해 주세요.", type: "login")
                 } else {
                     guard let result = result else {
                         configFirebase.errorReport(type: "LoginVC.bind", descriptions: "result == nil")
                         self.indicator.stopAnimating()
-                        self.showAlert(title: "로그인 실패", description: "잠시 후 다시 로그인해 주세요.")
+                        self.showAlert(title: "로그인 실패", description: "잠시 후 다시 로그인해 주세요.", type: "login")
                         return
                     }
                     // firebase DB에서 정보 가져온 후 키체인에 저장
@@ -78,7 +78,7 @@ class LoginViewController: UIViewController {
                             print("error: \(error.localizedDescription)")
                             configFirebase.errorReport(type: "LoginVC.bind", descriptions: error.localizedDescription)
                             self.indicator.stopAnimating()
-                            self.showAlert(title: "로그인 실패", description: "잠시 후 다시 로그인해 주세요.")
+                            self.showAlert(title: "로그인 실패", description: "잠시 후 다시 로그인해 주세요.", type: "login")
                         } else {
                             guard let snapshot = snapshot else {
                                 // 등록된 정보 없는 경우 방급 가입된 계정 즉시 삭제
@@ -89,19 +89,19 @@ class LoginViewController: UIViewController {
                                             print("error: " + error.localizedDescription)
                                             configFirebase.errorReport(type: "LoginVC.loginErrorAlert", descriptions: "\(String(describing: user.email))" + error.localizedDescription)
                                             self.indicator.stopAnimating()
-                                            self.showAlert(title: "로그인 실패", description: "등록된 정보가 없습니다. 회원가입하지 않았거나, 가입 시 사용한 이메일이 아닙니다.")
+                                            self.showAlert(title: "로그인 실패", description: "등록된 정보가 없습니다. 회원가입하지 않았거나, 가입 시 사용한 이메일이 아닙니다.", type: "default")
                                             return
                                         } else {
                                             print("방금 등록된 계정 삭제 완료")
                                             self.indicator.stopAnimating()
-                                            self.showAlert(title: "로그인 실패", description: "등록된 정보가 없습니다. 회원가입하지 않았거나, 가입 시 사용한 이메일이 아닙니다.")
+                                            self.showAlert(title: "로그인 실패", description: "등록된 정보가 없습니다. 회원가입하지 않았거나, 가입 시 사용한 이메일이 아닙니다.", type: "default")
                                             return
                                         }
                                     }
                                 }
                                 configFirebase.errorReport(type: "LoginVC.bind", descriptions: "snapshot == nil")
                                 self.indicator.stopAnimating()
-                                self.showAlert(title: "로그인 실패", description: "잠시 후 다시 로그인해 주세요.")
+                                self.showAlert(title: "로그인 실패", description: "잠시 후 다시 로그인해 주세요.", type: "login")
                                 return
                             }
                             guard let data = snapshot.data() else {
@@ -113,12 +113,12 @@ class LoginViewController: UIViewController {
                                             print("error: " + error.localizedDescription)
                                             configFirebase.errorReport(type: "LoginVC.loginErrorAlert", descriptions: "\(String(describing: user.email))" + error.localizedDescription)
                                             self.indicator.stopAnimating()
-                                            self.showAlert(title: "로그인 실패", description: "등록된 정보가 없습니다. 회원가입하지 않았거나, 가입 시 사용한 이메일이 아닙니다.")
+                                            self.showAlert(title: "로그인 실패", description: "등록된 정보가 없습니다. 회원가입하지 않았거나, 가입 시 사용한 이메일이 아닙니다.", type: "default")
                                             return
                                         } else {
                                             print("방금 등록된 계정 삭제 완료")
                                             self.indicator.stopAnimating()
-                                            self.showAlert(title: "로그인 실패", description: "등록된 정보가 없습니다. 회원가입하지 않았거나, 가입 시 사용한 이메일이 아닙니다.")
+                                            self.showAlert(title: "로그인 실패", description: "등록된 정보가 없습니다. 회원가입하지 않았거나, 가입 시 사용한 이메일이 아닙니다.", type: "default")
                                             return
                                         }
                                     }
@@ -129,16 +129,16 @@ class LoginViewController: UIViewController {
                             let gender = data["Gender"] as! Int
                             let weight = data["Weight"] as! Int
                             let nickName = data["nickName"] as! String
-
+                            
                             let calc = calcDate()
                             saveUserData.setKeychain(self.email, forKey: .Email)
                             saveUserData.setKeychain(UID, forKey: .UID)
                             saveUserData.setKeychain(gender, forKey: .Gender)
                             saveUserData.setKeychain(birth, forKey: .Birth)
-
+                            
                             saveUserData.setKeychain(nickName, forKey: .NickName)
                             UserDefaults.standard.set(calc.after30days(), forKey: "nick_date")
-
+                            
                             saveUserData.setKeychain(weight, forKey: .Weight)
                             UserDefaults.standard.set(calc.after1Day(), forKey: "weight_date")
                             UserDefaults.standard.set(true, forKey: "login")
@@ -154,8 +154,6 @@ class LoginViewController: UIViewController {
                     }
                 }
             }
-            
-            
         }.store(in: &subscriptions)
         
         finalSubject.receive(on: RunLoop.main).sink { result in
@@ -164,7 +162,7 @@ class LoginViewController: UIViewController {
                 SettingViewController.reloadProfile.send(true)
                 self.indicator.stopAnimating()
                 self.cancel?.cancel()
-                self.welcomeAlert()
+                self.showAlert(title: "🎉 복귀를 환영합니다. 🎉", description: "최근 6개월간 완료한 운동을 저장했습니다.", type: "welcome")
             }
         }.store(in: &subscriptions)
     }
@@ -172,8 +170,7 @@ class LoginViewController: UIViewController {
     @IBAction func sendEmail(_ sender: UIButton) {
         guard let email = emailField.text else { return }
         emailCheck.layer.isHidden = true
-        // 키보드 내리기
-        view.endEditing(true)
+        view.endEditing(true) // 키보드 내리기
         // 이메일 검사
         let result = isValidEmail(email: email)
         if result {
@@ -187,12 +184,12 @@ class LoginViewController: UIViewController {
                 if let error = error {
                     let error = error.localizedDescription
                     if error == "The user account has been disabled by an administrator." {
-                        self.showAlert(title: "계정 사용 중지됨", description: "귀하의 계정이 사용 중지되었습니다. 문의사항은 관리자에게 해주세요.")
+                        self.showAlert(title: "계정 사용 중지됨", description: "귀하의 계정이 사용 중지되었습니다. 문의사항은 관리자에게 해주세요.", type: "login")
                         return
                     }
                     print("Email Not Sent: \(error)")
-                    configFirebase.errorReport(type: "LoginVC.sendEmail", descriptions: error)
-                    self.showAlert(title: "인증 메일 발송 실패", description: "잠시 후 다시 시도해 주세요.")
+                    configFirebase.errorReport(type: "LoginVC.sendEmail", descriptions: error.debugDescription)
+                    self.showAlert(title: "인증 메일 발송 실패", description: "잠시 후 다시 시도해 주세요.", type: "login")
                 } else {
                     print("Email Sent")
                     self.email = email
@@ -203,7 +200,7 @@ class LoginViewController: UIViewController {
                 }
             }
         } else {
-            showAlert(title: "인증 메일 발송 실패", description: "올바른 이메일 형식이 아닙니다.")
+            showAlert(title: "인증 메일 발송 실패", description: "올바른 이메일 형식이 아닙니다.", type: "default")
         }
     }
     
@@ -220,23 +217,25 @@ extension LoginViewController {
         return emailPredicate.evaluate(with: email)
     }
     
-    private func welcomeAlert() {
-        let alert = UIAlertController(title: "🎉 복귀를 환영합니다. 🎉", message: "최근 6개월간 완료한 운동을 저장했습니다.", preferredStyle: .alert)
-        let ok = UIAlertAction(title: "확인", style: .default) { _ in
-            // Firebase에서 사진이 언제 저장 완료될지 모르기 때문에 1초 후 실행
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                DiaryViewController.reloadDiary.send(true)
-            }
-            self.navigationController?.popToRootViewController(animated: true)
-        }
-        alert.addAction(ok)
-        self.present(alert, animated: true, completion: nil)
-    }
-    
-    private func showAlert(title: String, description: String) {
+    private func showAlert(title: String, description: String, type: String) {
         let alert = UIAlertController(title: title, message: description, preferredStyle: .alert)
         let ok = UIAlertAction(title: "확인", style: .default) { _ in
-            self.navigationController?.popToRootViewController(animated: true)
+            switch type {
+            case "login":
+                self.navigationController?.popToRootViewController(animated: true)
+                return
+                
+            case "welcome":
+                // Firebase에서 사진이 언제 저장 완료될지 모르기 때문에 3초 후 실행
+                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                    DiaryViewController.reloadDiary.send(true)
+                }
+                self.navigationController?.popToRootViewController(animated: true)
+                return
+                
+            default:
+                self.backgroundView.isHidden = true
+            }
         }
         alert.addAction(ok)
         self.present(alert, animated: true, completion: nil)

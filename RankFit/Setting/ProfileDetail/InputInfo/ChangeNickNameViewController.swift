@@ -97,10 +97,7 @@ class ChangeNickNameViewController: UIViewController {
             stateLabel.layer.isHidden = false
             // text size reduce
             stateLabel.font = UIFont.systemFont(ofSize: 13)
-            stateLabel.text = """
-            닉네임 변경 후 30일이 지나지 않아\n
-            현재 닉네임을 변경할 수 없습니다.
-            """
+            stateLabel.text = "닉네임 변경 후 30일이 지나지 않아 현재 닉네임을 변경할 수 없습니다."
             nickName.isEnabled = false
         }
     }

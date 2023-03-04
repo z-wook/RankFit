@@ -11,7 +11,7 @@ import Alamofire
 
 final class MyRankViewModel {
     
-    let MySubject = PassthroughSubject<[MyRankInfo]?, Never>()
+    let MySubject = CurrentValueSubject<[MyRankInfo]?, Never>([])
     let receiveSubject = PassthroughSubject<MyRankInfo?, Never>()
     var subscriptions = Set<AnyCancellable>()
     
@@ -51,8 +51,8 @@ final class MyRankViewModel {
                 "userID": saveUserData.getKeychainStringValue(forKey: .UID) ?? "정보없음",
                 "userSex": saveUserData.getKeychainIntValue(forKey: .Gender) ?? 0,
                 "userAge": age,
-                "kor": sortedList[i]["exName"]!,
-                "eng": sortedList[i]["tName"]!,
+                "kor": sortedList[i]["exName"] ?? "",
+                "eng": sortedList[i]["tName"] ?? "",
                 "start": start_Timestamp,
                 "end": end_Timestamp
             ]
@@ -66,7 +66,7 @@ final class MyRankViewModel {
                     self.receiveSubject.send(object)
                     
                 case .failure(let error):
-                    print("error: " + error.localizedDescription)
+                    print("error: \(error.localizedDescription)")
                     configFirebase.errorReport(type: "MyRankVM.getMyRank", descriptions: error.localizedDescription, server: response.debugDescription)
                     self.receiveSubject.send(nil)
                 }

@@ -87,10 +87,7 @@ class ChangeWeightViewController: UIViewController {
             messageLabel.layer.isHidden = true
             saveBtn.isEnabled = true
         } else {
-            messageLabel.text = """
-            몸무게 변경 후 하루가 지나지 않아\n
-            현재 닉네임을 변경할 수 없습니다.
-            """
+            messageLabel.text = "몸무게 변경 후 하루가 지나지 않아 현재 닉네임을 변경할 수 없습니다."
             saveBtn.isEnabled = false
             saveBtn.backgroundColor = .darkGray
         }

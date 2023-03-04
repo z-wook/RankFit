@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import Combine
 
 class MyProfileViewController: UIViewController {
 
@@ -18,23 +17,12 @@ class MyProfileViewController: UIViewController {
     
     let user = getSavedDateInfo()
     var userInfomation: [Any] = [] // ["성별", "나이", "몸무게", "닉네임", "프로필"]
-    static var userWeight = PassthroughSubject<Int, Never>()
-    var subscriptions = Set<AnyCancellable>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         updateNavigationItem()
         configure()
-        bind()
-    }
-    
-    func bind() {
-        MyProfileViewController.userWeight.receive(on: RunLoop.main)
-            .sink { infoWeight in
-                self.userInfomation[3] = infoWeight
-                self.tableView.reloadData()
-            }.store(in: &subscriptions)
     }
 }
 
@@ -119,7 +107,6 @@ extension MyProfileViewController {
         navigationItem.backButtonDisplayMode = .minimal
         navigationItem.largeTitleDisplayMode = .never
         navigationItem.title = "내 정보"
-        
     }
     
     private func configure() {
@@ -133,7 +120,7 @@ extension MyProfileViewController {
         let age = calcDate().getAge(BDay: birth!)
         let weight = saveUserData.getKeychainIntValue(forKey: .Weight) ?? 1
         let profile = "blank_profile"
-        
+
         userInfomation = [email, gender, age, weight, nickname, profile]
     }
 }

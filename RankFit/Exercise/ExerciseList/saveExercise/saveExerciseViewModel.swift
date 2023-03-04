@@ -24,11 +24,9 @@ extension saveExerciseViewModel {
         if result == 0 {
             return 0
         }
-        
         if result < 0 {
             return -2
         }
-        
         return result
     }
     

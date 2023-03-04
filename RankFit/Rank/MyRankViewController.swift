@@ -10,7 +10,7 @@ import FirebaseAuth
 import Combine
 
 class MyRankViewController: UIViewController {
-
+    
     @IBOutlet weak var optionButton: UIButton!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var indicator: UIActivityIndicatorView!
@@ -24,9 +24,8 @@ class MyRankViewController: UIViewController {
     var MyRankDatasource: UICollectionViewDiffableDataSource<Section, MyItem>!
     var OptionRankDatasource: UICollectionViewDiffableDataSource<Section, optionItem>!
     
+    var myList: [[String: String]] = [] // 처음에 마이 랭킹 / 사용자가 완료한 운동 들어가야 함
     var user: User?
-    var myList: [[String : String]] = [] // 처음에 마이 랭킹 / 사용자가 완료한 운동 들어가야 함
-    var optionList: [OptionRankInfo] = []
     var type: String = "마이랭킹"
     
     typealias MyItem = MyRankInfo
@@ -55,6 +54,7 @@ class MyRankViewController: UIViewController {
         let sortlist = MyViewModel.getSortedExList() // 완료한 운동 get
         if type == "마이랭킹" && sortlist.isEmpty {
             myList.removeAll()
+            indicator.stopAnimating()
             applyMyRankItems(items: [MyRankInfo(Exercise: "완료한 운동이 없습니다.", My_Ranking: "")])
             return
         }
@@ -70,26 +70,25 @@ class MyRankViewController: UIViewController {
     }
     
     private func bind() {
-        MyViewModel.MySubject.receive(on: RunLoop.main)
-            .sink { rankList in
-                self.indicator.stopAnimating()
-                guard let rankList = rankList else {
-                    self.applyMyRankItems(items: [MyRankInfo(Exercise: "서버 오류\n랭킹을 불러오는데 실패했습니다.\n다시 시도해 주세요.", My_Ranking: "")])
-                    return
-                }
-                self.applyMyRankItems(items: rankList)
-            }.store(in: &subscriptions)
+        MyViewModel.MySubject.receive(on: RunLoop.main).sink { rankList in
+            if rankList?.isEmpty == true { return }
+            self.indicator.stopAnimating()
+            guard let rankList = rankList else {
+                self.applyMyRankItems(items: [MyRankInfo(Exercise: "서버 오류\n랭킹을 불러오는데 실패했습니다.\n다시 시도해 주세요.", My_Ranking: "")])
+                return
+            }
+            self.applyMyRankItems(items: rankList)
+        }.store(in: &subscriptions)
         
-        OptionViewModel.optionSubject.receive(on: RunLoop.main)
-            .sink { rankList in
-                self.indicator.stopAnimating()
-                guard let rankList = rankList else {
-                    self.applyMyRankItems(items: [MyRankInfo(Exercise: "서버 오류\n랭킹을 불러오는데 실패했습니다.\n다시 시도해 주세요.", My_Ranking: "")])
-                    return
-                }
-                self.optionList = rankList
-                self.applyOptionRankItems(items: rankList)
-            }.store(in: &subscriptions)
+        OptionViewModel.optionSubject.receive(on: RunLoop.main).sink { rankList in
+            if rankList?.isEmpty == true { return }
+            self.indicator.stopAnimating()
+            guard let rankList = rankList else {
+                self.applyMyRankItems(items: [MyRankInfo(Exercise: "서버 오류\n랭킹을 불러오는데 실패했습니다.\n다시 시도해 주세요.", My_Ranking: "")])
+                return
+            }
+            self.applyOptionRankItems(items: rankList)
+        }.store(in: &subscriptions)
         
         MyRankViewController.profileSubject.receive(on: RunLoop.main).sink { image in
             let sb = UIStoryboard(name: "Rank", bundle: nil)
@@ -123,7 +122,7 @@ extension MyRankViewController {
             return cell
         })
         collectionView.collectionViewLayout = layout(type: 0)
-
+        
         var MyRankSnapshot = NSDiffableDataSourceSnapshot<Section, MyItem>()
         MyRankSnapshot.appendSections([.my])
         MyRankSnapshot.appendItems([], toSection: .my)
@@ -153,7 +152,6 @@ extension MyRankViewController {
     }
     
     private func applyMyRankItems(items: [MyRankInfo]) {
-        indicator.stopAnimating()
         MyRankDatasource = UICollectionViewDiffableDataSource<Section, MyItem>(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MyRankCell", for: indexPath) as? MyRankCell else { return nil }
             cell.config(info: itemIdentifier)
@@ -170,7 +168,7 @@ extension MyRankViewController {
     private func applyOptionRankItems(items: [OptionRankInfo]) {
         OptionRankDatasource = UICollectionViewDiffableDataSource<Section, optionItem>(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "OptionCell", for: indexPath) as? OptionCell else { return nil }
-            cell.config(info: itemIdentifier)
+            cell.configure(info: itemIdentifier)
             cell.reportBtn.tag = indexPath.item
             return cell
         })
@@ -197,16 +195,18 @@ extension MyRankViewController: UICollectionViewDelegate {
             let sb = UIStoryboard(name: "MyDetail", bundle: nil)
             let vc = sb.instantiateViewController(withIdentifier: "MyDetailViewController") as! MyDetailViewController
             if myList.count != 0 {
-                vc.myInfo(exInfo: myList[indexPath.item])
+                let myList = MyViewModel.MySubject.value
+                guard myList != nil else { return }
+                vc.myInfo(exInfo: self.myList[indexPath.item])
                 self.navigationController?.pushViewController(vc, animated: true)
-            } else {
-                return print("완료한 운동이 없습니다.")
-            }
+            } else { return }
             
         default:
             if indexPath.item == 0 { return }
             let sb = UIStoryboard(name: "OptionDetail", bundle: nil)
             let vc = sb.instantiateViewController(withIdentifier: "OptionDetailViewController") as! OptionDetailViewController
+            let optionList = OptionViewModel.optionSubject.value
+            guard let optionList = optionList else { return }
             vc.userInfo(nickName: optionList[indexPath.item].Nickname)
             self.navigationController?.pushViewController(vc, animated: true)
         }
@@ -215,17 +215,21 @@ extension MyRankViewController: UICollectionViewDelegate {
 
 extension MyRankViewController {
     private func reportUser(index: Int) {
-        let nickName = self.optionList[index].Nickname
-        
+        let optionList = OptionViewModel.optionSubject.value
+        guard let optionList = optionList else { return }
+        let nickName = optionList[index].Nickname
         let alert = UIAlertController(title: "신고 사유 선택", message: nil, preferredStyle: .actionSheet)
         let reportProfile = UIAlertAction(title: "부적절한 프로필 사진", style: .default) { _ in
             configServer.reportUser(nickName: nickName, reason: 0, subject: self.reporting)
+            configFirebase.userReport(nickName: nickName, reason: 0)
         }
         let reportNickName = UIAlertAction(title: "부적절한 닉네임", style: .default) { _ in
             configServer.reportUser(nickName: nickName, reason: 1, subject: self.reporting)
+            configFirebase.userReport(nickName: nickName, reason: 1)
         }
         let reportScore = UIAlertAction(title: "랭킹 오류 / 랭킹 악용 의심", style: .default) { _ in
             configServer.reportUser(nickName: nickName, reason: 2, subject: self.reporting)
+            configFirebase.userReport(nickName: nickName, reason: 2)
         }
         let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
         alert.addAction(reportProfile)
@@ -241,6 +245,7 @@ extension MyRankViewController {
             self.navigationItem.title = "주간 랭킹"
             self.type = "마이랭킹"
             self.optionButton.setTitle("마이랭킹", for: .normal)
+            self.applyMyRankItems(items: [])
             guard self.user != nil else {
                 self.applyMyRankItems(items: [MyRankInfo(Exercise: "현재 로그아웃 되어\n랭킹을 불러들일 수 없습니다.", My_Ranking: "")])
                 return
@@ -261,6 +266,7 @@ extension MyRankViewController {
             self.navigationItem.title = "주간 성별 랭킹"
             self.type = "성별"
             self.optionButton.setTitle("성별", for: .normal)
+            self.applyOptionRankItems(items: [])
             guard self.user != nil else {
                 self.applyMyRankItems(items: [MyRankInfo(Exercise: "현재 로그아웃 되어\n랭킹을 불러들일 수 없습니다.", My_Ranking: "")])
                 return
@@ -274,6 +280,7 @@ extension MyRankViewController {
             self.navigationItem.title = "주간 나이 랭킹"
             self.type = "나이"
             self.optionButton.setTitle("나이", for: .normal)
+            self.applyOptionRankItems(items: [])
             guard self.user != nil else {
                 self.applyMyRankItems(items: [MyRankInfo(Exercise: "현재 로그아웃 되어\n랭킹을 불러들일 수 없습니다.", My_Ranking: "")])
                 return
@@ -287,6 +294,7 @@ extension MyRankViewController {
             self.navigationItem.title = "주간 종합 랭킹"
             self.type = "종합"
             self.optionButton.setTitle("종합", for: .normal)
+            self.applyOptionRankItems(items: [])
             guard self.user != nil else {
                 self.applyMyRankItems(items: [MyRankInfo(Exercise: "현재 로그아웃 되어\n랭킹을 불러들일 수 없습니다.", My_Ranking: "")])
                 return

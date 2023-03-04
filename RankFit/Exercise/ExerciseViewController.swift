@@ -28,6 +28,7 @@ class ExerciseViewController: UIViewController {
     var exUUID: UUID!
     var exEntityName: String!
     var reloading = false
+    var timer: Timer? // 자정 지나면 캘린더를 자동적으로 업데이트하기 위한 타이머
     
     typealias Item = AnyHashable
     enum Section {
@@ -46,6 +47,13 @@ class ExerciseViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         viewModel.selectDate(date: ExerciseViewController.pickDate)
+        initTimer()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        // 뷰가 사라지면 타이머 해제
+        timer?.invalidate()
+        timer = nil
     }
     
     private func bind() {
@@ -201,12 +209,12 @@ extension ExerciseViewController {
                 let anaerobicInfo = exTypeInfo as! anaerobicExerciseInfo
                 self.exUUID = anaerobicInfo.id
                 self.exEntityName = "Anaerobic"
-                SendAnaerobicEx.sendDeleteEx(info: anaerobicInfo, subject: self.serverState)
+                configServer.sendDeleteEx(info: anaerobicInfo, subject: self.serverState)
                 return
             }
             self.exUUID = aerobicInfo.id
             self.exEntityName = "Aerobic"
-            SendAerobicEx.sendDeleteEx(info: aerobicInfo, subject: self.serverState)
+            configServer.sendDeleteEx(info: aerobicInfo, subject: self.serverState)
         }
         let cancel = UIAlertAction(title: "취소", style: .cancel)
         alert.addAction(ok)
@@ -217,7 +225,7 @@ extension ExerciseViewController {
 
 extension ExerciseViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("list: \(viewModel.storedExercises.value[indexPath.item])")
+        print("Exinfo: \(viewModel.storedExercises.value[indexPath.item])")
     }
 }
 
@@ -271,7 +279,6 @@ extension ExerciseViewController {
             handler: {
                 let sb = UIStoryboard(name: "ExerciseList", bundle: nil)
                 let vc = sb.instantiateViewController(withIdentifier: "ExerciseListViewController") as! ExerciseListViewController
-                vc.viewModel = ExerciseListViewModel(items: ExerciseInfo.sortedList)
                 self.navigationController?.pushViewController(vc, animated: true)
             }
         )
@@ -290,5 +297,33 @@ extension ExerciseViewController {
         // backBarButtonTitle 설정
 //        let backBarButtonItem = UIBarButtonItem(title: "이전 페이지", style: .plain, target: self, action: nil)
 //        navigationItem.backBarButtonItem = backBarButtonItem
+    }
+    
+    private func initTimer() {
+        // 현재 시간을 가져와서 다음 자정까지 남은 시간을 계산합니다.
+        let calendar = Calendar.current
+        let now = Date()
+        let tomorrow = calendar.date(byAdding: .day, value: 1, to: now)!
+        let midnight = calendar.startOfDay(for: tomorrow)
+        let timeInterval = midnight.timeIntervalSince(now)
+        
+        // 타이머를 생성합니다.
+        timer = Timer.scheduledTimer(withTimeInterval: timeInterval, repeats: true) { [weak self] timer in
+            // 캘린더를 업데이트합니다.
+            self?.calendarView.reloadData()
+            
+            // 다음 자정까지 남은 시간을 계산합니다.
+            let now = Date()
+            let tomorrow = calendar.date(byAdding: .day, value: 1, to: now)!
+            let midnight = calendar.startOfDay(for: tomorrow)
+            let timeInterval = midnight.timeIntervalSince(now)
+            
+            // 새로운 타이머를 생성하여 실행합니다.
+            self?.timer?.invalidate()
+            self?.timer = Timer.scheduledTimer(withTimeInterval: timeInterval, repeats: true, block: { [weak self] timer in
+                // 캘린더를 업데이트합니다.
+                self?.calendarView.reloadData()
+            })
+        }
     }
 }
