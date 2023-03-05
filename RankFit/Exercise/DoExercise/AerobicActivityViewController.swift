@@ -268,6 +268,7 @@ extension AerobicActivityViewController: MKMapViewDelegate {
 extension AerobicActivityViewController {
     private func bind() {
         sendState.receive(on: RunLoop.main).sink { result in
+            self.indicator.stopAnimating()
             if result { 
                 print("서버 운동 업데이트 성공")
                 // CoreData 저장 단위가(분)이기 때문에 (분)으로 맞추는것으로 통일, int16형
@@ -284,37 +285,14 @@ extension AerobicActivityViewController {
                     self.navigationController?.popViewController(animated: true)
                 } else {
                     print("운동 완료 후 업데이트 실패")
-                    self.indicator.stopAnimating()
                     self.showError()
+                    return
                 }
             } else { // 서버 전송 실패
                 print("서버 전송 오류, 잠시 후 다시 시도해 주세요.")
-                self.indicator.stopAnimating()
                 self.showError()
             }
         }.store(in: &subscriptions)
-        
-//        fireState.receive(on: RunLoop.main).sink { result in
-//            self.indicator.stopAnimating()
-//            // 서버가 메인이므로 Firebase는 실패하더라도 에러만 보고하고 통과
-//            if result { print("Firebase에 저장 성공")
-//            } else { print("Firebase에 저장 실패") }
-//            // CoreData 저장 단위가(분)이기 때문에 (분)으로 맞추는것으로 통일, int16형
-//            let doubleCount = Double(self.count)
-//            var countToMin = Int16(round(doubleCount / 60)) // minute
-//            if countToMin < 1 {
-//                countToMin = 1
-//            }
-//            let update = ExerciseCoreData.updateCoreData(id: self.exerciseInfo.id, entityName: "Aerobic", distance: self.totalDistance * 0.001, time: countToMin, saveTime: self.saveTime, done: true)
-//            if update {
-//                print("운동 완료 후 업데이트 성공")
-//                ExerciseViewController.reloadEx.send(true)
-//                self.navigationController?.popViewController(animated: true)
-//            } else {
-//                print("운동 완료 후 업데이트 실패")
-//                self.showError()
-//            }
-//        }.store(in: &subscriptions)
     }
     
     private func configure() {

@@ -21,7 +21,6 @@ class PlankActivityViewController: UIViewController {
     @IBOutlet weak var indicator: UIActivityIndicatorView!
     
     let sendState = PassthroughSubject<Bool, Never>()
-    let fireState = PassthroughSubject<Bool, Never>()
     var subscriptions = Set<AnyCancellable>()
     var viewModel: DoExerciseViewModel!
     var info: anaerobicExerciseInfo!
@@ -75,27 +74,22 @@ class PlankActivityViewController: UIViewController {
 extension PlankActivityViewController {
     private func bind() {
         sendState.receive(on: RunLoop.main).sink { result in
+            self.indicator.stopAnimating()
             if result {
-                // firebase에 저장하기
-                configFirebase.saveDoneEx(exName: self.info.exercise, set: self.info.set, weight: 0, count: self.info.count, distance: 0, maxSpeed: 0, avgSpeed: 0, time: Int64(self.count), date: self.info.date)
+                let update = ExerciseCoreData.updateCoreData(id: self.info.id, entityName: "Anaerobic", saveTime: self.saveTime, done: true)
+                if update == true {
+                    print("운동 완료 후 업데이트 성공")
+                    // firebase에 저장하기
+                    configFirebase.saveDoneEx(exName: self.info.exercise, set: self.info.set, weight: 0, count: self.info.count, distance: 0, maxSpeed: 0, avgSpeed: 0, time: Int64(self.count), date: self.info.date)
+                    ExerciseViewController.reloadEx.send(true)
+                    self.navigationController?.popViewController(animated: true)
+                } else {
+                    print("운동 완료 후 업데이트 실패")
+                    self.showError()
+                    return
+                }
             } else {
                 print("서버 전송 오류, 잠시 후 다시 시도해 주세요.")
-                self.indicator.stopAnimating()
-                self.showError()
-            }
-        }.store(in: &subscriptions)
-        
-        fireState.receive(on: RunLoop.main).sink { result in
-            self.indicator.stopAnimating()
-            if result { print("Firebase에 저장 성공") }
-            else { print("Firebase에 저장 실패") }
-            let update = ExerciseCoreData.updateCoreData(id: self.info.id, entityName: "Anaerobic", saveTime: self.saveTime, done: true)
-            if update == true {
-                print("운동 완료 후 업데이트 성공")
-                ExerciseViewController.reloadEx.send(true)
-                self.navigationController?.popViewController(animated: true)
-            } else {
-                print("운동 완료 후 업데이트 실패")
                 self.showError()
             }
         }.store(in: &subscriptions)

@@ -24,7 +24,6 @@ class saveExerciseViewController1: UIViewController {
     var exInfo: anaerobicExerciseInfo!
     var hideCheck: Bool = true // 무게가 필요있는 운동이면 true
     let serverState = PassthroughSubject<Bool, Never>()
-//    let firebaseState = PassthroughSubject<Bool, Never>()
     var subscriptions = Set<AnyCancellable>()
     var tableName: String!
     
@@ -184,31 +183,6 @@ extension saveExerciseViewController1 {
                 self.showAlert()
             }
         }.store(in: &subscriptions)
-        
-//        firebaseState.receive(on: RunLoop.main).sink { result in
-//            self.indicator.stopAnimating()
-//            if result == true {
-//                print("Firebase 저장 성공")
-//                if let vc = self.keyWindow?.visibleViewController {
-//                    let save = ExerciseCoreData.saveCoreData(info: self.exInfo)
-//                    if save == true {
-//                        print("CoreData 저장 완료")
-//                        self.viewModel.saveSuccessExMessage(View: vc)
-//                    } else {
-//                        print("운동 저장 실패")
-//                        self.viewModel.saveFailExMessage(View: vc)
-//                    }
-//                } else {
-//                    print("keyWindow error")
-//                    configFirebase.errorReport(type: "saveExerciseVC1.bind", descriptions: "keyWindow error")
-//                    self.dismiss(animated: true)
-//                }
-//            } else {
-//                print("Firebase 저장 실패")
-//                configServer.sendDeleteEx(info: self.exInfo, subject: nil)
-//                self.showAlert()
-//            }
-//        }.store(in: &subscriptions)
     }
 }
 
