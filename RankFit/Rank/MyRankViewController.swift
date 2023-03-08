@@ -38,6 +38,7 @@ class MyRankViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        optionButton.tintColor = UIColor(named: "link_cyan")
         collectionView.delegate = self
         updateNavigationItem()
         configureCollectionView()
@@ -152,6 +153,7 @@ extension MyRankViewController {
     }
     
     private func applyMyRankItems(items: [MyRankInfo]) {
+        indicator.stopAnimating()
         MyRankDatasource = UICollectionViewDiffableDataSource<Section, MyItem>(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MyRankCell", for: indexPath) as? MyRankCell else { return nil }
             cell.config(info: itemIdentifier)
@@ -289,7 +291,7 @@ extension MyRankViewController {
             self.OptionViewModel.getAgeRank()
         })
         
-        let grade = UIAction(title: "종합", handler: { _ in
+        let all = UIAction(title: "종합", handler: { _ in
             if self.type == "종합" { return }
             self.navigationItem.title = "주간 종합 랭킹"
             self.type = "종합"
@@ -303,7 +305,21 @@ extension MyRankViewController {
             self.OptionViewModel.getCustomRank()
         })
         
-        let buttonMenu = UIMenu(title: "옵션", image: UIImage(systemName: "list.bullet") , children: [me, gender, age, grade])
+        let running = UIAction(title: "러닝", handler: { _ in
+            if self.type == "러닝" { return }
+            self.navigationItem.title = "주간 러닝 랭킹"
+            self.type = "러닝"
+            self.optionButton.setTitle("러닝", for: .normal)
+            self.applyOptionRankItems(items: [])
+            guard self.user != nil else {
+                self.applyMyRankItems(items: [MyRankInfo(Exercise: "현재 로그아웃 되어\n랭킹을 불러들일 수 없습니다.", My_Ranking: "")])
+                return
+            }
+            self.indicator.startAnimating()
+            self.OptionViewModel.getRunningRank()
+        })
+        
+        let buttonMenu = UIMenu(title: "옵션", image: UIImage(systemName: "list.bullet") , children: [me, gender, age, all, running])
         optionButton.menu = buttonMenu
         optionButton.showsMenuAsPrimaryAction = true
         optionButton.fs_width = 110
@@ -315,7 +331,7 @@ extension MyRankViewController {
         let backImage = UIImage(systemName: "arrow.backward")
         navigationController?.navigationBar.backIndicatorImage = backImage
         navigationController?.navigationBar.backIndicatorTransitionMaskImage = backImage
-        navigationController?.navigationBar.tintColor = .systemBlue
+        navigationController?.navigationBar.tintColor = UIColor(named: "link_cyan")
         navigationItem.backButtonDisplayMode = .minimal
         navigationItem.largeTitleDisplayMode = .always
         navigationItem.title = "주간 랭킹"

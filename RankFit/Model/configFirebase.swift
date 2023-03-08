@@ -33,6 +33,24 @@ final class configFirebase {
         }
     }
     
+    // 문의하기
+    static func ask(Ask: String, subject: PassthroughSubject<Bool, Never>) {
+        let db = Firestore.firestore()
+        db.collection("Ask").document(getDateString.getCurrentDate_Time()).setData([
+            "Date": getDateString.getCurrentDate_Time(),
+            "ID": saveUserData.getKeychainStringValue(forKey: .UID) ?? "익명",
+            "Ask": Ask
+        ]) { error in
+            if let error = error {
+                print("error: \(error.localizedDescription)")
+                subject.send(false)
+            } else {
+                print("문의 완료")
+                subject.send(true)
+            }
+        }
+    }
+    
     // 이동수단 감지 보고
     static func reportAutomotive(type: String, speed: String) {
         let db = Firestore.firestore()

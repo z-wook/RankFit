@@ -48,6 +48,15 @@ final class OptionRankViewModel {
         sendServer(URL: url, params: parameters)
     }
     
+    func getRunningRank() {
+        let url = "http://rankfit.site/runningRank.php"
+        
+        let parameters: Parameters = [
+            "userID": saveUserData.getKeychainStringValue(forKey: .UID) ?? "정보없음"
+        ]
+        sendServer(URL: url, params: parameters)
+    }
+    
     private func sendServer(URL: String, params: Parameters) {
         AF.request(URL, method: .post, parameters: params)
             .responseDecodable(of: OpRankInfo.self) { response in

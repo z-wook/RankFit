@@ -21,9 +21,8 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var pageLabel: UILabel!
     @IBOutlet weak var barChartView: BarChartView!
     
-    static let SuspendNotification = PassthroughSubject<Bool, Never>()
+//    static let SuspendNotification = PassthroughSubject<Bool, Never>()
     let rankSubject = CurrentValueSubject<[WeeklyRank]?, Never>(nil)
-    let getNotiPermission = PassthroughSubject<Bool, Never>()
     var subscriptions = Set<AnyCancellable>()
     var cancel: Cancellable?
     
@@ -96,36 +95,30 @@ class HomeViewController: UIViewController {
     }
     
     @IBAction func QuickExercise(_ sender: UIButton) {
-        quickStart()
+        let sb = UIStoryboard(name: "QuickExercise", bundle: nil)
+        let vc = sb.instantiateViewController(withIdentifier: "QuickAerobicViewController") as! QuickAerobicViewController
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     @IBAction func Test(_ sender: UIButton) {
-        // firebase 이메일 변경
-        //        Auth.auth().currentUser?.updateEmail(to: "", completion: { error in
-        //            print("error: \(error.debugDescription)")
-        //        })
         
-//        // 등록 토큰에 엑세스하는 방법
-//        Messaging.messaging().token { token, error in
-//            if let error = error {
-//                print("Error fetching FCM registration token: \(error.localizedDescription)")
-//            }
-//            else if let token = token {
-//                print("FCM registration token: \(token)")
-//            }
-//        }
-        
-        let sb = UIStoryboard(name: "QuickExercise", bundle: nil)
-        let vc = sb.instantiateViewController(withIdentifier: "QuickSaveViewController") as! QuickSaveViewController
-        vc.count = 3
-        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    private func aaa() {
+        if traitCollection.userInterfaceStyle == .dark {
+            print("다크모드")
+            
+        } else {
+            print("라이트 모드")
+            
+        }
     }
 }
 
 extension HomeViewController {
     private func configure() {
 //        backgroundView.backgroundColor = UIColor.link.withAlphaComponent(0.6)
-        backgroundView.backgroundColor = UIColor.systemTeal.withAlphaComponent(0.6)
+        backgroundView.backgroundColor = UIColor.cyan.withAlphaComponent(0.6)
         backgroundView.layer.cornerRadius = 20
         pageLabel.backgroundColor = UIColor.black.withAlphaComponent(0.6)
         pageLabel.clipsToBounds = true
@@ -136,7 +129,7 @@ extension HomeViewController {
         let backImage = UIImage(systemName: "arrow.backward")
         navigationController?.navigationBar.backIndicatorImage = backImage
         navigationController?.navigationBar.backIndicatorTransitionMaskImage = backImage
-        navigationController?.navigationBar.tintColor = .systemBlue
+        navigationController?.navigationBar.tintColor = UIColor(named: "link_cyan")
         navigationItem.backButtonDisplayMode = .minimal
     }
     
@@ -155,36 +148,18 @@ extension HomeViewController {
             }
         }.store(in: &subscriptions)
         
-        let suspendSubject = HomeViewController.SuspendNotification
-            .receive(on: RunLoop.main).sink { result in
-                if result {
-                    DispatchQueue.main.async {
-                        let alertController = UIAlertController(title: "계정 사용 중지됨", message: "귀하의 계정이 사용 중지되었습니다. 문의사항은 관리자에게 해주세요.", preferredStyle: .alert)
-                        let ok = UIAlertAction(title: "확인", style: .destructive)
-                        alertController.addAction(ok)
-                        self.present(alertController, animated: true, completion: nil)
-                    }
-                }
-            }
-        cancel = suspendSubject
-        
-        getNotiPermission.receive(on: RunLoop.main).sink { result in
-            if result {
-                DispatchQueue.main.async {
-                    let alert = UIAlertController(title: "알림 수신 거부됨", message: "공지사항을 수신하기 위해 알림 수신을 켜주세요", preferredStyle: .alert)
-                    let ok = UIAlertAction(title: "설정으로 이동", style: .default) { _ in
-                        // 설정으로 이동
-                        UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
-                    }
-                    let cancle = UIAlertAction(title: "취소", style: .default)
-                    // 색상 적용.
-                    cancle.setValue(UIColor.darkGray, forKey: "titleTextColor")
-                    alert.addAction(cancle)
-                    alert.addAction(ok)
-                    self.present(alert, animated: true, completion: nil)
-                }
-            }
-        }.store(in: &subscriptions)
+//        let suspendSubject = HomeViewController.SuspendNotification
+//            .receive(on: RunLoop.main).sink { result in
+//                if result {
+//                    DispatchQueue.main.async {
+//                        let alertController = UIAlertController(title: "계정 사용 중지됨", message: "귀하의 계정이 사용 중지되었습니다. 문의사항은 관리자에게 해주세요.", preferredStyle: .alert)
+//                        let ok = UIAlertAction(title: "확인", style: .destructive)
+//                        alertController.addAction(ok)
+//                        self.present(alertController, animated: true, completion: nil)
+//                    }
+//                }
+//            }
+//        cancel = suspendSubject
     }
     
     private func configCollectionView() {
@@ -219,24 +194,6 @@ extension HomeViewController {
         snapshot.appendSections([.main])
         snapshot.appendItems(items, toSection: .main)
         datasource.apply(snapshot)
-    }
-    
-    private func quickStart() {
-        let sb = UIStoryboard(name: "QuickExercise", bundle: nil)
-        let alert = UIAlertController(title: "운동 타입을 선택해 주세요.", message: nil, preferredStyle: .actionSheet)
-        let anaerobic = UIAlertAction(title: "무산소 운동", style: .default) { _ in
-            let vc = sb.instantiateViewController(withIdentifier: "QuickAnaerobicViewController") as! QuickAnaerobicViewController
-            self.navigationController?.pushViewController(vc, animated: true)
-        }
-        let aerobic = UIAlertAction(title: "유산소 운동(러닝 / 싸이클)", style: .default) { _ in
-            let vc = sb.instantiateViewController(withIdentifier: "QuickAerobicViewController") as! QuickAerobicViewController
-            self.navigationController?.pushViewController(vc, animated: true)
-        }
-        let cancel = UIAlertAction(title: "취소", style: .cancel)
-        alert.addAction(anaerobic)
-        alert.addAction(aerobic)
-        alert.addAction(cancel)
-        present(alert, animated: true)
     }
 }
 

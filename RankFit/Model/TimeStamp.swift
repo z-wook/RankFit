@@ -49,9 +49,9 @@ final class TimeStamp {
         return timestamp
     }
     
-    static func getTimeInterval(now: Date, before: Date) -> Int {
+    static func getTimeInterval(now: Date, before: Date) -> TimeInterval {
         let timeInterval = now.timeIntervalSince(before)
-        return Int(timeInterval)
+        return timeInterval
     }
     
     static func get_Timestamp(date_str: String, start_OR_end: String) -> Int {

@@ -63,6 +63,10 @@
 		33657A7F2944CB7B00164DB5 /* ExerciseCoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33657A7E2944CB7B00164DB5 /* ExerciseCoreData.swift */; };
 		3366A14929863B090071F9A2 /* RevokeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3366A14829863B090071F9A2 /* RevokeViewModel.swift */; };
 		33684C7729685CEE0035C308 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33684C7629685CEE0035C308 /* HomeViewModel.swift */; };
+		336A55B729B712DF0029B1C2 /* RankFit.png in Resources */ = {isa = PBXBuildFile; fileRef = 336A55B629B712DE0029B1C2 /* RankFit.png */; };
+		336A55B929B727CA0029B1C2 /* Running.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 336A55B829B727CA0029B1C2 /* Running.mp3 */; };
+		336A55BB29B774DA0029B1C2 /* VersionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 336A55BA29B774DA0029B1C2 /* VersionViewController.swift */; };
+		336A55BE29B775030029B1C2 /* Version.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 336A55BD29B775030029B1C2 /* Version.storyboard */; };
 		3373E8542961ADEF00680290 /* MyRankViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3373E8532961ADEE00680290 /* MyRankViewModel.swift */; };
 		3373E8562962210300680290 /* MyDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3373E8552962210300680290 /* MyDetailViewController.swift */; };
 		3373E85A2962213900680290 /* MyDetail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3373E8592962213900680290 /* MyDetail.storyboard */; };
@@ -97,6 +101,8 @@
 		33C4F2662967D39500CB70D3 /* Charts in Frameworks */ = {isa = PBXBuildFile; productRef = 33C4F2652967D39500CB70D3 /* Charts */; };
 		33C6F1AE29A9528900474E29 /* weeklyRankCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C6F1AD29A9528900474E29 /* weeklyRankCell.swift */; };
 		33C6F1B029A95F3A00474E29 /* WeeklyRankViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C6F1AF29A95F3A00474E29 /* WeeklyRankViewModel.swift */; };
+		33C7F09429B59E930045CC67 /* AskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C7F09329B59E930045CC67 /* AskViewController.swift */; };
+		33C7F09729B59F050045CC67 /* Ask.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 33C7F09629B59F050045CC67 /* Ask.storyboard */; };
 		33CC6ECB29AA7962008BD3FD /* Notice.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 33CC6ECA29AA7962008BD3FD /* Notice.storyboard */; };
 		33CC6ECE29AA79AA008BD3FD /* NoticeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CC6ECD29AA79AA008BD3FD /* NoticeViewController.swift */; };
 		33CC6ED029AA7C44008BD3FD /* NoticeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CC6ECF29AA7C44008BD3FD /* NoticeCell.swift */; };
@@ -218,6 +224,10 @@
 		33657A7E2944CB7B00164DB5 /* ExerciseCoreData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseCoreData.swift; sourceTree = "<group>"; };
 		3366A14829863B090071F9A2 /* RevokeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RevokeViewModel.swift; sourceTree = "<group>"; };
 		33684C7629685CEE0035C308 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		336A55B629B712DE0029B1C2 /* RankFit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = RankFit.png; sourceTree = "<group>"; };
+		336A55B829B727CA0029B1C2 /* Running.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Running.mp3; sourceTree = "<group>"; };
+		336A55BA29B774DA0029B1C2 /* VersionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionViewController.swift; sourceTree = "<group>"; };
+		336A55BD29B775030029B1C2 /* Version.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Version.storyboard; sourceTree = "<group>"; };
 		3373E8532961ADEE00680290 /* MyRankViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyRankViewModel.swift; sourceTree = "<group>"; };
 		3373E8552962210300680290 /* MyDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyDetailViewController.swift; sourceTree = "<group>"; };
 		3373E8592962213900680290 /* MyDetail.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MyDetail.storyboard; sourceTree = "<group>"; };
@@ -240,6 +250,8 @@
 		33B13777298E5E980006DA9B /* savePlankViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = savePlankViewController.swift; sourceTree = "<group>"; };
 		33C6F1AD29A9528900474E29 /* weeklyRankCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = weeklyRankCell.swift; sourceTree = "<group>"; };
 		33C6F1AF29A95F3A00474E29 /* WeeklyRankViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyRankViewModel.swift; sourceTree = "<group>"; };
+		33C7F09329B59E930045CC67 /* AskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AskViewController.swift; sourceTree = "<group>"; };
+		33C7F09629B59F050045CC67 /* Ask.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Ask.storyboard; sourceTree = "<group>"; };
 		33CC6ECA29AA7962008BD3FD /* Notice.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Notice.storyboard; sourceTree = "<group>"; };
 		33CC6ECD29AA79AA008BD3FD /* NoticeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeViewController.swift; sourceTree = "<group>"; };
 		33CC6ECF29AA7C44008BD3FD /* NoticeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeCell.swift; sourceTree = "<group>"; };
@@ -447,7 +459,9 @@
 				33DA75BC294C38EE002DAB31 /* ProfileCell.swift */,
 				33DA75C0294C4DFC002DAB31 /* DefaultCell.swift */,
 				33DE94B0294C6B9B005AF20C /* ProfileDetail */,
+				336A55BC29B774F60029B1C2 /* Version */,
 				33CC6ECC29AA796B008BD3FD /* Notice */,
+				33C7F09529B59EDC0045CC67 /* Ask */,
 			);
 			path = Setting;
 			sourceTree = "<group>";
@@ -488,6 +502,15 @@
 				33657A7B2944CA6200164DB5 /* getTopViewController.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		336A55BC29B774F60029B1C2 /* Version */ = {
+			isa = PBXGroup;
+			children = (
+				336A55BD29B775030029B1C2 /* Version.storyboard */,
+				336A55BA29B774DA0029B1C2 /* VersionViewController.swift */,
+			);
+			path = Version;
 			sourceTree = "<group>";
 		};
 		3373E85B2962214000680290 /* MyDetail */ = {
@@ -532,6 +555,15 @@
 			path = QuickEx;
 			sourceTree = "<group>";
 		};
+		33C7F09529B59EDC0045CC67 /* Ask */ = {
+			isa = PBXGroup;
+			children = (
+				33C7F09629B59F050045CC67 /* Ask.storyboard */,
+				33C7F09329B59E930045CC67 /* AskViewController.swift */,
+			);
+			path = Ask;
+			sourceTree = "<group>";
+		};
 		33CC6ECC29AA796B008BD3FD /* Notice */ = {
 			isa = PBXGroup;
 			children = (
@@ -560,6 +592,7 @@
 		33DA75AB29497EFD002DAB31 /* LaunchScreen */ = {
 			isa = PBXGroup;
 			children = (
+				336A55B629B712DE0029B1C2 /* RankFit.png */,
 				33E917012943AC4B00FC074A /* LaunchScreen.storyboard */,
 			);
 			path = LaunchScreen;
@@ -605,6 +638,7 @@
 				33E916F32943AC4A00FC074A /* AppDelegate.swift */,
 				33E916F52943AC4A00FC074A /* SceneDelegate.swift */,
 				33611EFB296D8C9E003ED0E8 /* Store.swift */,
+				336A55B829B727CA0029B1C2 /* Running.mp3 */,
 				33E9172F2943B3FF00FC074A /* Views */,
 				33E917302943B52E00FC074A /* Home */,
 				33E9173A2943B62A00FC074A /* Exercise */,
@@ -879,8 +913,10 @@
 				33CC6ECB29AA7962008BD3FD /* Notice.storyboard in Resources */,
 				3373E85A2962213900680290 /* MyDetail.storyboard in Resources */,
 				3351B64B298486EE00DB3DD2 /* Revoke.storyboard in Resources */,
+				336A55B929B727CA0029B1C2 /* Running.mp3 in Resources */,
 				33D7DE58296DF3820034405E /* Diary.storyboard in Resources */,
 				333A4FA62960A9F0004C494C /* OptionDetail.storyboard in Resources */,
+				33C7F09729B59F050045CC67 /* Ask.storyboard in Resources */,
 				33E917322943B57200FC074A /* Rank.storyboard in Resources */,
 				33657A5229448C2500164DB5 /* ExerciseList.storyboard in Resources */,
 				331D34682945D1C800E4CE20 /* Onboarding.storyboard in Resources */,
@@ -893,7 +929,9 @@
 				33E916FB2943AC4A00FC074A /* Main.storyboard in Resources */,
 				33657A5B2944B4AC00164DB5 /* saveExercise.storyboard in Resources */,
 				33A56F6829ADF3950042FA3E /* QuickExercise.storyboard in Resources */,
+				336A55BE29B775030029B1C2 /* Version.storyboard in Resources */,
 				33657A692944C87100164DB5 /* Setting.storyboard in Resources */,
+				336A55B729B712DF0029B1C2 /* RankFit.png in Resources */,
 				33E9172C2943B1F600FC074A /* Home.storyboard in Resources */,
 				33F8F274294CFFB7007A4691 /* InputInfo.storyboard in Resources */,
 			);
@@ -1029,6 +1067,7 @@
 				335EA1C729A3C7CC000336F7 /* ReturnToRankFit.swift in Sources */,
 				33A19D6029B0CAB000D75519 /* QuickExPickerCell.swift in Sources */,
 				33A56F6A29ADF4E70042FA3E /* QuickAnaerobicViewController.swift in Sources */,
+				33C7F09429B59E930045CC67 /* AskViewController.swift in Sources */,
 				33657A592944ACE500164DB5 /* ExerciseListViewModel.swift in Sources */,
 				3373E8542961ADEF00680290 /* MyRankViewModel.swift in Sources */,
 				33657A622944B51C00164DB5 /* saveExerciseViewModel.swift in Sources */,
@@ -1084,6 +1123,7 @@
 				33657A7F2944CB7B00164DB5 /* ExerciseCoreData.swift in Sources */,
 				33657A752944C98500164DB5 /* CustomBarItem.swift in Sources */,
 				33657A6E2944C8DC00164DB5 /* anaerobicExerciseInfo.swift in Sources */,
+				336A55BB29B774DA0029B1C2 /* VersionViewController.swift in Sources */,
 				33657A5E2944B4F900164DB5 /* saveExerciseViewController1.swift in Sources */,
 				33D7DE5B296DF3AA0034405E /* DiaryViewController.swift in Sources */,
 				339EAFD1298A1B5F00BF5080 /* UserDetailViewController.swift in Sources */,
@@ -1224,7 +1264,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1279,7 +1319,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -1312,7 +1352,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1349,7 +1389,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

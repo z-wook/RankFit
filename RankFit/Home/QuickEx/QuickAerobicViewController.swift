@@ -9,6 +9,7 @@ import UIKit
 import MapKit
 import CoreMotion
 import Combine
+import AVFoundation
 
 class QuickAerobicViewController: UIViewController {
     
@@ -28,19 +29,19 @@ class QuickAerobicViewController: UIViewController {
     let doneFirebase = PassthroughSubject<Bool, Never>()
     var subscriptions = Set<AnyCancellable>()
     var exerciseInfo: aerobicExerciseInfo!
-    var timer: Timer?
-    var count = 0
-    var saveTime: Int64!
-    var backgroundTime: Date? // Background로 진입한 시간
-    
+    let center = NotificationCenter.default
     var motionManager: CMMotionActivityManager?
     var locationManager: CLLocationManager?
-    
     var previousLocation: CLLocation? // 이전 위치 정보 저장
     var totalDistance: Double = 0 // 실제 움직인 거리 m
     var maxSpeed: Double = 0
     var avgSpeed: Double = 0
     var type: String = "러닝"
+    var timer: Timer?
+    var count = 0
+    var saveTime: Int64!
+    var backgroundTime: Date? // Background로 진입한 시간
+    var soundEffect: AVAudioPlayer?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,9 +57,7 @@ class QuickAerobicViewController: UIViewController {
         timer?.invalidate()
         motionManager?.stopActivityUpdates()
         locationManager?.stopUpdatingLocation()
-        timer = nil
-        motionManager = nil
-        locationManager = nil
+        center.removeObserver(self)
     }
     
     @IBAction func currentLocationBtn(_ sender: UIButton) {
@@ -247,8 +246,9 @@ extension QuickAerobicViewController {
         backgroundView.isHidden = true
         exerciseType.setTitleTextAttributes([.foregroundColor: UIColor.black], for: .selected)
         exerciseType.selectedSegmentTintColor = .systemOrange.withAlphaComponent(0.8)
+        let soundEffect = UserDefaults.standard.integer(forKey: "sound")
+        if soundEffect == 0 { playAudio() }
         
-        let center = NotificationCenter.default
         center.addObserver(self, selector: #selector(enterForeground), name: NSNotification.Name("WillEnterForeground"), object: nil)
         center.addObserver(self, selector: #selector(enterBackground), name: NSNotification.Name("DidEnterBackground"), object: nil)
     }
@@ -296,7 +296,7 @@ extension QuickAerobicViewController {
         let foregroundTime = Date()
         guard let backgroundTime = backgroundTime else { return }
         let interval = TimeStamp.getTimeInterval(now: foregroundTime, before: backgroundTime)
-        count += interval
+        count += Int(interval)
         let time = secondsToHourMinutesSecond(seconds: count)
         let timeString = makeTimeString(hours: time.0, minutes: time.1, seconds: time.2)
         timeLabel.text = timeString
@@ -310,6 +310,21 @@ extension QuickAerobicViewController {
             backgroundTime = Date()
         } else { // 타이머 정지 상태라면 패스
             backgroundTime = nil
+        }
+    }
+    
+    private func playAudio() {
+        let url = Bundle.main.url(forResource: "Running", withExtension: "mp3")
+        if let url = url {
+            do {
+                soundEffect = try AVAudioPlayer(contentsOf: url)
+                guard let sound = soundEffect else { return }
+                sound.prepareToPlay()
+                sound.volume = 0.5
+                sound.play()
+            } catch let error {
+                print("error: \(error.localizedDescription)")
+            }
         }
     }
     
@@ -361,7 +376,7 @@ extension QuickAerobicViewController {
         let cancle = UIAlertAction(title: "취소", style: .destructive, handler: nil)
         let ok = UIAlertAction(title: "확인", style: .default) { _ in
             // 러닝 시 최대 속도 검사
-            if exType == "러닝" && self.maxSpeed > 9.722 { // 약 35km/h 초과
+            if exType == "러닝" && self.maxSpeed > 10.555 { // 약 38km/h 초과
                 self.showAlert(activity: "running", speed: self.maxSpeed)
                 return
             }

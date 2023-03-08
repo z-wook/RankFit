@@ -8,6 +8,7 @@
 import UIKit
 import Combine
 import FirebaseAuth
+import SafariServices
 
 class SettingViewController: UIViewController {
     
@@ -19,9 +20,10 @@ class SettingViewController: UIViewController {
     
     let sectionHeader = ["내 프로필", "앱 설정", "이용 안내", "기타"]
     let section0 = ["마이페이지"] // userInfomation
-    let section1 = ["다크모드", "기타 등등"]
-    let section2 = ["버전 정보", "개인 정보 취급 방침", "이용약관", "공지사항", "문의하기"]
+    let section1 = ["화면 모드", "사운드 효과"]
+    let section2 = ["버전 정보", "개인정보 처리 방침", "이용약관", "이용규칙", "공지사항", "문의하기"]
     let section3 = ["로그아웃"]
+    let version: String = "1.0.0" // 앱 버전 -> 업데이트 시 변경하기
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,33 +32,6 @@ class SettingViewController: UIViewController {
         tableView.delegate = self
         updateNavigationItem()
         bind()
-    }
-    
-    private func bind() {
-        SettingViewController.reloadProfile.receive(on: RunLoop.main).sink { _ in
-            print("Setting Reload")
-            self.tableView.reloadData()
-        }.store(in: &subscriptions)
-        
-        logoutState.receive(on: RunLoop.main).sink { _ in
-            do {
-                try Auth.auth().signOut()
-                print("로그아웃 성공")
-                // 저장된 개인 정보 삭제
-                saveUserData.removeKeychain(forKey: .Email)
-                saveUserData.removeKeychain(forKey: .UID)
-                saveUserData.removeKeychain(forKey: .NickName)
-                saveUserData.removeKeychain(forKey: .Gender)
-                saveUserData.removeKeychain(forKey: .Birth)
-                saveUserData.removeKeychain(forKey: .Weight)
-                // 프로필 업데이트
-                self.tableView.reloadData()
-            } catch {
-                print("error: " + error.localizedDescription)
-                configFirebase.errorReport(type: "SettingVC.bind", descriptions: error.localizedDescription)
-                self.showAlert(title: "로그아웃 실패", description: "잠시 후 다시 시도해 주세요.")
-            }
-        }.store(in: &subscriptions)
     }
 }
 
@@ -93,34 +68,65 @@ extension SettingViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.section {
         case 0:
-            guard let profileCell = tableView.dequeueReusableCell(withIdentifier: "ProfileCell", for: indexPath) as? ProfileCell else {
-                return UITableViewCell()
-            }
+            guard let profileCell = tableView.dequeueReusableCell(withIdentifier: "ProfileCell", for: indexPath) as? ProfileCell else { return UITableViewCell() }
             profileCell.configCell()
             return profileCell
             
         case 1:
-            guard let defaultCell = tableView.dequeueReusableCell(withIdentifier: "DefaultCell", for: indexPath) as? DefaultCell else {
-                return UITableViewCell()
+            guard let defaultCell = tableView.dequeueReusableCell(withIdentifier: "DefaultCell", for: indexPath) as? DefaultCell else { return UITableViewCell() }
+            var img: UIImage?
+            var color: UIColor?
+            var mode: String?
+            if indexPath.item == 0 { // 화면 모드
+                img = UIImage(systemName: "lightbulb")
+                color = .systemOrange
+                let rawValue = UserDefaults.standard.integer(forKey: "Appearance")
+                switch rawValue {
+                case 1: mode = "라이트 모드"
+                case 2: mode = "다크 모드"
+                default: mode = "시스템 기본값"
+                }
+            } else {
+                img = UIImage(systemName: "speaker.wave.3")
+                color = .link
+                let soundEffect = UserDefaults.standard.integer(forKey: "sound")
+                if soundEffect == 0 { mode = "On" }
+                else { mode = "Off" }
             }
-            defaultCell.imgView.image = UIImage(systemName: "lightbulb.fill")
-//            defaultCell.imgView.image?.withRenderingMode(.alwaysOriginal)
-            defaultCell.title.text = section1[indexPath.row]
-            
+            defaultCell.configure(image: img, color: color, title: section1[indexPath.row], description: mode)
             return defaultCell
             
         case 2:
-            guard let defaultCell = tableView.dequeueReusableCell(withIdentifier: "DefaultCell", for: indexPath) as? DefaultCell else {
-                return UITableViewCell()
+            guard let defaultCell = tableView.dequeueReusableCell(withIdentifier: "DefaultCell", for: indexPath) as? DefaultCell else { return UITableViewCell() }
+            var img: UIImage?
+            var color: UIColor?
+            if indexPath.item == 0 { // 버전 정보
+                img = UIImage(systemName: "app.badge")
+                defaultCell.configure(image: img, color: color, title: section2[indexPath.row], description: version)
+            } else if indexPath.item == 1 { // 개인정보 처리 방침
+                img = UIImage(systemName: "checkmark.shield")
+                color = .systemBrown
+                defaultCell.configure(image: img, color: color, title: section2[indexPath.row])
+            } else if indexPath.item == 4 { // 공지사항
+                img = UIImage(systemName: "exclamationmark.bubble")
+                color = .systemYellow
+                defaultCell.configure(image: img, color: color, title: section2[indexPath.row])
+            } else if indexPath.item == 5 {
+                img = UIImage(systemName: "text.bubble")
+                color = .systemCyan
+                defaultCell.configure(image: img, color: color, title: section2[indexPath.row])
+            } else { // 이용약관, 이용규칙
+                img = UIImage(systemName: "list.clipboard")
+                color = UIColor(named: "darkTxt_lightTxt")
+                defaultCell.configure(image: img, color: color, title: section2[indexPath.row])
             }
-            defaultCell.title.text = section2[indexPath.row]
             return defaultCell
             
         case 3:
-            guard let defaultCell = tableView.dequeueReusableCell(withIdentifier: "DefaultCell", for: indexPath) as? DefaultCell else {
-                return UITableViewCell()
-            }
-            defaultCell.title.text = section3[indexPath.row]
+            guard let defaultCell = tableView.dequeueReusableCell(withIdentifier: "DefaultCell", for: indexPath) as? DefaultCell else { return UITableViewCell() }
+            let img = UIImage(systemName: "person.fill.xmark")
+            let color: UIColor = .label
+            defaultCell.configure(image: img, color: color, title: section3[indexPath.row])
             return defaultCell
             
         default:
@@ -151,12 +157,71 @@ extension SettingViewController {
             }
             
         case 1:
-            return
+            if indexPath.item == 0 {
+                let alert = UIAlertController(title: "화면 모드", message: nil, preferredStyle: .actionSheet)
+                // unspecified = 0, light = 1, dark = 2
+                let system = UIAlertAction(title: "시스템 기본값", style: .default) { _ in
+                    UserDefaults.standard.set(0, forKey: "Appearance")
+                    self.view.window?.overrideUserInterfaceStyle = UIUserInterfaceStyle(rawValue: 0) ?? .unspecified
+                    tableView.reloadData()
+                }
+                let light = UIAlertAction(title: "라이트 모드", style: .default) { _ in
+                    UserDefaults.standard.set(1, forKey: "Appearance")
+                    self.view.window?.overrideUserInterfaceStyle = UIUserInterfaceStyle(rawValue: 1) ?? .unspecified
+                    tableView.reloadData()
+                }
+                let dark = UIAlertAction(title: "다크 모드", style: .default) { _ in
+                    UserDefaults.standard.set(2, forKey: "Appearance")
+                    self.view.window?.overrideUserInterfaceStyle = UIUserInterfaceStyle(rawValue: 2) ?? .unspecified
+                    tableView.reloadData()
+                }
+                let cancel = UIAlertAction(title: "취소", style: .cancel)
+                alert.addAction(system)
+                alert.addAction(light)
+                alert.addAction(dark)
+                alert.addAction(cancel)
+                present(alert, animated: true)
+                return
+            } else {
+                let alert = UIAlertController(title: "사운드 효과", message: nil, preferredStyle: .actionSheet)
+                let on = UIAlertAction(title: "On", style: .default) { _ in
+                    UserDefaults.standard.set(0, forKey: "sound")
+                    tableView.reloadData()
+                }
+                let off = UIAlertAction(title: "Off", style: .default) { _ in
+                    UserDefaults.standard.set(1, forKey: "sound")
+                    tableView.reloadData()
+                }
+                let cancel = UIAlertAction(title: "취소", style: .cancel)
+                alert.addAction(on)
+                alert.addAction(off)
+                alert.addAction(cancel)
+                present(alert, animated: true)
+            }
             
         case 2:
-            if indexPath.item == 3 { // 공지사항
+            if indexPath.item == 0 { // 버전 정보
+                let sb = UIStoryboard(name: "Version", bundle: nil)
+                let vc = sb.instantiateViewController(withIdentifier: "VersionViewController") as! VersionViewController
+                vc.version = version
+                navigationController?.pushViewController(vc, animated: true)
+                return
+            } else if indexPath.item == 1 { // 개인정보 처리 방침
+                let url = URL(string: "https://plip.kr/pcc/7f8b391c-e3e7-4847-8218-4ec213087f4c/privacy/1.html")
+                let vc = SFSafariViewController(url: url!)
+                present(vc, animated: true)
+                return
+            } else if indexPath.item == 2 { // 이용약관
+                return
+            } else if indexPath.item == 3 { // 이용규칙
+                return
+            }else if indexPath.item == 4 { // 공지사항
                 let sb = UIStoryboard(name: "Notice", bundle: nil)
                 let vc = sb.instantiateViewController(withIdentifier: "NoticeViewController") as! NoticeViewController
+                navigationController?.pushViewController(vc, animated: true)
+            } else { // 문의하기
+                let sb = UIStoryboard(name: "Ask", bundle: nil)
+                let vc = sb.instantiateViewController(withIdentifier: "AskViewController") as! AskViewController
                 navigationController?.pushViewController(vc, animated: true)
             }
             
@@ -197,9 +262,36 @@ extension SettingViewController {
         let backImage = UIImage(systemName: "arrow.backward")
         navigationController?.navigationBar.backIndicatorImage = backImage
         navigationController?.navigationBar.backIndicatorTransitionMaskImage = backImage
-        navigationController?.navigationBar.tintColor = .systemBlue
+        navigationController?.navigationBar.tintColor = UIColor(named: "link_cyan")
         navigationItem.backButtonDisplayMode = .minimal
         navigationItem.title = "설정"
+    }
+    
+    private func bind() {
+        SettingViewController.reloadProfile.receive(on: RunLoop.main).sink { _ in
+            print("Setting Reload")
+            self.tableView.reloadData()
+        }.store(in: &subscriptions)
+        
+        logoutState.receive(on: RunLoop.main).sink { _ in
+            do {
+                try Auth.auth().signOut()
+                print("로그아웃 성공")
+                // 저장된 개인 정보 삭제
+                saveUserData.removeKeychain(forKey: .Email)
+                saveUserData.removeKeychain(forKey: .UID)
+                saveUserData.removeKeychain(forKey: .NickName)
+                saveUserData.removeKeychain(forKey: .Gender)
+                saveUserData.removeKeychain(forKey: .Birth)
+                saveUserData.removeKeychain(forKey: .Weight)
+                // 프로필 업데이트
+                self.tableView.reloadData()
+            } catch {
+                print("error: \(error.localizedDescription)")
+                configFirebase.errorReport(type: "SettingVC.bind", descriptions: error.localizedDescription)
+                self.showAlert(title: "로그아웃 실패", description: "잠시 후 다시 시도해 주세요.")
+            }
+        }.store(in: &subscriptions)
     }
 }
 

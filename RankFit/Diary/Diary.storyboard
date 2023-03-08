@@ -10,7 +10,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--다이어리-->
+        <!--Diary View Controller-->
         <scene sceneID="s0d-6b-0kx">
             <objects>
                 <viewController storyboardIdentifier="DiaryViewController" id="Y6W-OH-hqX" customClass="DiaryViewController" customModule="RankFit" customModuleProvider="target" sceneMemberID="viewController">
@@ -100,7 +100,7 @@
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="ODH-mM-mtO" secondAttribute="bottom" id="bKw-Ja-fJO"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="다이어리" image="photo.on.rectangle.angled" catalog="system" id="FPC-VB-xLy"/>
+                    <tabBarItem key="tabBarItem" title="" image="picture" id="FPC-VB-xLy"/>
                     <navigationItem key="navigationItem" id="lXs-U9-I6C"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
@@ -433,7 +433,7 @@
     <resources>
         <image name="checkmark.circle" catalog="system" width="128" height="123"/>
         <image name="multiply.circle" catalog="system" width="128" height="123"/>
-        <image name="photo.on.rectangle.angled" catalog="system" width="128" height="98"/>
+        <image name="picture" width="24" height="24"/>
         <image name="trash" catalog="system" width="117" height="128"/>
         <systemColor name="labelColor">
             <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

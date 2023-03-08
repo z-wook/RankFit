@@ -29,6 +29,7 @@ class PlankActivityViewController: UIViewController {
     var timerCounting: Bool = true
     var saveTime: Int64!
     var colorState: Bool = true
+    let center = NotificationCenter.default
     var backgroundTime: Date? // Background로 진입한 시간
     
     override func viewDidLoad() {
@@ -45,7 +46,7 @@ class PlankActivityViewController: UIViewController {
     
     override func viewDidDisappear(_ animated: Bool) {
         timer?.invalidate()
-        timer = nil
+        center.removeObserver(self)
     }
     
     @IBAction func pauseAndPlay(_ sender: UIButton) {
@@ -96,6 +97,7 @@ extension PlankActivityViewController {
     }
     
     private func configure() {
+        exerciseLabel.tintColor = UIColor(named: "link_cyan")
         backgroundView.backgroundColor = .black.withAlphaComponent(0.6)
         backgroundView.isHidden = true
         
@@ -111,7 +113,6 @@ extension PlankActivityViewController {
         let timeStr = makeTimeString(hours: Time.0, minutes: Time.1, seconds: Time.2)
         timeLabel.text = timeStr
         
-        let center = NotificationCenter.default
         center.addObserver(self, selector: #selector(enterForeground), name: NSNotification.Name("WillEnterForeground"), object: nil)
         
         center.addObserver(self, selector: #selector(enterBackground), name: NSNotification.Name("DidEnterBackground"), object: nil)
@@ -216,18 +217,18 @@ extension PlankActivityViewController {
         return timeString
     }
     
-    @objc func enterForeground() {
+    @objc func enterForeground(notification: NSNotification) {
         let foregroundTime = Date()
         guard let backgroundTime = backgroundTime else { return }
         let interval = TimeStamp.getTimeInterval(now: foregroundTime, before: backgroundTime)
-        count -= interval
+        count -= Int(interval)
         let time = secondsToHourMinutesSecond(seconds: count)
         let timeString = makeTimeString(hours: time.0, minutes: time.1, seconds: time.2)
         timeLabel.text = timeString
         timer = initTimer()
     }
     
-    @objc func enterBackground() {
+    @objc func enterBackground(notification: NSNotification) {
         // 타이머 작동중이라면 정지 시키고 백그라운드 함수 실행
         if timer?.isValid == true {
             timer?.invalidate()

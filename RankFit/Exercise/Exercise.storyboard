@@ -11,7 +11,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--운동-->
+        <!--Exercise View Controller-->
         <scene sceneID="s0d-6b-0kx">
             <objects>
                 <viewController storyboardIdentifier="ExerciseViewController" id="Y6W-OH-hqX" customClass="ExerciseViewController" customModule="RankFit" customModuleProvider="target" sceneMemberID="viewController">
@@ -246,7 +246,7 @@
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="ffR-c2-MTd" secondAttribute="bottom" id="aZx-O5-2Sz"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="운동" image="calendar.badge.plus" catalog="system" id="juh-Es-WL2"/>
+                    <tabBarItem key="tabBarItem" title="" image="calendar" id="juh-Es-WL2"/>
                     <navigationItem key="navigationItem" id="7ld-nm-wbB"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
@@ -279,7 +279,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="calendar.badge.plus" catalog="system" width="128" height="108"/>
+        <image name="calendar" width="24" height="24"/>
         <image name="trash" catalog="system" width="117" height="128"/>
         <systemColor name="labelColor">
             <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

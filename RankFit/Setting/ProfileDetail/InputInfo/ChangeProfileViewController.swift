@@ -175,6 +175,7 @@ extension ChangeProfileViewController {
     private func configureNavigationBar() {
         let cameraConfig = CustomBarItemConfiguration(
             image: UIImage(systemName: "camera"),
+            color: UIColor(named: "link_cyan"),
             handler: {
                 let alert = UIAlertController(title: "사진 선택", message: nil, preferredStyle: .actionSheet)
                 let library = UIAlertAction(title: "사진앨범", style: .default) { (action) in self.openLibrary()
@@ -192,6 +193,7 @@ extension ChangeProfileViewController {
         let cameraItem = UIBarButtonItem.generate(with: cameraConfig, width: 30)
         let moreConfig = CustomBarItemConfiguration(
             image: UIImage(systemName: "ellipsis"),
+            color: UIColor(named: "link_cyan"),
             handler: {
                 let alert = UIAlertController(title: "프로필 삭제", message: "프로필 사진을 삭제하시겠습니까?", preferredStyle: .alert)
                 let ok = UIAlertAction(title: "프로필 유지", style: .default)

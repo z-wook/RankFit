@@ -35,7 +35,6 @@ class WeeklyRank: Hashable {
 final class WeeklyRankViewModel {
     func getWeeklyRank(subject: CurrentValueSubject<[WeeklyRank]?, Never>) {
         AF.request("http://rankfit.site/weekEXrank.php", method: .post).responseDecodable(of: weekRank.self) { response in
-//            print("response: \(response.debugDescription)")
             print("response: \(response)")
             switch response.result {
             case .success(let object):

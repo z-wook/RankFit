@@ -15,8 +15,8 @@ struct OnboardingMessage {
 
 extension OnboardingMessage {
     static let messages: [OnboardingMessage] = [
-        OnboardingMessage(imageName: "img_nike_nrc", title: "", description: "New to the club? Join now and get started.\n Alread running with nike? Log in or join now and we'll show every run you've done with us."),
-        OnboardingMessage(imageName: "img_nike_solo_run", title: "METRICS MATTER", description: "Every run counts--even the ones you might want to forget. Track your stat to see your progress every step of the way."),
-        OnboardingMessage(imageName: "img_nike_group_run", title: "MUSIC MOVES YOU", description: "You're first race, last mile, or push out the door whatever your pace, distance or need, we've got the playlist to match")
+        OnboardingMessage(imageName: "onboarding_muscle", title: "환영합니다", description: "랭크핏에 오신 것을 환영합니다.\n지금 참여하여 운동을 시작하세요."),
+        OnboardingMessage(imageName: "onboarding_running", title: "목표를 달성하세요", description: "의지가 부족하신가요? 다른 사람들과 경쟁하며, 운동 의지를 높이고 목표를 달성하세요."),
+        OnboardingMessage(imageName: "onboarding_yoga", title: "달라진 나를 느껴보세요", description: "운동을 통해 삶의 균형을 맞추어 건강을 얻으세요. 당신의 몸은 보답할 것입니다.")
     ]
 }

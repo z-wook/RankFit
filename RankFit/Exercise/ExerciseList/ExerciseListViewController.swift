@@ -25,7 +25,6 @@ class ExerciseListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        configureNavigationBar()
         embedSearchBar()
         configureCollectionView()
         bind()
@@ -88,23 +87,7 @@ class ExerciseListViewController: UIViewController {
         let layout = UICollectionViewCompositionalLayout(section: section)
         return layout
     }
-
-    private func configureNavigationBar() {
-        let moreConfig = CustomBarItemConfiguration(
-            image: UIImage(systemName: "ellipsis"),
-            handler: { print("--> more tapped") }
-        )
-        let moreItem = UIBarButtonItem.generate(with: moreConfig, width: 30)
-
-        let shareConfig = CustomBarItemConfiguration(
-            image: UIImage(systemName: "square.and.arrow.up"),
-            handler: { print("--> share tapped") }
-        )
-        let shareItem = UIBarButtonItem.generate(with: shareConfig, width: 30)
-
-        navigationItem.rightBarButtonItems = [moreItem, shareItem]
-    }
-
+    
     private func embedSearchBar() {
         self.navigationItem.titleView = searchBar
         searchBar.placeholder = "검색"

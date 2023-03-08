@@ -71,7 +71,7 @@ extension QuickAnaerobicViewController {
         let foregroundTime = Date()
         guard let backgroundTime = backgroundTime else { return }
         let interval = TimeStamp.getTimeInterval(now: foregroundTime, before: backgroundTime)
-        count += interval
+        count += Int(interval)
         let time = secondsToHourMinutesSecond(seconds: count)
         let timeString = makeTimeString(hours: time.0, minutes: time.1, seconds: time.2)
         timeLabel.text = timeString

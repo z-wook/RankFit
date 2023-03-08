@@ -25,13 +25,6 @@ class saveExerciseViewController2: UIViewController {
     var subscriptions = Set<AnyCancellable>()
     var tableName: String!
     
-    // getTopViewController
-    let keyWindow = UIApplication.shared.connectedScenes.filter({ $0.activationState == .foregroundActive })
-        .map({ $0 as? UIWindowScene })
-        .compactMap({ $0 })
-        .first?.windows
-        .filter({ $0.isKeyWindow }).first
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -40,6 +33,7 @@ class saveExerciseViewController2: UIViewController {
     }
     
     private func configure() {
+        exerciseLabel.tintColor = UIColor(named: "link_cyan")
         backgroundView.backgroundColor = .black.withAlphaComponent(0.6)
         backgroundView.isHidden = true
         saveBtn.layer.cornerRadius = 30
@@ -73,7 +67,7 @@ class saveExerciseViewController2: UIViewController {
             self.indicator.stopAnimating()
             if result == true {
                 print("서버 운동 저장 성공")
-                if let vc = self.keyWindow?.visibleViewController {
+                if let vc = self.view.window?.visibleViewController() {
                     let save = ExerciseCoreData.saveCoreData(info: self.exInfo)
                     if save == true {
                         print("CoreData 저장 완료")
@@ -107,7 +101,7 @@ class saveExerciseViewController2: UIViewController {
             loginAlert()
             return
         }
-        if let vc = keyWindow?.visibleViewController {
+        if let vc = self.view.window?.visibleViewController() {
             guard let field1 = distanceField.text, !field1.isEmpty else {
                 return viewModel.warningExerciseMessage(ment: "거리를 입력해 주세요.", View: vc)
             }

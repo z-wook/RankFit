@@ -25,16 +25,8 @@ class savePlankViewController: UIViewController {
     var tableName: String!
     var minList: [String] = []
     var secList: [String] = []
-    
     var min: String = "0"
     var sec: String = "0"
-    
-    // getTopViewController
-    let keyWindow = UIApplication.shared.connectedScenes.filter({ $0.activationState == .foregroundActive })
-        .map({ $0 as? UIWindowScene })
-        .compactMap({ $0 })
-        .first?.windows
-        .filter({ $0.isKeyWindow }).first
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,6 +36,7 @@ class savePlankViewController: UIViewController {
     }
     
     private func configure() {
+        exerciseLabel.tintColor = UIColor(named: "link_cyan")
         pickerView.delegate = self
         pickerView.dataSource = self
         setField.delegate = self
@@ -66,7 +59,6 @@ class savePlankViewController: UIViewController {
     
     func bind() {
         viewModel.$DetailItem
-//            .compactMap { $0 }
             .receive(on: RunLoop.main)
             .sink { info in
                 self.exerciseLabel.text = info?.exerciseName
@@ -77,7 +69,7 @@ class savePlankViewController: UIViewController {
             self.indicator.stopAnimating()
             if result == true {
                 print("서버 운동 저장 성공")
-                if let vc = self.keyWindow?.visibleViewController {
+                if let vc = self.view.window?.visibleViewController() {
                     let save = ExerciseCoreData.saveCoreData(info: self.exInfo)
                     if save == true {
                         print("CoreData 저장 완료")
@@ -114,7 +106,7 @@ class savePlankViewController: UIViewController {
             loginAlert()
             return
         }
-        if let vc = keyWindow?.visibleViewController {
+        if let vc = self.view.window?.visibleViewController() {
             guard let field = setField.text, !field.isEmpty else {
                 return viewModel.warningExerciseMessage(ment: "세트를 입력해 주세요.", View: vc)
             }

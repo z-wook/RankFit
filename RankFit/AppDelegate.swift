@@ -38,6 +38,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         // 메시지 delegate 설정
         Messaging.messaging().delegate = self
+        
+        sleep(1) // for Launch Screen
         return true
     }
     
@@ -85,9 +87,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // With swizzling disabled you must let Messaging know about the message, for Analytics
         Messaging.messaging().appDidReceiveMessage(userInfo)
         let user = Auth.auth().currentUser
-        // 계정 정지 처리
+        
+        let title = userInfo["Title"] as? String
+        let message = userInfo["Message"] as? String
+        
         let suspension = userInfo["Suspension"] as? String
         let userID = userInfo["userID"] as? String
+        
+        // 공지
+        if let title = title, let message = message {
+            showNotice(title: title, message: message)
+            return
+        }
+        
+        // 계정 정치 처리
         if let suspension = suspension, let userID = userID {
             let uid = saveUserData.getKeychainStringValue(forKey: .UID)
             if suspension == "true" && userID == uid { // 본인 확인 통과
@@ -215,9 +228,19 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         let userInfo = notification.request.content.userInfo
         let user = Auth.auth().currentUser
         
-        // 계정 정지 처리
+        let title = userInfo["Title"] as? String
+        let message = userInfo["Message"] as? String
+        
         let suspension = userInfo["Suspension"] as? String
         let userID = userInfo["userID"] as? String
+        
+        // 공지
+        if let title = title, let message = message {
+            showNotice(title: title, message: message)
+            return
+        }
+        
+        // 계정 정지 처리
         if let suspension = suspension, let userID = userID {
             let uid = saveUserData.getKeychainStringValue(forKey: .UID)
             if suspension == "true" && userID == uid { // 본인 확인 통과
@@ -235,9 +258,20 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         let userInfo = response.notification.request.content.userInfo
         let user = Auth.auth().currentUser
-        // 계정 정지 처리
+        
+        let title = userInfo["Title"] as? String
+        let message = userInfo["Message"] as? String
+        
         let suspension = userInfo["Suspension"] as? String
         let userID = userInfo["userID"] as? String
+        
+        // 공지
+        if let title = title, let message = message {
+            showNotice(title: title, message: message)
+            return
+        }
+        
+        // 계정 정지 처리
         if let suspension = suspension, let userID = userID {
             let uid = saveUserData.getKeychainStringValue(forKey: .UID)
             if suspension == "true" && userID == uid { // 본인 확인 통과
@@ -251,6 +285,19 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         completionHandler()
     }
     
+    // 공지 알람
+    private func showNotice(title: String, message: String) {
+        let vc = getVC()
+        guard let vc = vc else { return }
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "확인", style: .default) { _ in
+            UIApplication.shared.applicationIconBadgeNumber = 0 // 알림 배지를 초기화
+        }
+        alertController.addAction(okAction)
+        vc.present(alertController, animated: true)
+    }
+    
+    // 사용자 계정 reload
     private func suspendUser() {
         Auth.auth().currentUser?.reload(completion: { error in
             if let error = error {
@@ -270,16 +317,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     
     // 계정 정지 알람
     private func suspendtAlert() {
-        var vc: UIViewController?
-        // 현재 보이는 뷰 컨트롤러 가져오기
-        guard let window = UIApplication.shared.windows.first else { return }
-        if let currentVC = window.rootViewController?.presentedViewController {
-            vc = currentVC
-        } else if let currentVC = window.rootViewController {
-            vc = currentVC
-        } else {
-            print("현재 보이는 뷰가 없습니다.")
-        }
+        let vc = getVC()
         guard let vc = vc else { return }
         let alertController = UIAlertController(title: "계정 사용 중지됨", message: "귀하의 계정이 사용 중지되었습니다. 문의사항은 관리자에게 해주세요.", preferredStyle: .alert)
         let okAction = UIAlertAction(title: "확인", style: .destructive) { _ in
@@ -287,5 +325,11 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         }
         alertController.addAction(okAction)
         vc.present(alertController, animated: true)
+    }
+    
+    // 현재 보이는 뷰 컨트롤러 가져오기
+    private func getVC() -> UIViewController? {
+        let vc = UIWindow().visibleViewController()
+        return vc
     }
 }

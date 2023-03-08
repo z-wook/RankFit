@@ -28,6 +28,7 @@ class AnaerobicActivityViewController: UIViewController {
     var subscriptions = Set<AnyCancellable>()
     var viewModel: DoExerciseViewModel!
     var info: anaerobicExerciseInfo!
+    let center = NotificationCenter.default
     var timer: Timer?
     var count: Int = 0
     var timerCounting: Bool = true
@@ -48,7 +49,11 @@ class AnaerobicActivityViewController: UIViewController {
     
     override func viewDidDisappear(_ animated: Bool) {
         timer?.invalidate()
-        timer = nil
+        center.removeObserver(self)
+    }
+    
+    deinit {
+        print("=====> deinit")
     }
     
     @IBAction func pauseAndPlay(_ sender: UIButton) {
@@ -100,6 +105,7 @@ extension AnaerobicActivityViewController {
     }
     
     private func configure() {
+        exerciseLabel.tintColor = UIColor(named: "link_cyan")
         backgroundView.backgroundColor = .black.withAlphaComponent(0.6)
         backgroundView.isHidden = true
         
@@ -116,25 +122,23 @@ extension AnaerobicActivityViewController {
             set_leading.constant = 100
             count_trailing.constant = 100
         }
-        
-        let center = NotificationCenter.default
         center.addObserver(self, selector: #selector(enterForeground), name: NSNotification.Name("WillEnterForeground"), object: nil)
         
         center.addObserver(self, selector: #selector(enterBackground), name: NSNotification.Name("DidEnterBackground"), object: nil)
     }
     
-    @objc func enterForeground() {
+    @objc func enterForeground(notification: NSNotification) {
         let foregroundTime = Date()
         guard let backgroundTime = backgroundTime else { return }
         let interval = TimeStamp.getTimeInterval(now: foregroundTime, before: backgroundTime)
-        count += interval
+        count += Int(interval)
         let time = secondsToHourMinutesSecond(seconds: count)
         let timeString = makeTimeString(hours: time.0, minutes: time.1, seconds: time.2)
         timeLabel.text = timeString
         timer = initTimer()
     }
     
-    @objc func enterBackground() {
+    @objc func enterBackground(notification: NSNotification) {
         // 타이머 작동중이라면 정지 시키고 백그라운드 함수 실행
         if timer?.isValid == true {
             timer?.invalidate()

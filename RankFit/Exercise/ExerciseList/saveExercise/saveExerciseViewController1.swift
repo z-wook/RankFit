@@ -19,20 +19,16 @@ class saveExerciseViewController1: UIViewController {
     @IBOutlet weak var saveBtn: UIButton!
     @IBOutlet weak var backgroundView: UIView!
     @IBOutlet weak var indicator: UIActivityIndicatorView!
+    @IBOutlet weak var exerciseType: UISegmentedControl!
     
     var viewModel: saveExerciseViewModel!
     var exInfo: anaerobicExerciseInfo!
     var hideCheck: Bool = true // 무게가 필요있는 운동이면 true
     let serverState = PassthroughSubject<Bool, Never>()
+    let sendState = PassthroughSubject<Bool, Never>()
     var subscriptions = Set<AnyCancellable>()
     var tableName: String!
-    
-    // getTopViewController
-    let keyWindow = UIApplication.shared.connectedScenes.filter({ $0.activationState == .foregroundActive })
-        .map({ $0 as? UIWindowScene })
-        .compactMap({ $0 })
-        .first?.windows
-        .filter({ $0.isKeyWindow }).first
+    var type: String = "계획"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,13 +41,25 @@ class saveExerciseViewController1: UIViewController {
         dismiss(animated: true)
     }
     
+    @IBAction func exType(_ sender: UISegmentedControl) {
+        if sender.selectedSegmentIndex == 0 {
+            self.type = "계획"
+        } else {
+            self.type = "완료"
+        }
+    }
+    
     @IBAction func saveButton(_ sender: UIButton) {
         let user = Auth.auth().currentUser
         guard user != nil else {
             loginAlert()
             return
         }
-        if let vc = keyWindow?.visibleViewController {
+        saveExercise()
+    }
+    
+    private func saveExercise() {
+        if let vc = self.view.window?.visibleViewController() {
             guard let field1 = setField.text, !field1.isEmpty else {
                 return viewModel.warningExerciseMessage(ment: "세트를 입력해 주세요.", View: vc)
             }
@@ -117,6 +125,7 @@ class saveExerciseViewController1: UIViewController {
 
 extension saveExerciseViewController1 {
     private func configure() {
+        exerciseLabel.tintColor = UIColor(named: "link_cyan")
         backgroundView.backgroundColor = .black.withAlphaComponent(0.6)
         backgroundView.isHidden = true
         saveBtn.layer.cornerRadius = 30
@@ -124,6 +133,8 @@ extension saveExerciseViewController1 {
         weightField.delegate = self
         countField.delegate = self
         weightField.tag = 1
+        exerciseType.setTitleTextAttributes([.foregroundColor: UIColor.black], for: .selected)
+        exerciseType.selectedSegmentTintColor = .systemOrange.withAlphaComponent(0.8)
         
         setField.backgroundColor = .systemYellow.withAlphaComponent(0.8)
 //        setField.layer.borderColor = CGColor(red: 0.7, green: 0.5, blue: 1, alpha: 1)
@@ -155,10 +166,9 @@ extension saveExerciseViewController1 {
             }.store(in: &subscriptions)
         
         serverState.receive(on: RunLoop.main).sink { result in
-            self.indicator.stopAnimating()
             if result == true {
                 print("서버 운동 저장 성공")
-                if let vc = self.keyWindow?.visibleViewController {
+                if let vc = self.view.window?.visibleViewController() {
                     let save = ExerciseCoreData.saveCoreData(info: self.exInfo)
                     if save == true {
                         print("CoreData 저장 완료")
@@ -167,19 +177,53 @@ extension saveExerciseViewController1 {
                             time: self.exInfo.saveTime,
                             uuid: self.exInfo.id.uuidString,
                             date: self.exInfo.date)
-                        self.viewModel.saveSuccessExMessage(View: vc)
-                        return
+                        switch self.type {
+                        case "완료":
+                            configServer.sendCompleteEx(info: self.exInfo, time: 0, saveTime: self.exInfo.saveTime, subject: self.sendState)
+                            return
+                            
+                        default: // 계획
+                            self.indicator.stopAnimating()
+                            self.viewModel.saveSuccessExMessage(View: vc)
+                            return
+                        }
                     } else {
                         print("운동 저장 실패")
+                        self.indicator.stopAnimating()
                         self.viewModel.saveFailExMessage(View: vc)
                     }
                 } else {
                     print("keyWindow error")
+                    self.indicator.stopAnimating()
                     configFirebase.errorReport(type: "saveExerciseVC1.bind", descriptions: "keyWindow error")
                     self.dismiss(animated: true)
                 }
             } else {
                 print("서버 운동 저장 실패")
+                self.indicator.stopAnimating()
+                self.showAlert()
+            }
+        }.store(in: &subscriptions)
+        
+        sendState.receive(on: RunLoop.main).sink { result in
+            self.indicator.stopAnimating()
+            if result {
+                let update = ExerciseCoreData.updateCoreData(id: self.exInfo.id, entityName: "Anaerobic", saveTime: self.exInfo.saveTime, done: true)
+                if update == true {
+                    print("운동 완료 후 업데이트 성공")
+                    // firebase에 저장하기
+                    configFirebase.saveDoneEx(exName: self.exInfo.exercise, set: self.exInfo.set, weight: self.exInfo.weight, count: self.exInfo.count, distance: 0, maxSpeed: 0, avgSpeed: 0, time: 0, date: self.exInfo.date)
+                    ExerciseViewController.reloadEx.send(true)
+                    self.dismiss(animated: true)
+                    return
+                    
+                } else {
+                    print("운동 완료 후 업데이트 실패")
+                    self.showAlert()
+                    return
+                }
+            } else {
+                print("서버 전송 오류, 잠시 후 다시 시도해 주세요.")
                 self.showAlert()
             }
         }.store(in: &subscriptions)

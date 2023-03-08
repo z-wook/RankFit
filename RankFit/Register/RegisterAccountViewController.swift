@@ -10,6 +10,7 @@ import Alamofire
 import Combine
 import FirebaseAuth
 import FirebaseFirestore
+import SafariServices
 
 class RegisterAccountViewController: UIViewController {
     
@@ -19,6 +20,8 @@ class RegisterAccountViewController: UIViewController {
     @IBOutlet weak var emailField: UITextField!
     @IBOutlet weak var emailCheck: UIButton!
     @IBOutlet weak var emailState: UILabel!
+    @IBOutlet weak var ageCheckBtn: UIButton!
+    @IBOutlet weak var agreeCheckBtn: UIButton!
     @IBOutlet weak var backgroundView: UIView!
     @IBOutlet weak var indicator: UIActivityIndicatorView!
     
@@ -36,6 +39,8 @@ class RegisterAccountViewController: UIViewController {
     var infomation: userInfo!
     var nickName: String!
     var email: String!
+    var ageCheck: Bool = false
+    var agree: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -209,13 +214,49 @@ class RegisterAccountViewController: UIViewController {
         }
     }
     
+    @IBAction func checkBox1(_ sender: UIButton) {
+        if sender.isSelected {
+            sender.isSelected = false
+            sender.tintColor = .lightGray
+            ageCheck = true
+        } else {
+            sender.isSelected = true
+            sender.tintColor = .systemPink
+            ageCheck = false
+        }
+    }
+    
+    @IBAction func checkBox2(_ sender: UIButton) {
+        if sender.isSelected {
+            sender.isSelected = false
+            sender.tintColor = .lightGray
+            agree = true
+        } else {
+            sender.isSelected = true
+            sender.tintColor = .systemPink
+            agree = false
+        }
+    }
+    
+    @IBAction func 개인정보동의서(_ sender: UIButton) {
+        let url = URL(string: "https://plip.kr/pcc/7f8b391c-e3e7-4847-8218-4ec213087f4c/consent/3.html")
+        let vc = SFSafariViewController(url: url!)
+        present(vc, animated: true)
+    }
+    
     @IBAction func sendEmail(_ sender: UIButton) {
+        if ageCheck != true || agree != true {
+            showAlert(title: "동의 항목을 체크해 주세요", type: "check")
+            return
+        }
         guard let email = emailField.text else { return }
         emailCheck.layer.isHidden = true
         view.endEditing(true) // 키보드 내리기
         // 이메일 검사
         let result = isValidEmail(email: email)
         if result {
+            ageCheckBtn.isEnabled = false
+            agreeCheckBtn.isEnabled = false
             let actionCodeSettings = ActionCodeSettings()
             actionCodeSettings.url = URL(string: Store.shared.firebaseURL + "\(email)")
             actionCodeSettings.handleCodeInApp = true
@@ -258,7 +299,7 @@ extension RegisterAccountViewController {
         return emailPredicate.evaluate(with: email)
     }
     
-    private func showAlert(title: String, description: String, type: String) {
+    private func showAlert(title: String, description: String? = nil, type: String) {
         let alert = UIAlertController(title: title, message: description, preferredStyle: .alert)
         let ok = UIAlertAction(title: "확인", style: .default) { _ in
             switch type {
@@ -270,6 +311,9 @@ extension RegisterAccountViewController {
                 
             case "auth":
                 self.navigationController?.popToRootViewController(animated: true)
+                return
+                
+            case "check":
                 return
                 
             default:

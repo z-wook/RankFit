@@ -326,6 +326,7 @@ extension DiaryViewController {
     private func configureNavigationBar() {
         let cameraConfig = CustomBarItemConfiguration(
             image: UIImage(systemName: "camera"),
+            color: UIColor(named: "link_cyan"),
             handler: {
                 let alert = UIAlertController(title: "사진 가져오기", message: nil, preferredStyle: .actionSheet)
                 let library = UIAlertAction(title: "사진앨범", style: .default) { (action) in self.openLibrary()
@@ -344,6 +345,7 @@ extension DiaryViewController {
         
         let moreConfig = CustomBarItemConfiguration(
             image: UIImage(systemName: "ellipsis"),
+            color: UIColor(named: "link_cyan"),
             handler: {
                 if self.mMode == .select {
                     return
@@ -375,7 +377,7 @@ extension DiaryViewController {
         let backImage = UIImage(systemName: "arrow.backward")
         navigationController?.navigationBar.backIndicatorImage = backImage
         navigationController?.navigationBar.backIndicatorTransitionMaskImage = backImage
-        navigationController?.navigationBar.tintColor = .systemBlue
+        navigationController?.navigationBar.tintColor = UIColor(named: "naviItme")
         navigationItem.backButtonDisplayMode = .minimal
         navigationItem.largeTitleDisplayMode = .always
         navigationItem.title = "눈바디"
