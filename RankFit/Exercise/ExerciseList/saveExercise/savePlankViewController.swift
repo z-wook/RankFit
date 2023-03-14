@@ -40,14 +40,14 @@ class savePlankViewController: UIViewController {
         pickerView.delegate = self
         pickerView.dataSource = self
         setField.delegate = self
+        setField.backgroundColor = .systemYellow.withAlphaComponent(0.8)
         saveBtn.layer.cornerRadius = 30
         backgroundView.backgroundColor = .black.withAlphaComponent(0.6)
         backgroundView.isHidden = true
-
+        
         for i in 0...30 {
             minList.append("\(i)")
         }
-        
         for i in 0...59 {
             secList.append("\(i)")
         }
@@ -113,12 +113,12 @@ class savePlankViewController: UIViewController {
             let checkedSetNum = viewModel.stringToInt(input: field)
             if checkedSetNum == -1 {
                 return viewModel.warningExerciseMessage(ment: "세트를 정확히 입력해 주세요.", View: vc)
-            }
-            if checkedSetNum == 0 {
+            } else if checkedSetNum == 0 {
                 return viewModel.warningExerciseMessage(ment: "세트는 0개가 될 수 없습니다.", View: vc)
-            }
-            if checkedSetNum < 0 {
+            } else if checkedSetNum < 0 {
                 return viewModel.warningExerciseMessage(ment: "세트는 0개보다 적을 수 없습니다.", View: vc)
+            } else if checkedSetNum > 50 {
+                return viewModel.warningExerciseMessage(ment: "세트는 50개보다 많을 수 없습니다.", View: vc)
             }
             let minute = 60 * Double(min)!
             let seconds = Double(sec)!
@@ -168,9 +168,9 @@ extension savePlankViewController {
 extension savePlankViewController: UIPickerViewDataSource, UIPickerViewDelegate {
     func pickerView(_ pickerView: UIPickerView, widthForComponent component: Int) -> CGFloat {
         if component == 0 {
-            return CGFloat(100)
+            return CGFloat(90)
         } else {
-            return CGFloat(100)
+            return CGFloat(90)
         }
     }
 
@@ -187,6 +187,7 @@ extension savePlankViewController: UIPickerViewDataSource, UIPickerViewDelegate 
     }
 
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        self.view.endEditing(true)
         if component == 0 {
             min = minList[row]
         } else {

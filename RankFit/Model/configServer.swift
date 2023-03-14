@@ -203,12 +203,10 @@ final class configServer {
         var score: Float!
         if info.exercise == "플랭크" {
             let floatScore = Float(info.set) * Float(info.exTime)
-            let changed_score = Float(String(format: "%.2f", floatScore)) ?? 0
-            score = changed_score
+            score = floatScore
         } else {
-            let floatScore = Float(time) / Float(info.set * info.count)  // float
-            let changed_score = Float(String(format: "%.2f", floatScore)) ?? 0
-            score = changed_score
+            let floatScore = Float(info.set * info.count)
+            score = floatScore
         }
         let userGender = saveUserData.getKeychainIntValue(forKey: .Gender) ?? 0
         let start_Timestamp = TimeStamp.getStart_OR_End_Timestamp(start_or_end: "start")

@@ -1,24 +1,28 @@
 PODS:
   - Alamofire (5.5.0)
   - FSCalendar (2.8.2)
+  - LicensePlist (3.24.3)
   - SwiftKeychainWrapper (4.0.1)
 
 DEPENDENCIES:
   - Alamofire
   - FSCalendar
+  - LicensePlist
   - SwiftKeychainWrapper
 
 SPEC REPOS:
   trunk:
     - Alamofire
     - FSCalendar
+    - LicensePlist
     - SwiftKeychainWrapper
 
 SPEC CHECKSUMS:
   Alamofire: 1c4fb5369c3fe93d2857c780d8bbe09f06f97e7c
   FSCalendar: e6a2eb9c571bf0719ed797ef807e08426753c241
+  LicensePlist: eb452ffbb6f55c750fd58853a4317756d40fbf49
   SwiftKeychainWrapper: 807ba1d63c33a7d0613288512399cd1eda1e470c
 
-PODFILE CHECKSUM: 1ff6817d436df1e90b2890cf253511ad87f97d58
+PODFILE CHECKSUM: 1c8a58652e7f8edc50483017bd81e3363fffe4cf
 
-COCOAPODS: 1.11.3
+COCOAPODS: 1.12.0

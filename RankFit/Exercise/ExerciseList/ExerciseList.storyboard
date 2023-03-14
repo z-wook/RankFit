@@ -36,8 +36,9 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="exerciseName" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dV7-Qb-XJp">
-                                                    <rect key="frame" x="116.33333333333333" y="25" width="157.66666666666669" height="30"/>
+                                                    <rect key="frame" x="15" y="25" width="360" height="30"/>
                                                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="25"/>
+                                                    <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -45,6 +46,7 @@
                                             <constraints>
                                                 <constraint firstItem="dV7-Qb-XJp" firstAttribute="centerY" secondItem="kdo-qF-d3u" secondAttribute="centerY" id="S2t-jt-OkS"/>
                                                 <constraint firstItem="dV7-Qb-XJp" firstAttribute="centerX" secondItem="kdo-qF-d3u" secondAttribute="centerX" id="mcv-mB-pMz"/>
+                                                <constraint firstItem="dV7-Qb-XJp" firstAttribute="leading" secondItem="kdo-qF-d3u" secondAttribute="leading" constant="15" id="yTO-df-A5x"/>
                                             </constraints>
                                         </collectionViewCellContentView>
                                         <size key="customSize" width="390" height="80"/>

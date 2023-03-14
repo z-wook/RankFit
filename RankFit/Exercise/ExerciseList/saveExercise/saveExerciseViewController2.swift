@@ -36,23 +36,14 @@ class saveExerciseViewController2: UIViewController {
         exerciseLabel.tintColor = UIColor(named: "link_cyan")
         backgroundView.backgroundColor = .black.withAlphaComponent(0.6)
         backgroundView.isHidden = true
-        saveBtn.layer.cornerRadius = 30
+        saveBtn.layer.cornerRadius = 20
         distanceField.delegate = self
         hourField.delegate = self
         minuteField.delegate = self
         distanceField.tag = 1
-        
-        distanceField.layer.borderColor = CGColor(red: 0.7, green: 0.5, blue: 1, alpha: 1)
-        distanceField.layer.borderWidth = 3
-        distanceField.layer.cornerRadius = 6
-        
-        hourField.layer.borderColor = CGColor(red: 0.7, green: 0.5, blue: 1, alpha: 1)
-        hourField.layer.borderWidth = 3
-        hourField.layer.cornerRadius = 6
-        
-        minuteField.layer.borderColor = CGColor(red: 0.7, green: 0.5, blue: 1, alpha: 1)
-        minuteField.layer.borderWidth = 3
-        minuteField.layer.cornerRadius = 6
+        distanceField.backgroundColor = .systemYellow.withAlphaComponent(0.8)
+        hourField.backgroundColor = .systemYellow.withAlphaComponent(0.8)
+        minuteField.backgroundColor = .systemYellow.withAlphaComponent(0.8)
     }
     
     func bind() {
@@ -108,11 +99,9 @@ class saveExerciseViewController2: UIViewController {
             let checkedDistanceNum = viewModel.stringToDouble(input: field1)
             if checkedDistanceNum == -1 {
                 return viewModel.warningExerciseMessage(ment: "거리를 정확히 입력해 주세요.", View: vc)
-            }
-            if checkedDistanceNum <= 0 {
+            } else if checkedDistanceNum <= 0 {
                 return viewModel.warningExerciseMessage(ment: "거리는 0km보다 적을 수 없습니다.", View: vc)
-            }
-            if checkedDistanceNum > 100 {
+            } else if checkedDistanceNum > 100 {
                 return viewModel.warningExerciseMessage(ment: "거리는 100km보다 많을 수 없습니다.", View: vc)
             }
             
@@ -125,11 +114,9 @@ class saveExerciseViewController2: UIViewController {
                 let checkedMinuteNum = viewModel.stringToInt(input: field3)
                 if checkedMinuteNum == -1 {
                     return viewModel.warningExerciseMessage(ment: "(분)을 정확히 입력해 주세요.", View: vc)
-                }
-                if checkedMinuteNum <= 0 {
+                } else if checkedMinuteNum <= 0 {
                     return viewModel.warningExerciseMessage(ment: "올바른 시간(분)을 입력해 주세요.", View: vc)
-                }
-                if checkedMinuteNum >= 60 {
+                } else if checkedMinuteNum >= 60 {
                     return viewModel.warningExerciseMessage(ment: "시간(분)은 60분보다 많을 수 없습니다.", View: vc)
                 }
                 // 여기서 시간 없고 분만 있는 경우 -> 분으로 저장
@@ -140,11 +127,9 @@ class saveExerciseViewController2: UIViewController {
             let checkedHourlNum = viewModel.stringToInt(input: field2)
             if checkedHourlNum == -1 {
                 return viewModel.warningExerciseMessage(ment: "시간을 정확히 입력해 주세요.", View: vc)
-            }
-            if checkedHourlNum < 0 {
+            } else if checkedHourlNum < 0 {
                 return viewModel.warningExerciseMessage(ment: "올바른 시간을 입력해 주세요.", View: vc)
-            }
-            if checkedHourlNum >= 24 {
+            } else if checkedHourlNum >= 24 {
                 return viewModel.warningExerciseMessage(ment: "시간은 24시간보다 많을 수 없습니다.", View: vc)
             }
             
@@ -163,21 +148,15 @@ class saveExerciseViewController2: UIViewController {
             let checkMinuteNum = viewModel.stringToInt(input: field3)
             if checkMinuteNum == -1 {
                 return viewModel.warningExerciseMessage(ment: "(분)을 정확히 입력해 주세요.", View: vc)
-            }
-            // 시간, 분 둘다 0인 경우 먼저 확인
-            if checkedHourlNum == 0 && checkMinuteNum == 0 {
+            } else if checkedHourlNum == 0 && checkMinuteNum == 0 { // 시간, 분 둘다 0인 경우 먼저 확인
                 return viewModel.warningExerciseMessage(ment: "올바른 시간을 입력해 주세요.", View: vc)
-            }
-            // 시간, 분 둘다 있지만 분이 0인 경우 ex) 1시간 0분
-            if checkMinuteNum == 0 {
+            } else if checkMinuteNum == 0 { // 시간, 분 둘다 있지만 분이 0인 경우 ex) 1시간 0분
                 let resultTime = calcTime(hour: checkedHourlNum)
                 saveEx(distanceNum: checkedDistanceNum, timeNum: resultTime)
                 return viewModel.saveSuccessExMessage(View: vc)
-            }
-            if checkMinuteNum < 0 {
+            } else if checkMinuteNum < 0 {
                 return viewModel.warningExerciseMessage(ment: "올바른 시간(분)을 입력해 주세요.", View: vc)
-            }
-            if checkMinuteNum >= 60 {
+            } else if checkMinuteNum >= 60 {
                 return viewModel.warningExerciseMessage(ment: "시간(분)은 60분보다 많을 수 없습니다.", View: vc)
             }
             let resultTime = calcTime(hour: checkedHourlNum, min: checkMinuteNum)

@@ -21,9 +21,9 @@ class SettingViewController: UIViewController {
     let sectionHeader = ["내 프로필", "앱 설정", "이용 안내", "기타"]
     let section0 = ["마이페이지"] // userInfomation
     let section1 = ["화면 모드", "사운드 효과"]
-    let section2 = ["버전 정보", "개인정보 처리 방침", "이용약관", "이용규칙", "공지사항", "문의하기"]
-    let section3 = ["로그아웃"]
-    let version: String = "1.0.0" // 앱 버전 -> 업데이트 시 변경하기
+    let section2 = ["버전 정보", "개인정보 처리 방침", "오픈소스 라이선스", "이용약관", "이용규칙", "공지사항", "문의하기"]
+    let section3 = ["저작권", "로그아웃"]
+    let version: String = "0.1.0" // 앱 버전 -> 업데이트 시 변경하기
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,7 +60,15 @@ extension SettingViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch indexPath.section {
-        case 0: return 120.0
+        case 0:
+            // 뷰 전체 높이
+            let screenHeight = UIScreen.main.bounds.size.height
+            if screenHeight == 568 { // 4 inch
+                return 100.0
+            } else {
+                return 120.0
+            }
+            
         default: return 50.0
         }
     }
@@ -102,30 +110,36 @@ extension SettingViewController: UITableViewDataSource, UITableViewDelegate {
             var color: UIColor?
             if indexPath.item == 0 { // 버전 정보
                 img = UIImage(systemName: "app.badge")
-                defaultCell.configure(image: img, color: color, title: section2[indexPath.row], description: version)
             } else if indexPath.item == 1 { // 개인정보 처리 방침
                 img = UIImage(systemName: "checkmark.shield")
                 color = .systemBrown
-                defaultCell.configure(image: img, color: color, title: section2[indexPath.row])
-            } else if indexPath.item == 4 { // 공지사항
+            } else if indexPath.item == 2 { // 오픈소스 라이선스
+                img = UIImage(systemName: "doc")
+                color = .systemGreen
+            } else if indexPath.item == 5 { // 공지사항
                 img = UIImage(systemName: "exclamationmark.bubble")
                 color = .systemYellow
-                defaultCell.configure(image: img, color: color, title: section2[indexPath.row])
-            } else if indexPath.item == 5 {
+            } else if indexPath.item == 6 { // 문의하기
                 img = UIImage(systemName: "text.bubble")
                 color = .systemCyan
-                defaultCell.configure(image: img, color: color, title: section2[indexPath.row])
             } else { // 이용약관, 이용규칙
-                img = UIImage(systemName: "list.clipboard")
+                img = UIImage(systemName: "newspaper")
                 color = UIColor(named: "darkTxt_lightTxt")
-                defaultCell.configure(image: img, color: color, title: section2[indexPath.row])
             }
+            defaultCell.configure(image: img, color: color, title: section2[indexPath.row])
             return defaultCell
             
         case 3:
             guard let defaultCell = tableView.dequeueReusableCell(withIdentifier: "DefaultCell", for: indexPath) as? DefaultCell else { return UITableViewCell() }
-            let img = UIImage(systemName: "person.fill.xmark")
-            let color: UIColor = .label
+            var img: UIImage?
+            var color: UIColor?
+            if indexPath.item == 0 { // 저작권
+                img = UIImage(systemName: "square.and.pencil")
+                color = UIColor(named: "darkTxt_lightTxt")
+            } else { // 로그아웃
+                img = UIImage(systemName: "person.fill.xmark")
+                color = .label
+            }
             defaultCell.configure(image: img, color: color, title: section3[indexPath.row])
             return defaultCell
             
@@ -207,30 +221,57 @@ extension SettingViewController {
                 navigationController?.pushViewController(vc, animated: true)
                 return
             } else if indexPath.item == 1 { // 개인정보 처리 방침
-                let url = URL(string: "https://plip.kr/pcc/7f8b391c-e3e7-4847-8218-4ec213087f4c/privacy/1.html")
+                let url = URL(string: "https://plip.kr/pcc/7f8b391c-e3e7-4847-8218-4ec213087f4c/privacy/2.html")
                 let vc = SFSafariViewController(url: url!)
                 present(vc, animated: true)
                 return
-            } else if indexPath.item == 2 { // 이용약관
+            } else if indexPath.item == 2 { // 오픈소스 라이선스
+                // 설정으로 이동
+                UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
                 return
-            } else if indexPath.item == 3 { // 이용규칙
+            } else if indexPath.item == 3 { // 이용약관
+                let sb = UIStoryboard(name: "Reading", bundle: nil)
+                let vc = sb.instantiateViewController(withIdentifier: "defaultViewController") as! defaultViewController
+                vc.configure(type: "이용약관")
+                vc.navigationItem.largeTitleDisplayMode = .never
+                navigationController?.pushViewController(vc, animated: true)
                 return
-            }else if indexPath.item == 4 { // 공지사항
+            } else if indexPath.item == 4 { // 이용규칙
+                let sb = UIStoryboard(name: "Reading", bundle: nil)
+                let vc = sb.instantiateViewController(withIdentifier: "defaultViewController") as! defaultViewController
+                vc.configure(type: "이용규칙")
+                vc.navigationItem.largeTitleDisplayMode = .never
+                navigationController?.pushViewController(vc, animated: true)
+                return
+            } else if indexPath.item == 5 { // 공지사항
                 let sb = UIStoryboard(name: "Notice", bundle: nil)
                 let vc = sb.instantiateViewController(withIdentifier: "NoticeViewController") as! NoticeViewController
+                vc.navigationItem.largeTitleDisplayMode = .never
                 navigationController?.pushViewController(vc, animated: true)
+                return
             } else { // 문의하기
                 let sb = UIStoryboard(name: "Ask", bundle: nil)
                 let vc = sb.instantiateViewController(withIdentifier: "AskViewController") as! AskViewController
+                vc.navigationItem.largeTitleDisplayMode = .always
                 navigationController?.pushViewController(vc, animated: true)
             }
             
         case 3:
-            let user = Auth.auth().currentUser
-            if user != nil { // 로그인 된 상태
-                showLogOutConfirmAlert()
-            } else {
-                showAlert(title: "로그아웃", description: "이미 로그아웃 된 상태입니다.")
+            if indexPath.item == 0 { // 저작권
+                let sb = UIStoryboard(name: "Reading", bundle: nil)
+                let vc = sb.instantiateViewController(withIdentifier: "defaultViewController") as! defaultViewController
+                vc.navigationItem.largeTitleDisplayMode = .never
+                vc.configure(type: "저작권")
+                navigationController?.pushViewController(vc, animated: true)
+                return
+            } else { // 로그아웃
+                let user = Auth.auth().currentUser
+                if user != nil { // 로그인 된 상태
+                    showLogOutConfirmAlert()
+                    return
+                } else {
+                    showAlert(title: "로그아웃", description: "이미 로그아웃 된 상태입니다.")
+                }
             }
             
         default:

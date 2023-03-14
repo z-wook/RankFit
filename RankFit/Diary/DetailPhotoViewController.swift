@@ -22,10 +22,7 @@ class DetailPhotoViewController: UIViewController {
     let localState = PassthroughSubject<Bool, Never>()
     var reloadSubject: PassthroughSubject<Bool, Never>!
     var subscriptions = Set<AnyCancellable>()
-    
     var info: PhotoInfomation!
-//    var image: UIImage!
-//    var saveTime: Int!
     
     override func viewDidLoad() {
         super.viewDidLoad()

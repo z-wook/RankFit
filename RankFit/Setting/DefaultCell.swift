@@ -15,13 +15,12 @@ class DefaultCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        
     }
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+        
     }
     
     func configure(image: UIImage? = nil, color: UIColor? = nil, title: String, description: String? = nil) {

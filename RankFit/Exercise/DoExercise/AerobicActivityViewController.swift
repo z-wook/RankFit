@@ -435,10 +435,6 @@ extension AerobicActivityViewController {
             locationManager?.requestAlwaysAuthorization() // 백그라운드 위치 추적
             locationManager?.allowsBackgroundLocationUpdates = true
             locationManager?.pausesLocationUpdatesAutomatically = false
-            
-            // 여기 테스트
-//            locationManager?.distanceFilter = 5 // 5m 마다 위치 업데이트
-            
             locationManagerDidChangeAuthorization(locationManager!) // 권한 변경 확인
         } else {
             //사용자의 위치가 바뀌고 있는지 확인하는 메소드

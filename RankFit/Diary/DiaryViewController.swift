@@ -258,7 +258,7 @@ extension DiaryViewController {
         
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalWidth(0.33))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-        group.interItemSpacing = .fixed(2)
+        group.interItemSpacing = .flexible(1.5)
         
         let section = NSCollectionLayoutSection(group: group)
         section.interGroupSpacing = 2
@@ -361,9 +361,6 @@ extension DiaryViewController {
                     }
                     self.savePhoto(title: "사진 저장 완료", description: "앨범에 사진을 저장했습니다.")
                 }
-//                let delete = UIAlertAction(title: "삭제", style: .destructive) { (action) in
-//                    print("삭제")
-//                }
                 let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
                 alert.addAction(save)
                 alert.addAction(saveAll)

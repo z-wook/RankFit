@@ -76,7 +76,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
         print("Failed to register: \(error.localizedDescription)")
-        configFirebase.errorReport(type: "AppDelegate.didFailToRegisterForRemoteNotificationsWithError", descriptions: error.localizedDescription)
+//        configFirebase.errorReport(type: "AppDelegate.didFailToRegisterForRemoteNotificationsWithError", descriptions: error.localizedDescription)
     }
     
     // 백그라운드에서 자동 푸시 알림 처리

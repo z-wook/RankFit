@@ -34,8 +34,8 @@
                                         <constraints>
                                             <constraint firstItem="bTS-Wk-4g4" firstAttribute="centerY" secondItem="cJ8-WP-aPM" secondAttribute="centerY" id="QzZ-03-CNq"/>
                                             <constraint firstAttribute="trailing" secondItem="bTS-Wk-4g4" secondAttribute="trailing" constant="20" id="fp5-q7-Ao6"/>
+                                            <constraint firstAttribute="width" secondItem="cJ8-WP-aPM" secondAttribute="height" multiplier="39:7" id="lrS-9y-lNp"/>
                                             <constraint firstItem="bTS-Wk-4g4" firstAttribute="leading" secondItem="cJ8-WP-aPM" secondAttribute="leading" constant="20" id="u41-Rk-Nhn"/>
-                                            <constraint firstAttribute="height" constant="70" id="xZh-s0-6UE"/>
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iNs-yA-pHf">
@@ -50,8 +50,8 @@
                                         </subviews>
                                         <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="200" id="2ZI-HF-LJ1"/>
                                             <constraint firstItem="Cve-v3-Ux3" firstAttribute="leading" secondItem="iNs-yA-pHf" secondAttribute="leading" constant="70" id="7Av-pT-KaT"/>
+                                            <constraint firstAttribute="width" secondItem="iNs-yA-pHf" secondAttribute="height" multiplier="39:20" id="Aaq-59-4D5"/>
                                             <constraint firstItem="Cve-v3-Ux3" firstAttribute="centerY" secondItem="iNs-yA-pHf" secondAttribute="centerY" id="y8z-Ls-GUX"/>
                                             <constraint firstItem="Cve-v3-Ux3" firstAttribute="centerX" secondItem="iNs-yA-pHf" secondAttribute="centerX" id="yp3-mY-9mI"/>
                                         </constraints>
@@ -72,7 +72,7 @@
                                             <constraint firstItem="Fnz-t0-nhL" firstAttribute="leading" secondItem="gEE-h2-Sxu" secondAttribute="leading" constant="20" id="Hzc-1q-jVj"/>
                                             <constraint firstAttribute="trailing" secondItem="Fnz-t0-nhL" secondAttribute="trailing" constant="20" id="eCF-O2-b0C"/>
                                             <constraint firstItem="Fnz-t0-nhL" firstAttribute="centerY" secondItem="gEE-h2-Sxu" secondAttribute="centerY" id="lYZ-k3-xXw"/>
-                                            <constraint firstAttribute="height" constant="60" id="mYU-j8-Gxd"/>
+                                            <constraint firstAttribute="width" secondItem="gEE-h2-Sxu" secondAttribute="height" multiplier="13:2" id="x2F-B6-jw5"/>
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bFG-kw-Dp2">
@@ -96,9 +96,9 @@
                                         </subviews>
                                         <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="100" id="70a-WC-Erp"/>
                                             <constraint firstItem="mH0-7T-YAQ" firstAttribute="centerX" secondItem="bFG-kw-Dp2" secondAttribute="centerX" id="Gec-kP-VUk"/>
                                             <constraint firstItem="mH0-7T-YAQ" firstAttribute="leading" secondItem="bFG-kw-Dp2" secondAttribute="leading" constant="50" id="Ldt-ec-BcR"/>
+                                            <constraint firstAttribute="width" secondItem="bFG-kw-Dp2" secondAttribute="height" multiplier="39:10" id="TQQ-MI-f7f"/>
                                             <constraint firstItem="mH0-7T-YAQ" firstAttribute="centerY" secondItem="bFG-kw-Dp2" secondAttribute="centerY" id="mr6-pE-7Hb"/>
                                         </constraints>
                                     </view>
@@ -158,17 +158,17 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ffd-06-e3O">
                                         <rect key="frame" x="0.0" y="0.0" width="390" height="120"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="변경할 닉네임을  입력해 주세요." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9gW-kS-1ZV">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="변경할 닉네임을  입력해 주세요." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="20" translatesAutoresizingMaskIntoConstraints="NO" id="9gW-kS-1ZV">
                                                 <rect key="frame" x="15" y="0.0" width="360" height="70"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="70" id="aPh-g5-oUR"/>
+                                                    <constraint firstAttribute="width" secondItem="9gW-kS-1ZV" secondAttribute="height" multiplier="36:7" id="afT-3S-ILK"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="24"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="닉네임은 한글, 영어, 숫자 조합으로 만들 수 있습니다." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9xG-u8-nfo">
-                                                <rect key="frame" x="15" y="70" width="360" height="50"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="※ 닉네임은 한글, 영어, 숫자 조합으로 만들 수 있습니다." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9xG-u8-nfo">
+                                                <rect key="frame" x="15" y="75" width="360" height="45"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -177,13 +177,13 @@
                                         <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
                                         <constraints>
                                             <constraint firstItem="9xG-u8-nfo" firstAttribute="leading" secondItem="ffd-06-e3O" secondAttribute="leading" constant="15" id="3O2-S4-GAn"/>
+                                            <constraint firstAttribute="width" secondItem="ffd-06-e3O" secondAttribute="height" multiplier="13:4" id="MMd-aQ-42a"/>
                                             <constraint firstItem="9gW-kS-1ZV" firstAttribute="top" secondItem="ffd-06-e3O" secondAttribute="top" id="QSc-cu-FRj"/>
-                                            <constraint firstAttribute="height" constant="120" id="RAz-07-k7L"/>
                                             <constraint firstAttribute="trailing" secondItem="9xG-u8-nfo" secondAttribute="trailing" constant="15" id="STw-Nt-qby"/>
                                             <constraint firstAttribute="bottom" secondItem="9xG-u8-nfo" secondAttribute="bottom" id="Wqs-Mq-1q8"/>
                                             <constraint firstItem="9gW-kS-1ZV" firstAttribute="leading" secondItem="ffd-06-e3O" secondAttribute="leading" constant="15" id="YiO-Fd-nE9"/>
                                             <constraint firstAttribute="trailing" secondItem="9gW-kS-1ZV" secondAttribute="trailing" constant="15" id="d9C-Gi-r9W"/>
-                                            <constraint firstItem="9xG-u8-nfo" firstAttribute="top" secondItem="9gW-kS-1ZV" secondAttribute="bottom" id="euX-TG-YCM"/>
+                                            <constraint firstItem="9xG-u8-nfo" firstAttribute="top" secondItem="9gW-kS-1ZV" secondAttribute="bottom" constant="5" id="euX-TG-YCM"/>
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vdH-c8-v2Q">
@@ -212,14 +212,14 @@
                                                     <action selector="nickNameCheck:" destination="Eye-3g-hrK" eventType="touchUpInside" id="hYS-dl-wNs"/>
                                                 </connections>
                                             </button>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Td4-rG-CrB">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Td4-rG-CrB">
                                                 <rect key="frame" x="25" y="82" width="340" height="20.333333333333329"/>
                                                 <attributedString key="attributedText">
                                                     <fragment content="※ ">
                                                         <attributes>
                                                             <color key="NSColor" systemColor="labelColor"/>
                                                             <font key="NSFont" size="17" name="HelveticaNeue"/>
-                                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="truncatingTail" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                         </attributes>
                                                     </fragment>
                                                     <fragment content="닉네임을">
@@ -227,14 +227,14 @@
                                                             <color key="NSColor" systemColor="labelColor"/>
                                                             <font key="NSFont" size="13" name="AppleSDGothicNeo-Regular"/>
                                                             <font key="NSOriginalFont" size="13" name="CourierNewPSMT"/>
-                                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="truncatingTail" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                         </attributes>
                                                     </fragment>
                                                     <fragment content=" ">
                                                         <attributes>
                                                             <color key="NSColor" systemColor="labelColor"/>
                                                             <font key="NSFont" size="13" name="CourierNewPSMT"/>
-                                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="truncatingTail" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                         </attributes>
                                                     </fragment>
                                                     <fragment content="설정하면">
@@ -242,21 +242,21 @@
                                                             <color key="NSColor" systemColor="labelColor"/>
                                                             <font key="NSFont" size="13" name="AppleSDGothicNeo-Regular"/>
                                                             <font key="NSOriginalFont" size="13" name="CourierNewPSMT"/>
-                                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="truncatingTail" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                         </attributes>
                                                     </fragment>
                                                     <fragment content=" ">
                                                         <attributes>
                                                             <color key="NSColor" systemColor="labelColor"/>
                                                             <font key="NSFont" size="13" name="CourierNewPSMT"/>
-                                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="truncatingTail" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                         </attributes>
                                                     </fragment>
                                                     <fragment content="30">
                                                         <attributes>
                                                             <color key="NSColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <font key="NSFont" size="13" name="CourierNewPSMT"/>
-                                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="truncatingTail" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                         </attributes>
                                                     </fragment>
                                                     <fragment content="일간">
@@ -264,14 +264,14 @@
                                                             <color key="NSColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <font key="NSFont" size="13" name="AppleSDGothicNeo-Regular"/>
                                                             <font key="NSOriginalFont" size="13" name="CourierNewPSMT"/>
-                                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="truncatingTail" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                         </attributes>
                                                     </fragment>
                                                     <fragment content=" ">
                                                         <attributes>
                                                             <color key="NSColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <font key="NSFont" size="13" name="CourierNewPSMT"/>
-                                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="truncatingTail" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                         </attributes>
                                                     </fragment>
                                                     <fragment content="변경할">
@@ -279,14 +279,14 @@
                                                             <color key="NSColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <font key="NSFont" size="13" name="AppleSDGothicNeo-Regular"/>
                                                             <font key="NSOriginalFont" size="13" name="CourierNewPSMT"/>
-                                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="truncatingTail" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                         </attributes>
                                                     </fragment>
                                                     <fragment content=" ">
                                                         <attributes>
                                                             <color key="NSColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <font key="NSFont" size="13" name="CourierNewPSMT"/>
-                                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="truncatingTail" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                         </attributes>
                                                     </fragment>
                                                     <fragment content="수">
@@ -294,14 +294,14 @@
                                                             <color key="NSColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <font key="NSFont" size="13" name="AppleSDGothicNeo-Regular"/>
                                                             <font key="NSOriginalFont" size="13" name="CourierNewPSMT"/>
-                                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="truncatingTail" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                         </attributes>
                                                     </fragment>
                                                     <fragment content=" ">
                                                         <attributes>
                                                             <color key="NSColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <font key="NSFont" size="13" name="CourierNewPSMT"/>
-                                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="truncatingTail" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                         </attributes>
                                                     </fragment>
                                                     <fragment content="없습니다">
@@ -309,27 +309,27 @@
                                                             <color key="NSColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <font key="NSFont" size="13" name="AppleSDGothicNeo-Regular"/>
                                                             <font key="NSOriginalFont" size="13" name="CourierNewPSMT"/>
-                                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="truncatingTail" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                         </attributes>
                                                     </fragment>
                                                     <fragment content=".">
                                                         <attributes>
                                                             <color key="NSColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <font key="NSFont" size="13" name="CourierNewPSMT"/>
-                                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="truncatingTail" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                         </attributes>
                                                     </fragment>
                                                 </attributedString>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="사용 가능한 닉네임 입니다!" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="exk-Og-WZk">
-                                                <rect key="frame" x="25" y="137.33333333333331" width="340" height="20.333333333333343"/>
+                                                <rect key="frame" x="25" y="132.33333333333331" width="340" height="20.333333333333343"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <color key="textColor" systemColor="systemPinkColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tJp-6w-Ysk">
-                                                <rect key="frame" x="50" y="187.66666666666669" width="290" height="50"/>
+                                                <rect key="frame" x="50" y="192.66666666666669" width="290" height="50"/>
                                                 <color key="backgroundColor" systemColor="systemIndigoColor"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="50" id="D2A-Ta-ADZ"/>
@@ -346,12 +346,12 @@
                                         </subviews>
                                         <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
                                         <constraints>
-                                            <constraint firstAttribute="trailing" relation="lessThanOrEqual" secondItem="GJe-8k-YxM" secondAttribute="trailing" constant="70" id="1LC-wW-4Z8"/>
+                                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="GJe-8k-YxM" secondAttribute="trailing" constant="20" id="1LC-wW-4Z8"/>
                                             <constraint firstItem="Td4-rG-CrB" firstAttribute="centerX" secondItem="vdH-c8-v2Q" secondAttribute="centerX" id="5X2-8K-xBa"/>
                                             <constraint firstItem="yIp-dG-KDw" firstAttribute="top" secondItem="vdH-c8-v2Q" secondAttribute="top" constant="40" id="5fh-et-BZA"/>
                                             <constraint firstItem="yIp-dG-KDw" firstAttribute="leading" secondItem="vdH-c8-v2Q" secondAttribute="leading" constant="25" id="5fk-qh-Cvb"/>
                                             <constraint firstItem="exk-Og-WZk" firstAttribute="leading" secondItem="vdH-c8-v2Q" secondAttribute="leading" constant="25" id="753-xm-Cc2"/>
-                                            <constraint firstItem="exk-Og-WZk" firstAttribute="top" secondItem="Td4-rG-CrB" secondAttribute="bottom" constant="35" id="7uy-U0-KjN"/>
+                                            <constraint firstItem="exk-Og-WZk" firstAttribute="top" secondItem="Td4-rG-CrB" secondAttribute="bottom" constant="30" id="7uy-U0-KjN"/>
                                             <constraint firstItem="tJp-6w-Ysk" firstAttribute="centerX" secondItem="vdH-c8-v2Q" secondAttribute="centerX" id="8mA-pz-E6Z"/>
                                             <constraint firstItem="Td4-rG-CrB" firstAttribute="top" secondItem="yIp-dG-KDw" secondAttribute="bottom" constant="8" id="Dag-YS-PEA"/>
                                             <constraint firstItem="tJp-6w-Ysk" firstAttribute="leading" secondItem="vdH-c8-v2Q" secondAttribute="leading" constant="50" id="HUV-a3-Re1"/>
@@ -359,7 +359,7 @@
                                             <constraint firstAttribute="trailing" secondItem="exk-Og-WZk" secondAttribute="trailing" constant="25" id="Qqh-fp-OUY"/>
                                             <constraint firstItem="Td4-rG-CrB" firstAttribute="leading" secondItem="vdH-c8-v2Q" secondAttribute="leading" constant="25" id="avm-j4-LX8"/>
                                             <constraint firstItem="GJe-8k-YxM" firstAttribute="centerY" secondItem="yIp-dG-KDw" secondAttribute="centerY" id="jMA-wQ-sOF"/>
-                                            <constraint firstItem="tJp-6w-Ysk" firstAttribute="top" secondItem="exk-Og-WZk" secondAttribute="bottom" constant="30" id="qLe-BK-nHG"/>
+                                            <constraint firstItem="tJp-6w-Ysk" firstAttribute="top" secondItem="exk-Og-WZk" secondAttribute="bottom" constant="40" id="qLe-BK-nHG"/>
                                         </constraints>
                                     </view>
                                 </subviews>
@@ -416,28 +416,22 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="bhA-4y-5T8">
                                 <rect key="frame" x="0.0" y="47" width="390" height="763"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="feI-gz-uH9">
-                                        <rect key="frame" x="0.0" y="0.0" width="390" height="20"/>
-                                        <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="20" id="Fjy-8I-LSk"/>
-                                        </constraints>
-                                    </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="irK-0O-ewl">
-                                        <rect key="frame" x="0.0" y="20" width="390" height="520"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="390" height="530"/>
                                         <subviews>
                                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" maximumZoomScale="3" translatesAutoresizingMaskIntoConstraints="NO" id="MG7-2H-djn">
                                                 <rect key="frame" x="0.0" y="0.0" width="390" height="520"/>
                                                 <subviews>
-                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="0y4-iv-8SN">
-                                                        <rect key="frame" x="0.0" y="0.0" width="392" height="520"/>
+                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="0y4-iv-8SN">
+                                                        <rect key="frame" x="0.0" y="0.0" width="390" height="520"/>
                                                     </imageView>
                                                 </subviews>
                                                 <constraints>
-                                                    <constraint firstItem="0y4-iv-8SN" firstAttribute="width" secondItem="Jq9-Bh-Sau" secondAttribute="width" multiplier="1.00513" id="FLk-EK-HRL"/>
+                                                    <constraint firstItem="0y4-iv-8SN" firstAttribute="width" secondItem="Jq9-Bh-Sau" secondAttribute="width" id="FLk-EK-HRL"/>
                                                     <constraint firstItem="0y4-iv-8SN" firstAttribute="bottom" secondItem="CsP-cT-431" secondAttribute="bottom" id="JqW-Ye-fsO"/>
                                                     <constraint firstItem="0y4-iv-8SN" firstAttribute="height" secondItem="Jq9-Bh-Sau" secondAttribute="height" id="OT7-Mq-6pP"/>
                                                     <constraint firstItem="0y4-iv-8SN" firstAttribute="trailing" secondItem="CsP-cT-431" secondAttribute="trailing" id="S01-Rv-eBA"/>
+                                                    <constraint firstAttribute="width" secondItem="MG7-2H-djn" secondAttribute="height" multiplier="3:4" id="aTh-Sg-NgA"/>
                                                     <constraint firstItem="0y4-iv-8SN" firstAttribute="top" secondItem="CsP-cT-431" secondAttribute="top" id="bbN-nu-tnK"/>
                                                     <constraint firstItem="0y4-iv-8SN" firstAttribute="leading" secondItem="CsP-cT-431" secondAttribute="leading" id="g86-6l-wmS"/>
                                                 </constraints>
@@ -449,16 +443,15 @@
                                         <constraints>
                                             <constraint firstItem="MG7-2H-djn" firstAttribute="leading" secondItem="irK-0O-ewl" secondAttribute="leading" id="4qO-vR-zn5"/>
                                             <constraint firstAttribute="trailing" secondItem="MG7-2H-djn" secondAttribute="trailing" id="SCB-Xw-HS5"/>
-                                            <constraint firstAttribute="bottom" secondItem="MG7-2H-djn" secondAttribute="bottom" id="ZBU-Oo-3u6"/>
+                                            <constraint firstAttribute="bottom" secondItem="MG7-2H-djn" secondAttribute="bottom" constant="10" id="ZBU-Oo-3u6"/>
                                             <constraint firstItem="MG7-2H-djn" firstAttribute="top" secondItem="irK-0O-ewl" secondAttribute="top" id="gea-AG-Gxz"/>
-                                            <constraint firstAttribute="width" secondItem="irK-0O-ewl" secondAttribute="height" multiplier="3:4" id="ydx-5B-HAL"/>
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HND-6f-dln">
-                                        <rect key="frame" x="0.0" y="540" width="390" height="223"/>
+                                        <rect key="frame" x="0.0" y="530" width="390" height="233"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8wO-I1-uZM">
-                                                <rect key="frame" x="120" y="30" width="150" height="39"/>
+                                                <rect key="frame" x="120" y="97" width="150" height="39"/>
                                                 <color key="backgroundColor" systemColor="systemIndigoColor"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="150" id="JdE-VU-xt4"/>
@@ -476,7 +469,8 @@
                                         <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
                                         <constraints>
                                             <constraint firstItem="8wO-I1-uZM" firstAttribute="centerX" secondItem="HND-6f-dln" secondAttribute="centerX" id="3m3-Bd-1PC"/>
-                                            <constraint firstItem="8wO-I1-uZM" firstAttribute="top" secondItem="HND-6f-dln" secondAttribute="top" constant="30" id="Lj7-FN-m7h"/>
+                                            <constraint firstItem="8wO-I1-uZM" firstAttribute="centerY" secondItem="HND-6f-dln" secondAttribute="centerY" id="nEf-VR-BDk"/>
+                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="70" id="zrH-K9-hCO"/>
                                         </constraints>
                                     </view>
                                 </subviews>

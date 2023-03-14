@@ -21,10 +21,8 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var pageLabel: UILabel!
     @IBOutlet weak var barChartView: BarChartView!
     
-//    static let SuspendNotification = PassthroughSubject<Bool, Never>()
     let rankSubject = CurrentValueSubject<[WeeklyRank]?, Never>(nil)
     var subscriptions = Set<AnyCancellable>()
-    var cancel: Cancellable?
     
     let db = Firestore.firestore()
     let storage = Storage.storage()
@@ -62,8 +60,6 @@ class HomeViewController: UIViewController {
     
     override func viewDidDisappear(_ animated: Bool) {
         timer?.invalidate()
-        timer = nil
-        cancel?.cancel()
     }
     
     override func viewDidLayoutSubviews() {
@@ -95,29 +91,19 @@ class HomeViewController: UIViewController {
     }
     
     @IBAction func QuickExercise(_ sender: UIButton) {
+        let user = Auth.auth().currentUser
+        guard user != nil else {
+            loginAlert(type: "빠른 운동")
+            return
+        }
         let sb = UIStoryboard(name: "QuickExercise", bundle: nil)
         let vc = sb.instantiateViewController(withIdentifier: "QuickAerobicViewController") as! QuickAerobicViewController
         self.navigationController?.pushViewController(vc, animated: true)
-    }
-    
-    @IBAction func Test(_ sender: UIButton) {
-        
-    }
-    
-    private func aaa() {
-        if traitCollection.userInterfaceStyle == .dark {
-            print("다크모드")
-            
-        } else {
-            print("라이트 모드")
-            
-        }
     }
 }
 
 extension HomeViewController {
     private func configure() {
-//        backgroundView.backgroundColor = UIColor.link.withAlphaComponent(0.6)
         backgroundView.backgroundColor = UIColor.cyan.withAlphaComponent(0.6)
         backgroundView.layer.cornerRadius = 20
         pageLabel.backgroundColor = UIColor.black.withAlphaComponent(0.6)
@@ -138,28 +124,17 @@ extension HomeViewController {
             guard let list = list else { return }
             if list.isEmpty {
                 self.pageLabel.layer.isHidden = true
-                self.applyItems(items: [WeeklyRank(rank: "", exercise: "이번 주 인기 운동이 초기화되었습니다.")])
+                self.applyItems(items: [WeeklyRank(rank: "이번 주 인기 운동이 초기화되었습니다.", exercise: "")])
+                return
             } else {
                 DispatchQueue.main.async {
+                    self.pageLabel.layer.isHidden = false
                     self.pageLabel.text = "1 / \(list.count)"
                 }
                 self.applyItems(items: list)
                 self.bannerTimer()
             }
         }.store(in: &subscriptions)
-        
-//        let suspendSubject = HomeViewController.SuspendNotification
-//            .receive(on: RunLoop.main).sink { result in
-//                if result {
-//                    DispatchQueue.main.async {
-//                        let alertController = UIAlertController(title: "계정 사용 중지됨", message: "귀하의 계정이 사용 중지되었습니다. 문의사항은 관리자에게 해주세요.", preferredStyle: .alert)
-//                        let ok = UIAlertAction(title: "확인", style: .destructive)
-//                        alertController.addAction(ok)
-//                        self.present(alertController, animated: true, completion: nil)
-//                    }
-//                }
-//            }
-//        cancel = suspendSubject
     }
     
     private func configCollectionView() {
@@ -174,14 +149,14 @@ extension HomeViewController {
         
         var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
         snapshot.appendSections([.main])
-        snapshot.appendItems([WeeklyRank(rank: "", exercise: "이번 주 인기 운동")], toSection: .main)
+        snapshot.appendItems([WeeklyRank(rank: "이번 주 인기 운동", exercise: "")], toSection: .main)
         datasource.apply(snapshot)
         
         collectionView.delegate = self
     }
     
     private func layout() -> UICollectionViewCompositionalLayout {
-        let size = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(100))
+        let size = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(110))
         let itme = NSCollectionLayoutItem(layoutSize: size)
         let group = NSCollectionLayoutGroup.vertical(layoutSize: size, subitems: [itme])
         let section = NSCollectionLayoutSection(group: group)
@@ -194,6 +169,13 @@ extension HomeViewController {
         snapshot.appendSections([.main])
         snapshot.appendItems(items, toSection: .main)
         datasource.apply(snapshot)
+    }
+    
+    private func loginAlert(type: String) {
+        let alert = UIAlertController(title: "로그아웃 상태", message: "현재 로그아웃 되어있어 운동을 \(type)을 할 수 없습니다.\n로그인을 먼저 해주세요.", preferredStyle: .alert)
+        let ok = UIAlertAction(title: "확인", style: .default)
+        alert.addAction(ok)
+        present(alert, animated: true, completion: nil)
     }
 }
 
@@ -212,22 +194,15 @@ extension HomeViewController {
         
         // 기본 애니메이션
         barChartView.animate(xAxisDuration: 1.3, yAxisDuration: 2.0)
-        // 옵션 애니메이션
-//        barChartView.animate(xAxisDuration: 2.0, yAxisDuration: 2.0, easingOption: .easeInBounce)
         
         // limit line
         let ll = ChartLimitLine(limit: 50.0, label: "50%")
         barChartView.leftAxis.addLimitLine(ll)
-        
-        // 백그라운드 컬러
-//        barChartView.backgroundColor = .yellow
-        
         barChartView.xAxis.drawGridLinesEnabled = false
         barChartView.xAxis.drawAxisLineEnabled = false
         barChartView.rightAxis.drawAxisLineEnabled = false
         barChartView.leftAxis.drawAxisLineEnabled = false
         barChartView.leftAxis.drawLabelsEnabled = false
-        //        barChartView.legend.enabled = false
         barChartView.leftAxis.gridColor = .clear
         barChartView.noDataText = "완료한 운동이 없습니다.\n운동을 완료해 주세요."
         barChartView.noDataFont = .systemFont(ofSize: 20)

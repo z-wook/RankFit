@@ -21,10 +21,10 @@ class RevokeViewController: UIViewController {
     @IBOutlet weak var backgroundView: UIView!
     @IBOutlet weak var indicator: UIActivityIndicatorView!
     
-    static let emailAuth = PassthroughSubject<String, Never>()
+    let subject = PassthroughSubject<String, Never>()
     var subscriptions = Set<AnyCancellable>()
-    var cancel: Cancellable?
     let viewModel = RevokeViewModel()
+    var center: NotificationCenter!
     var email: String = saveUserData.getKeychainStringValue(forKey: .Email) ?? ""
     
     override func viewDidLoad() {
@@ -32,10 +32,6 @@ class RevokeViewController: UIViewController {
 
         configure()
         bind()
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        cancel?.cancel()
     }
     
     private func configure() {
@@ -48,7 +44,7 @@ class RevokeViewController: UIViewController {
     }
     
     private func bind() {
-        let subject = RevokeViewController.emailAuth.receive(on: RunLoop.main).sink { link in
+        subject.receive(on: RunLoop.main).sink { link in
             self.backgroundView.isHidden = false
             self.indicator.startAnimating()
             UserDefaults.standard.removeObject(forKey: "revoke")
@@ -77,8 +73,7 @@ class RevokeViewController: UIViewController {
                     }
                 }
             }
-        }
-        cancel = subject
+        }.store(in: &subscriptions)
         
         viewModel.allClearSubject.receive(on: RunLoop.main).sink { result in
             if result {
@@ -93,8 +88,7 @@ class RevokeViewController: UIViewController {
     
     @IBAction func sendEmail(_ sender: UIButton) {
         guard let email = saveUserData.getKeychainStringValue(forKey: .Email) else {
-            print("email 없음")
-            return
+            return print("email 없음")
         }
         let actionCodeSettings = ActionCodeSettings()
         actionCodeSettings.url = URL(string: Store.shared.firebaseURL + "\(email)")
@@ -119,6 +113,9 @@ class RevokeViewController: UIViewController {
                 self.emailCheck.layer.isHidden = true
                 self.emailState.text = "인증 메일이 발송되었습니다. 본인 인증을 완료해 주세요."
                 self.emailState.textColor = .systemPink
+                // Notification 생성
+                self.center = NotificationCenter.default
+                self.center.addObserver(self, selector: #selector(self.Revoke), name: NSNotification.Name("revoke"), object: nil)
             }
         }
     }
@@ -129,9 +126,18 @@ class RevokeViewController: UIViewController {
 }
 
 extension RevokeViewController {
+    @objc func Revoke(notification: NSNotification) {
+        guard let link = notification.userInfo?["link"] as? String else {
+            showAlert(title: "이메일 인증 실패", description: "이메일 인증에 실패하였습니다. 잠시 후 다시 시도해 주세요.")
+            return
+        }
+        subject.send(link)
+    }
+    
     private func showAlert(title: String, description: String) {
         let alert = UIAlertController(title: title, message: description, preferredStyle: .alert)
         let ok = UIAlertAction(title: "확인", style: .default) { _ in
+            self.center.removeObserver(self)
             self.navigationController?.popToRootViewController(animated: true)
         }
         alert.addAction(ok)
@@ -145,7 +151,10 @@ extension RevokeViewController {
             self.indicator.startAnimating()
             self.viewModel.initiateWithdrawal()
         }
-        let cancel = UIAlertAction(title: "계정 유지", style: .default)
+        let cancel = UIAlertAction(title: "계정 유지", style: .default) { _ in
+            self.center.removeObserver(self)
+            self.navigationController?.popViewController(animated: true)
+        }
         alert.addAction(ok)
         alert.addAction(cancel)
         self.present(alert, animated: true, completion: nil)

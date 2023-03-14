@@ -24,21 +24,25 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             if checkRegister.shared.isNewUser() {
                 if UserDefaults.standard.bool(forKey: "login") {
                     print("로그인")
-                    LoginViewController.emailAuth.send(link)
+                    let notiName = NSNotification.Name("login")
+                    NotificationCenter.default.post(name: notiName, object: nil, userInfo: ["link": link])
                     return
                 } else {
                     print("회원가입")
-                    RegisterAccountViewController.emailAuth.send(link)
+                    let notiName = NSNotification.Name("register")
+                    NotificationCenter.default.post(name: notiName, object: nil, userInfo: ["link": link])
                     return
                 }
             } else {
                 if UserDefaults.standard.bool(forKey: "revoke") {
                     print("탈퇴")
-                    RevokeViewController.emailAuth.send(link)
+                    let notiName = NSNotification.Name("revoke")
+                    NotificationCenter.default.post(name: notiName, object: nil, userInfo: ["link": link])
                     return
                 } else {
                     print("로그인")
-                    LoginViewController.emailAuth.send(link)
+                    let notiName = NSNotification.Name("login")
+                    NotificationCenter.default.post(name: notiName, object: nil, userInfo: ["link": link])
                     return
                 }
             }

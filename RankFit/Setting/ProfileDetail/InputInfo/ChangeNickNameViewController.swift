@@ -93,6 +93,7 @@ class ChangeNickNameViewController: UIViewController {
         checkButton.layer.isHidden = true
         backgroundView.backgroundColor = .black.withAlphaComponent(0.6)
         backgroundView.isHidden = true
+        
         if calcDate().currentDate() < info.getNickNameDate() {
             stateLabel.layer.isHidden = false
             // text size reduce

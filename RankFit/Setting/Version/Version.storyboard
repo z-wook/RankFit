@@ -18,14 +18,14 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="RankFit.png" translatesAutoresizingMaskIntoConstraints="NO" id="ApJ-t3-iVk">
-                                <rect key="frame" x="75" y="158.66666666666663" width="240" height="240"/>
+                                <rect key="frame" x="75" y="183.66666666666663" width="240" height="240"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="ApJ-t3-iVk" secondAttribute="height" multiplier="1:1" id="A8Q-jd-FHr"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="앱 버전: 1.0.0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yrz-YM-pGh">
-                                <rect key="frame" x="149" y="448.66666666666669" width="92.333333333333314" height="20.333333333333314"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <rect key="frame" x="146.33333333333334" y="473.66666666666669" width="97.666666666666657" height="21.666666666666686"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -33,11 +33,11 @@
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="ApJ-t3-iVk" firstAttribute="centerY" secondItem="vDu-zF-Fre" secondAttribute="centerY" constant="-125" id="HES-tt-iP9"/>
                             <constraint firstItem="ApJ-t3-iVk" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="75" id="JXv-S9-TEl"/>
                             <constraint firstItem="Yrz-YM-pGh" firstAttribute="centerX" secondItem="vDu-zF-Fre" secondAttribute="centerX" id="MKj-Tu-O6V"/>
                             <constraint firstItem="Yrz-YM-pGh" firstAttribute="top" secondItem="ApJ-t3-iVk" secondAttribute="bottom" constant="50" id="syq-fF-sR7"/>
                             <constraint firstItem="ApJ-t3-iVk" firstAttribute="centerX" secondItem="vDu-zF-Fre" secondAttribute="centerX" id="yK0-pu-Byh"/>
-                            <constraint firstItem="ApJ-t3-iVk" firstAttribute="centerY" secondItem="vDu-zF-Fre" secondAttribute="centerY" constant="-150" id="yZ3-zQ-4PW"/>
                         </constraints>
                     </view>
                     <connections>

@@ -18,11 +18,10 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var backgroundView: UIView!
     @IBOutlet weak var indicator: UIActivityIndicatorView!
     
-    static let emailAuth = PassthroughSubject<String, Never>()
     let loginSubject = PassthroughSubject<String, Never>()
     let finalSubject = PassthroughSubject<Bool, Never>()
     var subscriptions = Set<AnyCancellable>()
-    var cancel: Cancellable?
+    var center: NotificationCenter!
     var email: String!
     
     override func viewDidLoad() {
@@ -30,10 +29,6 @@ class LoginViewController: UIViewController {
         
         configure()
         bind()
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        cancel?.cancel()
     }
     
     private func configure() {
@@ -45,15 +40,7 @@ class LoginViewController: UIViewController {
     }
     
     private func bind() {
-        let subject = LoginViewController.emailAuth.receive(on: RunLoop.main).sink { link in
-            print("link1: \(link)")
-            guard self.email != nil else { return }
-            self.loginSubject.send(link)
-        }
-        cancel = subject
-        
         loginSubject.receive(on: RunLoop.main).sink { link in
-            print("link2: \(link)")
             self.backgroundView.isHidden = false
             self.indicator.startAnimating()
             UserDefaults.standard.removeObject(forKey: "login")
@@ -161,7 +148,6 @@ class LoginViewController: UIViewController {
                 checkRegister.shared.setIsNotNewUser()
                 SettingViewController.reloadProfile.send(true)
                 self.indicator.stopAnimating()
-                self.cancel?.cancel()
                 self.showAlert(title: "🎉 복귀를 환영합니다. 🎉", description: "최근 6개월간 완료한 운동을 저장했습니다.", type: "welcome")
             }
         }.store(in: &subscriptions)
@@ -197,6 +183,9 @@ class LoginViewController: UIViewController {
                     UserDefaults.standard.setValue(true, forKey: "login")
                     self.emailState.text = "인증 메일이 발송되었습니다. 본인 인증을 완료해 주세요."
                     self.emailState.textColor = .systemPink
+                    // Notification 생성
+                    self.center = NotificationCenter.default
+                    self.center.addObserver(self, selector: #selector(self.Login), name: NSNotification.Name("login"), object: nil)
                 }
             }
         } else {
@@ -210,6 +199,15 @@ class LoginViewController: UIViewController {
 }
 
 extension LoginViewController {
+    @objc func Login(notification: NSNotification) {
+        guard self.email != nil else { return }
+        guard let link = notification.userInfo?["link"] as? String else {
+            showAlert(title: "이메일 인증 실패", description: "이메일 인증에 실패하였습니다. 잠시 후 다시 시도해 주세요.", type: "fail")
+            return
+        }
+        loginSubject.send(link)
+    }
+    
     // code by chatGPT
     private func isValidEmail(email: String) -> Bool {
         let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
@@ -222,6 +220,7 @@ extension LoginViewController {
         let ok = UIAlertAction(title: "확인", style: .default) { _ in
             switch type {
             case "login":
+                self.center.removeObserver(self)
                 self.navigationController?.popToRootViewController(animated: true)
                 return
                 
@@ -230,6 +229,7 @@ extension LoginViewController {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                     DiaryViewController.reloadDiary.send(true)
                 }
+                self.center.removeObserver(self)
                 self.navigationController?.popToRootViewController(animated: true)
                 return
                 

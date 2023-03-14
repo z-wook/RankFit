@@ -108,10 +108,8 @@ extension AnaerobicActivityViewController {
         exerciseLabel.tintColor = UIColor(named: "link_cyan")
         backgroundView.backgroundColor = .black.withAlphaComponent(0.6)
         backgroundView.isHidden = true
-        
         guard let info = viewModel.ExerciseInfo as? anaerobicExerciseInfo else { return }
         self.info = info
-        
         exerciseLabel.text = info.exercise
         setNumLabel.text = "\(info.set)"
         weightNumLabel.text = "\(info.weight)"

@@ -38,7 +38,7 @@ final class configFirebase {
         let db = Firestore.firestore()
         db.collection("Ask").document(getDateString.getCurrentDate_Time()).setData([
             "Date": getDateString.getCurrentDate_Time(),
-            "ID": saveUserData.getKeychainStringValue(forKey: .UID) ?? "익명",
+            "ID": saveUserData.getKeychainStringValue(forKey: .UID) ?? "로그인하지 않은 유저",
             "Ask": Ask
         ]) { error in
             if let error = error {
@@ -129,7 +129,7 @@ final class configFirebase {
         let ref = db.collection("userData").document("saveExInfo").collection(configFirebase.UID)
         ref.getDocuments { snapshot, error in
             guard let snapshot = snapshot else {
-                configFirebase.errorReport(type: "configFirebase.removeFirestore", descriptions: "snapshot == nil")
+                configFirebase.errorReport(type: "configFirebase.removeFirestore_userData", descriptions: "snapshot == nil")
                 subject.send(false)
                 return
             }
@@ -137,12 +137,42 @@ final class configFirebase {
                 ref.document(i.documentID).delete { error in
                     if let error = error {
                         print("서버에서 운동 삭제 실패")
-                        configFirebase.errorReport(type: "configFirebase,removeFirestore", descriptions: error.localizedDescription)
+                        configFirebase.errorReport(type: "configFirebase.removeFirestore_userData", descriptions: error.localizedDescription)
                         subject.send(false)
                         return
                     } else {
                         if i == snapshot.documents.last {
-                            print("Success Delete userData")
+                            print("Success Delete userData_saveEx")
+                            removeFirestore_doneEx(subject: subject)
+                            return
+                        }
+                    }
+                }
+            }
+        }
+        removeFirestore_baseInfo(subject: subject)
+    }
+    
+    // 서버에서 자신의 완료 운동 데이터 삭제(탈퇴시 사용)
+    private static func removeFirestore_doneEx (subject: PassthroughSubject<Bool, Never>) {
+        let db = Firestore.firestore()
+        let ref = db.collection("userData").document("doneExInfo").collection(configFirebase.UID)
+        ref.getDocuments { snapshot, error in
+            guard let snapshot = snapshot else {
+                configFirebase.errorReport(type: "configFirebase.removeFirestore_doneEx", descriptions: "snapshot == nil")
+                subject.send(false)
+                return
+            }
+            for i in snapshot.documents {
+                ref.document(i.documentID).delete { error in
+                    if let error = error {
+                        print("서버에서 운동 삭제 실패")
+                        configFirebase.errorReport(type: "configFirebase,removeFirestore_doneEx", descriptions: error.localizedDescription)
+                        subject.send(false)
+                        return
+                    } else {
+                        if i == snapshot.documents.last {
+                            print("Success Delete userData_doneEx")
                             removeFirestore_baseInfo(subject: subject)
                             return
                         }
@@ -159,7 +189,7 @@ final class configFirebase {
         db.collection("baseInfo").document(configFirebase.UID).delete() { error in
             if let error = error {
                 print("error remove document: \(error.localizedDescription)")
-                configFirebase.errorReport(type: "configFirebase.removeFirestore", descriptions: error.localizedDescription)
+                configFirebase.errorReport(type: "configFirebase.removeFirestore_baseInfo", descriptions: error.localizedDescription)
                 subject.send(false)
             } else {
                 print("Success Delete baseInfo")
@@ -174,7 +204,13 @@ final class configFirebase {
         let user = Auth.auth().currentUser
         user?.delete { error in
             if let error = error {
-                configFirebase.errorReport(type: "configFirebase.deleteAuth", descriptions: error.localizedDescription)
+                let error = error.localizedDescription
+                if error == "There is no user record corresponding to this identifier. The user may have been deleted." {
+                    print("Firebase 회원탈퇴 성공")
+                    subject.send(true)
+                    return
+                }
+                configFirebase.errorReport(type: "configFirebase.deleteAuth", descriptions: error)
                 subject.send(false)
             } else {
                 print("Firebase 회원탈퇴 성공")

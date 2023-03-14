@@ -38,8 +38,7 @@ class MyRankViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        optionButton.tintColor = UIColor(named: "link_cyan")
-        collectionView.delegate = self
+        configure()
         updateNavigationItem()
         configureCollectionView()
         bind()
@@ -138,10 +137,19 @@ extension MyRankViewController {
             size = myRankSize
             
         default:
-            let defaultSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(60))
+            var typeSize: CGFloat!
+            // 뷰 전체 높이 길이
+            let screenHeight = UIScreen.main.bounds.size.height
+            if screenHeight == 568 { // 4 inch
+                typeSize = 90
+            } else if screenHeight <= 844 { // 6.1 inch
+                typeSize = 110
+            } else { // Over 6.1 inch
+                typeSize = 120
+            }
+            let defaultSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(typeSize))
             size = defaultSize
         }
-        
         let item = NSCollectionLayoutItem(layoutSize: size)
         let group = NSCollectionLayoutGroup.vertical(layoutSize: size, subitems: [item])
         let section = NSCollectionLayoutSection(group: group)
@@ -174,7 +182,7 @@ extension MyRankViewController {
             cell.reportBtn.tag = indexPath.item
             return cell
         })
-        collectionView.collectionViewLayout = layout(type: 0)
+        collectionView.collectionViewLayout = layout(type: 1)
         
         var snapshot = NSDiffableDataSourceSnapshot<Section, optionItem>()
         snapshot.appendSections([.option])
@@ -241,7 +249,30 @@ extension MyRankViewController {
         present(alert, animated: true)
     }
     
+    private func configure() {
+        optionButton.tintColor = UIColor(named: "link_cyan")
+        collectionView.delegate = self
+        let screenHeight = UIScreen.main.bounds.size.height
+        if screenHeight == 568 { // for iPhone SE1
+            optionButton.setImage(UIImage(systemName: "list.bullet"), for: .normal)
+        }
+    }
+    
     private func updateNavigationItem() {
+        let scoreConfig = CustomBarItemConfiguration(
+            image: UIImage(systemName: "questionmark.circle"),
+            color: UIColor(named: "link_cyan"),
+            handler: {
+                let sb = UIStoryboard(name: "Reading", bundle: nil)
+                let vc = sb.instantiateViewController(withIdentifier: "defaultViewController") as! defaultViewController
+                vc.configure(type: "점수")
+                vc.navigationItem.largeTitleDisplayMode = .never
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
+        )
+        let scoreItem = UIBarButtonItem.generate(with: scoreConfig, width: 30)
+        navigationItem.leftBarButtonItem = scoreItem
+        
         let me = UIAction(title: "마이랭킹", handler: { _ in
             if self.type == "마이랭킹" { return }
             self.navigationItem.title = "주간 랭킹"
@@ -319,14 +350,11 @@ extension MyRankViewController {
             self.OptionViewModel.getRunningRank()
         })
         
-        let buttonMenu = UIMenu(title: "옵션", image: UIImage(systemName: "list.bullet") , children: [me, gender, age, all, running])
+        let buttonMenu = UIMenu(title: "옵션", children: [me, gender, age, all, running])
         optionButton.menu = buttonMenu
         optionButton.showsMenuAsPrimaryAction = true
-        optionButton.fs_width = 110
-        
-        // ios 15 이상
-//        let buttonMenu = UIMenu(title: "옵션", children: [me, gender, age, grade])
-//        optionButton.changesSelectionAsPrimaryAction = true
+        optionButton.changesSelectionAsPrimaryAction = true
+        optionButton.fs_width = 100
         
         let backImage = UIImage(systemName: "arrow.backward")
         navigationController?.navigationBar.backIndicatorImage = backImage
@@ -335,9 +363,5 @@ extension MyRankViewController {
         navigationItem.backButtonDisplayMode = .minimal
         navigationItem.largeTitleDisplayMode = .always
         navigationItem.title = "주간 랭킹"
-        
-        // backBarButtonTitle 설정
-//        let backBarButtonItem = UIBarButtonItem(title: "이전 페이지", style: .plain, target: self, action: nil)
-//        navigationItem.backBarButtonItem = backBarButtonItem
     }
 }

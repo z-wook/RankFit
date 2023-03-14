@@ -27,11 +27,10 @@ class OptionCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-//        contentView.layer.cornerRadius = 20
-        profile.layer.cornerRadius = 20
         self.layer.borderColor = CGColor(red: 0.7, green: 0.5, blue: 1, alpha: 1)
         self.layer.borderWidth = 3
         self.layer.cornerRadius = 20
+        profile.layer.cornerRadius = 20
         self.profile.isUserInteractionEnabled = true
         self.profile.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.zoomProfile(_:))))
     }

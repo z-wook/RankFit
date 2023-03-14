@@ -22,8 +22,5 @@ class MainTabBarController: UITabBarController {
 }
 extension MainTabBarController: UITabBarControllerDelegate {
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
-//        let aaa = viewController.restorationIdentifier
-        //        print("---> tapped: \(aaa)")
-
     }
 }

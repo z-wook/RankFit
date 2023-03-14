@@ -29,6 +29,8 @@ class saveExerciseViewController1: UIViewController {
     var subscriptions = Set<AnyCancellable>()
     var tableName: String!
     var type: String = "계획"
+    var keyboardNoti1: Void?
+    var keyboardNoti2: Void?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,6 +57,7 @@ class saveExerciseViewController1: UIViewController {
             loginAlert()
             return
         }
+        self.view.endEditing(true)
         saveExercise()
     }
     
@@ -66,12 +69,12 @@ class saveExerciseViewController1: UIViewController {
             let checkedSetNum = viewModel.stringToInt(input: field1)
             if checkedSetNum == -1 {
                 return viewModel.warningExerciseMessage(ment: "세트를 정확히 입력해 주세요.", View: vc)
-            }
-            if checkedSetNum == 0 {
+            } else if checkedSetNum == 0 {
                 return viewModel.warningExerciseMessage(ment: "세트는 0개가 될 수 없습니다.", View: vc)
-            }
-            if checkedSetNum < 0 {
+            } else if checkedSetNum < 0 {
                 return viewModel.warningExerciseMessage(ment: "세트는 0개보다 적을 수 없습니다.", View: vc)
+            } else if checkedSetNum > 100 {
+                return viewModel.warningExerciseMessage(ment: "100 세트 이하로 입력해 주세요.", View: vc)
             }
 
             guard let field2 = countField.text, !field2.isEmpty else {
@@ -80,11 +83,9 @@ class saveExerciseViewController1: UIViewController {
             let checkCountNum = viewModel.stringToInt(input: field2)
             if checkCountNum == -1 {
                 return viewModel.warningExerciseMessage(ment: "개수를 정확히 입력해 주세요.", View: vc)
-            }
-            if checkCountNum == 0 {
+            } else if checkCountNum == 0 {
                 return viewModel.warningExerciseMessage(ment: "개수는 0개가 될 수 없습니다.", View: vc)
-            }
-            if checkCountNum < 0 {
+            } else if checkCountNum < 0 {
                 return viewModel.warningExerciseMessage(ment: "개수는 0개보다 적을 수 없습니다.", View: vc)
             }
             
@@ -97,14 +98,15 @@ class saveExerciseViewController1: UIViewController {
                 let checkedWeightNum = viewModel.stringToFloat(input: field3)
                 if checkedWeightNum == -1 {
                     return viewModel.warningExerciseMessage(ment: "무게를 정확히 입력해 주세요.", View: vc)
-                }
-                if checkedWeightNum <= 0 {
+                } else if checkedWeightNum <= 0 {
                     viewModel.warningExerciseMessage(ment: "무게는 0kg보다 적을 수 없습니다.", View: vc)
                     return
-                }
-                if checkedWeightNum >= 500 {
+                } else if checkedWeightNum > 500 {
                     return viewModel.warningExerciseMessage(ment: "무게는 500kg를 넘을 수 없습니다.", View: vc)
+                } else if checkedWeightNum < 1 {
+                    return viewModel.warningExerciseMessage(ment: "무게는 1kg보다 적을 수 없습니다.", View: vc)
                 }
+                print("weight: \(checkedWeightNum)")
                 weightNum = checkedWeightNum
             }
             saveBtn.isEnabled = false
@@ -128,28 +130,51 @@ extension saveExerciseViewController1 {
         exerciseLabel.tintColor = UIColor(named: "link_cyan")
         backgroundView.backgroundColor = .black.withAlphaComponent(0.6)
         backgroundView.isHidden = true
-        saveBtn.layer.cornerRadius = 30
+        saveBtn.layer.cornerRadius = 20
         setField.delegate = self
         weightField.delegate = self
         countField.delegate = self
-        weightField.tag = 1
+        setField.tag = 0
+        countField.tag = 1
+        weightField.tag = 2
         exerciseType.setTitleTextAttributes([.foregroundColor: UIColor.black], for: .selected)
         exerciseType.selectedSegmentTintColor = .systemOrange.withAlphaComponent(0.8)
-        
         setField.backgroundColor = .systemYellow.withAlphaComponent(0.8)
-//        setField.layer.borderColor = CGColor(red: 0.7, green: 0.5, blue: 1, alpha: 1)
-//        setField.layer.borderWidth = 3
-//        setField.layer.cornerRadius = 6
-        
         countField.backgroundColor = .systemYellow.withAlphaComponent(0.8)
-//        countField.layer.borderColor = CGColor(red: 0.7, green: 0.5, blue: 1, alpha: 1)
-//        countField.layer.borderWidth = 3
-//        countField.layer.cornerRadius = 6
-        
         weightField.backgroundColor = .systemYellow.withAlphaComponent(0.8)
-//        weightField.layer.borderColor = CGColor(red: 0.7, green: 0.5, blue: 1, alpha: 1)
-//        weightField.layer.borderWidth = 3
-//        weightField.layer.cornerRadius = 6
+        
+        let screenHeight = UIScreen.main.bounds.size.height
+        if screenHeight <= 667 {
+            // Notification 등록
+            setKeyboardObserver()
+        }
+    }
+    override func keyboardWillShow(notification: NSNotification) {
+        if self.view.window?.frame.origin.y == 0 {
+            if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+                let keyboardRectangle = keyboardFrame.cgRectValue
+                let keyboardHeight = keyboardRectangle.height
+                
+                if countField.isEditing || weightField.isEditing {
+                    // 뷰를 키보드 높이만큼 올림
+                    UIView.animate(withDuration: 0.7) {
+                        self.view.window?.frame.origin.y -= keyboardHeight
+                    }
+                }
+            }
+        }
+    }
+    
+    override func keyboardWillHide(notification: NSNotification) {
+        if self.view.window?.frame.origin.y != 0 {
+            if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+                let keyboardRectangle = keyboardFrame.cgRectValue
+                let keyboardHeight = keyboardRectangle.height
+                UIView.animate(withDuration: 0.7) {
+                    self.view.window?.frame.origin.y += keyboardHeight
+                }
+            }
+        }
     }
     
     private func bind() {
@@ -201,7 +226,7 @@ extension saveExerciseViewController1 {
             } else {
                 print("서버 운동 저장 실패")
                 self.indicator.stopAnimating()
-                self.showAlert()
+                self.showAlert(title: "운동 저장 실패", message: "잠시 후 다시 시도해 주세요.")
             }
         }.store(in: &subscriptions)
         
@@ -214,25 +239,24 @@ extension saveExerciseViewController1 {
                     // firebase에 저장하기
                     configFirebase.saveDoneEx(exName: self.exInfo.exercise, set: self.exInfo.set, weight: self.exInfo.weight, count: self.exInfo.count, distance: 0, maxSpeed: 0, avgSpeed: 0, time: 0, date: self.exInfo.date)
                     ExerciseViewController.reloadEx.send(true)
-                    self.dismiss(animated: true)
+                    self.showAlert(title: "저장 완료", message: "운동이 저장되었습니다.")
                     return
-                    
                 } else {
                     print("운동 완료 후 업데이트 실패")
-                    self.showAlert()
+                    self.showAlert(title: "운동 저장 실패", message: "잠시 후 다시 시도해 주세요.")
                     return
                 }
             } else {
                 print("서버 전송 오류, 잠시 후 다시 시도해 주세요.")
-                self.showAlert()
+                self.showAlert(title: "운동 저장 실패", message: "잠시 후 다시 시도해 주세요.")
             }
         }.store(in: &subscriptions)
     }
 }
 
 extension saveExerciseViewController1 {
-    private func showAlert() {
-        let alert = UIAlertController(title:"운동 저장 실패", message: "잠시 후 다시 시도해 주세요.", preferredStyle: .alert)
+    private func showAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let ok = UIAlertAction(title: "확인", style: .default, handler: { _ in
             self.dismiss(animated: true)
         })
@@ -265,7 +289,7 @@ extension saveExerciseViewController1: UITextFieldDelegate {
             }
         }
         switch textField.tag {
-        case 1:
+        case 2:
             guard let text = textField.text else { return false }
             if text.count >= 5 {
                 return false

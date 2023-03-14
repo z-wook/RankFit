@@ -102,7 +102,6 @@ final class InputInfoViewModel {
                 if responseBody == "true" {
                     subject.send(true)
                 } else {
-                    configFirebase.errorReport(type: "InputInfoVM.nickNameCheck", descriptions: "responseBody == false", server: responseBody.debugDescription)
                     subject.send(false)
                 }
             } else {

@@ -147,7 +147,7 @@ extension PlankActivityViewController {
             self.indicator.startAnimating()
             let time = Int64(TimeStamp.getCurrentTimestamp())
             self.saveTime = time
-            let intSec = Int(self.info.exTime)  // 초
+            let intSec = Int(self.info.exTime) // 초
             configServer.sendCompleteEx(info: self.info, time: intSec, saveTime: time, subject: self.sendState)
         }
         alert.addAction(cancle)

@@ -10,13 +10,15 @@ import Combine
 
 class AskViewController: UIViewController {
 
+    @IBOutlet weak var stackView: UIStackView!
     @IBOutlet weak var inputBox: UITextView!
     @IBOutlet weak var textLimit: UILabel!
     @IBOutlet weak var askBtn: UIButton!
     
     let askSubject = PassthroughSubject<Bool, Never>()
     var subscriptions = Set<AnyCancellable>()
-    let placeHolder = "문의할 내용을 입력해주세요."
+    let placeHolder = "문의할 내용과 답변 받을 이메일을 입력해 주세요."
+    var screenHeight: CGFloat?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,7 +39,6 @@ class AskViewController: UIViewController {
 
 extension AskViewController {
     private func configure() {
-        navigationItem.largeTitleDisplayMode = .always
         navigationItem.title = "문의하기"
         inputBox.layer.cornerRadius = 20
         inputBox.text = placeHolder
@@ -46,14 +47,55 @@ extension AskViewController {
         askBtn.backgroundColor = .darkGray
         askBtn.layer.cornerRadius = 20
         askBtn.isEnabled = false
+        // 뷰 전체 높이 길이
+        let screenHeight = UIScreen.main.bounds.size.height
+        self.screenHeight = screenHeight
+        setKeyboardObserver()
+    }
+    
+    override func keyboardWillShow(notification: NSNotification) {
+        if self.view.window?.frame.origin.y == 0 {
+            if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+                let keyboardRectangle = keyboardFrame.cgRectValue
+                let keyboardHeight = keyboardRectangle.height
+                UIView.animate(withDuration: 1) {
+                    if self.screenHeight == 568 { // 4 inch
+                        self.view.window?.frame.origin.y -= keyboardHeight / 2 + 40
+                    } else if self.screenHeight == 667 { // 4.7 inch
+                        self.view.window?.frame.origin.y -= keyboardHeight / 2 + 20
+                    } else {
+                        self.view.window?.frame.origin.y -= keyboardHeight / 2
+                    }
+                }
+            }
+        }
+    }
+    
+    override func keyboardWillHide(notification: NSNotification) {
+        if self.view.window?.frame.origin.y != 0 {
+            if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+                let keyboardRectangle = keyboardFrame.cgRectValue
+                let keyboardHeight = keyboardRectangle.height
+                UIView.animate(withDuration: 1) {
+                    if self.screenHeight == 568 { // 4 inch
+                        self.view.window?.frame.origin.y += keyboardHeight / 2 + 40
+                    } else if self.screenHeight == 667 { // 4.7 inch
+                        self.view.window?.frame.origin.y += keyboardHeight / 2 + 20
+                    } else {
+                        self.view.window?.frame.origin.y += keyboardHeight / 2
+                    }
+                    
+                }
+            }
+        }
     }
     
     private func bind() {
         askSubject.receive(on: RunLoop.main).sink { result in
             if result {
-                self.showAlert(title: "문의사항 접수 실패", message: "잠시 후 다시 문의해 주세요.")
-            } else {
                 self.showAlert(title: "문의사항 접수 완료")
+            } else {
+                self.showAlert(title: "문의사항 접수 실패", message: "잠시 후 다시 문의해 주세요.")
             }
         }.store(in: &subscriptions)
     }
@@ -84,6 +126,11 @@ extension AskViewController: UITextViewDelegate {
     func textViewDidEndEditing(_ textView: UITextView) {
         if inputBox.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
             inputBox.text = placeHolder
+            askBtn.isEnabled = false
+            askBtn.backgroundColor = .darkGray
+        } else {
+            askBtn.isEnabled = true
+            askBtn.backgroundColor = .systemIndigo
         }
     }
     

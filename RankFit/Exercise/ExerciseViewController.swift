@@ -263,7 +263,6 @@ extension ExerciseViewController: FSCalendarDelegate, FSCalendarDataSource, FSCa
         calendarView.appearance.weekdayFont = UIFont(name: "NotoSansKR-Regular", size: 14)
         // 각각의 일(날짜) 폰트 설정
         calendarView.appearance.titleFont = UIFont(name: "NotoSansKR-Regular", size: 15)
-        
         calendarView.layer.cornerRadius = 20
         
         let todayDate = calendarView.today!
@@ -272,7 +271,7 @@ extension ExerciseViewController: FSCalendarDelegate, FSCalendarDataSource, FSCa
         ExerciseViewController.pickDate = defaultDate
         viewModel.selectDate(date: defaultDate)
     }
-
+    
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
         // 자정 지나는 상황을 위해 클릭마다 오늘 날짜 업데이트
         let today = dateFormatter.string(from: calendarView.today!)

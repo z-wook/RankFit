@@ -58,6 +58,7 @@ class QuickAerobicViewController: UIViewController {
         motionManager?.stopActivityUpdates()
         locationManager?.stopUpdatingLocation()
         center.removeObserver(self)
+        
     }
     
     @IBAction func currentLocationBtn(_ sender: UIButton) {

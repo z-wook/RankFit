@@ -118,14 +118,23 @@ extension MyDetailViewController {
     }
 
     private func layout() -> UICollectionViewCompositionalLayout {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(100))
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(100))
-        let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
-        
+        var size: NSCollectionLayoutSize!
+        var typeSize: CGFloat!
+        // 뷰 전체 높이 길이
+        let screenHeight = UIScreen.main.bounds.size.height
+        if screenHeight == 568 { // 4 inch
+            typeSize = 90
+        } else if screenHeight <= 844 { // 6.1 inch
+            typeSize = 110
+        } else { // Over 6.1 inch
+            typeSize = 120
+        }
+        let defaultSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(typeSize))
+        size = defaultSize
+        let item = NSCollectionLayoutItem(layoutSize: size)
+        let group = NSCollectionLayoutGroup.vertical(layoutSize: size, subitems: [item])
         let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 20, bottom: 10, trailing: 20)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 15, bottom: 10, trailing: 15)
         section.interGroupSpacing = 10
         
         let layout = UICollectionViewCompositionalLayout(section: section)
