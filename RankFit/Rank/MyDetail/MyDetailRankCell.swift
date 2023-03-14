@@ -97,7 +97,6 @@ extension MyDetailRankCell {
             "nickname": nickName
         ]
         request = AF.request("http://rankfit.site/imageDown.php", method: .post, parameters: parameters).responseData { response in
-//            print("response: \(response.debugDescription)")
             switch response.result {
             case .success(let data):
                 let image = UIImage(data: data)

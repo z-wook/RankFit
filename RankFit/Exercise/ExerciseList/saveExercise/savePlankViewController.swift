@@ -21,21 +21,12 @@ class savePlankViewController: UIViewController {
     var viewModel: saveExerciseViewModel!
     var exInfo: anaerobicExerciseInfo!
     let serverState = PassthroughSubject<Bool, Never>()
-    let firebaseState = PassthroughSubject<Bool, Never>()
     var subscriptions = Set<AnyCancellable>()
     var tableName: String!
     var minList: [String] = []
     var secList: [String] = []
-    
     var min: String = "0"
     var sec: String = "0"
-    
-    // getTopViewController
-    let keyWindow = UIApplication.shared.connectedScenes.filter({ $0.activationState == .foregroundActive })
-        .map({ $0 as? UIWindowScene })
-        .compactMap({ $0 })
-        .first?.windows
-        .filter({ $0.isKeyWindow }).first
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,17 +36,18 @@ class savePlankViewController: UIViewController {
     }
     
     private func configure() {
+        exerciseLabel.tintColor = UIColor(named: "link_cyan")
         pickerView.delegate = self
         pickerView.dataSource = self
         setField.delegate = self
+        setField.backgroundColor = .systemYellow.withAlphaComponent(0.8)
         saveBtn.layer.cornerRadius = 30
         backgroundView.backgroundColor = .black.withAlphaComponent(0.6)
         backgroundView.isHidden = true
-
+        
         for i in 0...30 {
             minList.append("\(i)")
         }
-        
         for i in 0...59 {
             secList.append("\(i)")
         }
@@ -67,7 +59,6 @@ class savePlankViewController: UIViewController {
     
     func bind() {
         viewModel.$DetailItem
-//            .compactMap { $0 }
             .receive(on: RunLoop.main)
             .sink { info in
                 self.exerciseLabel.text = info?.exerciseName
@@ -75,29 +66,20 @@ class savePlankViewController: UIViewController {
             }.store(in: &subscriptions)
         
         serverState.receive(on: RunLoop.main).sink { result in
-            if result == true {
-                print("서버 운동 저장 성공")
-                SendAnaerobicEx.firebaseSave(
-                    exName: self.exInfo.exercise,
-                    time: self.exInfo.saveTime,
-                    uuid: "\(self.exInfo.id)",
-                    date: self.exInfo.date,
-                    subject: self.firebaseState)
-            } else {
-                print("서버 운동 저장 실패")
-                self.showAlert()
-            }
-        }.store(in: &subscriptions)
-        
-        firebaseState.receive(on: RunLoop.main).sink { result in
             self.indicator.stopAnimating()
             if result == true {
-                print("Firebase 저장 성공")
-                if let vc = self.keyWindow?.visibleViewController {
+                print("서버 운동 저장 성공")
+                if let vc = self.view.window?.visibleViewController() {
                     let save = ExerciseCoreData.saveCoreData(info: self.exInfo)
                     if save == true {
                         print("CoreData 저장 완료")
+                        configServer.firebaseSave(
+                            exName: self.exInfo.exercise,
+                            time: self.exInfo.saveTime,
+                            uuid: self.exInfo.id.uuidString,
+                            date: self.exInfo.date)
                         self.viewModel.saveSuccessExMessage(View: vc)
+                        return
                     } else {
                         print("운동 저장 실패")
                         self.viewModel.saveFailExMessage(View: vc)
@@ -108,8 +90,7 @@ class savePlankViewController: UIViewController {
                     self.dismiss(animated: true)
                 }
             } else {
-                print("Firebase 저장 실패")
-                SendAnaerobicEx.sendDeleteEx(info: self.exInfo, subject: nil)
+                print("서버 운동 저장 실패")
                 self.showAlert()
             }
         }.store(in: &subscriptions)
@@ -125,24 +106,32 @@ class savePlankViewController: UIViewController {
             loginAlert()
             return
         }
-        if let vc = keyWindow?.visibleViewController {
+        if let vc = self.view.window?.visibleViewController() {
             guard let field = setField.text, !field.isEmpty else {
-                return viewModel.warningExerciseMessage(ment: "세트를 입력하세요.", View: vc)
+                return viewModel.warningExerciseMessage(ment: "세트를 입력해 주세요.", View: vc)
             }
             let checkedSetNum = viewModel.stringToInt(input: field)
             if checkedSetNum == -1 {
                 return viewModel.warningExerciseMessage(ment: "세트를 정확히 입력해 주세요.", View: vc)
+            } else if checkedSetNum == 0 {
+                return viewModel.warningExerciseMessage(ment: "세트는 0개가 될 수 없습니다.", View: vc)
+            } else if checkedSetNum < 0 {
+                return viewModel.warningExerciseMessage(ment: "세트는 0개보다 적을 수 없습니다.", View: vc)
+            } else if checkedSetNum > 50 {
+                return viewModel.warningExerciseMessage(ment: "세트는 50개보다 많을 수 없습니다.", View: vc)
             }
+            let minute = 60 * Double(min)!
+            let seconds = Double(sec)!
+            let time = minute + seconds // 초
+            if time <= 0 {
+                return viewModel.warningExerciseMessage(ment: "시간은 0초보다 적을 수 없습니다.", View: vc)
+            }
+            saveEx(setNum: checkedSetNum, exTime: time)
             saveBtn.isEnabled = false
             // prevent modalView dismiss
             self.isModalInPresentation = true
             backgroundView.isHidden = false
             indicator.startAnimating()
-            
-            let minute = 60 * Double(min)!
-            let seconds = Double(sec)!
-            let time = minute + seconds // 초
-            saveEx(setNum: checkedSetNum, exTime: time)
         }
     }
     
@@ -153,7 +142,7 @@ class savePlankViewController: UIViewController {
 
 extension savePlankViewController {
     private func showAlert() {
-        let alert = UIAlertController(title:"저장 실패", message: "잠시 후 다시 시도해 주세요.", preferredStyle: .alert)
+        let alert = UIAlertController(title:"운동 저장 실패", message: "잠시 후 다시 시도해 주세요.", preferredStyle: .alert)
         let ok = UIAlertAction(title: "확인", style: .default, handler: { _ in
             self.dismiss(animated: true)
         })
@@ -172,16 +161,16 @@ extension savePlankViewController {
     
     private func saveEx(setNum: Int16, exTime: Double) {
         exInfo = anaerobicExerciseInfo(exercise: exerciseLabel.text ?? "운동 없음", table_Name: tableName, date: ExerciseViewController.pickDate, set: setNum, weight: 0, count: 0, exTime: exTime, saveTime: Int64(TimeStamp.getCurrentTimestamp()))
-        SendAnaerobicEx.sendSaveEx(info: exInfo, subject: serverState)
+        configServer.sendSaveEx(info: exInfo, subject: serverState)
     }
 }
 
 extension savePlankViewController: UIPickerViewDataSource, UIPickerViewDelegate {
     func pickerView(_ pickerView: UIPickerView, widthForComponent component: Int) -> CGFloat {
         if component == 0 {
-            return CGFloat(100)
+            return CGFloat(90)
         } else {
-            return CGFloat(100)
+            return CGFloat(90)
         }
     }
 
@@ -198,6 +187,7 @@ extension savePlankViewController: UIPickerViewDataSource, UIPickerViewDelegate 
     }
 
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        self.view.endEditing(true)
         if component == 0 {
             min = minList[row]
         } else {

@@ -10,6 +10,7 @@ import Alamofire
 import Combine
 import FirebaseAuth
 import FirebaseFirestore
+import SafariServices
 
 class RegisterAccountViewController: UIViewController {
     
@@ -19,34 +20,32 @@ class RegisterAccountViewController: UIViewController {
     @IBOutlet weak var emailField: UITextField!
     @IBOutlet weak var emailCheck: UIButton!
     @IBOutlet weak var emailState: UILabel!
+    @IBOutlet weak var ageCheckBtn: UIButton!
+    @IBOutlet weak var agreeCheckBtn: UIButton!
+    @IBOutlet weak var consent: UIButton!
     @IBOutlet weak var backgroundView: UIView!
     @IBOutlet weak var indicator: UIActivityIndicatorView!
     
-    static let emailAuth = PassthroughSubject<String, Never>()
     let loginSubject = PassthroughSubject<String, Never>()
     let nickNameCheckState = PassthroughSubject<Bool, Never>()
     let firebase_info = PassthroughSubject<Bool, Never>()
     let saveUserInfo = PassthroughSubject<Bool, Never>()
     let final = PassthroughSubject<Bool, Never>()
     let final_returnUser = PassthroughSubject<Bool, Never>()
-    var cancel: Cancellable?
     var subscriptions = Set<AnyCancellable>()
-    
     let viewModel = AuthenticationModel()
     var infomation: userInfo!
+    var center: NotificationCenter!
     var nickName: String!
     var email: String!
-    
+    var ageCheck: Bool = false
+    var agree: Bool = false
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
         configure()
         bind()
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        cancel?.cancel()
-        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
     }
     
     private func bind() {
@@ -62,12 +61,6 @@ class RegisterAccountViewController: UIViewController {
             }
         }.store(in: &subscriptions)
         
-        let subject = RegisterAccountViewController.emailAuth.receive(on: RunLoop.main).sink { link in
-            guard self.email != nil else { return }
-            self.loginSubject.send(link)
-        }
-        cancel = subject
-        
         loginSubject.receive(on: RunLoop.main).sink { link in
             self.backgroundView.isHidden = false
             self.indicator.startAnimating()
@@ -77,6 +70,7 @@ class RegisterAccountViewController: UIViewController {
                     configFirebase.errorReport(type: "RegisterAccountVC.bind", descriptions: error.localizedDescription)
                     self.indicator.stopAnimating()
                     self.showAlert(title: "이메일 인증 실패", description: "이메일 인증에 실패하였습니다. 잠시 후 다시 시도해 주세요.", type: "fail")
+                    return
                 } else {
                     guard let result = result else {
                         configFirebase.errorReport(type: "RegisterAccountVC.bind", descriptions: "result == nil")
@@ -93,6 +87,7 @@ class RegisterAccountViewController: UIViewController {
                             configFirebase.errorReport(type: "LoginVC.bind", descriptions: error.localizedDescription)
                             self.indicator.stopAnimating()
                             self.showAlert(title: "회원가입 실패", description: "잠시 후 다시 회원가입해 주세요.", type: "fail")
+                            return
                         } else {
                             guard let snapshot = snapshot else {
                                 configFirebase.errorReport(type: "LoginVC.bind", descriptions: "snapshot == nil")
@@ -183,8 +178,7 @@ class RegisterAccountViewController: UIViewController {
     
     @IBAction func nickNameCheck(_ sender: UIButton) {
         guard let nickNameStr = nickNameField.text else { return }
-        // 키보드 내리기
-        view.endEditing(true)
+        view.endEditing(true) // 키보드 내리기
         if SlangFilter().nickNameFilter(nickName: nickNameStr) {
             self.nickName = nickNameStr
             let parameters: Parameters = [
@@ -212,13 +206,18 @@ class RegisterAccountViewController: UIViewController {
     }
     
     @IBAction func sendEmail(_ sender: UIButton) {
+        view.endEditing(true) // 키보드 내리기
+        if ageCheck != true || agree != true {
+            showAlert(title: "동의 항목을 체크해 주세요", type: "check")
+            return
+        }
         guard let email = emailField.text else { return }
         emailCheck.layer.isHidden = true
-        // 키보드 내리기
-        view.endEditing(true)
         // 이메일 검사
         let result = isValidEmail(email: email)
         if result {
+            ageCheckBtn.isEnabled = false
+            agreeCheckBtn.isEnabled = false
             let actionCodeSettings = ActionCodeSettings()
             actionCodeSettings.url = URL(string: Store.shared.firebaseURL + "\(email)")
             actionCodeSettings.handleCodeInApp = true
@@ -241,11 +240,44 @@ class RegisterAccountViewController: UIViewController {
                     self.emailState.text = "인증 메일이 발송되었습니다. 본인 인증을 완료해 주세요."
                     self.emailState.textColor = .systemPink
                     self.nickNameField.isEnabled = false
+                    // Notification 생성
+                    self.center = NotificationCenter.default
+                    self.center.addObserver(self, selector: #selector(self.Register), name: NSNotification.Name("register"), object: nil)
                 }
             }
         } else {
             showAlert(title: "인증 메일 발송 실패", description: "올바른 이메일 형식이 아닙니다.", type: "email")
         }
+    }
+    
+    @IBAction func checkBox1(_ sender: UIButton) {
+        if sender.isSelected {
+            sender.isSelected = false
+            sender.tintColor = .lightGray
+            ageCheck = false
+        } else {
+            sender.isSelected = true
+            sender.tintColor = .systemPink
+            ageCheck = true
+        }
+    }
+    
+    @IBAction func checkBox2(_ sender: UIButton) {
+        if sender.isSelected {
+            sender.isSelected = false
+            sender.tintColor = .lightGray
+            agree = false
+        } else {
+            sender.isSelected = true
+            sender.tintColor = .systemPink
+            agree = true
+        }
+    }
+    
+    @IBAction func 개인정보동의서(_ sender: UIButton) {
+        let url = URL(string: "https://plip.kr/pcc/7f8b391c-e3e7-4847-8218-4ec213087f4c/consent/4.html")
+        let vc = SFSafariViewController(url: url!)
+        present(vc, animated: true)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -261,21 +293,28 @@ extension RegisterAccountViewController {
         return emailPredicate.evaluate(with: email)
     }
     
-    private func showAlert(title: String, description: String, type: String) {
+    private func showAlert(title: String, description: String? = nil, type: String) {
         let alert = UIAlertController(title: title, message: description, preferredStyle: .alert)
         let ok = UIAlertAction(title: "확인", style: .default) { _ in
-            if type == "email" { return }
-            else if type == "fail" {
+            switch type {
+            case "email", "check": return
+                
+            case "fail":
+                self.center.removeObserver(self)
                 self.navigationController?.popViewController(animated: true)
                 return
-            } else if type == "auth" {
+                
+            case "auth":
+                self.center.removeObserver(self)
                 self.navigationController?.popToRootViewController(animated: true)
                 return
-            } else {
-                // Firebase에서 사진이 언제 저장 완료될지 모르기 때문에 1초 후 실행
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                
+            default:
+                // Firebase에서 사진이 언제 저장 완료될지 모르기 때문에 3초 후 실행
+                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                     DiaryViewController.reloadDiary.send(true)
                 }
+                self.center.removeObserver(self)
                 self.navigationController?.popToRootViewController(animated: true)
             }
         }
@@ -294,7 +333,21 @@ extension RegisterAccountViewController {
         emailCheck.layer.isHidden = true
         backgroundView.isHidden = true
         backgroundView.backgroundColor = .black.withAlphaComponent(0.6)
-        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+        
+        // 뷰 전체 높이 길이
+        let screenHeight = UIScreen.main.bounds.size.height
+        if screenHeight == 568 { // 4 inch
+            setKeyboardObserver()
+        }
+    }
+    
+    @objc func Register(notification: NSNotification) {
+        guard self.email != nil else { return }
+        guard let link = notification.userInfo?["link"] as? String else {
+            showAlert(title: "이메일 인증 실패", description: "이메일 인증에 실패하였습니다. 잠시 후 다시 시도해 주세요.", type: "fail")
+            return
+        }
+        loginSubject.send(link)
     }
     
     private func buttonON() {

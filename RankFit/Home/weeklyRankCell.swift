@@ -9,8 +9,7 @@ import UIKit
 
 class weeklyRankCell: UICollectionViewCell {
     
-    @IBOutlet weak var rankLabel: UILabel!
-    @IBOutlet weak var exerciseLabel: UILabel!
+    @IBOutlet weak var popularity: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -19,7 +18,10 @@ class weeklyRankCell: UICollectionViewCell {
     }
     
     func configure(info: WeeklyRank) {
-        rankLabel.text = info.rank + "위"
-        exerciseLabel.text = info.exercise
+        if info.exercise == "" {
+            popularity.text = info.rank
+        } else {
+            popularity.text = info.rank + " 순위 - " + info.exercise
+        }
     }
 }

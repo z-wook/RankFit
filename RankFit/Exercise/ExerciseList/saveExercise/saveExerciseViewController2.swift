@@ -22,16 +22,8 @@ class saveExerciseViewController2: UIViewController {
     var viewModel: saveExerciseViewModel!
     var exInfo: aerobicExerciseInfo!
     let serverState = PassthroughSubject<Bool, Never>()
-    let firebaseState = PassthroughSubject<Bool, Never>()
     var subscriptions = Set<AnyCancellable>()
     var tableName: String!
-    
-    // getTopViewController
-    let keyWindow = UIApplication.shared.connectedScenes.filter({ $0.activationState == .foregroundActive })
-        .map({ $0 as? UIWindowScene })
-        .compactMap({ $0 })
-        .first?.windows
-        .filter({ $0.isKeyWindow }).first
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,13 +33,17 @@ class saveExerciseViewController2: UIViewController {
     }
     
     private func configure() {
+        exerciseLabel.tintColor = UIColor(named: "link_cyan")
         backgroundView.backgroundColor = .black.withAlphaComponent(0.6)
         backgroundView.isHidden = true
-        saveBtn.layer.cornerRadius = 30
+        saveBtn.layer.cornerRadius = 20
         distanceField.delegate = self
         hourField.delegate = self
         minuteField.delegate = self
         distanceField.tag = 1
+        distanceField.backgroundColor = .systemYellow.withAlphaComponent(0.8)
+        hourField.backgroundColor = .systemYellow.withAlphaComponent(0.8)
+        minuteField.backgroundColor = .systemYellow.withAlphaComponent(0.8)
     }
     
     func bind() {
@@ -59,41 +55,28 @@ class saveExerciseViewController2: UIViewController {
             }.store(in: &subscriptions)
         
         serverState.receive(on: RunLoop.main).sink { result in
-            if result == true {
-                print("서버 운동 저장 성공")
-                SendAerobicEx.firebaseSave(
-                    exName: self.exInfo.exercise,
-                    time: self.exInfo.saveTime,
-                    uuid: "\(self.exInfo.id)",
-                    date: self.exInfo.date,
-                    subject: self.firebaseState)
-            } else {
-                print("서버 운동 저장 실패")
-                self.showAlert()
-            }
-        }.store(in: &subscriptions)
-        
-        firebaseState.receive(on: RunLoop.main).sink { result in
             self.indicator.stopAnimating()
             if result == true {
-                print("Firebase 저장 성공")
-                if let vc = self.keyWindow?.visibleViewController {
+                print("서버 운동 저장 성공")
+                if let vc = self.view.window?.visibleViewController() {
                     let save = ExerciseCoreData.saveCoreData(info: self.exInfo)
                     if save == true {
                         print("CoreData 저장 완료")
+                        configFirebase.saveEx(exName: self.exInfo.exercise, time: self.exInfo.saveTime, uuid: self.exInfo.id.uuidString, date: self.exInfo.date)
                         self.viewModel.saveSuccessExMessage(View: vc)
                     } else {
-                        print("운동 저장 실패")
+                        print("CoreData 저장 실패")
+                        configServer.sendDeleteEx(info: self.exInfo)
                         self.viewModel.saveFailExMessage(View: vc)
                     }
                 } else {
                     print("keyWindow error")
+                    configServer.sendDeleteEx(info: self.exInfo)
                     configFirebase.errorReport(type: "saveExerciseVC1.bind", descriptions: "keyWindow error")
-                    self.dismiss(animated: true)
+                    self.showAlert()
                 }
             } else {
-                print("Firebase 저장 실패")
-                SendAerobicEx.sendDeleteEx(info: self.exInfo, subject: nil)
+                print("서버 운동 저장 실패")
                 self.showAlert()
             }
         }.store(in: &subscriptions)
@@ -109,43 +92,34 @@ class saveExerciseViewController2: UIViewController {
             loginAlert()
             return
         }
-        if let vc = keyWindow?.visibleViewController {
+        if let vc = self.view.window?.visibleViewController() {
             guard let field1 = distanceField.text, !field1.isEmpty else {
-                return viewModel.warningExerciseMessage(ment: "거리를 입력하세요.", View: vc)
+                return viewModel.warningExerciseMessage(ment: "거리를 입력해 주세요.", View: vc)
             }
             let checkedDistanceNum = viewModel.stringToDouble(input: field1)
             if checkedDistanceNum == -1 {
                 return viewModel.warningExerciseMessage(ment: "거리를 정확히 입력해 주세요.", View: vc)
-            }
-            if checkedDistanceNum <= 0 {
-                return viewModel.warningExerciseMessage(ment: "거리는 0km 보다 적을 수 없습니다.", View: vc)
-            }
-            if checkedDistanceNum > 100 {
-                return viewModel.warningExerciseMessage(ment: "거리는 100km 보다 많을 수 없습니다.", View: vc)
+            } else if checkedDistanceNum <= 0 {
+                return viewModel.warningExerciseMessage(ment: "거리는 0km보다 적을 수 없습니다.", View: vc)
+            } else if checkedDistanceNum > 100 {
+                return viewModel.warningExerciseMessage(ment: "거리는 100km보다 많을 수 없습니다.", View: vc)
             }
             
             guard let field2 = hourField.text, !field2.isEmpty else {
                 guard let field3 = minuteField.text, !field3.isEmpty else {
                     // 시간, 분 둘다 비어있을 때
-                    return viewModel.warningExerciseMessage(ment: "시간과 분 중에 하나를 입력하세요", View: vc)
+                    return viewModel.warningExerciseMessage(ment: "시간과 분 중에 하나를 입력해 주세요.", View: vc)
                 }
                 // 시간 비어있지만 분이 있는 경우
                 let checkedMinuteNum = viewModel.stringToInt(input: field3)
                 if checkedMinuteNum == -1 {
-                    return viewModel.warningExerciseMessage(ment: "분을 정확히 입력해 주세요.", View: vc)
-                }
-                if checkedMinuteNum <= 0 {
+                    return viewModel.warningExerciseMessage(ment: "(분)을 정확히 입력해 주세요.", View: vc)
+                } else if checkedMinuteNum <= 0 {
                     return viewModel.warningExerciseMessage(ment: "올바른 시간(분)을 입력해 주세요.", View: vc)
-                }
-                if checkedMinuteNum >= 60 {
-                    return viewModel.warningExerciseMessage(ment: "시간(분)은 60분 보다 많을 수 없습니다.", View: vc)
+                } else if checkedMinuteNum >= 60 {
+                    return viewModel.warningExerciseMessage(ment: "시간(분)은 60분보다 많을 수 없습니다.", View: vc)
                 }
                 // 여기서 시간 없고 분만 있는 경우 -> 분으로 저장
-                saveBtn.isEnabled = false
-                // prevent modalView dismiss
-                self.isModalInPresentation = true
-                backgroundView.isHidden = false
-                indicator.startAnimating()
                 saveEx(distanceNum: checkedDistanceNum, timeNum: checkedMinuteNum)
                 return
             }
@@ -153,12 +127,10 @@ class saveExerciseViewController2: UIViewController {
             let checkedHourlNum = viewModel.stringToInt(input: field2)
             if checkedHourlNum == -1 {
                 return viewModel.warningExerciseMessage(ment: "시간을 정확히 입력해 주세요.", View: vc)
-            }
-            if checkedHourlNum < 0 {
+            } else if checkedHourlNum < 0 {
                 return viewModel.warningExerciseMessage(ment: "올바른 시간을 입력해 주세요.", View: vc)
-            }
-            if checkedHourlNum >= 24 {
-                return viewModel.warningExerciseMessage(ment: "시간은 24시간 보다 많을 수 없습니다.", View: vc)
+            } else if checkedHourlNum >= 24 {
+                return viewModel.warningExerciseMessage(ment: "시간은 24시간보다 많을 수 없습니다.", View: vc)
             }
             
             // 시간 있을 때, 분 확인 / 둘다 비어있는 경우는 위에서 확인함
@@ -167,11 +139,6 @@ class saveExerciseViewController2: UIViewController {
                 if checkedHourlNum == 0 {
                     return viewModel.warningExerciseMessage(ment: "올바른 시간을 입력해 주세요.", View: vc)
                 }
-                saveBtn.isEnabled = false
-                // prevent modalView dismiss
-                self.isModalInPresentation = true
-                backgroundView.isHidden = false
-                indicator.startAnimating()
                 let resultTime = calcTime(hour: checkedHourlNum)
                 saveEx(distanceNum: checkedDistanceNum, timeNum: resultTime)
                 return
@@ -180,35 +147,18 @@ class saveExerciseViewController2: UIViewController {
             // 시간, 분 모두 있을 때
             let checkMinuteNum = viewModel.stringToInt(input: field3)
             if checkMinuteNum == -1 {
-                return viewModel.warningExerciseMessage(ment: "분을 정확히 입력해 주세요.", View: vc)
-            }
-            // 시간, 분 둘다 0인 경우 먼저 확인
-            if checkedHourlNum == 0 && checkMinuteNum == 0 {
+                return viewModel.warningExerciseMessage(ment: "(분)을 정확히 입력해 주세요.", View: vc)
+            } else if checkedHourlNum == 0 && checkMinuteNum == 0 { // 시간, 분 둘다 0인 경우 먼저 확인
                 return viewModel.warningExerciseMessage(ment: "올바른 시간을 입력해 주세요.", View: vc)
-            }
-            // 시간, 분 둘다 있지만 분이 0인 경우 ex) 1시간 0분
-            if checkMinuteNum == 0 {
-                saveBtn.isEnabled = false
-                // prevent modalView dismiss
-                self.isModalInPresentation = true
-                backgroundView.isHidden = false
-                indicator.startAnimating()
+            } else if checkMinuteNum == 0 { // 시간, 분 둘다 있지만 분이 0인 경우 ex) 1시간 0분
                 let resultTime = calcTime(hour: checkedHourlNum)
                 saveEx(distanceNum: checkedDistanceNum, timeNum: resultTime)
                 return viewModel.saveSuccessExMessage(View: vc)
-            }
-            if checkMinuteNum < 0 {
+            } else if checkMinuteNum < 0 {
                 return viewModel.warningExerciseMessage(ment: "올바른 시간(분)을 입력해 주세요.", View: vc)
+            } else if checkMinuteNum >= 60 {
+                return viewModel.warningExerciseMessage(ment: "시간(분)은 60분보다 많을 수 없습니다.", View: vc)
             }
-            if checkMinuteNum >= 60 {
-                return viewModel.warningExerciseMessage(ment: "시간(분)은 60분 보다 많을 수 없습니다.", View: vc)
-            }
-            saveBtn.isEnabled = false
-            // prevent modalView dismiss
-            self.isModalInPresentation = true
-            backgroundView.isHidden = false
-            indicator.startAnimating()
-            
             let resultTime = calcTime(hour: checkedHourlNum, min: checkMinuteNum)
             saveEx(distanceNum: checkedDistanceNum, timeNum: resultTime)
         }
@@ -221,7 +171,7 @@ class saveExerciseViewController2: UIViewController {
 
 extension saveExerciseViewController2 {
     private func showAlert() {
-        let alert = UIAlertController(title:"저장 실패", message: "잠시 후 다시 시도해 주세요.", preferredStyle: .alert)
+        let alert = UIAlertController(title:"운동 저장 실패", message: "잠시 후 다시 시도해 주세요.", preferredStyle: .alert)
         let ok = UIAlertAction(title: "확인", style: .default, handler: { _ in
             self.dismiss(animated: true)
         })
@@ -245,8 +195,13 @@ extension saveExerciseViewController2 {
     }
     
     private func saveEx(distanceNum: Double, timeNum: Int16) {
+        saveBtn.isEnabled = false
+        // prevent modalView dismiss
+        self.isModalInPresentation = true
+        backgroundView.isHidden = false
+        indicator.startAnimating()
         exInfo = aerobicExerciseInfo(exercise: exerciseLabel.text ?? "운동 없음", table_Name: tableName, date: ExerciseViewController.pickDate, time: timeNum, distance: distanceNum, saveTime: Int64(TimeStamp.getCurrentTimestamp()))
-        SendAerobicEx.sendSaveEx(info: exInfo, subject: serverState)
+        configServer.sendSaveEx(info: exInfo, subject: serverState)
     }
 }
 

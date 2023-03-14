@@ -9,13 +9,12 @@ import UIKit
 import CoreLocation
 import FirebaseAuth
 import Combine
-import FirebaseMessaging
-import NotificationCenter
+//import NotificationCenter
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-    
+
     // FirebaseAuth
     func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
         guard let webpageURL = userActivity.webpageURL else { return }
@@ -25,21 +24,25 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             if checkRegister.shared.isNewUser() {
                 if UserDefaults.standard.bool(forKey: "login") {
                     print("로그인")
-                    LoginViewController.emailAuth.send(link)
+                    let notiName = NSNotification.Name("login")
+                    NotificationCenter.default.post(name: notiName, object: nil, userInfo: ["link": link])
                     return
                 } else {
                     print("회원가입")
-                    RegisterAccountViewController.emailAuth.send(link)
+                    let notiName = NSNotification.Name("register")
+                    NotificationCenter.default.post(name: notiName, object: nil, userInfo: ["link": link])
                     return
                 }
             } else {
                 if UserDefaults.standard.bool(forKey: "revoke") {
                     print("탈퇴")
-                    RevokeViewController.emailAuth.send(link)
+                    let notiName = NSNotification.Name("revoke")
+                    NotificationCenter.default.post(name: notiName, object: nil, userInfo: ["link": link])
                     return
                 } else {
                     print("로그인")
-                    LoginViewController.emailAuth.send(link)
+                    let notiName = NSNotification.Name("login")
+                    NotificationCenter.default.post(name: notiName, object: nil, userInfo: ["link": link])
                     return
                 }
             }
@@ -50,6 +53,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
+        
+        let rawValue = UserDefaults.standard.integer(forKey: "Appearance")
+        window?.overrideUserInterfaceStyle = UIUserInterfaceStyle(rawValue: rawValue) ?? .unspecified
+        
         guard let _ = (scene as? UIWindowScene) else { return }
     }
 
@@ -75,6 +82,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to undo the changes made on entering the background.
         
 //        UIApplication.shared.applicationIconBadgeNumber = 0 // 알림 배지를 초기화
+
+        let notiName = NSNotification.Name("WillEnterForeground")
+        NotificationCenter.default.post(name: notiName, object: nil)
+        
     }
 
     func sceneDidEnterBackground(_ scene: UIScene) {
@@ -84,12 +95,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         // Save changes in the application's managed object context when the application transitions to the background.
         
-        
-//        (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
-//
-//        let locationManager = CLLocationManager()
-//        locationManager.allowsBackgroundLocationUpdates = true
-//        locationManager.requestAlwaysAuthorization()
-//        locationManager.startUpdatingLocation()
+        let notiName = NSNotification.Name("DidEnterBackground")
+        NotificationCenter.default.post(name: notiName, object: nil)
     }
 }

@@ -49,6 +49,7 @@ extension ExercisePlanCell {
         label2_num.text = "\(info.time)"
         label3.text = ""
         label3_num.text = ""
+        deleteBtn.isEnabled = true // 삭제 후 재사용 셀의 버튼을 초기화 시켜주기 위함
         
         Label2_Leading.constant = 35
         Label2_Trailing.constant = 35
@@ -77,6 +78,7 @@ extension ExercisePlanCell {
         label2_num.text = "\(info.count)"
         label3.text = "무게(kg)"
         label3_num.text = "\(info.weight)"
+        deleteBtn.isEnabled = true // 삭제 후 재사용 셀의 버튼을 초기화 시켜주기 위함
         
         Label2_Leading.constant = 40
         Label2_Trailing.constant = 40

@@ -22,10 +22,7 @@ class DetailPhotoViewController: UIViewController {
     let localState = PassthroughSubject<Bool, Never>()
     var reloadSubject: PassthroughSubject<Bool, Never>!
     var subscriptions = Set<AnyCancellable>()
-    
     var info: PhotoInfomation!
-    var image: UIImage!
-    var saveTime: Int!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -105,11 +102,11 @@ class DetailPhotoViewController: UIViewController {
     }
     
     private func configure() {
+        loadImage(info: info)
         backgroundView.backgroundColor = .black.withAlphaComponent(0.6)
         backgroundView.isHidden = true
         scrollView.delegate = self
-        imgView.image = image
-        let str = TimeStamp.convertTimeStampToDate(timestamp: saveTime)
+        let str = TimeStamp.convertTimeStampToDate(timestamp: Int(info.saveTime))
         let startIndex = str.index(str.startIndex, offsetBy: 0) // 시작 인덱스
         let middleIndex = str.index(str.startIndex, offsetBy: 10) // 중간 인덱스
         let endIndex = str.index(str.startIndex, offsetBy: 15) // 끝 인덱스
@@ -120,6 +117,14 @@ class DetailPhotoViewController: UIViewController {
         let timeStr = String(sliced_time)
         dateLabel.text = dateStr
         timeLabel.text = timeStr
+    }
+    
+    private func loadImage(info: PhotoInfomation) {
+        let image = configLocalStorage.loadImageFromDocumentDirectory(imageName: info.imageName)
+        guard let image = image else { return }
+        DispatchQueue.main.async {
+            self.imgView.image = image
+        }
     }
 }
 

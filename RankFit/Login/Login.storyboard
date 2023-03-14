@@ -18,12 +18,12 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="랭크핏을 이용하기 위해 로그인을 해주세요." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GyI-s6-IoM">
-                                <rect key="frame" x="20" y="147" width="350" height="71.666666666666686"/>
+                                <rect key="frame" x="20" y="97" width="350" height="71.666666666666686"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="30"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="이메일 입력" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="90s-Yb-EoG">
-                                <rect key="frame" x="20" y="283.66666666666669" width="200" height="34"/>
+                                <rect key="frame" x="20" y="233.66666666666666" width="200" height="33.999999999999972"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="200" id="SrG-g3-D2k"/>
                                 </constraints>
@@ -31,7 +31,7 @@
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" smartDashesType="no" smartInsertDeleteType="no" smartQuotesType="no" textContentType="email"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="35I-fO-nz3">
-                                <rect key="frame" x="240" y="285.66666666666669" width="69" height="30"/>
+                                <rect key="frame" x="240" y="235.66666666666666" width="69" height="29.999999999999972"/>
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" title="이메일 인증"/>
@@ -40,7 +40,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="※ 회원가입 시 사용한 이메일을 입력해 주세요." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k30-cH-EKI">
-                                <rect key="frame" x="20" y="327.66666666666669" width="350" height="18"/>
+                                <rect key="frame" x="20" y="277.66666666666669" width="350" height="18"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -68,7 +68,7 @@
                             <constraint firstItem="GyI-s6-IoM" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="20" id="5eD-Oj-sap"/>
                             <constraint firstItem="90s-Yb-EoG" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="20" id="E3j-Df-pjW"/>
                             <constraint firstItem="90s-Yb-EoG" firstAttribute="top" secondItem="GyI-s6-IoM" secondAttribute="bottom" constant="65" id="Ez7-VZ-Efg"/>
-                            <constraint firstItem="GyI-s6-IoM" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="100" id="IXX-yX-wtk"/>
+                            <constraint firstItem="GyI-s6-IoM" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="50" id="IXX-yX-wtk"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="mFZ-IT-sbv" secondAttribute="trailing" id="JdK-cc-NOn"/>
                             <constraint firstItem="mFZ-IT-sbv" firstAttribute="bottom" secondItem="5EZ-qb-Rvc" secondAttribute="bottom" id="QzQ-hh-cz1"/>
                             <constraint firstAttribute="top" secondItem="mFZ-IT-sbv" secondAttribute="top" id="Wp3-Fw-qEg"/>

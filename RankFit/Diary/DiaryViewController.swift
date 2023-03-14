@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 import FirebaseStorage
 import AVFoundation
 import Photos
@@ -17,7 +18,6 @@ class DiaryViewController: UIViewController {
     @IBOutlet weak var indicator: UIActivityIndicatorView!
     
     static var reloadDiary = PassthroughSubject<Bool, Never>()
-    let subject = PassthroughSubject<[UIImage], Never>()
     let imgNameState = PassthroughSubject<[String], Never>()
     let downloadState = PassthroughSubject<String, Never>()
     let saveCoreState = PassthroughSubject<Bool, Never>()
@@ -25,21 +25,18 @@ class DiaryViewController: UIViewController {
     var subscriptions = Set<AnyCancellable>()
     var dataSource: UICollectionViewDiffableDataSource<Section, Item>!
     
-//    let db = Firestore.firestore()
     let storage = Storage.storage()
     let picker = UIImagePickerController()
     
-    var photoList: [PhotoInfomation]! // CoreData에 저장된 사진 정보 리스트
-    var sortedPhotoList: [PhotoInfomation]! // 프로필을 제외한 사진 정보 리스트
-    var imageList: [UIImage]! // 최종 저장된 이미지 리스트
+    var photoList: [PhotoInfomation]! // CoreData에 저장된 사진 정보 리스트(프로필 포함)
+    var sortedPhotoList: [PhotoInfomation]! // 시간순으로 정렬한 사진 정보 리스트(프로필을 제외)
     var fireList: [String]! = [] // 파이어베이스에 저장된 사진 리스트
-    var selectedIndexPath: [IndexPath: UIImage] = [:]
+    var selectedIndexPath: [IndexPath: PhotoInfomation] = [:]
     
-    typealias Item = UIImage
+    typealias Item = PhotoInfomation
     enum Section {
         case main
     }
-    
     enum Mode {
         case view
         case select
@@ -80,12 +77,6 @@ class DiaryViewController: UIViewController {
             self.getImageInfo()
         }.store(in: &subscriptions)
         
-        subject.receive(on: RunLoop.main).sink { imageInfoList in
-            self.indicator.stopAnimating()
-            self.imageList = imageInfoList
-            self.applyItems(items: imageInfoList)
-        }.store(in: &subscriptions)
-        
         imgNameState.receive(on: RunLoop.main).sink { imgNameList in
             self.fireList = imgNameList
             // 서버에서 사진 다운 & 로컬에 사진 저장
@@ -116,21 +107,17 @@ class DiaryViewController: UIViewController {
                 }
                 else {
                     print("coreData에 저장 못함")
-                    configFirebase.errorReport(type: "DiaryVC.bind/downloadState", descriptions: "CoerData에 저장 못함")
-                    // doucument에서 file 삭제
+                    // Doucument에서 File 삭제
                     configLocalStorage.deleteImageFromDocumentDirectory(imageName: imgName)
                 }
             } else {
                 print("로컬에 저장 못함")
-                configFirebase.errorReport(type: "DiaryVC.bind/downloadState", descriptions: "Local에 저장 못함")
-                self.indicator.stopAnimating()
             }
         }.store(in: &subscriptions)
         
         saveCoreState.receive(on: RunLoop.main).sink { result in
             if result {
                 self.getImageInfo()
-                SettingViewController.reloadProfile.send(true)
             }
         }.store(in: &subscriptions)
         
@@ -144,7 +131,6 @@ class DiaryViewController: UIViewController {
     
     private func getImageInfo() {
         configLocalStorage.deleteImageFromDocumentDirectory(imageName: ".Trash")
-        var ImageList: [[String: Any]] = []
         photoList = PhotoCoreData.fetchCoreData()
         
         // [파일이 저장되어 있는 경로 확인]
@@ -157,49 +143,32 @@ class DiaryViewController: UIViewController {
             fileList = try FileManager.default.contentsOfDirectory(atPath: fileSavePath.path)
         }
         catch {
-            print("Error: " + error.localizedDescription)
+            print("error: \(error.localizedDescription)")
             configFirebase.errorReport(type: "DiaryVC.getImageInfo", descriptions: error.localizedDescription)
             indicator.stopAnimating()
             return
         }
         guard let fileList = fileList else {
-            print("error: fileList 없음")
-            configFirebase.errorReport(type: "DiaryVC.getImageInfo", descriptions: "fileList = nil")
+            print("error: fileList == nil")
+            configFirebase.errorReport(type: "DiaryVC.getImageInfo", descriptions: "fileList == nil")
             indicator.stopAnimating()
             return
         }
-        print("fileList: \(fileList)")
-        
         if photoList.count == fileList.count {
-            for photoInfo in photoList {
-                let time = photoInfo.saveTime
-                let fileName = photoInfo.imageName
-                if fileName == "profileImage.jpeg" { continue } // 프로필 사진은 눈바디에서 제외시키기
-                let image = configLocalStorage.loadImageFromDocumentDirectory(imageName: fileName)
-                guard let image = image else {
-                    print("error: 없는 이미지, 이미지 파일명 변경 오류")
-                    configFirebase.errorReport(type: "DiaryVC.getImageInfo", descriptions: "image = nil, 이미지 파일명 변경 오류")
-                    continue
-                }
-                let info: [String: Any] = ["saveTime": time, "image": image]
-                ImageList.append(info)
-            }
-            // 사진 순서 정렬
-            let sortedList = ImageList.sorted { prev, next in
-                let prevTime = prev["saveTime"] as! Int64
-                let nextTime = next["saveTime"] as! Int64
-                return prevTime > nextTime
-            }
-            let sortedImage = sortedList.map { info in
-                let image = info["image"] as! UIImage
-                return image
-            }
-            subject.send(sortedImage)
+            indicator.stopAnimating()
+            let list = getSortedList(imgList: photoList)
+            sortedPhotoList = list
+            applyItems(items: list)
+            return
         } else { // CoreData에 저장된 개수와 다른 상황 -> 파일 손상으로 간주
-            let login = UserDefaults.standard.bool(forKey: "login")
-            if login != true {
+            let user = Auth.auth().currentUser
+            guard user != nil else { // 로그아웃 상태
+                let list = getSortedList(imgList: photoList)
+                sortedPhotoList = list
+                applyItems(items: list)
                 return
             }
+            indicator.startAnimating()
             // CoreData에 저장된 정보 모두 삭제
             for photo in photoList {
                 let delete = PhotoCoreData.deleteCoreData(imageName: photo.imageName)
@@ -219,6 +188,16 @@ class DiaryViewController: UIViewController {
         }
     }
     
+    private func getSortedList(imgList: [PhotoInfomation]) -> [PhotoInfomation] {
+        let filter = imgList.filter { info in
+            info.imageName != "profileImage.jpeg"
+        }
+        let sortedList = filter.sorted { prev, next in
+            prev.saveTime > next.saveTime
+        }
+        return sortedList
+    }
+    
     private func appearBarBtn() {
         let saveConfig = CustomBarItemConfiguration(
             title: "저장",
@@ -229,7 +208,8 @@ class DiaryViewController: UIViewController {
                     return
                 }
                 for (_, value) in self.selectedIndexPath {
-                    UIImageWriteToSavedPhotosAlbum(value, self, #selector(self.image(_:didFinishSavingWithError:contextInfo:)), nil)
+                    guard let image = configLocalStorage.loadImageFromDocumentDirectory(imageName: value.imageName) else { return }
+                    UIImageWriteToSavedPhotosAlbum(image, self, #selector(self.image(_:didFinishSavingWithError:contextInfo:)), nil)
                 }
                 self.mMode = self.mMode == .view ? .select : .view
                 self.collectionView.allowsMultipleSelection = false
@@ -259,7 +239,7 @@ extension DiaryViewController {
     private func configCollectionView() {
         dataSource = UICollectionViewDiffableDataSource<Section, Item>(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MyDiaryCell", for: indexPath) as? MyDiaryCell else { return nil }
-            cell.config(Image: itemIdentifier)
+            cell.configure(info: itemIdentifier)
             return cell
         })
         collectionView.collectionViewLayout = layout()
@@ -268,6 +248,7 @@ extension DiaryViewController {
         snapshot.appendSections([.main])
         snapshot.appendItems([], toSection: .main)
         dataSource.apply(snapshot)
+        
         collectionView.delegate = self
     }
     
@@ -277,16 +258,15 @@ extension DiaryViewController {
         
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalWidth(0.33))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-        group.interItemSpacing = .fixed(1)
+        group.interItemSpacing = .flexible(1.5)
         
         let section = NSCollectionLayoutSection(group: group)
-//        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10)
-        section.interGroupSpacing = 1
+        section.interGroupSpacing = 2
         let layout = UICollectionViewCompositionalLayout(section: section)
         return layout
     }
     
-    private func applyItems(items: [UIImage]) {
+    private func applyItems(items: [PhotoInfomation]) {
         var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
         snapshot.appendSections([.main])
         snapshot.appendItems(items, toSection: .main)
@@ -319,27 +299,18 @@ extension DiaryViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let vc = storyboard?.instantiateViewController(withIdentifier: "DetailPhotoViewController") as! DetailPhotoViewController
-        guard let imageList = imageList else { return }
-        guard let photoList = photoList else { return }
-        let sortedList = photoList.filter { info in
-            if info.imageName != "profileImage.jpeg" { return true }
-            else { return false }
-        }
+        guard let sortedPhotoList = sortedPhotoList else { return }
         switch mMode {
         case .view:
             collectionView.deselectItem(at: indexPath, animated: true)
-            let image = imageList[indexPath.item]
-            let savetime = sortedList[indexPath.item].saveTime
+            vc.info = sortedPhotoList[indexPath.item]
             vc.reloadSubject = deleteState
-            vc.info = sortedList[indexPath.item]
-            vc.image = image
-            vc.saveTime = Int(savetime)
             vc.modalTransitionStyle = .crossDissolve
             present(vc, animated: true)
             return
             
         case .select:
-            selectedIndexPath[indexPath] = imageList[indexPath.item]
+            selectedIndexPath[indexPath] = sortedPhotoList[indexPath.item]
             return
         }
     }
@@ -355,6 +326,7 @@ extension DiaryViewController {
     private func configureNavigationBar() {
         let cameraConfig = CustomBarItemConfiguration(
             image: UIImage(systemName: "camera"),
+            color: UIColor(named: "link_cyan"),
             handler: {
                 let alert = UIAlertController(title: "사진 가져오기", message: nil, preferredStyle: .actionSheet)
                 let library = UIAlertAction(title: "사진앨범", style: .default) { (action) in self.openLibrary()
@@ -373,6 +345,7 @@ extension DiaryViewController {
         
         let moreConfig = CustomBarItemConfiguration(
             image: UIImage(systemName: "ellipsis"),
+            color: UIColor(named: "link_cyan"),
             handler: {
                 if self.mMode == .select {
                     return
@@ -382,14 +355,12 @@ extension DiaryViewController {
                     self.mMode = self.mMode == .view ? .select : .view
                 }
                 let saveAll = UIAlertAction(title: "모두 저장", style: .default) { (action) in
-                    for image in self.imageList {
+                    for imageInfo in self.sortedPhotoList {
+                        guard let image = configLocalStorage.loadImageFromDocumentDirectory(imageName: imageInfo.imageName) else { return }
                         UIImageWriteToSavedPhotosAlbum(image, self, #selector(self.image(_:didFinishSavingWithError:contextInfo:)), nil)
                     }
                     self.savePhoto(title: "사진 저장 완료", description: "앨범에 사진을 저장했습니다.")
                 }
-//                let delete = UIAlertAction(title: "삭제", style: .destructive) { (action) in
-//                    print("삭제")
-//                }
                 let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
                 alert.addAction(save)
                 alert.addAction(saveAll)
@@ -403,7 +374,7 @@ extension DiaryViewController {
         let backImage = UIImage(systemName: "arrow.backward")
         navigationController?.navigationBar.backIndicatorImage = backImage
         navigationController?.navigationBar.backIndicatorTransitionMaskImage = backImage
-        navigationController?.navigationBar.tintColor = .systemBlue
+        navigationController?.navigationBar.tintColor = UIColor(named: "naviItme")
         navigationItem.backButtonDisplayMode = .minimal
         navigationItem.largeTitleDisplayMode = .always
         navigationItem.title = "눈바디"

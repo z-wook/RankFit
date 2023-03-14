@@ -108,20 +108,8 @@ extension UserDetailViewController: FSCalendarDelegate, FSCalendarDataSource, FS
         calendarView.scope = .week
         calendarView.firstWeekday = 2 // 월요일 부터 시작
         calendarView.scrollDirection = .horizontal
-
-        // 헤더 폰트 설정
-//        calendarView.appearance.headerTitleFont = UIFont(name: "NotoSansKR-Medium", size: 40)
-//
-//        // Weekday 폰트 설정
-//        calendarView.appearance.weekdayFont = UIFont(name: "NotoSansKR-Regular", size: 40)
-//
-//        // 각각의 일(날짜) 폰트 설정
-//        calendarView.appearance.titleFont = UIFont(name: "NotoSansKR-Regular", size: 40)
-
         // 캘린더의 cornerRadius 지정
         calendarView.layer.cornerRadius = 20
-
-
         let todayDate = calendarView.today!
         let defaultDate = dateFormatter.string(from: todayDate)
         OptionDetailViewController.pickDate = defaultDate

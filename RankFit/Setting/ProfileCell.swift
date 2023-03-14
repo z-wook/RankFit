@@ -25,6 +25,7 @@ class ProfileCell: UITableViewCell {
     func configCell() {
         guard let nick_name = saveUserData.getKeychainStringValue(forKey: .NickName) else {
             nickName.text = "로그인이 필요합니다."
+            nickName.adjustsFontSizeToFitWidth = true
             profileImage.image = UIImage(systemName: "person.fill")
             return
         }

@@ -21,11 +21,8 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var pageLabel: UILabel!
     @IBOutlet weak var barChartView: BarChartView!
     
-    static let SuspendNotification = PassthroughSubject<Bool, Never>()
-    let rankSubject = PassthroughSubject<[WeeklyRank], Never>()
-    let getNotiPermission = PassthroughSubject<Bool, Never>()
+    let rankSubject = CurrentValueSubject<[WeeklyRank]?, Never>(nil)
     var subscriptions = Set<AnyCancellable>()
-    var cancel: Cancellable?
     
     let db = Firestore.firestore()
     let storage = Storage.storage()
@@ -33,7 +30,7 @@ class HomeViewController: UIViewController {
     let weekRankVM = WeeklyRankViewModel()
     let days: [String] = ["월", "화", "수", "목", "금", "토", "일"]
     var prev_percents: [Double] = []
-    var rankList: [WeeklyRank]?
+    var timer: Timer?
     var nowPage: Int = 0 // 현재페이지 체크 변수 (자동 스크롤할 때 필요)
     
     var datasource: UICollectionViewDiffableDataSource<Section, Item>!
@@ -45,18 +42,24 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        weekRankVM.getWeeklyRank(subject: rankSubject)
-        configure()
+        updateNavigationItem()
         configCollectionView()
+        configure()
         bind()
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        weekRankVM.getWeeklyRank(subject: rankSubject)
+        
         let current_percent = viewModel.getPercentList()
         // 이전이랑 퍼센트가 같다면 차트 업로드 안함
         if prev_percents == current_percent { return }
         prev_percents = current_percent
         setChart(dataPoints: days, values: current_percent)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        timer?.invalidate()
     }
     
     override func viewDidLayoutSubviews() {
@@ -87,57 +90,49 @@ class HomeViewController: UIViewController {
         }
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        cancel?.cancel()
+    @IBAction func QuickExercise(_ sender: UIButton) {
+        let user = Auth.auth().currentUser
+        guard user != nil else {
+            loginAlert(type: "빠른 운동")
+            return
+        }
+        let sb = UIStoryboard(name: "QuickExercise", bundle: nil)
+        let vc = sb.instantiateViewController(withIdentifier: "QuickAerobicViewController") as! QuickAerobicViewController
+        self.navigationController?.pushViewController(vc, animated: true)
     }
-    
+}
+
+extension HomeViewController {
     private func configure() {
-//        backgroundView.backgroundColor = UIColor.link.withAlphaComponent(0.6)
-        backgroundView.backgroundColor = UIColor.systemTeal.withAlphaComponent(0.6)
+        backgroundView.backgroundColor = UIColor.cyan.withAlphaComponent(0.6)
         backgroundView.layer.cornerRadius = 20
         pageLabel.backgroundColor = UIColor.black.withAlphaComponent(0.6)
         pageLabel.clipsToBounds = true
         pageLabel.layer.cornerRadius = 15
     }
     
+    private func updateNavigationItem() {
+        let backImage = UIImage(systemName: "arrow.backward")
+        navigationController?.navigationBar.backIndicatorImage = backImage
+        navigationController?.navigationBar.backIndicatorTransitionMaskImage = backImage
+        navigationController?.navigationBar.tintColor = UIColor(named: "link_cyan")
+        navigationItem.backButtonDisplayMode = .minimal
+    }
+    
     private func bind() {
         rankSubject.receive(on: RunLoop.main).sink { list in
-            self.rankList = list
-            DispatchQueue.main.async {
-                self.pageLabel.text = "1 / \(list.count)"
-            }
-            self.bannerTimer()
-            self.applyItems(items: list)
-        }.store(in: &subscriptions)
-        
-        let suspendSubject = HomeViewController.SuspendNotification
-            .receive(on: RunLoop.main).sink { result in
-                if result {
-                    DispatchQueue.main.async {
-                        let alertController = UIAlertController(title: "계정 사용 중지됨", message: "귀하의 계정이 사용 중지되었습니다. 문의사항은 관리자에게 해주세요.", preferredStyle: .alert)
-                        let ok = UIAlertAction(title: "확인", style: .destructive)
-                        alertController.addAction(ok)
-                        self.present(alertController, animated: true, completion: nil)
-                    }
-                }
-            }
-        cancel = suspendSubject
-        
-        getNotiPermission.receive(on: RunLoop.main).sink { result in
-            if result {
+            guard let list = list else { return }
+            if list.isEmpty {
+                self.pageLabel.layer.isHidden = true
+                self.applyItems(items: [WeeklyRank(rank: "이번 주 인기 운동이 초기화되었습니다.", exercise: "")])
+                return
+            } else {
                 DispatchQueue.main.async {
-                    let alert = UIAlertController(title: "알림 수신 거부됨", message: "공지사항을 수신하기 위해 알림 수신을 켜주세요", preferredStyle: .alert)
-                    let ok = UIAlertAction(title: "설정으로 이동", style: .default) { _ in
-                        // 설정으로 이동
-                        UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
-                    }
-                    let cancle = UIAlertAction(title: "취소", style: .default)
-                    // 색상 적용.
-                    cancle.setValue(UIColor.darkGray, forKey: "titleTextColor")
-                    alert.addAction(cancle)
-                    alert.addAction(ok)
-                    self.present(alert, animated: true, completion: nil)
+                    self.pageLabel.layer.isHidden = false
+                    self.pageLabel.text = "1 / \(list.count)"
                 }
+                self.applyItems(items: list)
+                self.bannerTimer()
             }
         }.store(in: &subscriptions)
     }
@@ -154,14 +149,14 @@ class HomeViewController: UIViewController {
         
         var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
         snapshot.appendSections([.main])
-        snapshot.appendItems([WeeklyRank(rank: "", exercise: "이번 주 인기 운동")], toSection: .main)
+        snapshot.appendItems([WeeklyRank(rank: "이번 주 인기 운동", exercise: "")], toSection: .main)
         datasource.apply(snapshot)
         
         collectionView.delegate = self
     }
     
     private func layout() -> UICollectionViewCompositionalLayout {
-        let size = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(100))
+        let size = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(110))
         let itme = NSCollectionLayoutItem(layoutSize: size)
         let group = NSCollectionLayoutGroup.vertical(layoutSize: size, subitems: [itme])
         let section = NSCollectionLayoutSection(group: group)
@@ -176,21 +171,17 @@ class HomeViewController: UIViewController {
         datasource.apply(snapshot)
     }
     
-    @IBAction func Test(_ sender: UIButton) {
-        // firebase 이메일 변경
-        //        Auth.auth().currentUser?.updateEmail(to: "", completion: { error in
-        //            print("error: \(error.debugDescription)")
-        //        })
-        
-//        // 등록 토큰에 엑세스하는 방법
-//        Messaging.messaging().token { token, error in
-//            if let error = error {
-//                print("Error fetching FCM registration token: \(error.localizedDescription)")
-//            }
-//            else if let token = token {
-//                print("FCM registration token: \(token)")
-//            }
-//        }
+    private func loginAlert(type: String) {
+        let alert = UIAlertController(title: "로그아웃 상태", message: "현재 로그아웃 되어있어 운동을 \(type)을 할 수 없습니다.\n로그인을 먼저 해주세요.", preferredStyle: .alert)
+        let ok = UIAlertAction(title: "확인", style: .default)
+        alert.addAction(ok)
+        present(alert, animated: true, completion: nil)
+    }
+}
+
+extension HomeViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print("select: \(indexPath.item)")
     }
 }
 
@@ -203,22 +194,15 @@ extension HomeViewController {
         
         // 기본 애니메이션
         barChartView.animate(xAxisDuration: 1.3, yAxisDuration: 2.0)
-        // 옵션 애니메이션
-        //        barChartView.animate(xAxisDuration: 2.0, yAxisDuration: 2.0, easingOption: .easeInBounce)
         
         // limit line
         let ll = ChartLimitLine(limit: 50.0, label: "50%")
         barChartView.leftAxis.addLimitLine(ll)
-        
-        // 백그라운드 컬러
-        //        barChartView.backgroundColor = .yellow
-        
         barChartView.xAxis.drawGridLinesEnabled = false
         barChartView.xAxis.drawAxisLineEnabled = false
         barChartView.rightAxis.drawAxisLineEnabled = false
         barChartView.leftAxis.drawAxisLineEnabled = false
         barChartView.leftAxis.drawLabelsEnabled = false
-        //        barChartView.legend.enabled = false
         barChartView.leftAxis.gridColor = .clear
         barChartView.noDataText = "완료한 운동이 없습니다.\n운동을 완료해 주세요."
         barChartView.noDataFont = .systemFont(ofSize: 20)
@@ -250,13 +234,13 @@ extension HomeViewController {
 
 extension HomeViewController: UIScrollViewDelegate {
     private func bannerTimer() {
-        let _: Timer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { (Timer) in
+        timer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { _ in
             self.bannerMove()
         }
     }
     
     private func bannerMove() {
-        if let rankList = rankList {
+        if let rankList = rankSubject.value {
             // 현재페이지가 마지막 페이지일 경우
             if nowPage == rankList.count-1 {
                 // 맨 처음 페이지로 돌아감
@@ -278,7 +262,7 @@ extension HomeViewController: UIScrollViewDelegate {
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         let index = Int(scrollView.contentOffset.y / self.collectionView.bounds.height)
-        guard let count = rankList?.count else { return }
+        guard let count = rankSubject.value?.count else { return }
         DispatchQueue.main.async {
             self.pageLabel.text = "\(index + 1) / \(count)"
             self.nowPage = index
@@ -286,18 +270,12 @@ extension HomeViewController: UIScrollViewDelegate {
     }
     
     func scrollViewShouldScrollToTop(_ scrollView: UIScrollView) -> Bool {
-        guard let count = rankList?.count else { return true }
+        guard let count = rankSubject.value?.count else { return true }
         DispatchQueue.main.async {
             self.pageLabel.text = "\(1) / \(count)"
             self.nowPage = 0
         }
         return true
-    }
-}
-
-extension HomeViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("select: \(indexPath.item)")
     }
 }
 

@@ -18,6 +18,7 @@ final class configFirebase {
     private static let storageRef = storage.reference()
     private static let UID = saveUserData.getKeychainStringValue(forKey: .UID)!
 
+    // 에러 보고
     static func errorReport(type: String, descriptions: String, server: String? = nil) {
         let db = Firestore.firestore()
         db.collection("Report").document(getDateString.getCurrentDate_Time()).setData([
@@ -27,7 +28,62 @@ final class configFirebase {
             if let error = error {
                 print("error: \(error.localizedDescription)")
             } else {
-                print("에러 보고 완료!!!")
+                print("에러 보고 완료 !!!")
+            }
+        }
+    }
+    
+    // 문의하기
+    static func ask(Ask: String, subject: PassthroughSubject<Bool, Never>) {
+        let db = Firestore.firestore()
+        db.collection("Ask").document(getDateString.getCurrentDate_Time()).setData([
+            "Date": getDateString.getCurrentDate_Time(),
+            "ID": saveUserData.getKeychainStringValue(forKey: .UID) ?? "로그인하지 않은 유저",
+            "Ask": Ask
+        ]) { error in
+            if let error = error {
+                print("error: \(error.localizedDescription)")
+                subject.send(false)
+            } else {
+                print("문의 완료")
+                subject.send(true)
+            }
+        }
+    }
+    
+    // 이동수단 감지 보고
+    static func reportAutomotive(type: String, speed: String) {
+        let db = Firestore.firestore()
+        db.collection("AutomobileReport").document(getDateString.getCurrentDate_Time()).setData([
+            "Type": type,
+            "Speed": speed
+        ]) { error in
+            if let error = error {
+                print("error: \(error.localizedDescription)")
+            } else {
+                print("이동수단 감지 보고 완료 !!!")
+            }
+        }
+    }
+    
+    static func userReport(nickName: String, reason: Int) {
+        // 0. 부적절한 프로필 사진
+        // 1. 부적절한 닉네임
+        // 2. 랭킹 오류 / 랭킹 악용 의심
+        let uid = saveUserData.getKeychainStringValue(forKey: .UID) ?? "익명"
+        let date = getDateString.getCurrentDate_Time()
+        let db = Firestore.firestore()
+        db.collection("UserReport").document(getDateString.getCurrentDate_Time()).setData([
+            "Target": nickName, // 신고 대상
+            "Reason": reason,   // 사유
+            "userID": uid,      // 신고자
+            "Date": date        // 날짜
+        ]) { error in
+            if let error = error {
+                print("error: \(error.localizedDescription)")
+                errorReport(type: "configFirebase.userReport", descriptions: "Target: \(nickName), Reason: \(reason), userID: \(uid)")
+            } else {
+                print("사용자 신고 완료 !")
             }
         }
     }
@@ -41,6 +97,7 @@ final class configFirebase {
                 print("remove photo error: \(error.localizedDescription)")
                 configFirebase.errorReport(type: "configFirebase.removeFireStorage", descriptions: error.localizedDescription)
                 subject.send(false)
+                return
             }
             guard let list = list else {
                 print("configFirebase.removeFireStorage / list == nil")
@@ -72,7 +129,7 @@ final class configFirebase {
         let ref = db.collection("userData").document("saveExInfo").collection(configFirebase.UID)
         ref.getDocuments { snapshot, error in
             guard let snapshot = snapshot else {
-                configFirebase.errorReport(type: "configFirebase.removeFirestore", descriptions: "snapshot == nil")
+                configFirebase.errorReport(type: "configFirebase.removeFirestore_userData", descriptions: "snapshot == nil")
                 subject.send(false)
                 return
             }
@@ -80,12 +137,42 @@ final class configFirebase {
                 ref.document(i.documentID).delete { error in
                     if let error = error {
                         print("서버에서 운동 삭제 실패")
-                        configFirebase.errorReport(type: "configFirebase,removeFirestore", descriptions: error.localizedDescription)
+                        configFirebase.errorReport(type: "configFirebase.removeFirestore_userData", descriptions: error.localizedDescription)
                         subject.send(false)
                         return
                     } else {
                         if i == snapshot.documents.last {
-                            print("Success Delete userData")
+                            print("Success Delete userData_saveEx")
+                            removeFirestore_doneEx(subject: subject)
+                            return
+                        }
+                    }
+                }
+            }
+        }
+        removeFirestore_baseInfo(subject: subject)
+    }
+    
+    // 서버에서 자신의 완료 운동 데이터 삭제(탈퇴시 사용)
+    private static func removeFirestore_doneEx (subject: PassthroughSubject<Bool, Never>) {
+        let db = Firestore.firestore()
+        let ref = db.collection("userData").document("doneExInfo").collection(configFirebase.UID)
+        ref.getDocuments { snapshot, error in
+            guard let snapshot = snapshot else {
+                configFirebase.errorReport(type: "configFirebase.removeFirestore_doneEx", descriptions: "snapshot == nil")
+                subject.send(false)
+                return
+            }
+            for i in snapshot.documents {
+                ref.document(i.documentID).delete { error in
+                    if let error = error {
+                        print("서버에서 운동 삭제 실패")
+                        configFirebase.errorReport(type: "configFirebase,removeFirestore_doneEx", descriptions: error.localizedDescription)
+                        subject.send(false)
+                        return
+                    } else {
+                        if i == snapshot.documents.last {
+                            print("Success Delete userData_doneEx")
                             removeFirestore_baseInfo(subject: subject)
                             return
                         }
@@ -102,7 +189,7 @@ final class configFirebase {
         db.collection("baseInfo").document(configFirebase.UID).delete() { error in
             if let error = error {
                 print("error remove document: \(error.localizedDescription)")
-                configFirebase.errorReport(type: "configFirebase.removeFirestore", descriptions: error.localizedDescription)
+                configFirebase.errorReport(type: "configFirebase.removeFirestore_baseInfo", descriptions: error.localizedDescription)
                 subject.send(false)
             } else {
                 print("Success Delete baseInfo")
@@ -117,7 +204,13 @@ final class configFirebase {
         let user = Auth.auth().currentUser
         user?.delete { error in
             if let error = error {
-                configFirebase.errorReport(type: "configFirebase.deleteAuth", descriptions: error.localizedDescription)
+                let error = error.localizedDescription
+                if error == "There is no user record corresponding to this identifier. The user may have been deleted." {
+                    print("Firebase 회원탈퇴 성공")
+                    subject.send(true)
+                    return
+                }
+                configFirebase.errorReport(type: "configFirebase.deleteAuth", descriptions: error)
                 subject.send(false)
             } else {
                 print("Firebase 회원탈퇴 성공")
@@ -161,7 +254,7 @@ final class configFirebase {
             "Token": Token
         ]) { error in
             if let error = error {
-                print("error: " + error.localizedDescription)
+                print("error: \(error.localizedDescription)")
                 configFirebase.errorReport(type: "configFirebase.updateToken", descriptions: "\(uid), Token: \(Token)_" + error.localizedDescription) // 실패 시 수동으로 입력하기 위해 에러로 전송
             } else {
                 print("baseInfo Token값 변경 완료")
@@ -177,7 +270,7 @@ final class configFirebase {
             "nickName": nickName
         ]) { error in
             if let error = error {
-                print("error: " + error.localizedDescription)
+                print("error: \(error.localizedDescription)")
                 configFirebase.errorReport(type: "configFirebase.updateNickName", descriptions: error.localizedDescription)
                 subject.send(false)
             } else {
@@ -195,7 +288,7 @@ final class configFirebase {
             "Weight": weight
         ]) { error in
             if let error = error {
-                print("error: " + error.localizedDescription)
+                print("error: \(error.localizedDescription)")
                 configFirebase.errorReport(type: "configFirebase.updateWeight", descriptions: error.localizedDescription)
                 subject.send(false)
             } else {
@@ -218,6 +311,7 @@ final class configFirebase {
                 if let error = error {
                     print("error: \(error.localizedDescription)")
                     configFirebase.errorReport(type: "configFirebase.downloadImage", descriptions: error.localizedDescription)
+                    return
                 } else {
                     guard let imageData = data else {
                         print("error: data == nil")
@@ -237,8 +331,9 @@ final class configFirebase {
         let imagesRef = typeRef.child(UID)
         imagesRef.listAll { snapshot, error in
             if let error = error {
-                print("error: " + error.localizedDescription)
+                print("error: \(error.localizedDescription)")
                 configFirebase.errorReport(type: "configFirebase.getImgNameToFirebase", descriptions: error.localizedDescription)
+                return
             }
             guard let snapshot = snapshot else {
                 print("error: snapshot error")
@@ -268,7 +363,7 @@ final class configFirebase {
         
         spaceRef.putData(imgData, metadata: metaData) { metadata, error in
             if let error = error {
-                print("here: \(error.localizedDescription)")
+                print("error: \(error.localizedDescription)")
                 configFirebase.errorReport(type: "configFirebase.savePhoto", descriptions: error.localizedDescription)
                 subject.send("false")
                 return
@@ -358,7 +453,7 @@ final class configFirebase {
     // 서버에 완료 운동 저장(랭킹에 직접적으로 반영되는 것이기 때문에 신고 시 확인 + 악용 유저 차단을 위해 별도로 삭제 처리 안 함 / 탈퇴 시 삭제)
     static func saveDoneEx(exName: String, set: Int16? = nil, weight: Float? = nil, count: Int16? = nil,
                            distance: Double? = nil, maxSpeed: Double? = nil, avgSpeed: Double? = nil,
-                           time: Int64, date: String, subject: PassthroughSubject<Bool, Never>) { // time == sec(초), maxSpee, avgSpeed == m/s
+                           time: Int64, date: String) { // time == sec(초), maxSpee, avgSpeed == m/s
         let exinfo: [String: Any] = [
             "exName": exName, "set": "\(set ?? 0) 세트", "weight": "\(weight ?? 0) kg", "count": "\(count ?? 0) 회",
             "distance": "\(distance ?? 0) m", "maxSpeed": "\(maxSpeed ?? 0) m/s", "avgSpeed": "\(avgSpeed ?? 0) m/s",
@@ -369,116 +464,112 @@ final class configFirebase {
             if let error = error {
                 print("Error getting documents: \(error.localizedDescription)")
                 configFirebase.errorReport(type: "configFirebase.saveDoneEx", descriptions: error.localizedDescription)
-                subject.send(false)
+                return
             } else {
                 guard let snapshot = snapshot else {
                     configFirebase.errorReport(type: "configFirebase.saveDoneEx", descriptions: "snapshot = nil")
-                    subject.send(false)
                     return
                 }
                 if snapshot.exists { // 파일이 존재 할 때, 저장된 값과 합해서 다시 저장
                     guard let data = snapshot.data() as? [String: [Any]] else {
                         print("error: dataType error")
                         configFirebase.errorReport(type: "configFirebase.saveDoneEx", descriptions: "snapshot.data() Type error")
-                        subject.send(false)
                         return
                     }
                     if var info = data["info"] {
                         info.append(exinfo)
-                        self.mergeDoneData(data: info, date: date, subject: subject)
+                        self.mergeDoneData(data: info, date: date)
                     }
                 } else {
-                    self.firstSaveDoneData(data: [exinfo], date: date, subject: subject)
+                    self.firstSaveDoneData(data: [exinfo], date: date)
                 }
             }
         }
     }
     
     // 서버에 운동 저장
-    static func saveEx(exName: String, time: Int64, uuid: String, date: String, subject: PassthroughSubject<Bool, Never>) {
+    static func saveEx(exName: String, time: Int64, uuid: String, date: String) {
         let exinfo: [String: Any] = ["exName": exName, "time": time, "uuid": uuid]
         let db = Firestore.firestore()
         db.collection("userData").document("saveExInfo").collection(UID).document(date).getDocument { snapshot, error in
             if let error = error {
                 print("Error getting documents: \(error.localizedDescription)")
                 configFirebase.errorReport(type: "configFirebase.saveEx", descriptions: error.localizedDescription)
-                subject.send(false)
+                return
             } else {
                 guard let snapshot = snapshot else {
                     configFirebase.errorReport(type: "configFirebase.saveEx", descriptions: "snapshot = nil")
-                    subject.send(false)
                     return
                 }
                 if snapshot.exists { // 파일이 존재 할 때, 저장된 값과 합해서 다시 저장
                     guard let data = snapshot.data() as? [String: [Any]] else {
                         print("error: dataType error")
                         configFirebase.errorReport(type: "configFirebase.saveEx", descriptions: "snapshot.data() Type error")
-                        subject.send(false)
                         return
                     }
                     if var info = data["info"] {
                         info.append(exinfo)
-                        self.mergeAndSave(data: info, date: date, subject: subject)
+                        self.mergeAndSave(data: info, date: date)
                     }
                 } else {
-                    self.firstSaveData(data: [exinfo], date: date, subject: subject)
+                    self.firstSaveData(data: [exinfo], date: date)
                 }
             }
         }
     }
     
-    private static func firstSaveData(data: [[String : Any]], date: String, subject: PassthroughSubject<Bool, Never>) {
+    private static func firstSaveData(data: [[String : Any]], date: String, subject: PassthroughSubject<Bool, Never>? = nil) {
         let db = Firestore.firestore()
         db.collection("userData").document("saveExInfo").collection(UID).document(date).setData(["info": data]) { error in
             if let error = error {
                 print("error: \(error.localizedDescription)")
                 configFirebase.errorReport(type: "configFirebase.firstSaveData", descriptions: error.localizedDescription)
-                subject.send(false)
+                subject?.send(false)
             } else {
                 print("Success: 파일 저장 완료")
-                subject.send(true)
+                subject?.send(true)
             }
         }
     }
     
-    private static func mergeAndSave(data: [Any], date: String, subject: PassthroughSubject<Bool, Never>) {
+    private static func mergeAndSave(data: [Any], date: String, subject: PassthroughSubject<Bool, Never>? = nil) {
         let db = Firestore.firestore()
         db.collection("userData").document("saveExInfo").collection(UID).document(date).setData(["info": data]) { error in
             if let error = error {
                 print("error: \(error.localizedDescription)")
                 configFirebase.errorReport(type: "configFirebase.mergeAndSave", descriptions: error.localizedDescription)
-                subject.send(false)
+                subject?.send(false)
             } else {
                 print("Success: 파일 저장 완료")
-                subject.send(true)
+                subject?.send(true)
             }
         }
     }
     
-    private static func firstSaveDoneData(data: [[String : Any]], date: String, subject: PassthroughSubject<Bool, Never>) {
+    private static func firstSaveDoneData(data: [[String : Any]], date: String, subject: PassthroughSubject<Bool, Never>? = nil) {
         let db = Firestore.firestore()
         db.collection("userData").document("doneExInfo").collection(UID).document(date).setData(["info": data]) { error in
             if let error = error {
                 print("error: \(error.localizedDescription)")
                 configFirebase.errorReport(type: "configFirebase.firstSaveDoneData", descriptions: error.localizedDescription)
-                subject.send(false)
+                subject?.send(false)
             } else {
                 print("Success: 파일 저장 완료")
-                subject.send(true)
+                subject?.send(true)
             }
         }
     }
     
-    private static func mergeDoneData(data: [Any], date: String, subject: PassthroughSubject<Bool, Never>) {
+    private static func mergeDoneData(data: [Any], date: String, subject: PassthroughSubject<Bool, Never>? = nil) {
         let db = Firestore.firestore()
         db.collection("userData").document("doneExInfo").collection(UID).document(date).setData(["info": data]) { error in
             if let error = error {
                 print("error: \(error.localizedDescription)")
                 configFirebase.errorReport(type: "configFirebase.mergeDoneData", descriptions: error.localizedDescription)
-                subject.send(false)
+                subject?.send(false)
             } else {
                 print("Success: 파일 저장 완료")
-                subject.send(true)
+                subject?.send(true)
             }
         }
     }

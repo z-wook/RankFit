@@ -10,7 +10,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Setting-->
+        <!--Setting View Controller-->
         <scene sceneID="s0d-6b-0kx">
             <objects>
                 <viewController storyboardIdentifier="SettingViewController" id="Y6W-OH-hqX" customClass="SettingViewController" customModule="RankFit" customModuleProvider="target" sceneMemberID="viewController">
@@ -37,15 +37,15 @@
                                                     </constraints>
                                                     <imageReference key="image" image="person.fill" catalog="system" renderingMode="template"/>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NickName" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d5R-XE-gfN">
-                                                    <rect key="frame" x="140" y="48.666666666666664" width="89.666666666666686" height="22.999999999999993"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NickName" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.80000000000000004" translatesAutoresizingMaskIntoConstraints="NO" id="d5R-XE-gfN">
+                                                    <rect key="frame" x="140" y="48.666666666666664" width="169.66666666666663" height="22.999999999999993"/>
                                                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="19"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="trailing" relation="lessThanOrEqual" secondItem="d5R-XE-gfN" secondAttribute="trailing" constant="128.33000000000001" id="1Kb-ph-e34"/>
+                                                <constraint firstAttribute="trailing" secondItem="d5R-XE-gfN" secondAttribute="trailing" constant="10" id="1Kb-ph-e34"/>
                                                 <constraint firstItem="peb-d3-pIt" firstAttribute="centerY" secondItem="FGa-PG-4al" secondAttribute="centerY" id="Mo0-MY-4vM"/>
                                                 <constraint firstItem="d5R-XE-gfN" firstAttribute="leading" secondItem="peb-d3-pIt" secondAttribute="trailing" constant="20" id="W6O-pg-x9y"/>
                                                 <constraint firstItem="peb-d3-pIt" firstAttribute="leading" secondItem="FGa-PG-4al" secondAttribute="leading" constant="10" id="aS0-lj-wyL"/>
@@ -67,32 +67,42 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Gqi-Ks-BDu">
-                                                    <rect key="frame" x="20" y="-0.66666666666666785" width="20" height="51"/>
+                                                    <rect key="frame" x="20" y="10.666666666666668" width="26" height="28.333333333333332"/>
                                                     <color key="tintColor" systemColor="systemOrangeColor"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="20" id="aJF-4a-Ats"/>
+                                                        <constraint firstAttribute="width" secondItem="Gqi-Ks-BDu" secondAttribute="height" multiplier="1:1" id="gxD-XE-tFP"/>
                                                     </constraints>
                                                     <imageReference key="image" image="lightbulb" catalog="system" renderingMode="template"/>
+                                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" weight="medium"/>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="title" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lI7-hq-x6U">
-                                                    <rect key="frame" x="59.999999999999993" y="14.999999999999998" width="28.666666666666664" height="20.333333333333329"/>
+                                                    <rect key="frame" x="66" y="14.999999999999998" width="28.666666666666671" height="20.333333333333329"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="시스템 기본값" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Uhl-Or-4tR">
+                                                    <rect key="frame" x="216.99999999999997" y="14.666666666666664" width="92.666666666666657" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="Uhl-Or-4tR" firstAttribute="centerY" secondItem="XMU-LL-ymw" secondAttribute="centerY" id="9sy-Hf-DFm"/>
                                                 <constraint firstItem="lI7-hq-x6U" firstAttribute="leading" secondItem="Gqi-Ks-BDu" secondAttribute="trailing" constant="20" id="C4X-cc-EgX"/>
                                                 <constraint firstItem="Gqi-Ks-BDu" firstAttribute="leading" secondItem="XMU-LL-ymw" secondAttribute="leading" constant="20" id="Fhs-mm-hwU"/>
-                                                <constraint firstItem="Gqi-Ks-BDu" firstAttribute="top" secondItem="XMU-LL-ymw" secondAttribute="top" id="UAC-XO-EYE"/>
                                                 <constraint firstItem="Gqi-Ks-BDu" firstAttribute="centerY" secondItem="XMU-LL-ymw" secondAttribute="centerY" id="h2w-21-E9v"/>
                                                 <constraint firstItem="lI7-hq-x6U" firstAttribute="centerY" secondItem="XMU-LL-ymw" secondAttribute="centerY" id="hiS-Ev-2t7"/>
+                                                <constraint firstItem="Gqi-Ks-BDu" firstAttribute="top" secondItem="XMU-LL-ymw" secondAttribute="top" constant="12" id="kRd-fj-U5D"/>
+                                                <constraint firstAttribute="trailing" secondItem="Uhl-Or-4tR" secondAttribute="trailing" constant="10" id="qwX-1o-4yQ"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" systemColor="systemGray5Color"/>
                                         <connections>
                                             <outlet property="imgView" destination="Gqi-Ks-BDu" id="Duc-dm-OGy"/>
-                                            <outlet property="title" destination="lI7-hq-x6U" id="Bkp-XI-wOp"/>
+                                            <outlet property="stateLabel" destination="Uhl-Or-4tR" id="afN-Sf-er9"/>
+                                            <outlet property="titleLabel" destination="lI7-hq-x6U" id="fec-jy-azR"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -108,7 +118,7 @@
                             <constraint firstItem="383-5Z-EBT" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="pG2-wu-e0V"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Setting" image="gear" catalog="system" id="VWa-Tn-2qg"/>
+                    <tabBarItem key="tabBarItem" title="" image="gear" id="VWa-Tn-2qg"/>
                     <navigationItem key="navigationItem" id="8Pv-u5-dWO"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
@@ -124,6 +134,7 @@
             <objects>
                 <navigationController storyboardIdentifier="initialSetting" automaticallyAdjustsScrollViewInsets="NO" id="xEa-LT-ZPv" sceneMemberID="viewController">
                     <toolbarItems/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="YjX-wu-pel">
                         <rect key="frame" x="0.0" y="47" width="390" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -145,7 +156,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="gear" catalog="system" width="128" height="122"/>
+        <image name="gear" width="24" height="24"/>
         <image name="lightbulb" catalog="system" width="92" height="128"/>
         <image name="person.fill" catalog="system" width="128" height="120"/>
         <systemColor name="labelColor">

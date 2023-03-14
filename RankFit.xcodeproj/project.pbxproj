@@ -25,8 +25,6 @@
 		332672E92976FFD800D064A4 /* configFirebase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 332672E82976FFD800D064A4 /* configFirebase.swift */; };
 		3338F46A299BDBE3009B731A /* InputInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3338F469299BDBE3009B731A /* InputInfoViewModel.swift */; };
 		333A4FA62960A9F0004C494C /* OptionDetail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 333A4FA52960A9F0004C494C /* OptionDetail.storyboard */; };
-		333CAFED2959A9A5008902AA /* SendAnaerobicEx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333CAFEC2959A9A5008902AA /* SendAnaerobicEx.swift */; };
-		333CAFEF2959A9BC008902AA /* SendAerobicEx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333CAFEE2959A9BC008902AA /* SendAerobicEx.swift */; };
 		334146882999DB2F004380C4 /* ChangeProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334146872999DB2F004380C4 /* ChangeProfileViewController.swift */; };
 		3344DDAC2962D46D0060B21C /* MyDetailRankCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3344DDAB2962D46D0060B21C /* MyDetailRankCell.swift */; };
 		3344DDAE2962E1910060B21C /* MyDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3344DDAD2962E1910060B21C /* MyDetailViewModel.swift */; };
@@ -39,6 +37,7 @@
 		3351B64B298486EE00DB3DD2 /* Revoke.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3351B64A298486EE00DB3DD2 /* Revoke.storyboard */; };
 		3351B64E2984870D00DB3DD2 /* RevokeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3351B64D2984870D00DB3DD2 /* RevokeViewController.swift */; };
 		33522943297BD95F00D292A3 /* DetailPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33522942297BD95F00D292A3 /* DetailPhotoViewController.swift */; };
+		3358625429BF005400C998C8 /* Copyright.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3358625329BF005400C998C8 /* Copyright.swift */; };
 		335A192C2985C85000D45F2A /* ChoiceWayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335A192B2985C85000D45F2A /* ChoiceWayViewController.swift */; };
 		335CCD86294F2A76002E569A /* calcDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335CCD85294F2A76002E569A /* calcDate.swift */; };
 		335EA1C729A3C7CC000336F7 /* ReturnToRankFit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335EA1C629A3C7CC000336F7 /* ReturnToRankFit.swift */; };
@@ -65,9 +64,18 @@
 		33657A7F2944CB7B00164DB5 /* ExerciseCoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33657A7E2944CB7B00164DB5 /* ExerciseCoreData.swift */; };
 		3366A14929863B090071F9A2 /* RevokeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3366A14829863B090071F9A2 /* RevokeViewModel.swift */; };
 		33684C7729685CEE0035C308 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33684C7629685CEE0035C308 /* HomeViewModel.swift */; };
+		336A55B729B712DF0029B1C2 /* RankFit.png in Resources */ = {isa = PBXBuildFile; fileRef = 336A55B629B712DE0029B1C2 /* RankFit.png */; };
+		336A55B929B727CA0029B1C2 /* Running.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 336A55B829B727CA0029B1C2 /* Running.mp3 */; };
+		336A55BB29B774DA0029B1C2 /* VersionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 336A55BA29B774DA0029B1C2 /* VersionViewController.swift */; };
+		336A55BE29B775030029B1C2 /* Version.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 336A55BD29B775030029B1C2 /* Version.storyboard */; };
+		3371346329BDAFDB00EE361F /* Reading.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3371346229BDAFDB00EE361F /* Reading.storyboard */; };
+		3371346529BDB00400EE361F /* defaultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3371346429BDB00400EE361F /* defaultViewController.swift */; };
+		3371346729BDB18100EE361F /* Provision.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3371346629BDB18100EE361F /* Provision.swift */; };
+		3371346929BDB2D400EE361F /* Rule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3371346829BDB2D400EE361F /* Rule.swift */; };
 		3373E8542961ADEF00680290 /* MyRankViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3373E8532961ADEE00680290 /* MyRankViewModel.swift */; };
 		3373E8562962210300680290 /* MyDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3373E8552962210300680290 /* MyDetailViewController.swift */; };
 		3373E85A2962213900680290 /* MyDetail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3373E8592962213900680290 /* MyDetail.storyboard */; };
+		3375F80B29AE5ABF001ACCB3 /* QuickAerobicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3375F80A29AE5ABF001ACCB3 /* QuickAerobicViewController.swift */; };
 		337A91C5297734C200AA346A /* OptionDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337A91C4297734C200AA346A /* OptionDetailViewModel.swift */; };
 		337A91C72978018E00AA346A /* PickImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337A91C62978018E00AA346A /* PickImageViewController.swift */; };
 		337A91C92979459600AA346A /* configLocalStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337A91C82979459600AA346A /* configLocalStorage.swift */; };
@@ -89,10 +97,21 @@
 		33A56E2729A7AE6F00E6FCD8 /* FirebaseRemoteConfig in Frameworks */ = {isa = PBXBuildFile; productRef = 33A56E2629A7AE6F00E6FCD8 /* FirebaseRemoteConfig */; };
 		33A56E2929A7AE6F00E6FCD8 /* FirebaseRemoteConfigSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 33A56E2829A7AE6F00E6FCD8 /* FirebaseRemoteConfigSwift */; };
 		33A56E2B29A7AE6F00E6FCD8 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 33A56E2A29A7AE6F00E6FCD8 /* FirebaseStorage */; };
+		33A56F6829ADF3950042FA3E /* QuickExercise.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 33A56F6729ADF3950042FA3E /* QuickExercise.storyboard */; };
+		33AE92E729BFD0EF0067C674 /* Score_Descriptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33AE92E629BFD0EF0067C674 /* Score_Descriptions.swift */; };
 		33B13778298E5E980006DA9B /* savePlankViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33B13777298E5E980006DA9B /* savePlankViewController.swift */; };
+		33BAABED29B9A423007DC14D /* detectKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BAABEC29B9A423007DC14D /* detectKeyboard.swift */; };
 		33C4F2662967D39500CB70D3 /* Charts in Frameworks */ = {isa = PBXBuildFile; productRef = 33C4F2652967D39500CB70D3 /* Charts */; };
 		33C6F1AE29A9528900474E29 /* weeklyRankCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C6F1AD29A9528900474E29 /* weeklyRankCell.swift */; };
 		33C6F1B029A95F3A00474E29 /* WeeklyRankViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C6F1AF29A95F3A00474E29 /* WeeklyRankViewModel.swift */; };
+		33C7F09429B59E930045CC67 /* AskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C7F09329B59E930045CC67 /* AskViewController.swift */; };
+		33C7F09729B59F050045CC67 /* Ask.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 33C7F09629B59F050045CC67 /* Ask.storyboard */; };
+		33CC6ECB29AA7962008BD3FD /* Notice.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 33CC6ECA29AA7962008BD3FD /* Notice.storyboard */; };
+		33CC6ECE29AA79AA008BD3FD /* NoticeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CC6ECD29AA79AA008BD3FD /* NoticeViewController.swift */; };
+		33CC6ED029AA7C44008BD3FD /* NoticeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CC6ECF29AA7C44008BD3FD /* NoticeCell.swift */; };
+		33CC6ED229AA820B008BD3FD /* NoticeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CC6ED129AA820B008BD3FD /* NoticeViewModel.swift */; };
+		33CC6ED429AABB60008BD3FD /* NoticeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CC6ED329AABB60008BD3FD /* NoticeDetailViewController.swift */; };
+		33CD9E0529BEDE42008BABE1 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 33CD9E0429BEDE42008BABE1 /* Settings.bundle */; };
 		33D6A08E2947005100C88657 /* RegisterAgeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D6A08D2947005100C88657 /* RegisterAgeViewController.swift */; };
 		33D6A09029470BB500C88657 /* RegisterWeightViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D6A08F29470BB500C88657 /* RegisterWeightViewController.swift */; };
 		33D7DE58296DF3820034405E /* Diary.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 33D7DE57296DF3820034405E /* Diary.storyboard */; };
@@ -168,8 +187,6 @@
 		332672E82976FFD800D064A4 /* configFirebase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = configFirebase.swift; sourceTree = "<group>"; };
 		3338F469299BDBE3009B731A /* InputInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputInfoViewModel.swift; sourceTree = "<group>"; };
 		333A4FA52960A9F0004C494C /* OptionDetail.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = OptionDetail.storyboard; sourceTree = "<group>"; };
-		333CAFEC2959A9A5008902AA /* SendAnaerobicEx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendAnaerobicEx.swift; sourceTree = "<group>"; };
-		333CAFEE2959A9BC008902AA /* SendAerobicEx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendAerobicEx.swift; sourceTree = "<group>"; };
 		333EA56D297F5D240016D3DB /* RankFit.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RankFit.entitlements; sourceTree = "<group>"; };
 		334146872999DB2F004380C4 /* ChangeProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeProfileViewController.swift; sourceTree = "<group>"; };
 		3344DDAB2962D46D0060B21C /* MyDetailRankCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyDetailRankCell.swift; sourceTree = "<group>"; };
@@ -185,6 +202,7 @@
 		3351B64A298486EE00DB3DD2 /* Revoke.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Revoke.storyboard; sourceTree = "<group>"; };
 		3351B64D2984870D00DB3DD2 /* RevokeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RevokeViewController.swift; sourceTree = "<group>"; };
 		33522942297BD95F00D292A3 /* DetailPhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailPhotoViewController.swift; sourceTree = "<group>"; };
+		3358625329BF005400C998C8 /* Copyright.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Copyright.swift; sourceTree = "<group>"; };
 		335A192B2985C85000D45F2A /* ChoiceWayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoiceWayViewController.swift; sourceTree = "<group>"; };
 		335CCD85294F2A76002E569A /* calcDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = calcDate.swift; sourceTree = "<group>"; };
 		335EA1C629A3C7CC000336F7 /* ReturnToRankFit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReturnToRankFit.swift; sourceTree = "<group>"; };
@@ -211,9 +229,18 @@
 		33657A7E2944CB7B00164DB5 /* ExerciseCoreData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseCoreData.swift; sourceTree = "<group>"; };
 		3366A14829863B090071F9A2 /* RevokeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RevokeViewModel.swift; sourceTree = "<group>"; };
 		33684C7629685CEE0035C308 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		336A55B629B712DE0029B1C2 /* RankFit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = RankFit.png; sourceTree = "<group>"; };
+		336A55B829B727CA0029B1C2 /* Running.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Running.mp3; sourceTree = "<group>"; };
+		336A55BA29B774DA0029B1C2 /* VersionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionViewController.swift; sourceTree = "<group>"; };
+		336A55BD29B775030029B1C2 /* Version.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Version.storyboard; sourceTree = "<group>"; };
+		3371346229BDAFDB00EE361F /* Reading.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Reading.storyboard; sourceTree = "<group>"; };
+		3371346429BDB00400EE361F /* defaultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = defaultViewController.swift; sourceTree = "<group>"; };
+		3371346629BDB18100EE361F /* Provision.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Provision.swift; sourceTree = "<group>"; };
+		3371346829BDB2D400EE361F /* Rule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rule.swift; sourceTree = "<group>"; };
 		3373E8532961ADEE00680290 /* MyRankViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyRankViewModel.swift; sourceTree = "<group>"; };
 		3373E8552962210300680290 /* MyDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyDetailViewController.swift; sourceTree = "<group>"; };
 		3373E8592962213900680290 /* MyDetail.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MyDetail.storyboard; sourceTree = "<group>"; };
+		3375F80A29AE5ABF001ACCB3 /* QuickAerobicViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickAerobicViewController.swift; sourceTree = "<group>"; };
 		337A91C4297734C200AA346A /* OptionDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionDetailViewModel.swift; sourceTree = "<group>"; };
 		337A91C62978018E00AA346A /* PickImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickImageViewController.swift; sourceTree = "<group>"; };
 		337A91C82979459600AA346A /* configLocalStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = configLocalStorage.swift; sourceTree = "<group>"; };
@@ -224,9 +251,20 @@
 		339D23D52965E34C0022BB94 /* receiveOptionRankInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = receiveOptionRankInfo.swift; sourceTree = "<group>"; };
 		339EAFD0298A1B5F00BF5080 /* UserDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailViewController.swift; sourceTree = "<group>"; };
 		33A541972948B3D9006CD6CB /* userInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = userInfo.swift; sourceTree = "<group>"; };
+		33A56F6729ADF3950042FA3E /* QuickExercise.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = QuickExercise.storyboard; sourceTree = "<group>"; };
+		33AE92E629BFD0EF0067C674 /* Score_Descriptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Score_Descriptions.swift; sourceTree = "<group>"; };
 		33B13777298E5E980006DA9B /* savePlankViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = savePlankViewController.swift; sourceTree = "<group>"; };
+		33BAABEC29B9A423007DC14D /* detectKeyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = detectKeyboard.swift; sourceTree = "<group>"; };
 		33C6F1AD29A9528900474E29 /* weeklyRankCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = weeklyRankCell.swift; sourceTree = "<group>"; };
 		33C6F1AF29A95F3A00474E29 /* WeeklyRankViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyRankViewModel.swift; sourceTree = "<group>"; };
+		33C7F09329B59E930045CC67 /* AskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AskViewController.swift; sourceTree = "<group>"; };
+		33C7F09629B59F050045CC67 /* Ask.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Ask.storyboard; sourceTree = "<group>"; };
+		33CC6ECA29AA7962008BD3FD /* Notice.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Notice.storyboard; sourceTree = "<group>"; };
+		33CC6ECD29AA79AA008BD3FD /* NoticeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeViewController.swift; sourceTree = "<group>"; };
+		33CC6ECF29AA7C44008BD3FD /* NoticeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeCell.swift; sourceTree = "<group>"; };
+		33CC6ED129AA820B008BD3FD /* NoticeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeViewModel.swift; sourceTree = "<group>"; };
+		33CC6ED329AABB60008BD3FD /* NoticeDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeDetailViewController.swift; sourceTree = "<group>"; };
+		33CD9E0429BEDE42008BABE1 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		33D6A08D2947005100C88657 /* RegisterAgeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterAgeViewController.swift; sourceTree = "<group>"; };
 		33D6A08F29470BB500C88657 /* RegisterWeightViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterWeightViewController.swift; sourceTree = "<group>"; };
 		33D7DE57296DF3820034405E /* Diary.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Diary.storyboard; sourceTree = "<group>"; };
@@ -356,8 +394,6 @@
 		3344DDAF2962FF760060B21C /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				333CAFEC2959A9A5008902AA /* SendAnaerobicEx.swift */,
-				333CAFEE2959A9BC008902AA /* SendAerobicEx.swift */,
 				33657A7E2944CB7B00164DB5 /* ExerciseCoreData.swift */,
 			);
 			path = Model;
@@ -430,7 +466,11 @@
 				33657A6B2944C89800164DB5 /* SettingViewController.swift */,
 				33DA75BC294C38EE002DAB31 /* ProfileCell.swift */,
 				33DA75C0294C4DFC002DAB31 /* DefaultCell.swift */,
-				33DE94B0294C6B9B005AF20C /* Detail */,
+				33DE94B0294C6B9B005AF20C /* ProfileDetail */,
+				336A55BC29B774F60029B1C2 /* Version */,
+				3371346129BDAF7300EE361F /* provision & rule */,
+				33CC6ECC29AA796B008BD3FD /* Notice */,
+				33C7F09529B59EDC0045CC67 /* Ask */,
 			);
 			path = Setting;
 			sourceTree = "<group>";
@@ -438,11 +478,15 @@
 		33657A6F2944C8F400164DB5 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				33657A722944C93500164DB5 /* ExerciseInfo.swift */,
 				33657A702944C92100164DB5 /* aerobicExerciseInfo.swift */,
 				33657A6D2944C8DC00164DB5 /* anaerobicExerciseInfo.swift */,
-				33657A722944C93500164DB5 /* ExerciseInfo.swift */,
 				33A541972948B3D9006CD6CB /* userInfo.swift */,
 				33FBDE562993C4EE009959C5 /* SlangFilter.swift */,
+				3371346629BDB18100EE361F /* Provision.swift */,
+				3371346829BDB2D400EE361F /* Rule.swift */,
+				33AE92E629BFD0EF0067C674 /* Score_Descriptions.swift */,
+				3358625329BF005400C998C8 /* Copyright.swift */,
 				33139907297A00070074A73A /* PhotoInfomation.swift */,
 				33182E86295044F500A57741 /* getSavedDateInfo.swift */,
 				335CCD85294F2A76002E569A /* calcDate.swift */,
@@ -469,8 +513,27 @@
 			isa = PBXGroup;
 			children = (
 				33657A7B2944CA6200164DB5 /* getTopViewController.swift */,
+				33BAABEC29B9A423007DC14D /* detectKeyboard.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		336A55BC29B774F60029B1C2 /* Version */ = {
+			isa = PBXGroup;
+			children = (
+				336A55BD29B775030029B1C2 /* Version.storyboard */,
+				336A55BA29B774DA0029B1C2 /* VersionViewController.swift */,
+			);
+			path = Version;
+			sourceTree = "<group>";
+		};
+		3371346129BDAF7300EE361F /* provision & rule */ = {
+			isa = PBXGroup;
+			children = (
+				3371346229BDAFDB00EE361F /* Reading.storyboard */,
+				3371346429BDB00400EE361F /* defaultViewController.swift */,
+			);
+			path = "provision & rule";
 			sourceTree = "<group>";
 		};
 		3373E85B2962214000680290 /* MyDetail */ = {
@@ -502,6 +565,36 @@
 			path = DetailRank;
 			sourceTree = "<group>";
 		};
+		33A56F6B29ADF5090042FA3E /* QuickEx */ = {
+			isa = PBXGroup;
+			children = (
+				33A56F6729ADF3950042FA3E /* QuickExercise.storyboard */,
+				3375F80A29AE5ABF001ACCB3 /* QuickAerobicViewController.swift */,
+			);
+			path = QuickEx;
+			sourceTree = "<group>";
+		};
+		33C7F09529B59EDC0045CC67 /* Ask */ = {
+			isa = PBXGroup;
+			children = (
+				33C7F09629B59F050045CC67 /* Ask.storyboard */,
+				33C7F09329B59E930045CC67 /* AskViewController.swift */,
+			);
+			path = Ask;
+			sourceTree = "<group>";
+		};
+		33CC6ECC29AA796B008BD3FD /* Notice */ = {
+			isa = PBXGroup;
+			children = (
+				33CC6ECA29AA7962008BD3FD /* Notice.storyboard */,
+				33CC6ECD29AA79AA008BD3FD /* NoticeViewController.swift */,
+				33CC6ED329AABB60008BD3FD /* NoticeDetailViewController.swift */,
+				33CC6ED129AA820B008BD3FD /* NoticeViewModel.swift */,
+				33CC6ECF29AA7C44008BD3FD /* NoticeCell.swift */,
+			);
+			path = Notice;
+			sourceTree = "<group>";
+		};
 		33D7DE59296DF3890034405E /* Diary */ = {
 			isa = PBXGroup;
 			children = (
@@ -518,12 +611,13 @@
 		33DA75AB29497EFD002DAB31 /* LaunchScreen */ = {
 			isa = PBXGroup;
 			children = (
+				336A55B629B712DE0029B1C2 /* RankFit.png */,
 				33E917012943AC4B00FC074A /* LaunchScreen.storyboard */,
 			);
 			path = LaunchScreen;
 			sourceTree = "<group>";
 		};
-		33DE94B0294C6B9B005AF20C /* Detail */ = {
+		33DE94B0294C6B9B005AF20C /* ProfileDetail */ = {
 			isa = PBXGroup;
 			children = (
 				33DE94B1294CBE8F005AF20C /* MyProfile.storyboard */,
@@ -531,12 +625,13 @@
 				33DE94B3294CC3EF005AF20C /* MyProfileCell.swift */,
 				33F8F275294CFFC0007A4691 /* InputInfo */,
 			);
-			path = Detail;
+			path = ProfileDetail;
 			sourceTree = "<group>";
 		};
 		33E916E72943AC4A00FC074A = {
 			isa = PBXGroup;
 			children = (
+				33CD9E0429BEDE42008BABE1 /* Settings.bundle */,
 				33E916F22943AC4A00FC074A /* RankFit */,
 				33E9170C2943AC4B00FC074A /* RankFitTests */,
 				33E917162943AC4B00FC074A /* RankFitUITests */,
@@ -563,6 +658,7 @@
 				33E916F32943AC4A00FC074A /* AppDelegate.swift */,
 				33E916F52943AC4A00FC074A /* SceneDelegate.swift */,
 				33611EFB296D8C9E003ED0E8 /* Store.swift */,
+				336A55B829B727CA0029B1C2 /* Running.mp3 */,
 				33E9172F2943B3FF00FC074A /* Views */,
 				33E917302943B52E00FC074A /* Home */,
 				33E9173A2943B62A00FC074A /* Exercise */,
@@ -620,6 +716,7 @@
 				33684C7629685CEE0035C308 /* HomeViewModel.swift */,
 				33C6F1AD29A9528900474E29 /* weeklyRankCell.swift */,
 				33C6F1AF29A95F3A00474E29 /* WeeklyRankViewModel.swift */,
+				33A56F6B29ADF5090042FA3E /* QuickEx */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -833,10 +930,13 @@
 			files = (
 				33E917372943B61400FC074A /* Exercise.storyboard in Resources */,
 				3351B6492983528B00DB3DD2 /* Login.storyboard in Resources */,
+				33CC6ECB29AA7962008BD3FD /* Notice.storyboard in Resources */,
 				3373E85A2962213900680290 /* MyDetail.storyboard in Resources */,
 				3351B64B298486EE00DB3DD2 /* Revoke.storyboard in Resources */,
+				336A55B929B727CA0029B1C2 /* Running.mp3 in Resources */,
 				33D7DE58296DF3820034405E /* Diary.storyboard in Resources */,
 				333A4FA62960A9F0004C494C /* OptionDetail.storyboard in Resources */,
+				33C7F09729B59F050045CC67 /* Ask.storyboard in Resources */,
 				33E917322943B57200FC074A /* Rank.storyboard in Resources */,
 				33657A5229448C2500164DB5 /* ExerciseList.storyboard in Resources */,
 				331D34682945D1C800E4CE20 /* Onboarding.storyboard in Resources */,
@@ -848,7 +948,12 @@
 				33E917402943C6B500FC074A /* DoExercise.storyboard in Resources */,
 				33E916FB2943AC4A00FC074A /* Main.storyboard in Resources */,
 				33657A5B2944B4AC00164DB5 /* saveExercise.storyboard in Resources */,
+				33CD9E0529BEDE42008BABE1 /* Settings.bundle in Resources */,
+				3371346329BDAFDB00EE361F /* Reading.storyboard in Resources */,
+				33A56F6829ADF3950042FA3E /* QuickExercise.storyboard in Resources */,
+				336A55BE29B775030029B1C2 /* Version.storyboard in Resources */,
 				33657A692944C87100164DB5 /* Setting.storyboard in Resources */,
+				336A55B729B712DF0029B1C2 /* RankFit.png in Resources */,
 				33E9172C2943B1F600FC074A /* Home.storyboard in Resources */,
 				33F8F274294CFFB7007A4691 /* InputInfo.storyboard in Resources */,
 			);
@@ -981,7 +1086,9 @@
 				335CCD86294F2A76002E569A /* calcDate.swift in Sources */,
 				3394F0C7296C218E009BC159 /* saveUserData.swift in Sources */,
 				334146882999DB2F004380C4 /* ChangeProfileViewController.swift in Sources */,
+				3371346929BDB2D400EE361F /* Rule.swift in Sources */,
 				335EA1C729A3C7CC000336F7 /* ReturnToRankFit.swift in Sources */,
+				33C7F09429B59E930045CC67 /* AskViewController.swift in Sources */,
 				33657A592944ACE500164DB5 /* ExerciseListViewModel.swift in Sources */,
 				3373E8542961ADEF00680290 /* MyRankViewModel.swift in Sources */,
 				33657A622944B51C00164DB5 /* saveExerciseViewModel.swift in Sources */,
@@ -990,8 +1097,8 @@
 				33522943297BD95F00D292A3 /* DetailPhotoViewController.swift in Sources */,
 				33897A1D295B5A9300986EC0 /* MyRankCell.swift in Sources */,
 				335F8CFA296EEC8B0056C5CA /* receiveMyRankInfo.swift in Sources */,
+				33AE92E729BFD0EF0067C674 /* Score_Descriptions.swift in Sources */,
 				33657A712944C92100164DB5 /* aerobicExerciseInfo.swift in Sources */,
-				333CAFEF2959A9BC008902AA /* SendAerobicEx.swift in Sources */,
 				33DA75BD294C38EE002DAB31 /* ProfileCell.swift in Sources */,
 				33E9172E2943B21800FC074A /* HomeViewController.swift in Sources */,
 				330C66B92973FF7800C44515 /* OptionDetailViewController.swift in Sources */,
@@ -1000,11 +1107,14 @@
 				331D346D2945D26300E4CE20 /* OnboardingCell.swift in Sources */,
 				339D23D62965E34C0022BB94 /* receiveOptionRankInfo.swift in Sources */,
 				33657A732944C93500164DB5 /* ExerciseInfo.swift in Sources */,
-				333CAFED2959A9A5008902AA /* SendAnaerobicEx.swift in Sources */,
 				33FBDE572993C4EE009959C5 /* SlangFilter.swift in Sources */,
+				33BAABED29B9A423007DC14D /* detectKeyboard.swift in Sources */,
+				3358625429BF005400C998C8 /* Copyright.swift in Sources */,
+				33CC6ED429AABB60008BD3FD /* NoticeDetailViewController.swift in Sources */,
 				33E917392943B62000FC074A /* ExerciseViewController.swift in Sources */,
 				33C6F1AE29A9528900474E29 /* weeklyRankCell.swift in Sources */,
 				3338F46A299BDBE3009B731A /* InputInfoViewModel.swift in Sources */,
+				3371346529BDB00400EE361F /* defaultViewController.swift in Sources */,
 				3366A14929863B090071F9A2 /* RevokeViewModel.swift in Sources */,
 				33DA75C1294C4DFC002DAB31 /* DefaultCell.swift in Sources */,
 				3351B64E2984870D00DB3DD2 /* RevokeViewController.swift in Sources */,
@@ -1024,9 +1134,11 @@
 				33E916F62943AC4A00FC074A /* SceneDelegate.swift in Sources */,
 				33182E87295044F500A57741 /* getSavedDateInfo.swift in Sources */,
 				33E9173E2943BC7600FC074A /* ExercisePlanCell.swift in Sources */,
+				33CC6ECE29AA79AA008BD3FD /* NoticeViewController.swift in Sources */,
 				331D346B2945D23100E4CE20 /* OnboardingViewController.swift in Sources */,
 				331399032979C95A0074A73A /* MyDiaryCell.swift in Sources */,
 				33A541982948B3D9006CD6CB /* userInfo.swift in Sources */,
+				3375F80B29AE5ABF001ACCB3 /* QuickAerobicViewController.swift in Sources */,
 				33F8F272294CFAF1007A4691 /* ChangeWeightViewController.swift in Sources */,
 				33657A782944C9AA00164DB5 /* BarButtonItemGenerate.swift in Sources */,
 				33E917292943B0DD00FC074A /* MainTabBarController.swift in Sources */,
@@ -1034,7 +1146,9 @@
 				3373E8562962210300680290 /* MyDetailViewController.swift in Sources */,
 				33657A7F2944CB7B00164DB5 /* ExerciseCoreData.swift in Sources */,
 				33657A752944C98500164DB5 /* CustomBarItem.swift in Sources */,
+				3371346729BDB18100EE361F /* Provision.swift in Sources */,
 				33657A6E2944C8DC00164DB5 /* anaerobicExerciseInfo.swift in Sources */,
+				336A55BB29B774DA0029B1C2 /* VersionViewController.swift in Sources */,
 				33657A5E2944B4F900164DB5 /* saveExerciseViewController1.swift in Sources */,
 				33D7DE5B296DF3AA0034405E /* DiaryViewController.swift in Sources */,
 				339EAFD1298A1B5F00BF5080 /* UserDetailViewController.swift in Sources */,
@@ -1060,8 +1174,10 @@
 				33657A502944840100164DB5 /* DoExerciseViewModel.swift in Sources */,
 				33B13778298E5E980006DA9B /* savePlankViewController.swift in Sources */,
 				33DB715F2973D77C00B2C8FA /* TimeStamp.swift in Sources */,
+				33CC6ED229AA820B008BD3FD /* NoticeViewModel.swift in Sources */,
 				33657A602944B50400164DB5 /* saveExerciseViewController2.swift in Sources */,
 				33C6F1B029A95F3A00474E29 /* WeeklyRankViewModel.swift in Sources */,
+				33CC6ED029AA7C44008BD3FD /* NoticeCell.swift in Sources */,
 				334E59E829A0BE2B00BF9478 /* ZoomProfileViewController.swift in Sources */,
 				332672E92976FFD800D064A4 /* configFirebase.swift in Sources */,
 			);
@@ -1172,7 +1288,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1227,7 +1343,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -1249,7 +1365,7 @@
 				DEVELOPMENT_TEAM = HJ943JVKX7;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = RankFit/Info.plist;
-				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
+				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = NO;
 				INFOPLIST_KEY_NSCameraUsageDescription = "사진을 촬영하기 위해 권한이 필요합니다.";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "지도에서 사용자의 위치를 확인하여 경로 기록을 하기 위해 권한이 필요합니다.(필수권한)";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "지도에서 사용자의 위치를 확인하여 경로 기록을 하기 위해 권한이 필요합니다.(필수권한)";
@@ -1260,12 +1376,12 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 0.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = RankFit777.RankFit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1286,7 +1402,7 @@
 				DEVELOPMENT_TEAM = HJ943JVKX7;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = RankFit/Info.plist;
-				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
+				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = NO;
 				INFOPLIST_KEY_NSCameraUsageDescription = "사진을 촬영하기 위해 권한이 필요합니다.";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "지도에서 사용자의 위치를 확인하여 경로 기록을 하기 위해 권한이 필요합니다.(필수권한)";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "지도에서 사용자의 위치를 확인하여 경로 기록을 하기 위해 권한이 필요합니다.(필수권한)";
@@ -1297,12 +1413,12 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 0.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = RankFit777.RankFit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

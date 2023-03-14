@@ -8,6 +8,7 @@ target 'RankFit' do
   pod 'FSCalendar'
   pod 'Alamofire'
   pod 'SwiftKeychainWrapper'  # 키체인 저장 쉽게하는 라이브러리
+  pod 'LicensePlist'  # 라이선스 라이브러리
   
   # Pods for RankFit
 

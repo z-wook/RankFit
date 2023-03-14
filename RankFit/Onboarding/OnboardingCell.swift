@@ -13,6 +13,12 @@ class OnboardingCell: UICollectionViewCell {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
     
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        thumbnailView.layer.cornerRadius = 10
+    }
+    
     func configure(message: OnboardingMessage) {
         thumbnailView.image = UIImage(named: message.imageName)
         titleLabel.text = message.title

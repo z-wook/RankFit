@@ -42,7 +42,7 @@ final class PhotoCoreData {
                 print("Save CoreData")
                 return true
             } catch {
-                print("error: " + error.localizedDescription)
+                print("error: \(error.localizedDescription)")
                 configFirebase.errorReport(type: "PhotoCoreData.saveCoreData", descriptions: error.localizedDescription)
                 return false
             }
@@ -65,7 +65,7 @@ final class PhotoCoreData {
                 photoInfoList.append(photoInfo)
             }
         } catch {
-            print("error: " + error.localizedDescription)
+            print("error: \(error.localizedDescription)")
             configFirebase.errorReport(type: "PhotoCoreData.fetchCoreData", descriptions: error.localizedDescription)
         }
         let sortedList = photoInfoList.sorted { prev, next in
