@@ -142,7 +142,10 @@ extension saveExerciseViewController1 {
         setField.backgroundColor = .systemYellow.withAlphaComponent(0.8)
         countField.backgroundColor = .systemYellow.withAlphaComponent(0.8)
         weightField.backgroundColor = .systemYellow.withAlphaComponent(0.8)
-        
+        if ExerciseViewController.today != ExerciseViewController.pickDate {
+            // 오늘 날짜가 아닌 경우 계획으로만 저장시키기
+            exerciseType.layer.isHidden = true
+        }
         let screenHeight = UIScreen.main.bounds.size.height
         if screenHeight <= 667 {
             // Notification 등록
@@ -154,7 +157,6 @@ extension saveExerciseViewController1 {
             if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
                 let keyboardRectangle = keyboardFrame.cgRectValue
                 let keyboardHeight = keyboardRectangle.height
-                
                 if countField.isEditing || weightField.isEditing {
                     // 뷰를 키보드 높이만큼 올림
                     UIView.animate(withDuration: 0.7) {

@@ -32,7 +32,7 @@
 		334E1E4E297B1756005753C9 /* PhotoCoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334E1E4D297B1756005753C9 /* PhotoCoreData.swift */; };
 		334E59E829A0BE2B00BF9478 /* ZoomProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334E59E729A0BE2B00BF9478 /* ZoomProfileViewController.swift */; };
 		334E59EA29A0F91F00BF9478 /* configServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334E59E929A0F91F00BF9478 /* configServer.swift */; };
-		3351B6462983526600DB3DD2 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3351B6452983526600DB3DD2 /* LoginViewController.swift */; };
+		3351B6462983526600DB3DD2 /* EmailLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3351B6452983526600DB3DD2 /* EmailLoginViewController.swift */; };
 		3351B6492983528B00DB3DD2 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3351B6482983528B00DB3DD2 /* Login.storyboard */; };
 		3351B64B298486EE00DB3DD2 /* Revoke.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3351B64A298486EE00DB3DD2 /* Revoke.storyboard */; };
 		3351B64E2984870D00DB3DD2 /* RevokeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3351B64D2984870D00DB3DD2 /* RevokeViewController.swift */; };
@@ -64,7 +64,6 @@
 		33657A7F2944CB7B00164DB5 /* ExerciseCoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33657A7E2944CB7B00164DB5 /* ExerciseCoreData.swift */; };
 		3366A14929863B090071F9A2 /* RevokeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3366A14829863B090071F9A2 /* RevokeViewModel.swift */; };
 		33684C7729685CEE0035C308 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33684C7629685CEE0035C308 /* HomeViewModel.swift */; };
-		336A55B729B712DF0029B1C2 /* RankFit.png in Resources */ = {isa = PBXBuildFile; fileRef = 336A55B629B712DE0029B1C2 /* RankFit.png */; };
 		336A55B929B727CA0029B1C2 /* Running.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 336A55B829B727CA0029B1C2 /* Running.mp3 */; };
 		336A55BB29B774DA0029B1C2 /* VersionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 336A55BA29B774DA0029B1C2 /* VersionViewController.swift */; };
 		336A55BE29B775030029B1C2 /* Version.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 336A55BD29B775030029B1C2 /* Version.storyboard */; };
@@ -111,6 +110,10 @@
 		33CC6ED029AA7C44008BD3FD /* NoticeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CC6ECF29AA7C44008BD3FD /* NoticeCell.swift */; };
 		33CC6ED229AA820B008BD3FD /* NoticeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CC6ED129AA820B008BD3FD /* NoticeViewModel.swift */; };
 		33CC6ED429AABB60008BD3FD /* NoticeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CC6ED329AABB60008BD3FD /* NoticeDetailViewController.swift */; };
+		33CD5F1B29C01FA300C7C3B4 /* PasswordLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CD5F1A29C01FA300C7C3B4 /* PasswordLoginViewController.swift */; };
+		33CD5F1E29C0801F00C7C3B4 /* PasswordChange.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 33CD5F1D29C0801F00C7C3B4 /* PasswordChange.storyboard */; };
+		33CD5F2029C0803F00C7C3B4 /* PasswordChangeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CD5F1F29C0803F00C7C3B4 /* PasswordChangeViewController.swift */; };
+		33CD5F2229C123F600C7C3B4 /* RankFit_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 33CD5F2129C123F600C7C3B4 /* RankFit_icon.png */; };
 		33CD9E0529BEDE42008BABE1 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 33CD9E0429BEDE42008BABE1 /* Settings.bundle */; };
 		33D6A08E2947005100C88657 /* RegisterAgeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D6A08D2947005100C88657 /* RegisterAgeViewController.swift */; };
 		33D6A09029470BB500C88657 /* RegisterWeightViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D6A08F29470BB500C88657 /* RegisterWeightViewController.swift */; };
@@ -197,7 +200,7 @@
 		334E1E4D297B1756005753C9 /* PhotoCoreData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCoreData.swift; sourceTree = "<group>"; };
 		334E59E729A0BE2B00BF9478 /* ZoomProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZoomProfileViewController.swift; sourceTree = "<group>"; };
 		334E59E929A0F91F00BF9478 /* configServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = configServer.swift; sourceTree = "<group>"; };
-		3351B6452983526600DB3DD2 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		3351B6452983526600DB3DD2 /* EmailLoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailLoginViewController.swift; sourceTree = "<group>"; };
 		3351B6482983528B00DB3DD2 /* Login.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
 		3351B64A298486EE00DB3DD2 /* Revoke.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Revoke.storyboard; sourceTree = "<group>"; };
 		3351B64D2984870D00DB3DD2 /* RevokeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RevokeViewController.swift; sourceTree = "<group>"; };
@@ -229,7 +232,6 @@
 		33657A7E2944CB7B00164DB5 /* ExerciseCoreData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseCoreData.swift; sourceTree = "<group>"; };
 		3366A14829863B090071F9A2 /* RevokeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RevokeViewModel.swift; sourceTree = "<group>"; };
 		33684C7629685CEE0035C308 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
-		336A55B629B712DE0029B1C2 /* RankFit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = RankFit.png; sourceTree = "<group>"; };
 		336A55B829B727CA0029B1C2 /* Running.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Running.mp3; sourceTree = "<group>"; };
 		336A55BA29B774DA0029B1C2 /* VersionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionViewController.swift; sourceTree = "<group>"; };
 		336A55BD29B775030029B1C2 /* Version.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Version.storyboard; sourceTree = "<group>"; };
@@ -264,6 +266,10 @@
 		33CC6ECF29AA7C44008BD3FD /* NoticeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeCell.swift; sourceTree = "<group>"; };
 		33CC6ED129AA820B008BD3FD /* NoticeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeViewModel.swift; sourceTree = "<group>"; };
 		33CC6ED329AABB60008BD3FD /* NoticeDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeDetailViewController.swift; sourceTree = "<group>"; };
+		33CD5F1A29C01FA300C7C3B4 /* PasswordLoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordLoginViewController.swift; sourceTree = "<group>"; };
+		33CD5F1D29C0801F00C7C3B4 /* PasswordChange.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = PasswordChange.storyboard; sourceTree = "<group>"; };
+		33CD5F1F29C0803F00C7C3B4 /* PasswordChangeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordChangeViewController.swift; sourceTree = "<group>"; };
+		33CD5F2129C123F600C7C3B4 /* RankFit_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = RankFit_icon.png; sourceTree = "<group>"; };
 		33CD9E0429BEDE42008BABE1 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		33D6A08D2947005100C88657 /* RegisterAgeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterAgeViewController.swift; sourceTree = "<group>"; };
 		33D6A08F29470BB500C88657 /* RegisterWeightViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterWeightViewController.swift; sourceTree = "<group>"; };
@@ -403,7 +409,8 @@
 			isa = PBXGroup;
 			children = (
 				3351B6482983528B00DB3DD2 /* Login.storyboard */,
-				3351B6452983526600DB3DD2 /* LoginViewController.swift */,
+				3351B6452983526600DB3DD2 /* EmailLoginViewController.swift */,
+				33CD5F1A29C01FA300C7C3B4 /* PasswordLoginViewController.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -595,6 +602,15 @@
 			path = Notice;
 			sourceTree = "<group>";
 		};
+		33CD5F1C29C07FEF00C7C3B4 /* PasswordChage */ = {
+			isa = PBXGroup;
+			children = (
+				33CD5F1D29C0801F00C7C3B4 /* PasswordChange.storyboard */,
+				33CD5F1F29C0803F00C7C3B4 /* PasswordChangeViewController.swift */,
+			);
+			path = PasswordChage;
+			sourceTree = "<group>";
+		};
 		33D7DE59296DF3890034405E /* Diary */ = {
 			isa = PBXGroup;
 			children = (
@@ -611,7 +627,7 @@
 		33DA75AB29497EFD002DAB31 /* LaunchScreen */ = {
 			isa = PBXGroup;
 			children = (
-				336A55B629B712DE0029B1C2 /* RankFit.png */,
+				33CD5F2129C123F600C7C3B4 /* RankFit_icon.png */,
 				33E917012943AC4B00FC074A /* LaunchScreen.storyboard */,
 			);
 			path = LaunchScreen;
@@ -624,6 +640,7 @@
 				33DE94AE294C6B93005AF20C /* MyProfileViewController.swift */,
 				33DE94B3294CC3EF005AF20C /* MyProfileCell.swift */,
 				33F8F275294CFFC0007A4691 /* InputInfo */,
+				33CD5F1C29C07FEF00C7C3B4 /* PasswordChage */,
 			);
 			path = ProfileDetail;
 			sourceTree = "<group>";
@@ -936,6 +953,7 @@
 				336A55B929B727CA0029B1C2 /* Running.mp3 in Resources */,
 				33D7DE58296DF3820034405E /* Diary.storyboard in Resources */,
 				333A4FA62960A9F0004C494C /* OptionDetail.storyboard in Resources */,
+				33CD5F2229C123F600C7C3B4 /* RankFit_icon.png in Resources */,
 				33C7F09729B59F050045CC67 /* Ask.storyboard in Resources */,
 				33E917322943B57200FC074A /* Rank.storyboard in Resources */,
 				33657A5229448C2500164DB5 /* ExerciseList.storyboard in Resources */,
@@ -946,6 +964,7 @@
 				33E917002943AC4B00FC074A /* Assets.xcassets in Resources */,
 				330C66BD2974052200C44515 /* GoogleService-Info.plist in Resources */,
 				33E917402943C6B500FC074A /* DoExercise.storyboard in Resources */,
+				33CD5F1E29C0801F00C7C3B4 /* PasswordChange.storyboard in Resources */,
 				33E916FB2943AC4A00FC074A /* Main.storyboard in Resources */,
 				33657A5B2944B4AC00164DB5 /* saveExercise.storyboard in Resources */,
 				33CD9E0529BEDE42008BABE1 /* Settings.bundle in Resources */,
@@ -953,7 +972,6 @@
 				33A56F6829ADF3950042FA3E /* QuickExercise.storyboard in Resources */,
 				336A55BE29B775030029B1C2 /* Version.storyboard in Resources */,
 				33657A692944C87100164DB5 /* Setting.storyboard in Resources */,
-				336A55B729B712DF0029B1C2 /* RankFit.png in Resources */,
 				33E9172C2943B1F600FC074A /* Home.storyboard in Resources */,
 				33F8F274294CFFB7007A4691 /* InputInfo.storyboard in Resources */,
 			);
@@ -1113,12 +1131,14 @@
 				33CC6ED429AABB60008BD3FD /* NoticeDetailViewController.swift in Sources */,
 				33E917392943B62000FC074A /* ExerciseViewController.swift in Sources */,
 				33C6F1AE29A9528900474E29 /* weeklyRankCell.swift in Sources */,
+				33CD5F2029C0803F00C7C3B4 /* PasswordChangeViewController.swift in Sources */,
 				3338F46A299BDBE3009B731A /* InputInfoViewModel.swift in Sources */,
 				3371346529BDB00400EE361F /* defaultViewController.swift in Sources */,
 				3366A14929863B090071F9A2 /* RevokeViewModel.swift in Sources */,
+				33CD5F1B29C01FA300C7C3B4 /* PasswordLoginViewController.swift in Sources */,
 				33DA75C1294C4DFC002DAB31 /* DefaultCell.swift in Sources */,
 				3351B64E2984870D00DB3DD2 /* RevokeViewController.swift in Sources */,
-				3351B6462983526600DB3DD2 /* LoginViewController.swift in Sources */,
+				3351B6462983526600DB3DD2 /* EmailLoginViewController.swift in Sources */,
 				334E59EA29A0F91F00BF9478 /* configServer.swift in Sources */,
 				33DAAEFA298956DD004E1C0F /* OptionDetailRankCell.swift in Sources */,
 				337A91C72978018E00AA346A /* PickImageViewController.swift in Sources */,
@@ -1365,6 +1385,8 @@
 				DEVELOPMENT_TEAM = HJ943JVKX7;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = RankFit/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "랭크핏";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
 				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = NO;
 				INFOPLIST_KEY_NSCameraUsageDescription = "사진을 촬영하기 위해 권한이 필요합니다.";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "지도에서 사용자의 위치를 확인하여 경로 기록을 하기 위해 권한이 필요합니다.(필수권한)";
@@ -1374,6 +1396,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
@@ -1384,9 +1407,12 @@
 				MARKETING_VERSION = 0.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = RankFit777.RankFit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -1402,6 +1428,8 @@
 				DEVELOPMENT_TEAM = HJ943JVKX7;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = RankFit/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "랭크핏";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
 				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = NO;
 				INFOPLIST_KEY_NSCameraUsageDescription = "사진을 촬영하기 위해 권한이 필요합니다.";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "지도에서 사용자의 위치를 확인하여 경로 기록을 하기 위해 권한이 필요합니다.(필수권한)";
@@ -1411,6 +1439,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
@@ -1421,9 +1450,12 @@
 				MARKETING_VERSION = 0.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = RankFit777.RankFit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

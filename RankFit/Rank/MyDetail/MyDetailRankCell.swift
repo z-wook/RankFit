@@ -24,7 +24,6 @@ class MyDetailRankCell: UICollectionViewCell {
     private var imageCache = NSCache<NSString, UIImage>()
     
     override func awakeFromNib() {
-//        contentView.layer.cornerRadius = 20
         profile.layer.cornerRadius = 20
         self.layer.borderColor = CGColor(red: 0.7, green: 0.5, blue: 1, alpha: 1)
         self.layer.borderWidth = 3

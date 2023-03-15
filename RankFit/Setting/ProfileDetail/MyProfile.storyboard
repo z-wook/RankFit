@@ -35,7 +35,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="infomation" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m2i-KL-Owv">
-                                                    <rect key="frame" x="257.66666666666669" y="13" width="72.333333333333314" height="18"/>
+                                                    <rect key="frame" x="262.66666666666669" y="13" width="72.333333333333314" height="18"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
@@ -43,7 +43,7 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="m2i-KL-Owv" firstAttribute="centerY" secondItem="5j0-nA-WaA" secondAttribute="centerY" id="Ipf-qJ-bpL"/>
-                                                <constraint firstAttribute="trailing" secondItem="m2i-KL-Owv" secondAttribute="trailing" constant="20" id="b75-yI-EIU"/>
+                                                <constraint firstAttribute="trailing" secondItem="m2i-KL-Owv" secondAttribute="trailing" constant="15" id="b75-yI-EIU"/>
                                                 <constraint firstItem="ilU-2c-wbg" firstAttribute="leading" secondItem="5j0-nA-WaA" secondAttribute="leading" constant="20" id="nVn-aW-fy1"/>
                                                 <constraint firstItem="ilU-2c-wbg" firstAttribute="centerY" secondItem="5j0-nA-WaA" secondAttribute="centerY" id="ngl-fM-tXg"/>
                                             </constraints>

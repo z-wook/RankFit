@@ -11,9 +11,10 @@ class MyProfileViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     
-    let sectionHeader = ["내 정보", "계정"]
+    let sectionHeader = ["내 정보", "계정", "서비스"]
     let section0 = ["이메일", "성별", "나이", "몸무게", "닉네임", "프로필"]
-    let section1 = ["서비스 탈퇴"]
+    let section1 = ["비밀번호 재설정"]
+    let section2 = ["서비스 탈퇴"]
     
     let user = getSavedDateInfo()
     var userInfomation: [Any] = [] // ["성별", "나이", "몸무게", "닉네임", "프로필"]
@@ -31,6 +32,7 @@ extension MyProfileViewController: UITableViewDataSource, UITableViewDelegate {
         switch section {
         case 0: return section0.count
         case 1: return section1.count
+        case 2: return section2.count
         default: return 0
         }
     }
@@ -52,11 +54,11 @@ extension MyProfileViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MyProfileCell", for: indexPath) as? MyProfileCell else {
+            return UITableViewCell()
+        }
         switch indexPath.section {
         case 0:
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: "MyProfileCell", for: indexPath) as? MyProfileCell else {
-                return UITableViewCell()
-            }
             cell.configCell(title: section0[indexPath.item], infomation: "\(userInfomation[indexPath.item])")
             if indexPath.item >= 3 && indexPath.item <= 5 {
                 cell.accessoryType = .disclosureIndicator
@@ -64,12 +66,16 @@ extension MyProfileViewController: UITableViewDataSource, UITableViewDelegate {
                 cell.accessoryType = .none
             }
             return cell
+            
         case 1:
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: "MyProfileCell", for: indexPath) as? MyProfileCell else {
-                return UITableViewCell()
-            }
             cell.configCell(title: section1[indexPath.item], infomation: "none")
+            cell.accessoryType = .disclosureIndicator
             return cell
+            
+        case 2:
+            cell.configCell(title: section2[indexPath.item], infomation: "none")
+            return cell
+            
         default:
             return UITableViewCell()
         }
@@ -92,7 +98,12 @@ extension MyProfileViewController: UITableViewDataSource, UITableViewDelegate {
                 self.navigationController?.pushViewController(vc, animated: true)
             } else { return }
             
-        case 1: // 서비스 탈퇴
+        case 1: // 비밀번호 재설정
+            let sb = UIStoryboard(name: "PasswordChange", bundle: nil)
+            let vc = sb.instantiateViewController(withIdentifier: "PasswordChangeViewController") as! PasswordChangeViewController
+            self.navigationController?.pushViewController(vc, animated: true)
+            
+        case 2: // 서비스 탈퇴
             let sb = UIStoryboard(name: "Revoke", bundle: nil)
             let vc = sb.instantiateViewController(withIdentifier: "RevokeViewController") as! RevokeViewController
             self.navigationController?.pushViewController(vc, animated: true)
@@ -122,5 +133,14 @@ extension MyProfileViewController {
         let profile = "blank_profile"
 
         userInfomation = [email, gender, age, weight, nickname, profile]
+    }
+}
+
+extension MyProfileViewController {
+    private func showAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let ok = UIAlertAction(title: "확인", style: .default)
+        alert.addAction(ok)
+        self.present(alert, animated: true)
     }
 }

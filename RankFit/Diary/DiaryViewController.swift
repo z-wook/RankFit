@@ -377,7 +377,7 @@ extension DiaryViewController {
         navigationController?.navigationBar.tintColor = UIColor(named: "naviItme")
         navigationItem.backButtonDisplayMode = .minimal
         navigationItem.largeTitleDisplayMode = .always
-        navigationItem.title = "눈바디"
+        navigationItem.title = "다이어리"
     }
     
     private func openLibrary() {
