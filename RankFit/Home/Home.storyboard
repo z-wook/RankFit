@@ -91,7 +91,7 @@
                                 </cells>
                             </collectionView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dh3-Ro-Haz">
-                                <rect key="frame" x="310" y="251" width="50" height="50"/>
+                                <rect key="frame" x="170" y="251" width="50" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="50" id="14Y-b8-c0l"/>
                                     <constraint firstAttribute="width" secondItem="Dh3-Ro-Haz" secondAttribute="height" multiplier="1:1" id="YrY-SL-rCw"/>
@@ -122,9 +122,9 @@
                             <constraint firstItem="WvB-9D-c48" firstAttribute="height" secondItem="V39-Qg-UXn" secondAttribute="height" id="GRu-Z5-JwD"/>
                             <constraint firstItem="Dh3-Ro-Haz" firstAttribute="top" secondItem="V39-Qg-UXn" secondAttribute="bottom" constant="20" id="IcB-F9-GXn"/>
                             <constraint firstItem="WvB-9D-c48" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="30" id="Iix-eq-1a4"/>
-                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="Dh3-Ro-Haz" secondAttribute="trailing" constant="30" id="PaS-VW-Wsp"/>
                             <constraint firstItem="V39-Qg-UXn" firstAttribute="leading" secondItem="WvB-9D-c48" secondAttribute="leading" id="cBw-0G-rmn"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="RZv-VC-Fxk" secondAttribute="trailing" id="ftc-Aw-Qle"/>
+                            <constraint firstItem="Dh3-Ro-Haz" firstAttribute="centerX" secondItem="vDu-zF-Fre" secondAttribute="centerX" id="oRV-4C-zhU"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="RZv-VC-Fxk" secondAttribute="bottom" constant="20" id="oZF-0d-91l"/>
                             <constraint firstItem="WvB-9D-c48" firstAttribute="centerX" secondItem="vDu-zF-Fre" secondAttribute="centerX" id="qkm-IE-WRN"/>
                             <constraint firstItem="V39-Qg-UXn" firstAttribute="bottom" secondItem="WvB-9D-c48" secondAttribute="bottom" id="rf9-7k-mSh"/>

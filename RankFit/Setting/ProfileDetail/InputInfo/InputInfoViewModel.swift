@@ -63,21 +63,11 @@ final class InputInfoViewModel {
     
     func sendNickName(nickName: String, subject: PassthroughSubject<Bool, Never>) {
         let id = saveUserData.getKeychainStringValue(forKey: .UID) ?? "정보없음"
-        let email = saveUserData.getKeychainStringValue(forKey: .Email) ?? "정보없음"
-        let birth = saveUserData.getKeychainStringValue(forKey: .Birth)
-        let age = calcDate().getAge(BDay: birth ?? "1900")
-        let gender = saveUserData.getKeychainIntValue(forKey: .Gender) ?? 0
-        let weight = saveUserData.getKeychainIntValue(forKey: .Weight) ?? 1
-        
         let parameters: Parameters = [
             "userID": id,
-            "userEmail": email,
-            "userNickname": nickName,
-            "userAge": age,
-            "userSex": gender ,
-            "userWeight": weight
+            "userNickname": nickName
         ]
-        AF.request("http://rankfit.site/Register.php", method: .post, parameters: parameters).validate(statusCode: 200..<300).responseString { response in
+        AF.request("http://rankfit.site/UpdateNickname.php", method: .post, parameters: parameters).validate(statusCode: 200..<300).responseString { response in
             if let responseBody = response.value {
                 if responseBody == "true" {
                     subject.send(true)

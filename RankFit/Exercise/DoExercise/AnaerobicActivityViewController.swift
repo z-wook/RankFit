@@ -52,10 +52,6 @@ class AnaerobicActivityViewController: UIViewController {
         center.removeObserver(self)
     }
     
-    deinit {
-        print("=====> deinit")
-    }
-    
     @IBAction func pauseAndPlay(_ sender: UIButton) {
         timerCounting.toggle()
         

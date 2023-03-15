@@ -77,14 +77,11 @@ class AerobicActivityViewController: UIViewController {
     }
     
     @IBAction func saveExercise(_ sender: UIButton) {
-        // test용
-        exDoneAlert()
-        
-//        if (exerciseInfo.distance <= totalDistance * 0.001) { // 거리 달성
-//            exDoneAlert()
-//        } else { // 거리 미달성
-//            exCancelAlert()
-//        }
+        if (exerciseInfo.distance <= totalDistance * 0.001) { // 거리 달성
+            exDoneAlert()
+        } else { // 거리 미달성
+            exCancelAlert()
+        }
     }
 }
 

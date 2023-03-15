@@ -279,7 +279,7 @@ extension ExerciseViewController: FSCalendarDelegate, FSCalendarDataSource, FSCa
         
         // 클릭하는 날짜 업데이트
         let selectDate = dateFormatter.string(from: date)
-
+        
         // 날짜 클릭때마다 read는 비효율적이니까 이전 클릭했던 날짜랑 비교해서 다르면 read하기
         if ExerciseViewController.pickDate != selectDate {
             ExerciseViewController.pickDate = selectDate

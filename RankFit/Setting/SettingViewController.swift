@@ -157,6 +157,7 @@ extension SettingViewController {
                 let sb = UIStoryboard(name: "Register", bundle: nil)
                 let vc = sb.instantiateViewController(withIdentifier: "ChoiceWayViewController") as! ChoiceWayViewController
                 navigationController?.pushViewController(vc, animated: true)
+                return
             } else {
                 let user = Auth.auth().currentUser
                 if user != nil { // 로그인 된 상태 -> 프로필 창으로
@@ -164,9 +165,8 @@ extension SettingViewController {
                     let vc = sb.instantiateViewController(withIdentifier: "MyProfileViewController") as! MyProfileViewController
                     navigationController?.pushViewController(vc, animated: true)
                 } else { // 로그아웃 상태 -> 로그인 창으로
-                    let sb = UIStoryboard(name: "Login", bundle: nil)
-                    let vc = sb.instantiateViewController(withIdentifier: "LoginViewController") as! LoginViewController
-                    navigationController?.pushViewController(vc, animated: true)
+                    // 이메일 인증 or 비밀번호 인증 선택하기
+                    showLoginType()
                 }
             }
             
@@ -286,6 +286,24 @@ extension SettingViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
+    private func showLoginType() {
+        let sb = UIStoryboard(name: "Login", bundle: nil)
+        let alert = UIAlertController(title: "로그인 인증 선택", message: nil, preferredStyle: .alert)
+        let email = UIAlertAction(title: "이메일 인증 로그인", style: .default) { _ in
+            let vc = sb.instantiateViewController(withIdentifier: "EmailLoginViewController") as! EmailLoginViewController
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+        let password = UIAlertAction(title: "비밀번호 인증 로그인", style: .default) { _ in
+            let vc = sb.instantiateViewController(withIdentifier: "PasswordLoginViewController") as! PasswordLoginViewController
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+        let cancel = UIAlertAction(title: "취소", style: .destructive)
+        alert.addAction(email)
+        alert.addAction(password)
+        alert.addAction(cancel)
+        self.present(alert, animated: true, completion: nil)
+    }
+    
     private func showLogOutConfirmAlert() {
         let alert = UIAlertController(title: "로그아웃하시겠습니까?", message: "로그아웃하시면 랭크핏 서비스를 이용할 수 없습니다.", preferredStyle: .alert)
         let cancel = UIAlertAction(title: "로그인 유지", style: .default)
@@ -311,7 +329,25 @@ extension SettingViewController {
     private func bind() {
         SettingViewController.reloadProfile.receive(on: RunLoop.main).sink { _ in
             print("Setting Reload")
-            self.tableView.reloadData()
+            // auth reload
+            Auth.auth().currentUser?.reload(completion: { error in
+                if let error = error {
+                    let error = error.localizedDescription
+                    print("error: \(error)")
+                    // 1. "The user account has been disabled by an administrator."
+                    // 2. "The user's credential is no longer valid. The user must sign in again."
+                    self.logoutState.send(true)
+                    return
+                }
+            })
+            let user = Auth.auth().currentUser
+            if user != nil { // 로그인 된 상태 -> 프로필 창으로
+                self.tableView.reloadData()
+                return
+            } else { // 로그아웃 상태 -> 로그인 창으로
+                print("로그아웃 상태")
+                self.logoutState.send(true)
+            }
         }.store(in: &subscriptions)
         
         logoutState.receive(on: RunLoop.main).sink { _ in

@@ -44,13 +44,13 @@ final class ReturnToRankFit {
                 let result = PhotoCoreData.saveCoreData(info: photoinfo)
                 if result == false { // Firebase에서 일부 사진 저장 실패하더라도 에러 보고만 하고 계속 진행하기
                     print("coreData에 저장 못함")
-                    configFirebase.errorReport(type: "DiaryVC.bind/downloadState", descriptions: "CoerData에 저장 못함")
+                    configFirebase.errorReport(type: "ReturnToRankFit.bind/downloadState", descriptions: "CoerData에 저장 못함")
                     // doucument에서 file 삭제
                     configLocalStorage.deleteImageFromDocumentDirectory(imageName: imgName)
                 }
             } else {
                 print("로컬에 저장 못함")
-                configFirebase.errorReport(type: "DiaryVC.bind/downloadState", descriptions: "Local에 저장 못함")
+                configFirebase.errorReport(type: "ReturnToRankFit.bind/downloadState", descriptions: "Local에 저장 못함")
             }
         }.store(in: &subscriptions)
         
@@ -137,7 +137,7 @@ extension ReturnToRankFit {
                     self.infoSubject.send(list)
                 } else {
                     print("info == nil")
-                    configFirebase.errorReport(type: "OptionDetailVM.getDetailExInfo", descriptions: "info == nil", server: response.debugDescription)
+                    configFirebase.errorReport(type: "ReturnToRankFit.getDetailExInfo", descriptions: "info == nil", server: response.debugDescription)
                     self.infoSubject.send([])
                 }
             }
