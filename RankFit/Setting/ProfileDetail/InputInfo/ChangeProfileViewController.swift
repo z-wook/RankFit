@@ -223,6 +223,7 @@ extension ChangeProfileViewController {
                 DispatchQueue.main.async {
                     print("Album: 권한 허용")
                     self.picker.sourceType = .photoLibrary
+                    
                     self.present(self.picker, animated: true)
                 }
                 

@@ -21,6 +21,11 @@ class PasswordLoginViewController: UIViewController {
     
     let finalSubject = PassthroughSubject<Bool, Never>()
     var subscriptions = Set<AnyCancellable>()
+    enum Error: String {
+        case denied = "The user account has been disabled by an administrator."
+        case password = "The password is invalid or the user does not have a password."
+        case record = "There is no user record corresponding to this identifier. The user may have been deleted."
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -126,13 +131,13 @@ class PasswordLoginViewController: UIViewController {
             if let error = error {
                 let error = error.localizedDescription
                 print("error: \(error)")
-                if error == "The user account has been disabled by an administrator." {
+                if error == Error.denied.rawValue {
                     self.showAlert(title: "계정 사용 중지됨", description: "귀하의 계정이 사용 중지되었습니다. 문의사항은 관리자에게 해주세요.", type: "auth")
                     return
-                } else if error == "The password is invalid or the user does not have a password." {
+                } else if error == Error.password.rawValue {
                     self.showAlert(title: "비밀번호 오류", description: "잘못된 비밀번호이거나 비밀번호를 설정하지 않았습니다.", type: "login")
                     return
-                } else if error == "There is no user record corresponding to this identifier. The user may have been deleted." {
+                } else if error == Error.record.rawValue {
                     self.showAlert(title: "로그인 실패", description: "등록된 정보가 없습니다. 회원가입하지 않았거나, 가입 시 사용한 이메일이 아닙니다.", type: "login")
                     return
                 } else {
@@ -183,6 +188,7 @@ class PasswordLoginViewController: UIViewController {
                             ReturnToRankFit().initiate(nickName: nickName, Subject: self.finalSubject)
                         } else {
                             SettingViewController.reloadProfile.send(true)
+                            self.indicator.stopAnimating()
                             self.navigationController?.popToRootViewController(animated: true)
                         }
                     }

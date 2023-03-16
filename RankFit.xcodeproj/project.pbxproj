@@ -32,6 +32,7 @@
 		334E1E4E297B1756005753C9 /* PhotoCoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334E1E4D297B1756005753C9 /* PhotoCoreData.swift */; };
 		334E59E829A0BE2B00BF9478 /* ZoomProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334E59E729A0BE2B00BF9478 /* ZoomProfileViewController.swift */; };
 		334E59EA29A0F91F00BF9478 /* configServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334E59E929A0F91F00BF9478 /* configServer.swift */; };
+		3350926B29C2932900F31619 /* RankFit_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 3350926A29C2932900F31619 /* RankFit_icon.png */; };
 		3351B6462983526600DB3DD2 /* EmailLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3351B6452983526600DB3DD2 /* EmailLoginViewController.swift */; };
 		3351B6492983528B00DB3DD2 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3351B6482983528B00DB3DD2 /* Login.storyboard */; };
 		3351B64B298486EE00DB3DD2 /* Revoke.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3351B64A298486EE00DB3DD2 /* Revoke.storyboard */; };
@@ -113,7 +114,6 @@
 		33CD5F1B29C01FA300C7C3B4 /* PasswordLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CD5F1A29C01FA300C7C3B4 /* PasswordLoginViewController.swift */; };
 		33CD5F1E29C0801F00C7C3B4 /* PasswordChange.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 33CD5F1D29C0801F00C7C3B4 /* PasswordChange.storyboard */; };
 		33CD5F2029C0803F00C7C3B4 /* PasswordChangeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CD5F1F29C0803F00C7C3B4 /* PasswordChangeViewController.swift */; };
-		33CD5F2229C123F600C7C3B4 /* RankFit_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 33CD5F2129C123F600C7C3B4 /* RankFit_icon.png */; };
 		33CD9E0529BEDE42008BABE1 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 33CD9E0429BEDE42008BABE1 /* Settings.bundle */; };
 		33D6A08E2947005100C88657 /* RegisterAgeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D6A08D2947005100C88657 /* RegisterAgeViewController.swift */; };
 		33D6A09029470BB500C88657 /* RegisterWeightViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D6A08F29470BB500C88657 /* RegisterWeightViewController.swift */; };
@@ -200,6 +200,7 @@
 		334E1E4D297B1756005753C9 /* PhotoCoreData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCoreData.swift; sourceTree = "<group>"; };
 		334E59E729A0BE2B00BF9478 /* ZoomProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZoomProfileViewController.swift; sourceTree = "<group>"; };
 		334E59E929A0F91F00BF9478 /* configServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = configServer.swift; sourceTree = "<group>"; };
+		3350926A29C2932900F31619 /* RankFit_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = RankFit_icon.png; sourceTree = "<group>"; };
 		3351B6452983526600DB3DD2 /* EmailLoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailLoginViewController.swift; sourceTree = "<group>"; };
 		3351B6482983528B00DB3DD2 /* Login.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
 		3351B64A298486EE00DB3DD2 /* Revoke.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Revoke.storyboard; sourceTree = "<group>"; };
@@ -269,7 +270,6 @@
 		33CD5F1A29C01FA300C7C3B4 /* PasswordLoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordLoginViewController.swift; sourceTree = "<group>"; };
 		33CD5F1D29C0801F00C7C3B4 /* PasswordChange.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = PasswordChange.storyboard; sourceTree = "<group>"; };
 		33CD5F1F29C0803F00C7C3B4 /* PasswordChangeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordChangeViewController.swift; sourceTree = "<group>"; };
-		33CD5F2129C123F600C7C3B4 /* RankFit_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = RankFit_icon.png; sourceTree = "<group>"; };
 		33CD9E0429BEDE42008BABE1 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		33D6A08D2947005100C88657 /* RegisterAgeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterAgeViewController.swift; sourceTree = "<group>"; };
 		33D6A08F29470BB500C88657 /* RegisterWeightViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterWeightViewController.swift; sourceTree = "<group>"; };
@@ -627,7 +627,7 @@
 		33DA75AB29497EFD002DAB31 /* LaunchScreen */ = {
 			isa = PBXGroup;
 			children = (
-				33CD5F2129C123F600C7C3B4 /* RankFit_icon.png */,
+				3350926A29C2932900F31619 /* RankFit_icon.png */,
 				33E917012943AC4B00FC074A /* LaunchScreen.storyboard */,
 			);
 			path = LaunchScreen;
@@ -947,13 +947,13 @@
 			files = (
 				33E917372943B61400FC074A /* Exercise.storyboard in Resources */,
 				3351B6492983528B00DB3DD2 /* Login.storyboard in Resources */,
+				3350926B29C2932900F31619 /* RankFit_icon.png in Resources */,
 				33CC6ECB29AA7962008BD3FD /* Notice.storyboard in Resources */,
 				3373E85A2962213900680290 /* MyDetail.storyboard in Resources */,
 				3351B64B298486EE00DB3DD2 /* Revoke.storyboard in Resources */,
 				336A55B929B727CA0029B1C2 /* Running.mp3 in Resources */,
 				33D7DE58296DF3820034405E /* Diary.storyboard in Resources */,
 				333A4FA62960A9F0004C494C /* OptionDetail.storyboard in Resources */,
-				33CD5F2229C123F600C7C3B4 /* RankFit_icon.png in Resources */,
 				33C7F09729B59F050045CC67 /* Ask.storyboard in Resources */,
 				33E917322943B57200FC074A /* Rank.storyboard in Resources */,
 				33657A5229448C2500164DB5 /* ExerciseList.storyboard in Resources */,
