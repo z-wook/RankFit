@@ -104,7 +104,7 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ztQ-Cd-Gp7">
                                         <rect key="frame" x="0.0" y="0.0" width="390" height="70"/>
                                         <subviews>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="onboarding_running" translatesAutoresizingMaskIntoConstraints="NO" id="N5z-vr-fSs">
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="RankFit_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="N5z-vr-fSs">
                                                 <rect key="frame" x="30" y="0.0" width="70" height="70"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="N5z-vr-fSs" secondAttribute="height" multiplier="1:1" id="B32-MK-0w2"/>
@@ -190,7 +190,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="onboarding_running" width="7284" height="4858"/>
+        <image name="RankFit_icon.png" width="1024" height="1024"/>
         <systemColor name="labelColor">
             <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

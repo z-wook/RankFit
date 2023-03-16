@@ -24,14 +24,22 @@ class RevokeViewController: UIViewController {
     let subject = PassthroughSubject<String, Never>()
     var subscriptions = Set<AnyCancellable>()
     let viewModel = RevokeViewModel()
-    var center: NotificationCenter!
+    var center: NotificationCenter?
     var email: String = saveUserData.getKeychainStringValue(forKey: .Email) ?? ""
+    enum Error: String {
+        case expired = "The action code is invalid. This can happen if the code is malformed, expired, or has already been used."
+        case denied = "The user account has been disabled by an administrator."
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         configure()
         bind()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        center?.removeObserver(self)
     }
     
     private func configure() {
@@ -50,10 +58,18 @@ class RevokeViewController: UIViewController {
             UserDefaults.standard.removeObject(forKey: "revoke")
             Auth.auth().signIn(withEmail: self.email, link: link) { result, error in
                 if let error = error {
-                    print("email auth error: \(error.localizedDescription) ")
-                    configFirebase.errorReport(type: "RevokeVC.bind", descriptions: error.localizedDescription)
                     self.indicator.stopAnimating()
-                    self.showAlert(title: "이메일 인증 실패", description: "이메일 인증에 실패하였습니다. 잠시 후 다시 시도해 주세요.")
+                    let error = error.localizedDescription
+                    if error == Error.expired.rawValue {
+                        print("만료된 이메일 인증 링크")
+                        self.showAlert(title: "이메일 인증 실패", description: "만료된 이메일 인증 링크입니다. 잠시 후 다시 시도해 주세요.")
+                        return
+                    } else {
+                        print("email auth error: \(error)")
+                        configFirebase.errorReport(type: "RevokeVC.bind", descriptions: error)
+                        self.showAlert(title: "이메일 인증 실패", description: "이메일 인증에 실패하였습니다. 잠시 후 다시 시도해 주세요.")
+                        return
+                    }
                 } else {
                     guard let result = result else {
                         configFirebase.errorReport(type: "RevokeVC.bind", descriptions: "result == nil")
@@ -87,6 +103,8 @@ class RevokeViewController: UIViewController {
     }
     
     @IBAction func sendEmail(_ sender: UIButton) {
+        view.endEditing(true) // 키보드 내리기
+        center?.removeObserver(self)
         guard let email = saveUserData.getKeychainStringValue(forKey: .Email) else {
             return print("email 없음")
         }
@@ -99,7 +117,7 @@ class RevokeViewController: UIViewController {
                                    actionCodeSettings: actionCodeSettings) { error in
             if let error = error {
                 let error = error.localizedDescription
-                if error == "The user account has been disabled by an administrator." {
+                if error == Error.denied.rawValue {
                     self.showAlert(title: "계정 사용 중지됨", description: "귀하의 계정이 사용 중지되었습니다. 문의사항은 관리자에게 해주세요.")
                     return
                 }
@@ -115,7 +133,7 @@ class RevokeViewController: UIViewController {
                 self.emailState.textColor = .systemPink
                 // Notification 생성
                 self.center = NotificationCenter.default
-                self.center.addObserver(self, selector: #selector(self.Revoke), name: NSNotification.Name("revoke"), object: nil)
+                self.center?.addObserver(self, selector: #selector(self.Revoke), name: NSNotification.Name("revoke"), object: nil)
             }
         }
     }
@@ -137,7 +155,7 @@ extension RevokeViewController {
     private func showAlert(title: String, description: String) {
         let alert = UIAlertController(title: title, message: description, preferredStyle: .alert)
         let ok = UIAlertAction(title: "확인", style: .default) { _ in
-            self.center.removeObserver(self)
+            self.center?.removeObserver(self)
             self.navigationController?.popToRootViewController(animated: true)
         }
         alert.addAction(ok)
@@ -152,7 +170,7 @@ extension RevokeViewController {
             self.viewModel.initiateWithdrawal()
         }
         let cancel = UIAlertAction(title: "계정 유지", style: .default) { _ in
-            self.center.removeObserver(self)
+            self.center?.removeObserver(self)
             self.navigationController?.popViewController(animated: true)
         }
         alert.addAction(ok)

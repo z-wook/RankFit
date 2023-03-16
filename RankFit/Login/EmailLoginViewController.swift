@@ -21,14 +21,21 @@ class EmailLoginViewController: UIViewController {
     let loginSubject = PassthroughSubject<String, Never>()
     let finalSubject = PassthroughSubject<Bool, Never>()
     var subscriptions = Set<AnyCancellable>()
-    var center: NotificationCenter!
+    var center: NotificationCenter?
     var email: String!
+    enum Error: String {
+        case expired = "The action code is invalid. This can happen if the code is malformed, expired, or has already been used."
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         configure()
         bind()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        center?.removeObserver(self)
     }
     
     private func configure() {
@@ -46,10 +53,17 @@ class EmailLoginViewController: UIViewController {
             UserDefaults.standard.removeObject(forKey: "login")
             Auth.auth().signIn(withEmail: self.email, link: link) { result, error in
                 if let error = error {
-                    print("email auth error: \(error.localizedDescription)")
-                    configFirebase.errorReport(type: "LoginVC.bind", descriptions: error.localizedDescription)
                     self.indicator.stopAnimating()
-                    self.showAlert(title: "이메일 인증 실패", description: "이메일 인증에 실패하였습니다. 잠시 후 다시 시도해 주세요.", type: "login")
+                    let error = error.localizedDescription
+                    if error == Error.expired.rawValue {
+                        print("만료된 이메일 인증 링크")
+                        self.showAlert(title: "이메일 인증 실패", description: "만료된 이메일 인증 링크입니다. 잠시 후 다시 시도해 주세요.", type: "login")
+                        return
+                    } else {
+                        print("email auth error: \(error)")
+                        configFirebase.errorReport(type: "LoginVC.bind", descriptions: error)
+                        self.showAlert(title: "이메일 인증 실패", description: "이메일 인증에 실패하였습니다. 잠시 후 다시 시도해 주세요.", type: "login")
+                    }
                 } else {
                     guard let result = result else {
                         configFirebase.errorReport(type: "LoginVC.bind", descriptions: "result == nil")
@@ -73,7 +87,7 @@ class EmailLoginViewController: UIViewController {
                                 if let user = user {
                                     user.delete { error in
                                         if let error = error {
-                                            print("error: " + error.localizedDescription)
+                                            print("error: \(error.localizedDescription)")
                                             configFirebase.errorReport(type: "LoginVC.loginErrorAlert", descriptions: "\(String(describing: user.email))" + error.localizedDescription)
                                             self.indicator.stopAnimating()
                                             self.showAlert(title: "로그인 실패", description: "등록된 정보가 없습니다. 회원가입하지 않았거나, 가입 시 사용한 이메일이 아닙니다.", type: "default")
@@ -154,9 +168,10 @@ class EmailLoginViewController: UIViewController {
     }
     
     @IBAction func sendEmail(_ sender: UIButton) {
+        view.endEditing(true) // 키보드 내리기
+        center?.removeObserver(self)
         guard let email = emailField.text else { return }
         emailCheck.layer.isHidden = true
-        view.endEditing(true) // 키보드 내리기
         // 이메일 검사
         let result = isValidEmail(email: email)
         if result {
@@ -185,7 +200,7 @@ class EmailLoginViewController: UIViewController {
                     self.emailState.textColor = .systemPink
                     // Notification 생성
                     self.center = NotificationCenter.default
-                    self.center.addObserver(self, selector: #selector(self.Login), name: NSNotification.Name("login"), object: nil)
+                    self.center?.addObserver(self, selector: #selector(self.Login), name: NSNotification.Name("login"), object: nil)
                 }
             }
         } else {
@@ -220,7 +235,7 @@ extension EmailLoginViewController {
         let ok = UIAlertAction(title: "확인", style: .default) { _ in
             switch type {
             case "login":
-                self.center.removeObserver(self)
+                self.center?.removeObserver(self)
                 self.navigationController?.popToRootViewController(animated: true)
                 return
                 
@@ -229,7 +244,7 @@ extension EmailLoginViewController {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                     DiaryViewController.reloadDiary.send(true)
                 }
-                self.center.removeObserver(self)
+                self.center?.removeObserver(self)
                 self.navigationController?.popToRootViewController(animated: true)
                 return
                 

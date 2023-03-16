@@ -35,17 +35,25 @@ class RegisterAccountViewController: UIViewController {
     var subscriptions = Set<AnyCancellable>()
     let viewModel = AuthenticationModel()
     var infomation: userInfo!
-    var center: NotificationCenter!
+    var center: NotificationCenter?
     var nickName: String!
     var email: String!
     var ageCheck: Bool = false
     var agree: Bool = false
 
+    enum Error: String {
+        case expired = "The action code is invalid. This can happen if the code is malformed, expired, or has already been used."
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         configure()
         bind()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        center?.removeObserver(self)
     }
     
     private func bind() {
@@ -66,11 +74,18 @@ class RegisterAccountViewController: UIViewController {
             self.indicator.startAnimating()
             Auth.auth().signIn(withEmail: self.email, link: link) { result, error in
                 if let error = error {
-                    print("email auth error: \(error.localizedDescription)")
-                    configFirebase.errorReport(type: "RegisterAccountVC.bind", descriptions: error.localizedDescription)
                     self.indicator.stopAnimating()
-                    self.showAlert(title: "이메일 인증 실패", description: "이메일 인증에 실패하였습니다. 잠시 후 다시 시도해 주세요.", type: "fail")
-                    return
+                    let error = error.localizedDescription
+                    if error == Error.expired.rawValue {
+                        print("만료된 이메일 인증 링크")
+                        self.showAlert(title: "이메일 인증 실패", description: "만료된 이메일 인증 링크입니다. 잠시 후 다시 시도해 주세요.", type: "fail")
+                        return
+                    } else {
+                        print("email auth error: \(error)")
+                        configFirebase.errorReport(type: "RegisterAccountVC.bind", descriptions: error)
+                        self.showAlert(title: "이메일 인증 실패", description: "이메일 인증에 실패하였습니다. 잠시 후 다시 시도해 주세요.", type: "fail")
+                        return
+                    }
                 } else {
                     guard let result = result else {
                         configFirebase.errorReport(type: "RegisterAccountVC.bind", descriptions: "result == nil")
@@ -207,6 +222,7 @@ class RegisterAccountViewController: UIViewController {
     
     @IBAction func sendEmail(_ sender: UIButton) {
         view.endEditing(true) // 키보드 내리기
+        center?.removeObserver(self)
         if ageCheck != true || agree != true {
             showAlert(title: "동의 항목을 체크해 주세요", type: "check")
             return
@@ -242,7 +258,7 @@ class RegisterAccountViewController: UIViewController {
                     self.nickNameField.isEnabled = false
                     // Notification 생성
                     self.center = NotificationCenter.default
-                    self.center.addObserver(self, selector: #selector(self.Register), name: NSNotification.Name("register"), object: nil)
+                    self.center?.addObserver(self, selector: #selector(self.Register), name: NSNotification.Name("register"), object: nil)
                 }
             }
         } else {
@@ -300,12 +316,12 @@ extension RegisterAccountViewController {
             case "email", "check": return
                 
             case "fail":
-                self.center.removeObserver(self)
+                self.center?.removeObserver(self)
                 self.navigationController?.popViewController(animated: true)
                 return
                 
             case "auth":
-                self.center.removeObserver(self)
+                self.center?.removeObserver(self)
                 self.navigationController?.popToRootViewController(animated: true)
                 return
                 
@@ -314,7 +330,7 @@ extension RegisterAccountViewController {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                     DiaryViewController.reloadDiary.send(true)
                 }
-                self.center.removeObserver(self)
+                self.center?.removeObserver(self)
                 self.navigationController?.popToRootViewController(animated: true)
             }
         }
