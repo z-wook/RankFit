@@ -278,7 +278,7 @@ extension QuickAerobicViewController {
                     // Firebase save, done
                     configFirebase.saveEx(exName: self.exerciseInfo.exercise, time: self.exerciseInfo.saveTime, uuid: self.exerciseInfo.id.uuidString, date: self.exerciseInfo.date)
                     let avgSpeed = self.totalDistance / Double(self.count)
-                    configFirebase.saveDoneEx(exName: self.exerciseInfo.exercise, set: 0, weight: 0, count: 0, distance: self.totalDistance, maxSpeed: self.maxSpeed * 3.6, avgSpeed: avgSpeed * 3.6, time: Int64(self.count), date: self.exerciseInfo.date)
+                    configFirebase.saveDoneEx(exName: self.exerciseInfo.exercise, set: 0, weight: 0, count: 0, distance: self.exerciseInfo.distance, maxSpeed: round(self.maxSpeed * 3.6), avgSpeed: round(avgSpeed * 3.6), time: Int64(self.count), date: self.exerciseInfo.date)
                     self.navigationController?.popViewController(animated: true)
                 } else {
                     print("운동 저장 실패")
@@ -392,7 +392,8 @@ extension QuickAerobicViewController {
             let time = Int64(TimeStamp.getCurrentTimestamp())
             self.saveTime = time
             let tableName = exType == "러닝" ? "running" : "cycle"
-            self.exerciseInfo = aerobicExerciseInfo(exercise: exType, table_Name: tableName, date: calcDate().currentDate(), time: countToMin, distance: self.totalDistance * 0.001, saveTime: time, done: true)
+            let dis = Double(String(format: "%.2f", self.totalDistance * 0.001)) ?? 0
+            self.exerciseInfo = aerobicExerciseInfo(exercise: exType, table_Name: tableName, date: calcDate().currentDate(), time: countToMin, distance: dis, saveTime: time, done: true)
             configServer.sendSaveEx(info: self.exerciseInfo, subject: self.saveServer)
         }
         alert.addAction(cancle)

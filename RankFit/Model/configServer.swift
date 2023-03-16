@@ -79,8 +79,9 @@ final class configServer {
     static func sendCompleteEx(info: aerobicExerciseInfo, totalDis: Double, time: Int, saveTime: Int64, subject: PassthroughSubject<Bool, Never>) {
         let uuid = info.id
         let userID = saveUserData.getKeychainStringValue(forKey: .UID) ?? "정보없음"
-        let tableName = info.tableName                              // string
-        let score = totalDis + (totalDis / (Double(time)/60))       // double
+        let tableName = info.tableName
+        let dis = Double(String(format: "%.2f", totalDis)) ?? 0
+        let score = round(totalDis + (totalDis / (Double(time)/60)))    // double
         let userGender = saveUserData.getKeychainIntValue(forKey: .Gender) ?? 0
         let start_Timestamp = TimeStamp.getStart_OR_End_Timestamp(start_or_end: "start")
         let end_Timestamp = TimeStamp.getStart_OR_End_Timestamp(start_or_end: "end")
@@ -90,7 +91,7 @@ final class configServer {
             "userID": userID,           // Firebase에서 받은 UID
             "eng": tableName,           // 테이블 이름
             "userDate": saveTime,       // 운동 완료 시간(시간 갱신)
-            "userDistance": totalDis,   // 실제 운동 거리
+            "userDistance": dis,        // 실제 운동 거리
             "userTime": time,           // 실제 운동 시간(분)
             "Score": score,             // 거리 + 평균속도
             "userState": 1,             // 완료 1, 미완료 0

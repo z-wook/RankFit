@@ -273,10 +273,11 @@ extension AerobicActivityViewController {
                 if countToMin < 1 {
                     countToMin = 1
                 }
-                let update = ExerciseCoreData.updateCoreData(id: self.exerciseInfo.id, entityName: "Aerobic", distance: self.totalDistance * 0.001, time: countToMin, saveTime: self.saveTime, done: true)
+                let dis = Double(String(format: "%.2f", self.totalDistance * 0.001)) ?? 0
+                let update = ExerciseCoreData.updateCoreData(id: self.exerciseInfo.id, entityName: "Aerobic", distance: dis, time: countToMin, saveTime: self.saveTime, done: true)
                 if update {
                     print("운동 완료 후 업데이트 성공")
-                    configFirebase.saveDoneEx(exName: self.exerciseInfo.exercise, set: 0, weight: 0, count: 0, distance: self.totalDistance, maxSpeed: self.maxSpeed * 3.6, avgSpeed: self.avgSpeed * 3.6, time: Int64(self.count), date: self.exerciseInfo.date)
+                    configFirebase.saveDoneEx(exName: self.exerciseInfo.exercise, set: 0, weight: 0, count: 0, distance: dis, maxSpeed: round(self.maxSpeed * 3.6), avgSpeed: round(self.avgSpeed * 3.6), time: Int64(self.count), date: self.exerciseInfo.date)
                     ExerciseViewController.reloadEx.send(true)
                     self.navigationController?.popViewController(animated: true)
                 } else {
