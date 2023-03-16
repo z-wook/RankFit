@@ -71,13 +71,15 @@ class MyRankViewController: UIViewController {
     
     private func bind() {
         MyViewModel.MySubject.receive(on: RunLoop.main).sink { rankList in
-            if rankList?.isEmpty == true { return }
-            self.indicator.stopAnimating()
-            guard let rankList = rankList else {
-                self.applyMyRankItems(items: [MyRankInfo(Exercise: "서버 오류\n랭킹을 불러오는데 실패했습니다.\n다시 시도해 주세요.", My_Ranking: "")])
-                return
+            // 마이랭킹 순위 받아오는 과정 중 다른 옵션을 선택했을 때 apply 하지 않도록 방지
+            if self.type == "마이랭킹" && rankList?.isEmpty != true {
+                self.indicator.stopAnimating()
+                guard let rankList = rankList else {
+                    self.applyMyRankItems(items: [MyRankInfo(Exercise: "서버 오류\n랭킹을 불러오는데 실패했습니다.\n다시 시도해 주세요.", My_Ranking: "")])
+                    return
+                }
+                self.applyMyRankItems(items: rankList)
             }
-            self.applyMyRankItems(items: rankList)
         }.store(in: &subscriptions)
         
         OptionViewModel.optionSubject.receive(on: RunLoop.main).sink { rankList in

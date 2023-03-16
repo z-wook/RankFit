@@ -63,13 +63,13 @@ class ExerciseListViewController: UIViewController {
             cell.configure(item: itemIdentifier)
             return cell
         })
-
+        
         collectionView.collectionViewLayout = layout()
         var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
         snapshot.appendSections([.main])
         snapshot.appendItems(viewModel.items.value, toSection: .main)
         datasource.apply(snapshot)
-
+        
         collectionView.delegate = self
     }
     
@@ -83,7 +83,7 @@ class ExerciseListViewController: UIViewController {
         let section = NSCollectionLayoutSection(group: group)
         section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 20, bottom: 10, trailing: 20)
         section.interGroupSpacing = 10
-
+        
         let layout = UICollectionViewCompositionalLayout(section: section)
         return layout
     }

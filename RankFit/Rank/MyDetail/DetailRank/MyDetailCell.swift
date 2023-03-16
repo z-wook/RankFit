@@ -38,17 +38,20 @@ class MyDetailCell: UICollectionViewCell {
         label1_num.text = "\(info.Set)"
         label2_leading.constant = 70
         
-        if info.Exercise == "플랭크" {
-            label2.text = "시간(초)"
-            label2_num.text = "\(info.Time)"
+        if info.Weight == 0 {
             weight.layer.isHidden = true
             weight_num.layer.isHidden = true
         } else {
-            label2.text = "개수"
-            label2_num.text = "\(info.Count)"
             weight_num.text = "\(info.Weight)"
             weight.layer.isHidden = false
             weight_num.layer.isHidden = false
+        }
+        if info.Exercise == "플랭크" {
+            label2.text = "시간(초)"
+            label2_num.text = "\(info.Time)"
+        } else {
+            label2.text = "개수"
+            label2_num.text = "\(info.Count)"
         }
     }
     

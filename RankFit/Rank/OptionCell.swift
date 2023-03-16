@@ -20,6 +20,10 @@ class OptionCell: UICollectionViewCell {
     var userInfo: OptionRankInfo!
     var img: UIImage!
     var request: DataRequest!
+    enum Error: String {
+        case cancelled = "Request explicitly cancelled."
+        case failed = "URLSessionTask failed with error: 네트워크 연결이 유실되었습니다."
+    }
     
     // Cache할 객체의 key값을 String으로 생성
     private var imageCache = NSCache<NSString, UIImage>()
@@ -117,14 +121,17 @@ extension OptionCell {
                 return
                 
             case .failure(let error):
-                if error.localizedDescription == "Request explicitly cancelled." { return } // 랭킹을 로딩 중 취소하는 경우
-                print("error: \(error.localizedDescription)")
-                configFirebase.errorReport(type: "OptionCell.loadImage", descriptions: error.localizedDescription, server: response.debugDescription)
-                DispatchQueue.main.async {
-                    self.indicator.stopAnimating()
-                    self.profile.image = UIImage(named: "blank_profile")
+                let error = error.localizedDescription
+                print("error: \(error)")
+                if error == Error.cancelled.rawValue { return } // 랭킹을 로딩 중 취소하는 경우
+                else if error == Error.failed.rawValue { return }
+                else {
+                    configFirebase.errorReport(type: "OptionCell.loadImage", descriptions: error, server: response.debugDescription)
+                    DispatchQueue.main.async {
+                        self.indicator.stopAnimating()
+                        self.profile.image = UIImage(named: "blank_profile")
+                    }
                 }
-                return
             }
         }
     }
