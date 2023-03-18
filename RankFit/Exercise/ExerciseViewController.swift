@@ -16,7 +16,7 @@ class ExerciseViewController: UIViewController {
     @IBOutlet weak var calendarView: FSCalendar!
     @IBOutlet weak var collectionView: UICollectionView!
     
-    var datasource: UICollectionViewDiffableDataSource<Section, Item>!
+    var dataSource: UICollectionViewDiffableDataSource<Section, Item>!
     let viewModel = ExerciseViewModel()
     let dateFormatter = DateFormatter()
     static var reloadEx = PassthroughSubject<Bool, Never>()
@@ -159,7 +159,7 @@ class ExerciseViewController: UIViewController {
 
 extension ExerciseViewController {
     private func configCollectionView() {
-        datasource = UICollectionViewDiffableDataSource<Section, Item>(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
+        dataSource = UICollectionViewDiffableDataSource<Section, Item>(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ExercisePlanCell", for: indexPath) as? ExercisePlanCell else { return nil }
             cell.configure(item: itemIdentifier, vm: self.viewModel)
             cell.deleteBtn.tag = indexPath.item
@@ -171,7 +171,7 @@ extension ExerciseViewController {
         var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
         snapshot.appendSections([.main])
         snapshot.appendItems([], toSection: .main)
-        datasource.apply(snapshot)
+        dataSource.apply(snapshot)
         
         collectionView.delegate = self
     }
@@ -194,12 +194,12 @@ extension ExerciseViewController {
         var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
         snapshot.appendSections([.main])
         snapshot.appendItems(items, toSection: .main)
-        datasource.apply(snapshot)
+        dataSource.apply(snapshot)
         
         if reloading {
             // 오직 데이터만 reload
             snapshot.reloadSections([.main])
-            datasource.apply(snapshot)
+            dataSource.apply(snapshot)
             reloading = false
         }
     }

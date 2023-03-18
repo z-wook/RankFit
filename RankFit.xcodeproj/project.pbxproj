@@ -33,6 +33,7 @@
 		334E59E829A0BE2B00BF9478 /* ZoomProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334E59E729A0BE2B00BF9478 /* ZoomProfileViewController.swift */; };
 		334E59EA29A0F91F00BF9478 /* configServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334E59E929A0F91F00BF9478 /* configServer.swift */; };
 		3350926B29C2932900F31619 /* RankFit_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 3350926A29C2932900F31619 /* RankFit_icon.png */; };
+		3350926F29C3EF2F00F31619 /* CategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3350926E29C3EF2F00F31619 /* CategoryCell.swift */; };
 		3351B6462983526600DB3DD2 /* EmailLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3351B6452983526600DB3DD2 /* EmailLoginViewController.swift */; };
 		3351B6492983528B00DB3DD2 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3351B6482983528B00DB3DD2 /* Login.storyboard */; };
 		3351B64B298486EE00DB3DD2 /* Revoke.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3351B64A298486EE00DB3DD2 /* Revoke.storyboard */; };
@@ -201,6 +202,7 @@
 		334E59E729A0BE2B00BF9478 /* ZoomProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZoomProfileViewController.swift; sourceTree = "<group>"; };
 		334E59E929A0F91F00BF9478 /* configServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = configServer.swift; sourceTree = "<group>"; };
 		3350926A29C2932900F31619 /* RankFit_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = RankFit_icon.png; sourceTree = "<group>"; };
+		3350926E29C3EF2F00F31619 /* CategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCell.swift; sourceTree = "<group>"; };
 		3351B6452983526600DB3DD2 /* EmailLoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailLoginViewController.swift; sourceTree = "<group>"; };
 		3351B6482983528B00DB3DD2 /* Login.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
 		3351B64A298486EE00DB3DD2 /* Revoke.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Revoke.storyboard; sourceTree = "<group>"; };
@@ -448,6 +450,7 @@
 				33657A5129448C2500164DB5 /* ExerciseList.storyboard */,
 				33657A542944ACB800164DB5 /* ExerciseListViewController.swift */,
 				33657A562944ACD600164DB5 /* ExerciseInfoCell.swift */,
+				3350926E29C3EF2F00F31619 /* CategoryCell.swift */,
 				33657A582944ACE500164DB5 /* ExerciseListViewModel.swift */,
 				33657A5C2944B4AF00164DB5 /* saveExercise */,
 			);
@@ -1180,6 +1183,7 @@
 				33DB715D2973D41D00B2C8FA /* getDateString.swift in Sources */,
 				3307C094295332C70050BAA4 /* ChangeNickNameViewController.swift in Sources */,
 				33DE94AF294C6B93005AF20C /* MyProfileViewController.swift in Sources */,
+				3350926F29C3EF2F00F31619 /* CategoryCell.swift in Sources */,
 				3315FC4D2946312300716C33 /* RegisterGenderViewController.swift in Sources */,
 				339D23D42965DC270022BB94 /* OptionRankViewModel.swift in Sources */,
 				33E9173C2943BBE300FC074A /* ExerciseViewModel.swift in Sources */,

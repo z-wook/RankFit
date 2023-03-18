@@ -93,11 +93,9 @@ class PasswordLoginViewController: UIViewController {
             if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
                 let keyboardRectangle = keyboardFrame.cgRectValue
                 let keyboardHeight = keyboardRectangle.height
-                if passwordField.isEditing {
-                    // 뷰를 키보드 높이만큼 올림
-                    UIView.animate(withDuration: 1) {
-                        self.view.window?.frame.origin.y -= keyboardHeight
-                    }
+                // 뷰를 키보드 높이만큼 올림
+                UIView.animate(withDuration: 1) {
+                    self.view.window?.frame.origin.y -= keyboardHeight - 35
                 }
             }
         }
@@ -109,7 +107,7 @@ class PasswordLoginViewController: UIViewController {
                 let keyboardRectangle = keyboardFrame.cgRectValue
                 let keyboardHeight = keyboardRectangle.height
                 UIView.animate(withDuration: 1) {
-                    self.view.window?.frame.origin.y += keyboardHeight
+                    self.view.window?.frame.origin.y += keyboardHeight - 35
                 }
             }
         }

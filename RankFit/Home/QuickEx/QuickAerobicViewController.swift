@@ -103,10 +103,6 @@ extension QuickAerobicViewController {
             }
             let currentSpeed = self.locationManager?.location?.speed // m/s
             let speed = Double(currentSpeed ?? 0)
-            if self.maxSpeed < speed {
-                self.maxSpeed = speed
-                self.maxSpeedLabel.text = "최고속도: " + String(format: "%.2f", self.maxSpeed * 3.6) + "km/h"
-            }
             if activity.stationary == true {
                 self.locationManager?.stopUpdatingLocation()
                 self.updateLabelText(speed: 0)
@@ -180,6 +176,10 @@ extension QuickAerobicViewController: CLLocationManagerDelegate {
         guard let location = locations.last // 가장 최근 위치
         else { return }
         altitude.text = "고도: " + String(format: "%.2f", location.altitude) + "m"
+        if self.maxSpeed < location.speed {
+            self.maxSpeed = location.speed
+            self.maxSpeedLabel.text = "최고속도: " + String(format: "%.2f", location.speed * 3.6) + "km/h"
+        }
         let latitude = location.coordinate.latitude
         let longtitude = location.coordinate.longitude
         if let prevLocation = self.previousLocation {
@@ -190,7 +190,7 @@ extension QuickAerobicViewController: CLLocationManagerDelegate {
             points.append(point1)
             points.append(point2)
             let pTOp_Distance = Double(calcDistance(from: point1, to: point2)) // PtoP_distance: 미터(m), useTime: 초(s)
-            let speed = Double(manager.location?.speed ?? 0) // m/s
+            let speed = Double(location.speed) // m/s
             if speed < 0.6944 { // 약 2.5km/h 미만일 때 정지라고 판단
                 self.updateLabelText(speed: 0)
                 return

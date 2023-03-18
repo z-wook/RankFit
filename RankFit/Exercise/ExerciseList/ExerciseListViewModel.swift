@@ -36,4 +36,15 @@ extension ExerciseListViewModel {
             items.send(ExerciseInfo.sortedList)
         }
     }
+    
+    func get_category(categoryName: String) {
+        if categoryName == "전체" {
+            items.send(ExerciseInfo.sortedList)
+        } else {
+            let filteredList = ExerciseInfo.sortedList.filter { info in
+                return info.category == categoryName
+            }
+            items.send(filteredList)
+        }
+    }
 }

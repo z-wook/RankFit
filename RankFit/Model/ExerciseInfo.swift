@@ -11,6 +11,7 @@ struct ExerciseInfo: Codable, Hashable {
     let exerciseName: String
     let table_name: String
     let group: Int
+    let category: String
 }
 
 extension ExerciseInfo {
@@ -19,78 +20,77 @@ extension ExerciseInfo {
     // group3 = Aerobic
     // group4 = 플랭크(세트, 시간 필요한 운동)
     static let ExerciseInfoList: [ExerciseInfo] = [
-        ExerciseInfo(exerciseName: "숄더 프레스", table_name: "shouldermuscles", group: 1),
-        ExerciseInfo(exerciseName: "랫 풀 다운", table_name: "latpulldown", group: 1),
-        ExerciseInfo(exerciseName: "벤치 프레스", table_name: "benchpress", group: 1),
-        ExerciseInfo(exerciseName: "케이블 로우", table_name: "cablerow", group: 1),
-        ExerciseInfo(exerciseName: "딥스", table_name: "dips", group: 2),
-        ExerciseInfo(exerciseName: "디클라인 벤치 프레스", table_name: "DeclineBenchPress", group: 1),
-        ExerciseInfo(exerciseName: "트라이셉스 푸시 다운", table_name: "tricepspushdown", group: 1),
-        ExerciseInfo(exerciseName: "데드리프트", table_name: "deadlift", group: 1),
-        ExerciseInfo(exerciseName: "슈러그", table_name: "shrug", group: 1),
-        ExerciseInfo(exerciseName: "스쿼트", table_name: "squat", group: 2),
-        ExerciseInfo(exerciseName: "레그 프레스", table_name: "legpress", group: 1),
-        ExerciseInfo(exerciseName: "레그 익스텐션", table_name: "legtension", group: 1),
-        ExerciseInfo(exerciseName: "런지", table_name: "fingering", group: 2),
-        ExerciseInfo(exerciseName: "백 익스텐션", table_name: "backnailtension", group: 2),
-        ExerciseInfo(exerciseName: "윗몸 일으키기", table_name: "situpcorrector", group: 2),
-        ExerciseInfo(exerciseName: "아놀드 프레스", table_name: "ArnoldPress", group: 1),
-        ExerciseInfo(exerciseName: "바벨 로우", table_name: "barbellrow", group: 1),
-        ExerciseInfo(exerciseName: "풀업", table_name: "pullup", group: 2),
-        ExerciseInfo(exerciseName: "덤벨 로우", table_name: "dumbbellrow", group: 1),
-        ExerciseInfo(exerciseName: "플랭크", table_name: "plank", group: 4),
-        ExerciseInfo(exerciseName: "크런치", table_name: "crunch", group: 2),
-        ExerciseInfo(exerciseName: "레그 레이즈", table_name: "legrise", group: 2),
-        ExerciseInfo(exerciseName: "러시안 트위스트", table_name: "Russiantwist", group: 2),
-        ExerciseInfo(exerciseName: "버피", table_name: "buffy", group: 2),
-        ExerciseInfo(exerciseName: "줄넘기", table_name: "JumpRope", group: 2),
-        ExerciseInfo(exerciseName: "마운틴 클라이머", table_name: "posterclimber", group: 2),
-        ExerciseInfo(exerciseName: "싸이클", table_name: "cycle", group: 3),
-        ExerciseInfo(exerciseName: "러닝", table_name: "running", group: 3),
-        ExerciseInfo(exerciseName: "덤벨 사이드 밴드", table_name: "dumbbellsideband", group: 1),
-        ExerciseInfo(exerciseName: "클린", table_name: "clean", group: 1),
-        ExerciseInfo(exerciseName: "저크", table_name: "jerk", group: 1),
-        ExerciseInfo(exerciseName: "바벨 오버헤드 스쿼트", table_name: "BarbellAdmissionHeadSquat", group: 1),
-        ExerciseInfo(exerciseName: "덤벨 스내치", table_name: "dumbbellsnatch", group: 1),
-        ExerciseInfo(exerciseName: "덤벨 컬", table_name: "dumbbellcurl", group: 1),
-        ExerciseInfo(exerciseName: "덤벨 리스트 컬", table_name: "DumbbellistCurl", group: 1),
-        ExerciseInfo(exerciseName: "덤벨 킥백", table_name: "dumbbellkickback", group: 1),
-        ExerciseInfo(exerciseName: "케이블 푸시 다운", table_name: "cablepushdown", group: 1),
-        ExerciseInfo(exerciseName: "이지바 컬", table_name: "EasyBarCurl", group: 2),
-        ExerciseInfo(exerciseName: "케이블 컬", table_name: "kcurl", group: 1),
-        ExerciseInfo(exerciseName: "시티드 덤벨 익스텐션", table_name: "TedDumbbellSneakers", group: 1),
-        ExerciseInfo(exerciseName: "바벨 리스트 컬", table_name: "barbellistcurls", group: 1),
-        ExerciseInfo(exerciseName: "암 컬 머신", table_name: "armcurlmachine", group: 1),
-        ExerciseInfo(exerciseName: "오버헤드 프레스", table_name: "stainedpress", group: 1),
-        ExerciseInfo(exerciseName: "덤벨 숄더 프레스", table_name: "dumbbellspine", group: 1),
-        ExerciseInfo(exerciseName: "아놀드 덤벨 프레스", table_name: "ArnoldDumbbellPress", group: 1),
-        ExerciseInfo(exerciseName: "바벨 슈러그", table_name: "barbellshrug", group: 1),
-        ExerciseInfo(exerciseName: "스미스머신 슈러그", table_name: "machineshrug", group: 1),
-        ExerciseInfo(exerciseName: "덤벨 벤치프레스", table_name: "dumbbellbenchpress", group: 1),
-        ExerciseInfo(exerciseName: "바벨 백스쿼트", table_name: "barbellbacksquat", group: 1),
-        ExerciseInfo(exerciseName: "덤벨 런지", table_name: "dumbbelllunge", group: 1),
-        ExerciseInfo(exerciseName: "브이 업", table_name: "Bryup", group: 2),
-        ExerciseInfo(exerciseName: "행잉 레그 레이즈", table_name: "hanginglegrise", group: 2),
-        ExerciseInfo(exerciseName: "푸시업", table_name: "pushup", group: 2)
+        ExerciseInfo(exerciseName: "숄더 프레스", table_name: "shouldermuscles", group: 1, category: "어깨"),
+        ExerciseInfo(exerciseName: "랫 풀 다운", table_name: "latpulldown", group: 1, category: "등"),
+        ExerciseInfo(exerciseName: "벤치 프레스", table_name: "benchpress", group: 1, category: "가슴"),
+        ExerciseInfo(exerciseName: "케이블 로우", table_name: "cablerow", group: 1, category: "등"),
+        ExerciseInfo(exerciseName: "딥스", table_name: "dips", group: 2, category: "가슴"),
+        ExerciseInfo(exerciseName: "디클라인 벤치 프레스", table_name: "DeclineBenchPress", group: 1, category: "가슴"),
+        ExerciseInfo(exerciseName: "트라이셉스 푸시 다운", table_name: "tricepspushdown", group: 1, category: "팔"),
+        ExerciseInfo(exerciseName: "데드리프트", table_name: "deadlift", group: 1, category: "전신"),
+        ExerciseInfo(exerciseName: "슈러그", table_name: "shrug", group: 1, category: "상체"),
+        ExerciseInfo(exerciseName: "스쿼트", table_name: "squat", group: 2, category: "하체"),
+        ExerciseInfo(exerciseName: "레그 프레스", table_name: "legpress", group: 1, category: "하체"),
+        ExerciseInfo(exerciseName: "레그 익스텐션", table_name: "legtension", group: 1, category: "하체"),
+        ExerciseInfo(exerciseName: "런지", table_name: "fingering", group: 2, category: "하체"),
+        ExerciseInfo(exerciseName: "백 익스텐션", table_name: "backnailtension", group: 2, category: "등"),
+        ExerciseInfo(exerciseName: "윗몸 일으키기", table_name: "situpcorrector", group: 2, category: "복부"),
+        ExerciseInfo(exerciseName: "아놀드 프레스", table_name: "ArnoldPress", group: 1, category: "어깨"),
+        ExerciseInfo(exerciseName: "바벨 로우", table_name: "barbellrow", group: 1, category: "등"),
+        ExerciseInfo(exerciseName: "풀업", table_name: "pullup", group: 2, category: "등"),
+        ExerciseInfo(exerciseName: "덤벨 로우", table_name: "dumbbellrow", group: 1, category: "상체"),
+        ExerciseInfo(exerciseName: "플랭크", table_name: "plank", group: 4, category: "복부"),
+        ExerciseInfo(exerciseName: "크런치", table_name: "crunch", group: 2, category: "복부"),
+        ExerciseInfo(exerciseName: "레그 레이즈", table_name: "legrise", group: 2, category: "복부"),
+        ExerciseInfo(exerciseName: "러시안 트위스트", table_name: "Russiantwist", group: 2, category: "복부"),
+        ExerciseInfo(exerciseName: "버피", table_name: "buffy", group: 2, category: "전신"),
+        ExerciseInfo(exerciseName: "줄넘기", table_name: "JumpRope", group: 2, category: "전신"),
+        ExerciseInfo(exerciseName: "마운틴 클라이머", table_name: "posterclimber", group: 2, category: "전신"),
+        ExerciseInfo(exerciseName: "싸이클", table_name: "cycle", group: 3, category: "유산소"),
+        ExerciseInfo(exerciseName: "러닝", table_name: "running", group: 3, category: "유산소"),
+        ExerciseInfo(exerciseName: "덤벨 사이드 밴드", table_name: "dumbbellsideband", group: 1, category: "복부"),
+        ExerciseInfo(exerciseName: "클린", table_name: "clean", group: 1, category: "전신"),
+        ExerciseInfo(exerciseName: "저크", table_name: "jerk", group: 1, category: "전신"),
+        ExerciseInfo(exerciseName: "바벨 오버헤드 스쿼트", table_name: "BarbellAdmissionHeadSquat", group: 1, category: "하체"),
+        ExerciseInfo(exerciseName: "덤벨 스내치", table_name: "dumbbellsnatch", group: 1, category: "전신"),
+        ExerciseInfo(exerciseName: "덤벨 컬", table_name: "dumbbellcurl", group: 1, category: "팔"),
+        ExerciseInfo(exerciseName: "덤벨 리스트 컬", table_name: "DumbbellistCurl", group: 1, category: "팔"),
+        ExerciseInfo(exerciseName: "덤벨 킥백", table_name: "dumbbellkickback", group: 1, category: "팔"),
+        ExerciseInfo(exerciseName: "케이블 푸시 다운", table_name: "cablepushdown", group: 1, category: "팔"),
+        ExerciseInfo(exerciseName: "이지바 컬", table_name: "EasyBarCurl", group: 2, category: "팔"),
+        ExerciseInfo(exerciseName: "케이블 컬", table_name: "kcurl", group: 1, category: "팔"),
+        ExerciseInfo(exerciseName: "시티드 덤벨 익스텐션", table_name: "TedDumbbellSneakers", group: 1, category: "팔"),
+        ExerciseInfo(exerciseName: "바벨 리스트 컬", table_name: "barbellistcurls", group: 1, category: "팔"),
+        ExerciseInfo(exerciseName: "암 컬 머신", table_name: "armcurlmachine", group: 1, category: "팔"),
+        ExerciseInfo(exerciseName: "오버헤드 프레스", table_name: "stainedpress", group: 1, category: "어깨"),
+        ExerciseInfo(exerciseName: "덤벨 숄더 프레스", table_name: "dumbbellspine", group: 1, category: "어깨"),
+        ExerciseInfo(exerciseName: "아놀드 덤벨 프레스", table_name: "ArnoldDumbbellPress", group: 1, category: "어깨"),
+        ExerciseInfo(exerciseName: "바벨 슈러그", table_name: "barbellshrug", group: 1, category: "어깨"),
+        ExerciseInfo(exerciseName: "스미스머신 슈러그", table_name: "machineshrug", group: 1, category: "등"),
+        ExerciseInfo(exerciseName: "덤벨 벤치프레스", table_name: "dumbbellbenchpress", group: 1, category: "가슴"),
+        ExerciseInfo(exerciseName: "바벨 백스쿼트", table_name: "barbellbacksquat", group: 1, category: "하체"),
+        ExerciseInfo(exerciseName: "덤벨 런지", table_name: "dumbbelllunge", group: 1, category: "하체"),
+        ExerciseInfo(exerciseName: "브이 업", table_name: "Bryup", group: 2, category: "복부"),
+        ExerciseInfo(exerciseName: "행잉 레그 레이즈", table_name: "hanginglegrise", group: 2, category: "복부"),
+        ExerciseInfo(exerciseName: "푸시업", table_name: "pushup", group: 2, category: "가슴")
     ]
 }
 
 extension ExerciseInfo {
+//    // 운동 리스트 갯수
+//    static var numOfExerciseInfoList: Int {
+//        return ExerciseInfoList.count
+//    }
     
-    // 운동 리스트 갯수
-    static var numOfExerciseInfoList: Int {
-        return ExerciseInfoList.count
-    }
-    
-    // 정렬된 운동이름 리스트로 가져오기
-    static func getExerciseInfoList() -> [String] {
-        var exNames: [String] = []
-
-        for i in sortedList {
-            exNames.append(i.exerciseName)
-        }
-        return exNames
-    }
+//    // 정렬된 운동이름 리스트로 가져오기
+//    static func getExerciseInfoList() -> [String] {
+//        var exNames: [String] = []
+//
+//        for i in sortedList {
+//            exNames.append(i.exerciseName)
+//        }
+//        return exNames
+//    }
     
     // 운동리스트 정렬하기
     static var sortedList: [ExerciseInfo] {
