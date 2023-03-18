@@ -10,22 +10,26 @@ import Combine
 
 class ExerciseListViewController: UIViewController {
 
+    @IBOutlet weak var categoriesCollectionView: UICollectionView!
     @IBOutlet weak var collectionView: UICollectionView!
     
     let viewModel = ExerciseListViewModel(items: ExerciseInfo.sortedList)
     let searchBar = UISearchBar()
-    var datasource: UICollectionViewDiffableDataSource<Section, Item>!
+    var categoryDataSource: UICollectionViewDiffableDataSource<Section, String>!
+    var dataSource: UICollectionViewDiffableDataSource<Section, Item>!
     var subscriptions = Set<AnyCancellable>()
     
     typealias Item = ExerciseInfo
     enum Section {
         case main
     }
+    let category = ["전체", "가슴", "등", "복부", "상체", "어깨", "유산소", "전신", "팔", "하체"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         embedSearchBar()
+        configureCategories()
         configureCollectionView()
         bind()
     }
@@ -56,21 +60,43 @@ class ExerciseListViewController: UIViewController {
                 }
             }.store(in: &subscriptions)
     }
-  
+    
+    private func configureCategories() {
+        categoryDataSource = UICollectionViewDiffableDataSource<Section, String>(collectionView: categoriesCollectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CategoryCell", for: indexPath) as? CategoryCell else { return nil }
+            cell.configure(categoryName: itemIdentifier)
+            return cell
+        })
+        var snapshot = NSDiffableDataSourceSnapshot<Section, String>()
+        snapshot.appendSections([.main])
+        snapshot.appendItems(category)
+        categoryDataSource.apply(snapshot)
+        
+        categoriesCollectionView.selectItem(at: [0, 0], animated: true, scrollPosition: .left)
+        categoriesCollectionView.delegate = self
+    }
+    
     private func configureCollectionView() {
-        datasource = UICollectionViewDiffableDataSource<Section, Item>(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
+        dataSource = UICollectionViewDiffableDataSource<Section, Item>(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ExerciseInfoCell", for: indexPath) as? ExerciseInfoCell else { return nil }
             cell.configure(item: itemIdentifier)
             return cell
         })
-        
         collectionView.collectionViewLayout = layout()
+        
         var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
         snapshot.appendSections([.main])
         snapshot.appendItems(viewModel.items.value, toSection: .main)
-        datasource.apply(snapshot)
+        dataSource.apply(snapshot)
         
         collectionView.delegate = self
+    }
+    
+    private func applyItems(items: [ExerciseInfo]) {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
+        snapshot.appendSections([.main])
+        snapshot.appendItems(items)
+        dataSource.apply(snapshot)
     }
     
     private func layout() -> UICollectionViewCompositionalLayout {
@@ -96,17 +122,37 @@ class ExerciseListViewController: UIViewController {
     
     private func searchExercise(with text: String) {
         viewModel.filteredExercises(filter: text)
-        
-        var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
-        snapshot.appendSections([.main])
-        snapshot.appendItems(viewModel.items.value, toSection: .main)
-        datasource.apply(snapshot)
+        applyItems(items: viewModel.items.value)
+    }
+}
+
+extension ExerciseListViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        if collectionView == categoriesCollectionView {
+            let categoryName = category[indexPath.item]
+            let size = calculateCellWidth(text: categoryName)
+            return CGSize(width: size.0, height: size.1)
+        } else {
+            return .zero
+        }
+    }
+    
+    private func calculateCellWidth(text: String) -> (CGFloat, CGFloat) {
+        let label = UILabel()
+        label.text = text
+        label.font = .systemFont(ofSize: 14)
+        label.sizeToFit()
+        return (label.frame.width, label.frame.height)
     }
 }
 
 extension ExerciseListViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         searchExercise(with: searchText)
+        categoriesCollectionView.reloadData()
+        if searchText == "" {
+            categoriesCollectionView.selectItem(at: [0, 0], animated: true, scrollPosition: .left)
+        }
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
@@ -118,7 +164,13 @@ extension ExerciseListViewController: UISearchBarDelegate {
 extension ExerciseListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         searchBar.resignFirstResponder()
-        viewModel.didSelect(at: indexPath)
+        if collectionView == categoriesCollectionView {
+            let categoryName = category[indexPath.item]
+            viewModel.get_category(categoryName: categoryName)
+            applyItems(items: viewModel.items.value)
+        } else {
+            viewModel.didSelect(at: indexPath)
+        }
     }
     
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
