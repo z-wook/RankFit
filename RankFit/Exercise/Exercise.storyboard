@@ -11,7 +11,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Exercise View Controller-->
+        <!--운동-->
         <scene sceneID="s0d-6b-0kx">
             <objects>
                 <viewController storyboardIdentifier="ExerciseViewController" id="Y6W-OH-hqX" customClass="ExerciseViewController" customModule="RankFit" customModuleProvider="target" sceneMemberID="viewController">
@@ -241,7 +241,7 @@
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="ffR-c2-MTd" secondAttribute="bottom" id="aZx-O5-2Sz"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="" image="calendar" id="juh-Es-WL2"/>
+                    <tabBarItem key="tabBarItem" title="운동" image="calendar" id="juh-Es-WL2"/>
                     <navigationItem key="navigationItem" id="7ld-nm-wbB"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
@@ -253,10 +253,11 @@
             </objects>
             <point key="canvasLocation" x="988" y="-34"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--운동-->
         <scene sceneID="gzl-I7-X3D">
             <objects>
                 <navigationController storyboardIdentifier="initialExercise" automaticallyAdjustsScrollViewInsets="NO" id="Byj-f1-lcv" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="운동" image="calendar" id="NPD-fc-ee3"/>
                     <toolbarItems/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="GVs-Fk-LlQ">

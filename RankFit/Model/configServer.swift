@@ -167,6 +167,7 @@ final class configServer {
         let weight = info.weight                // float
         let count = info.count                  // int16
         let exTime = info.exTime                // double(초)
+        let category = info.category ?? "nil"
         
         let parameters: Parameters = [
             "uuid": uuid,               // uuid
@@ -177,7 +178,8 @@ final class configServer {
             "userWeight": weight,       // 무게
             "userCount": count,         // exercise count(개수)
             "exTime": exTime,           // 운동 목표 시간(플랭크), 나머지 운동은 default값 = 0으로 입력
-            "userState": 0              // 완료 1, 미완료 0
+            "userState": 0,             // 완료 1, 미완료 0
+            "category": category        // 부위(String)
         ]
         print("params: \(parameters)")
         

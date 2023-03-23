@@ -77,21 +77,6 @@ extension ExerciseInfo {
 }
 
 extension ExerciseInfo {
-//    // 운동 리스트 갯수
-//    static var numOfExerciseInfoList: Int {
-//        return ExerciseInfoList.count
-//    }
-    
-//    // 정렬된 운동이름 리스트로 가져오기
-//    static func getExerciseInfoList() -> [String] {
-//        var exNames: [String] = []
-//
-//        for i in sortedList {
-//            exNames.append(i.exerciseName)
-//        }
-//        return exNames
-//    }
-    
     // 운동리스트 정렬하기
     static var sortedList: [ExerciseInfo] {
         let sortedlist = ExerciseInfoList.sorted { prev, next in

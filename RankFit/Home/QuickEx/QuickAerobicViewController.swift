@@ -86,7 +86,11 @@ class QuickAerobicViewController: UIViewController {
     }
     
     @IBAction func saveEx(_ sender: UIButton) {
-        exDoneAlert(type: self.type)
+        if totalDistance == 0 {
+            noEx()
+        } else {
+            exDoneAlert(type: self.type)
+        }
     }
 }
 
@@ -370,6 +374,16 @@ extension QuickAerobicViewController {
         alert.addAction(ok)
         self.present(alert, animated: true, completion: nil)
     }
+    private func noEx() {
+        let alert = UIAlertController(title: "측정된 거리 없음", message: "기록을 저장하지 않습니다.", preferredStyle: .alert)
+        let done = UIAlertAction(title: "운동 종료", style: .destructive) { _ in
+            self.navigationController?.popToRootViewController(animated: true)
+        }
+        let keep_going = UIAlertAction(title: "운동 하기", style: .default)
+        alert.addAction(done)
+        alert.addAction(keep_going)
+        self.present(alert, animated: true, completion: nil)
+    }
     
     private func exDoneAlert(type: String) {
         let exType = type // 해당 시점에 타입이 변하지 않게 하기 위해 따로 변수로 저장
@@ -393,7 +407,7 @@ extension QuickAerobicViewController {
             self.saveTime = time
             let tableName = exType == "러닝" ? "running" : "cycle"
             let dis = Double(String(format: "%.2f", self.totalDistance * 0.001)) ?? 0
-            self.exerciseInfo = aerobicExerciseInfo(exercise: exType, table_Name: tableName, date: calcDate().currentDate(), time: countToMin, distance: dis, saveTime: time, done: true)
+            self.exerciseInfo = aerobicExerciseInfo(exercise: exType, table_Name: tableName, date: calcDate().currentDate(), time: countToMin, distance: dis, saveTime: time, done: true, category: "유산소")
             configServer.sendSaveEx(info: self.exerciseInfo, subject: self.saveServer)
         }
         alert.addAction(cancle)

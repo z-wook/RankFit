@@ -81,4 +81,8 @@ final class getDateString {
             return []
         }
     }
+    
+    func getMonthAgo() -> [String] { // 한달 치 날짜 구하기(메인 radarChart에 사용)
+        return getDatesForNumDaysBeforeAndAfterToday(daysBefore: 29, daysAfter: 0)
+    }
 }

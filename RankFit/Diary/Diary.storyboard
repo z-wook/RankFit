@@ -10,7 +10,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Diary View Controller-->
+        <!--다이어리-->
         <scene sceneID="s0d-6b-0kx">
             <objects>
                 <viewController storyboardIdentifier="DiaryViewController" id="Y6W-OH-hqX" customClass="DiaryViewController" customModule="RankFit" customModuleProvider="target" sceneMemberID="viewController">
@@ -100,7 +100,7 @@
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="ODH-mM-mtO" secondAttribute="bottom" id="bKw-Ja-fJO"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="" image="picture" id="FPC-VB-xLy"/>
+                    <tabBarItem key="tabBarItem" title="다이어리" image="picture" id="FPC-VB-xLy"/>
                     <navigationItem key="navigationItem" id="lXs-U9-I6C"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
@@ -414,10 +414,11 @@
             </objects>
             <point key="canvasLocation" x="1060" y="732"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--다이어리-->
         <scene sceneID="uJ2-ip-H0a">
             <objects>
                 <navigationController storyboardIdentifier="initialDiary" automaticallyAdjustsScrollViewInsets="NO" id="Omp-LK-3mY" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="다이어리" image="picture" id="RfF-Qo-2x4"/>
                     <toolbarItems/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="2Um-2l-rHT">

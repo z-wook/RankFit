@@ -18,10 +18,12 @@ struct anaerobicExerciseInfo: Codable, Hashable {
     var exTime: Double
     let saveTime: Int64
     var done: Bool
+    let category: String?
 }
 
 extension anaerobicExerciseInfo {
-    init(exercise: String, table_Name: String, date: String, set: Int16, weight: Float, count: Int16, exTime: Double? = nil, saveTime: Int64? = nil, done: Bool? = nil) {
+    init(exercise: String, table_Name: String, date: String, set: Int16, weight: Float,
+         count: Int16, exTime: Double? = nil, saveTime: Int64? = nil, done: Bool? = nil, category: String? = nil) {
         self.exercise = exercise
         self.tableName = table_Name
         self.date = date
@@ -31,5 +33,6 @@ extension anaerobicExerciseInfo {
         self.exTime = exTime ?? 0
         self.saveTime = saveTime ?? 0
         self.done = done ?? false
+        self.category = category
     }
 }

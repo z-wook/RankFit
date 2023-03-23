@@ -126,7 +126,7 @@
                                     <fragment content="랭크핏에">
                                         <attributes>
                                             <color key="NSColor" systemColor="systemPinkColor"/>
-                                            <font key="NSFont" size="13" name=".AppleSDGothicNeoI-Regular"/>
+                                            <font key="NSFont" metaFont="system"/>
                                             <font key="NSOriginalFont" metaFont="system"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                         </attributes>
@@ -141,7 +141,7 @@
                                     <fragment content="처음">
                                         <attributes>
                                             <color key="NSColor" systemColor="systemPinkColor"/>
-                                            <font key="NSFont" size="13" name=".AppleSDGothicNeoI-Regular"/>
+                                            <font key="NSFont" metaFont="system"/>
                                             <font key="NSOriginalFont" metaFont="system"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                         </attributes>
@@ -156,7 +156,7 @@
                                     <fragment content="방문하셨나요">
                                         <attributes>
                                             <color key="NSColor" systemColor="systemPinkColor"/>
-                                            <font key="NSFont" size="13" name=".AppleSDGothicNeoI-Regular"/>
+                                            <font key="NSFont" metaFont="system"/>
                                             <font key="NSOriginalFont" metaFont="system"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                         </attributes>
@@ -176,7 +176,7 @@
                                     </fragment>
                                     <fragment content="첫">
                                         <attributes>
-                                            <font key="NSFont" size="13" name=".AppleSDGothicNeoI-Regular"/>
+                                            <font key="NSFont" metaFont="system"/>
                                             <font key="NSOriginalFont" metaFont="system"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                         </attributes>
@@ -189,7 +189,7 @@
                                     </fragment>
                                     <fragment content="방문이라면">
                                         <attributes>
-                                            <font key="NSFont" size="13" name=".AppleSDGothicNeoI-Regular"/>
+                                            <font key="NSFont" metaFont="system"/>
                                             <font key="NSOriginalFont" metaFont="system"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                         </attributes>
@@ -202,7 +202,7 @@
                                     </fragment>
                                     <fragment content="비밀번호">
                                         <attributes>
-                                            <font key="NSFont" size="13" name=".AppleSDGothicNeoI-Regular"/>
+                                            <font key="NSFont" metaFont="system"/>
                                             <font key="NSOriginalFont" metaFont="system"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                         </attributes>
@@ -215,7 +215,7 @@
                                     </fragment>
                                     <fragment content="설정을">
                                         <attributes>
-                                            <font key="NSFont" size="13" name=".AppleSDGothicNeoI-Regular"/>
+                                            <font key="NSFont" metaFont="system"/>
                                             <font key="NSOriginalFont" metaFont="system"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                         </attributes>
@@ -228,7 +228,7 @@
                                     </fragment>
                                     <fragment content="하지">
                                         <attributes>
-                                            <font key="NSFont" size="13" name=".AppleSDGothicNeoI-Regular"/>
+                                            <font key="NSFont" metaFont="system"/>
                                             <font key="NSOriginalFont" metaFont="system"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                         </attributes>
@@ -241,7 +241,7 @@
                                     </fragment>
                                     <fragment content="않았기">
                                         <attributes>
-                                            <font key="NSFont" size="13" name=".AppleSDGothicNeoI-Regular"/>
+                                            <font key="NSFont" metaFont="system"/>
                                             <font key="NSOriginalFont" metaFont="system"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                         </attributes>
@@ -254,7 +254,7 @@
                                     </fragment>
                                     <fragment content="때문에">
                                         <attributes>
-                                            <font key="NSFont" size="13" name=".AppleSDGothicNeoI-Regular"/>
+                                            <font key="NSFont" metaFont="system"/>
                                             <font key="NSOriginalFont" metaFont="system"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                         </attributes>
@@ -267,7 +267,7 @@
                                     </fragment>
                                     <fragment content="이메일">
                                         <attributes>
-                                            <font key="NSFont" size="13" name=".AppleSDGothicNeoI-Regular"/>
+                                            <font key="NSFont" metaFont="system"/>
                                             <font key="NSOriginalFont" metaFont="system"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                         </attributes>
@@ -280,7 +280,7 @@
                                     </fragment>
                                     <fragment content="인증">
                                         <attributes>
-                                            <font key="NSFont" size="13" name=".AppleSDGothicNeoI-Regular"/>
+                                            <font key="NSFont" metaFont="system"/>
                                             <font key="NSOriginalFont" metaFont="system"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                         </attributes>
@@ -293,7 +293,7 @@
                                     </fragment>
                                     <fragment content="로그인을">
                                         <attributes>
-                                            <font key="NSFont" size="13" name=".AppleSDGothicNeoI-Regular"/>
+                                            <font key="NSFont" metaFont="system"/>
                                             <font key="NSOriginalFont" metaFont="system"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                         </attributes>
@@ -306,7 +306,7 @@
                                     </fragment>
                                     <fragment content="진행하셔야">
                                         <attributes>
-                                            <font key="NSFont" size="13" name=".AppleSDGothicNeoI-Regular"/>
+                                            <font key="NSFont" metaFont="system"/>
                                             <font key="NSOriginalFont" metaFont="system"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                         </attributes>
@@ -319,7 +319,7 @@
                                     </fragment>
                                     <fragment content="합니다">
                                         <attributes>
-                                            <font key="NSFont" size="13" name=".AppleSDGothicNeoI-Regular"/>
+                                            <font key="NSFont" metaFont="system"/>
                                             <font key="NSOriginalFont" metaFont="system"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                         </attributes>

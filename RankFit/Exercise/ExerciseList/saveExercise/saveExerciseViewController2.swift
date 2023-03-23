@@ -200,7 +200,7 @@ extension saveExerciseViewController2 {
         self.isModalInPresentation = true
         backgroundView.isHidden = false
         indicator.startAnimating()
-        exInfo = aerobicExerciseInfo(exercise: exerciseLabel.text ?? "운동 없음", table_Name: tableName, date: ExerciseViewController.pickDate, time: timeNum, distance: distanceNum, saveTime: Int64(TimeStamp.getCurrentTimestamp()))
+        exInfo = aerobicExerciseInfo(exercise: exerciseLabel.text ?? "운동 없음", table_Name: tableName, date: ExerciseViewController.pickDate, time: timeNum, distance: distanceNum, saveTime: Int64(TimeStamp.getCurrentTimestamp()), category: "유산소")
         configServer.sendSaveEx(info: exInfo, subject: serverState)
     }
 }
