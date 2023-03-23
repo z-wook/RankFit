@@ -86,8 +86,9 @@ extension ReturnToRankFit {
                     let time = anaerobic.Time           // 운동 소요 시간
                     let tableName = getTableName(exName: exercise)
                     let date = TimeStamp.convertTimeStampToDate(timestamp: saveTime, For: "returnUser") // 캘린더에 저장할 날짜
+                    let category = anaerobic.Category
                     let exInfo = anaerobicExerciseInfo(exercise: exercise, table_Name: tableName, date: date, set: Int16(set),
-                                                       weight: weight, count: Int16(count), exTime: time, saveTime: Int64(saveTime), done: true)
+                                                       weight: weight, count: Int16(count), exTime: time, saveTime: Int64(saveTime), done: true, category: category)
                     let save = ExerciseCoreData.saveCoreData(info: exInfo)
                     if save == false { // CoreData 저장 실패
                         configFirebase.errorReport(type: "ReturnToRankFit.saveCoreData.anaerobic", descriptions: "CoreData에 운동 저장 실패")
@@ -103,7 +104,7 @@ extension ReturnToRankFit {
                     let tableName = getTableName(exName: exercise)
                     let date = TimeStamp.convertTimeStampToDate(timestamp: saveTime, For: "returnUser") // 캘린더에 저장할 날짜
                     let exInfo = aerobicExerciseInfo(exercise: exercise, table_Name: tableName, date: date,
-                                                     time: Int16(time), distance: distance, saveTime: Int64(saveTime), done: true)
+                                                     time: Int16(time), distance: distance, saveTime: Int64(saveTime), done: true, category: "유산소")
                     let save = ExerciseCoreData.saveCoreData(info: exInfo)
                     if save == false { // CoreData 저장 실패
                         configFirebase.errorReport(type: "ReturnToRankFit.saveCoreData.aerobic", descriptions: "CoreData에 운동 저장 실패")
@@ -136,7 +137,6 @@ extension ReturnToRankFit {
                     let list = self.sortedList(info: info)
                     self.infoSubject.send(list)
                 } else {
-                    print("info == nil")
                     configFirebase.errorReport(type: "ReturnToRankFit.getDetailExInfo", descriptions: "info == nil", server: response.debugDescription)
                     self.infoSubject.send([])
                 }

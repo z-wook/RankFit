@@ -9,6 +9,11 @@ import Foundation
 import Alamofire
 import Combine
 
+enum Error: String {
+    case lost = "URLSessionTask failed with error: The network connection was lost."
+    case time = "URLSessionTask failed with error: The request timed out."
+}
+
 struct weekRank: Codable, Hashable {
     let All: [[String: String]]
 }
@@ -51,7 +56,13 @@ final class WeeklyRankViewModel {
                 
             case .failure(let error):
                 print("error: \(error.localizedDescription)")
-                configFirebase.errorReport(type: "WeeklyRankViewModel.getWeeklyRank", descriptions: error.localizedDescription, server: response.debugDescription)
+                let error = error.localizedDescription
+                if error == Error.lost.rawValue || error == Error.time.rawValue {
+                    print("error: \(error)")
+                    return
+                } else {
+                    configFirebase.errorReport(type: "WeeklyRankViewModel.getWeeklyRank", descriptions: error, server: response.debugDescription)
+                }
             }
         }
     }

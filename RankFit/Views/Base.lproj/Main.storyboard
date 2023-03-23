@@ -36,17 +36,17 @@
         <scene sceneID="7Hq-2Z-M3Q">
             <objects>
                 <viewControllerPlaceholder storyboardName="Home" referencedIdentifier="initialHome" id="kX8-aA-G73" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="" image="home" id="u8y-2x-61j"/>
+                    <tabBarItem key="tabBarItem" title="홈" image="home" id="u8y-2x-61j"/>
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cSC-5Y-2Gk" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="953" y="-250"/>
+            <point key="canvasLocation" x="932" y="-251"/>
         </scene>
         <!--initialRank-->
         <scene sceneID="KnX-lm-D1p">
             <objects>
                 <viewControllerPlaceholder storyboardName="Rank" referencedIdentifier="initialRank" id="jg5-63-FDK" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="" image="trophy" id="A5x-k6-bUp"/>
+                    <tabBarItem key="tabBarItem" title="랭킹" image="trophy" id="A5x-k6-bUp"/>
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BNK-lk-Nh3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -56,7 +56,7 @@
         <scene sceneID="UCq-9P-Xqh">
             <objects>
                 <viewControllerPlaceholder storyboardName="Exercise" referencedIdentifier="initialExercise" id="CSP-Sh-Xz0" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="" image="calendar" id="slM-eK-hYL"/>
+                    <tabBarItem key="tabBarItem" title="운동" image="calendar" id="slM-eK-hYL"/>
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LVa-lf-mHI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -66,7 +66,7 @@
         <scene sceneID="iYD-Xk-FAt">
             <objects>
                 <viewControllerPlaceholder storyboardName="Diary" referencedIdentifier="initialDiary" id="OSz-Z7-xI5" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="" image="picture" id="b32-at-NmL"/>
+                    <tabBarItem key="tabBarItem" title="다이어리" image="picture" id="b32-at-NmL"/>
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Emt-CC-3it" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -76,7 +76,7 @@
         <scene sceneID="Pel-N4-A1e">
             <objects>
                 <viewControllerPlaceholder storyboardName="Setting" referencedIdentifier="initialSetting" id="NXe-pc-nJ3" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="" image="gear" id="W2Q-zS-arG"/>
+                    <tabBarItem key="tabBarItem" title="설정" image="gear" id="W2Q-zS-arG"/>
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uGc-Nr-f0F" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

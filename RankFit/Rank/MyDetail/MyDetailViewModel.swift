@@ -25,7 +25,6 @@ final class MyDetailViewModel {
             "userID": saveUserData.getKeychainStringValue(forKey: .UID) ?? "정보없음",
             "userSex": saveUserData.getKeychainIntValue(forKey: .Gender) ?? 0,
             "userAge": age,
-            "kor": info["exName"]!,
             "eng": info["tName"]!,
             "start": start_Timestamp,
             "end": end_Timestamp

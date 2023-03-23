@@ -28,6 +28,7 @@ class saveExerciseViewController1: UIViewController {
     let sendState = PassthroughSubject<Bool, Never>()
     var subscriptions = Set<AnyCancellable>()
     var tableName: String!
+    var category: String!
     var type: String = "계획"
     var keyboardNoti1: Void?
     var keyboardNoti2: Void?
@@ -185,6 +186,7 @@ extension saveExerciseViewController1 {
             .sink { info in
                 self.exerciseLabel.text = info?.exerciseName
                 self.tableName = info?.table_name
+                self.category = info?.category
                 if info?.group == 2 {
                     self.weightField.isHidden = true
                     self.weightLabel.isHidden = true
@@ -276,7 +278,7 @@ extension saveExerciseViewController1 {
     }
     
     private func saveEx(setNum: Int16, weightNum: Float, countNum: Int16) {
-        exInfo = anaerobicExerciseInfo(exercise: exerciseLabel.text ?? "운동 없음", table_Name: tableName, date: ExerciseViewController.pickDate, set: setNum, weight: weightNum, count: countNum, saveTime: Int64(TimeStamp.getCurrentTimestamp()))
+        exInfo = anaerobicExerciseInfo(exercise: exerciseLabel.text ?? "운동 없음", table_Name: tableName, date: ExerciseViewController.pickDate, set: setNum, weight: weightNum, count: countNum, saveTime: Int64(TimeStamp.getCurrentTimestamp()), category: category)
         configServer.sendSaveEx(info: exInfo, subject: serverState)
     }
 }

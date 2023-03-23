@@ -10,7 +10,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Setting View Controller-->
+        <!--설정-->
         <scene sceneID="s0d-6b-0kx">
             <objects>
                 <viewController storyboardIdentifier="SettingViewController" id="Y6W-OH-hqX" customClass="SettingViewController" customModule="RankFit" customModuleProvider="target" sceneMemberID="viewController">
@@ -118,7 +118,7 @@
                             <constraint firstItem="383-5Z-EBT" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="pG2-wu-e0V"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="" image="gear" id="VWa-Tn-2qg"/>
+                    <tabBarItem key="tabBarItem" title="설정" image="gear" id="VWa-Tn-2qg"/>
                     <navigationItem key="navigationItem" id="8Pv-u5-dWO"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
@@ -129,10 +129,11 @@
             </objects>
             <point key="canvasLocation" x="824.61538461538464" y="-34.123222748815166"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--설정-->
         <scene sceneID="Tdp-fj-E7S">
             <objects>
                 <navigationController storyboardIdentifier="initialSetting" automaticallyAdjustsScrollViewInsets="NO" id="xEa-LT-ZPv" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="설정" image="gear" id="RUP-Lr-95d"/>
                     <toolbarItems/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="YjX-wu-pel">

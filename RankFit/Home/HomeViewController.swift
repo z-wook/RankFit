@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftUI
 import Alamofire
 import Charts
 import FirebaseAuth
@@ -17,9 +18,10 @@ import Combine
 class HomeViewController: UIViewController {
     
     @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var backgroundView: UIView!
+    @IBOutlet weak var weeklyRankBackground: UIView!
     @IBOutlet weak var pageLabel: UILabel!
     @IBOutlet weak var barChartView: BarChartView!
+    @IBOutlet weak var radarChartView: RadarChartView!
     
     let rankSubject = CurrentValueSubject<[WeeklyRank]?, Never>(nil)
     var subscriptions = Set<AnyCancellable>()
@@ -46,10 +48,15 @@ class HomeViewController: UIViewController {
         configCollectionView()
         configure()
         bind()
+        setRadarChart(week: [], month: [])
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        navigationController?.setNavigationBarHidden(true, animated: true)
+        let weekList = viewModel.getCategoryList(type: "week")
+        let monthList = viewModel.getCategoryList(type: "month")
         weekRankVM.getWeeklyRank(subject: rankSubject)
+        setRadarChart(week: weekList, month: monthList)
         
         let current_percent = viewModel.getPercentList()
         // 이전이랑 퍼센트가 같다면 차트 업로드 안함
@@ -72,7 +79,7 @@ class HomeViewController: UIViewController {
                 do {
                     try Auth.auth().signOut()
                 } catch {
-                    print("error: " + error.localizedDescription)
+                    print("error: \(error.localizedDescription)")
                     configFirebase.errorReport(type: "HomeVC.viewDidLayoutSubviews", descriptions: error.localizedDescription)
                 }
             }
@@ -98,14 +105,15 @@ class HomeViewController: UIViewController {
         }
         let sb = UIStoryboard(name: "QuickExercise", bundle: nil)
         let vc = sb.instantiateViewController(withIdentifier: "QuickAerobicViewController") as! QuickAerobicViewController
+        navigationController?.setNavigationBarHidden(false, animated: true)
         self.navigationController?.pushViewController(vc, animated: true)
     }
 }
 
 extension HomeViewController {
     private func configure() {
-        backgroundView.backgroundColor = UIColor.cyan.withAlphaComponent(0.6)
-        backgroundView.layer.cornerRadius = 20
+        weeklyRankBackground.backgroundColor = UIColor.cyan.withAlphaComponent(0.6)
+        weeklyRankBackground.layer.cornerRadius = 20
         pageLabel.backgroundColor = UIColor.black.withAlphaComponent(0.6)
         pageLabel.clipsToBounds = true
         pageLabel.layer.cornerRadius = 15
@@ -206,7 +214,7 @@ extension HomeViewController {
         barChartView.leftAxis.gridColor = .clear
         barChartView.noDataText = "완료한 운동이 없습니다.\n운동을 완료해 주세요."
         barChartView.noDataFont = .systemFont(ofSize: 20)
-        barChartView.noDataTextColor = .lightGray
+        barChartView.noDataTextColor = .label
         
         let check = values.filter { $0 == 0.0 }
         if check.count == 7 {
@@ -229,6 +237,77 @@ extension HomeViewController {
         // 데이터 삽입
         let chartData = BarChartData(dataSet: chartDataSet)
         barChartView.data = chartData
+    }
+    
+    func setRadarChart(week: [String], month: [String]) {
+        let greenDataSet = RadarChartDataSet(   // 최근 한달
+            entries: [
+                RadarChartDataEntry(value: Double(month.filter { $0 == "가슴" }.count)), // 가슴
+                RadarChartDataEntry(value: Double(month.filter { $0 == "등" }.count)), // 등
+                RadarChartDataEntry(value: Double(month.filter { $0 == "복부" }.count)), // 복부
+                RadarChartDataEntry(value: Double(month.filter { $0 == "상체" }.count)), // 상체
+                RadarChartDataEntry(value: Double(month.filter { $0 == "어께" }.count)), // 어께
+                RadarChartDataEntry(value: Double(month.filter { $0 == "유산소" }.count)), // 유산소
+                RadarChartDataEntry(value: Double(month.filter { $0 == "전신" }.count)), // 전신
+                RadarChartDataEntry(value: Double(month.filter { $0 == "팔" }.count)), // 팔
+                RadarChartDataEntry(value: Double(month.filter { $0 == "하체" }.count)) // 하체
+            ]
+        )
+        let redDataSet = RadarChartDataSet(     // 최근 일주일
+            entries: [
+                RadarChartDataEntry(value: Double(week.filter { $0 == "가슴" }.count)), // 가슴
+                RadarChartDataEntry(value: Double(week.filter { $0 == "등" }.count)), // 등
+                RadarChartDataEntry(value: Double(week.filter { $0 == "복부" }.count)), // 복부
+                RadarChartDataEntry(value: Double(week.filter { $0 == "상체" }.count)), // 상체
+                RadarChartDataEntry(value: Double(week.filter { $0 == "어께" }.count)), // 어께
+                RadarChartDataEntry(value: Double(week.filter { $0 == "유산소" }.count)), // 유산소
+                RadarChartDataEntry(value: Double(week.filter { $0 == "전신" }.count)), // 전신
+                RadarChartDataEntry(value: Double(week.filter { $0 == "팔" }.count)), // 팔
+                RadarChartDataEntry(value: Double(week.filter { $0 == "하체" }.count)) // 하체
+            ]
+        )
+        let data = RadarChartData(dataSets: [greenDataSet, redDataSet])
+        radarChartView.data = data
+        redDataSet.lineWidth = 2
+        greenDataSet.lineWidth = 2
+
+        let redColor = UIColor(red: 247/255, green: 67/255, blue: 115/255, alpha: 1)
+        let redFillColor = UIColor(red: 247/255, green: 67/255, blue: 115/255, alpha: 0.6)
+        redDataSet.colors = [redColor]
+        redDataSet.fillColor = redFillColor
+        redDataSet.drawFilledEnabled = true
+        
+        let greenColor = UIColor(red: 67/255, green: 247/255, blue: 115/255, alpha: 1)
+        let greenFillColor = UIColor(red: 67/255, green: 247/255, blue: 115/255, alpha: 0.6)
+        greenDataSet.colors = [greenColor]
+        greenDataSet.fillColor = greenFillColor
+        greenDataSet.drawFilledEnabled = true
+        
+        redDataSet.valueFormatter = DataSetValueFormatter()
+        greenDataSet.valueFormatter = DataSetValueFormatter()
+        
+        radarChartView.webLineWidth = 1.5
+        radarChartView.innerWebLineWidth = 1.5
+        radarChartView.webColor = .lightGray
+        radarChartView.innerWebColor = .lightGray
+        
+        let xAxis = radarChartView.xAxis
+        xAxis.labelFont = .systemFont(ofSize: 9, weight: .bold)
+        xAxis.labelTextColor = .label
+        xAxis.xOffset = 10
+        xAxis.yOffset = 10
+        xAxis.valueFormatter = XAxisFormatter()
+
+        let yAxis = radarChartView.yAxis
+        yAxis.labelFont = .systemFont(ofSize: 9, weight: .light)
+        yAxis.labelCount = 6
+        yAxis.drawTopYLabelEntryEnabled = false
+        yAxis.axisMinimum = 0
+        yAxis.valueFormatter = YAxisFormatter()
+
+        radarChartView.rotationEnabled = false
+        radarChartView.legend.enabled = false
+        radarChartView.setNeedsDisplay()
     }
 }
 
@@ -288,5 +367,37 @@ class Core {
     
     func setIsNotNewUser() {
         UserDefaults.standard.set(true, forKey: "isNewUser")
+    }
+}
+
+class DataSetValueFormatter: ValueFormatter {
+    func stringForValue(_ value: Double, entry: ChartDataEntry, dataSetIndex: Int, viewPortHandler: ViewPortHandler?) -> String { "" }
+}
+
+class XAxisFormatter: AxisValueFormatter {
+    let titles = ["가슴", "등", "복부", "상체", "어깨", "유산소", "전신", "팔", "하체"]
+    func stringForValue(_ value: Double, axis: AxisBase?) -> String {
+        titles[Int(value) % titles.count]
+    }
+}
+
+class YAxisFormatter: AxisValueFormatter {
+
+    func stringForValue(_ value: Double, axis: AxisBase?) -> String {
+        ""
+    }
+}
+
+struct RadarView: UIViewRepresentable {
+    typealias UIViewType = RadarChartView
+        
+    func makeUIView(context: UIViewRepresentableContext<RadarView>) -> RadarChartView {
+        let radarChart = RadarChartView()
+        return radarChart
+    }
+    
+    @State var data: RadarChartData
+    func updateUIView(_ uiView: RadarChartView, context: UIViewRepresentableContext<RadarView>) {
+        uiView.data = data
     }
 }

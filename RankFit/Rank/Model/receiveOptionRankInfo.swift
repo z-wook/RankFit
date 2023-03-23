@@ -25,6 +25,7 @@ struct anaerobic: Codable, Hashable {
     var Weight: Float
     var Count: Int
     var Time: Double
+    var Category: String? = "nil"
 }
 
 struct aerobic: Codable, Hashable {
@@ -32,6 +33,7 @@ struct aerobic: Codable, Hashable {
     var Date: Int
     var Distance: Double
     var Time: Int
+    var Category: String? = "유산소"
 }
 
 class OptionDetailInfo: Codable {

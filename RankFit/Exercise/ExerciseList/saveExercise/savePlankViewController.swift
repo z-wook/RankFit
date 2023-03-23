@@ -160,7 +160,7 @@ extension savePlankViewController {
     }
     
     private func saveEx(setNum: Int16, exTime: Double) {
-        exInfo = anaerobicExerciseInfo(exercise: exerciseLabel.text ?? "운동 없음", table_Name: tableName, date: ExerciseViewController.pickDate, set: setNum, weight: 0, count: 0, exTime: exTime, saveTime: Int64(TimeStamp.getCurrentTimestamp()))
+        exInfo = anaerobicExerciseInfo(exercise: exerciseLabel.text ?? "운동 없음", table_Name: tableName, date: ExerciseViewController.pickDate, set: setNum, weight: 0, count: 0, exTime: exTime, saveTime: Int64(TimeStamp.getCurrentTimestamp()), category: "복부")
         configServer.sendSaveEx(info: exInfo, subject: serverState)
     }
 }

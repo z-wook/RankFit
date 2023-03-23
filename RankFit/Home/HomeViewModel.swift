@@ -9,28 +9,65 @@ import Foundation
 
 final class HomeViewModel {
     let numDaysInWeek = 7
-
+    
+    func getCategoryList(type: String) -> [String] {
+        if type == "week" {
+            let Dates = getDateString().getDate()
+            let doneExList = getDoneEx(dates: Dates)
+            let filteredEx = doneExList.filter { category in
+                if category != "nil" { return true }
+                else { return false }
+            }
+            print("week_filteredEx: \(filteredEx)")
+            return filteredEx
+        } else { // month
+            let Dates = getDateString().getMonthAgo()
+            let doneExList = getDoneEx(dates: Dates)
+            let filteredEx = doneExList.filter { category in
+                if category != "nil" { return true }
+                else { return false }
+            }
+            print("month_filteredEx: \(filteredEx)")
+            return filteredEx
+        }
+    }
+    
+    private func getDoneEx(dates: [String]) -> [String] {
+        var resultList: [String] = []
+        for i in dates {
+            let exInfoList = ExerciseCoreData.fetchCoreData(date: i)
+            let doneExList: [String] = exInfoList.map { info in
+                if let anaerobicEx = info as? anaerobicExerciseInfo {
+                    if anaerobicEx.done {
+                        return anaerobicEx.category ?? "nil"
+                    }
+                } else {
+                    let aerobicEx = info as! aerobicExerciseInfo
+                    if aerobicEx.done {
+                        return aerobicEx.category ?? "nil"
+                    }
+                }
+                return "nil"
+            }
+            resultList += doneExList
+        }
+        return resultList
+    }
+    
     func getPercentList() -> [Double] {
         let dates = getDate()
         var percentList: [Double] = []
 
         for i in dates {
             let exInfoList = ExerciseCoreData.fetchCoreData(date: i)
-
             let checkExList: [Int] = exInfoList.map { info in
                 if let anaerobicEx = info as? anaerobicExerciseInfo {
-                    if anaerobicEx.done {
-                        return 1
-                    } else {
-                        return 0
-                    }
+                    if anaerobicEx.done { return 1 }
+                    else { return 0 }
                 } else {
                     let aerobicEx = info as! aerobicExerciseInfo
-                    if aerobicEx.done {
-                        return 1
-                    } else {
-                        return 0
-                    }
+                    if aerobicEx.done { return 1 }
+                    else { return 0 }
                 }
             }
             // 해당 날짜의 완료/미완료 운동 가져오기

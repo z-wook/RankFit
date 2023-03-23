@@ -29,6 +29,7 @@ final class ExerciseCoreData {
                 object.setValue(anaerobicInfo.exTime, forKey: "exTime")
                 object.setValue(anaerobicInfo.saveTime, forKey: "saveTime")
                 object.setValue(anaerobicInfo.done, forKey: "done")
+                object.setValue(anaerobicInfo.category, forKey: "category")
 
                 do {
                     try context.save()
@@ -55,6 +56,7 @@ final class ExerciseCoreData {
                 object.setValue(aerobicInfo.time, forKey: "time")
                 object.setValue(aerobicInfo.saveTime, forKey: "saveTime")
                 object.setValue(aerobicInfo.done, forKey: "done")
+                object.setValue(aerobicInfo.category, forKey: "category")
                 
                 do {
                     try context.save()
@@ -89,8 +91,9 @@ final class ExerciseCoreData {
                     let exTime = $0.exTime
                     let saveTime = $0.saveTime
                     let done = $0.done
+                    let category = $0.category
 
-                    let exerciseInfo = anaerobicExerciseInfo(id: id, exercise: exerciseName, tableName: tableName, date: date, set: set, weight: weight, count: count, exTime: exTime, saveTime: saveTime, done: done)
+                    let exerciseInfo = anaerobicExerciseInfo(id: id, exercise: exerciseName, tableName: tableName, date: date, set: set, weight: weight, count: count, exTime: exTime, saveTime: saveTime, done: done, category: category)
                     exerciseInfoList.append(exerciseInfo)
                 }
             }
@@ -106,8 +109,9 @@ final class ExerciseCoreData {
                     let distance = $0.distance
                     let saveTime = $0.saveTime
                     let done = $0.done
+                    let category = $0.category
 
-                    let exerciseInfo = aerobicExerciseInfo(id: id, exercise: exerciseName, tableName: tableName, date: date, time: time, distance: distance, saveTime: saveTime, done: done)
+                    let exerciseInfo = aerobicExerciseInfo(id: id, exercise: exerciseName, tableName: tableName, date: date, time: time, distance: distance, saveTime: saveTime, done: done, category: category)
                     exerciseInfoList.append(exerciseInfo)
                 }
             }
