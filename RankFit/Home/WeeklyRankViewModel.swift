@@ -9,11 +9,6 @@ import Foundation
 import Alamofire
 import Combine
 
-enum Error: String {
-    case lost = "URLSessionTask failed with error: The network connection was lost."
-    case time = "URLSessionTask failed with error: The request timed out."
-}
-
 struct weekRank: Codable, Hashable {
     let All: [[String: String]]
 }
@@ -38,6 +33,11 @@ class WeeklyRank: Hashable {
 }
 
 final class WeeklyRankViewModel {
+    enum Error: String {
+        case lost = "URLSessionTask failed with error: The network connection was lost."
+        case time = "URLSessionTask failed with error: The request timed out."
+    }
+    
     func getWeeklyRank(subject: CurrentValueSubject<[WeeklyRank]?, Never>) {
         AF.request("http://rankfit.site/weekEXrank.php", method: .post).responseDecodable(of: weekRank.self) { response in
             print("response: \(response)")
