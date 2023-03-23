@@ -300,7 +300,7 @@ extension ChangeProfileViewController: UIImagePickerControllerDelegate, UINaviga
     
     @objc func image(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
         if let error = error {
-            print("error: \(error.localizedDescription)")
+            print("error: \(error)")
             configFirebase.errorReport(type: "ChangeProfileVC.@image", descriptions: error.localizedDescription)
             return
         } else {
