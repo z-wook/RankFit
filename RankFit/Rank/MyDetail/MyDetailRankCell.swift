@@ -53,11 +53,10 @@ class MyDetailRankCell: UICollectionViewCell {
     
     func config(rank: String, nickname: String, score: String) {
         if nickname == "나의 랭킹" { // 맨 처음 나의 랭킹만 예외로 적용
-//            contentView.backgroundColor = .purple
             contentView.backgroundColor = UIColor(cgColor: CGColor(red: 0.5, green: 0, blue: 0.5, alpha: 0.6))
             reportBtn.layer.isHidden = true
-            rankLabel.text = rank + "위"
-            nickName.text = nickname
+            rankLabel.text = nickname
+            nickName.text = rank + "위"
             scoreLabel.text = score + "점"
             let image = configLocalStorage.loadImageFromDocumentDirectory(imageName: "profileImage.jpeg")
             guard let image = image else {
@@ -67,7 +66,6 @@ class MyDetailRankCell: UICollectionViewCell {
             profile.image = image
         } else {
             loadImage(nickName: nickname)
-//            contentView.backgroundColor = .green
             contentView.backgroundColor = .secondarySystemBackground
             reportBtn.layer.isHidden = false
             rankLabel.text = rank + "위"
