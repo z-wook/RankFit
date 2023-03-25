@@ -36,6 +36,7 @@ extension ExerciseInfo {
         ExerciseInfo(exerciseName: "백 익스텐션", table_name: "backnailtension", group: 2, category: "등"),
         ExerciseInfo(exerciseName: "윗몸 일으키기", table_name: "situpcorrector", group: 2, category: "복부"),
         ExerciseInfo(exerciseName: "아놀드 프레스", table_name: "ArnoldPress", group: 1, category: "어깨"),
+        ExerciseInfo(exerciseName: "사이드 레터럴 레이즈", table_name: "Sidelateralraise", group: 1, category: "어깨"),
         ExerciseInfo(exerciseName: "바벨 로우", table_name: "barbellrow", group: 1, category: "등"),
         ExerciseInfo(exerciseName: "풀업", table_name: "pullup", group: 2, category: "등"),
         ExerciseInfo(exerciseName: "덤벨 로우", table_name: "dumbbellrow", group: 1, category: "상체"),

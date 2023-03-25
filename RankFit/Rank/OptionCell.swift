@@ -124,7 +124,7 @@ extension OptionCell {
                 let error = error.localizedDescription
                 print("error: \(error)")
                 if error == Error.cancelled.rawValue { return } // 랭킹을 로딩 중 취소하는 경우
-                else if error == Error.failed.rawValue { return }
+                else if error == Error.failed.rawValue { return } // 네트워크 연결 유실
                 else {
                     configFirebase.errorReport(type: "OptionCell.loadImage", descriptions: error, server: response.debugDescription)
                     DispatchQueue.main.async {

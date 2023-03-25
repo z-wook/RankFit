@@ -17,6 +17,9 @@ final class MyRankViewModel {
     
     var myRankList: [MyRankInfo] = []
     var count: Int!
+    enum Error: String {
+        case time = "URLSessionTask failed with error: 요청한 시간이 초과되었습니다."
+    }
     
     init() {
         receiveSubject.receive(on: RunLoop.main).sink { result in
@@ -66,9 +69,13 @@ final class MyRankViewModel {
                     self.receiveSubject.send(object)
                     
                 case .failure(let error):
-                    print("error: \(error.localizedDescription)")
-                    configFirebase.errorReport(type: "MyRankVM.getMyRank", descriptions: error.localizedDescription, server: response.debugDescription)
-                    self.receiveSubject.send(nil)
+                    let error = error.localizedDescription
+                    print("error: \(error)")
+                    if error == Error.time.rawValue { return }
+                    else {
+                        configFirebase.errorReport(type: "MyRankVM.getMyRank", descriptions: error, server: response.debugDescription)
+                        self.receiveSubject.send(nil)
+                    }
                 }
             }
         }
