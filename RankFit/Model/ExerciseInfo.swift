@@ -73,7 +73,13 @@ extension ExerciseInfo {
         ExerciseInfo(exerciseName: "덤벨 런지", table_name: "dumbbelllunge", group: 1, category: "하체"),
         ExerciseInfo(exerciseName: "브이 업", table_name: "Bryup", group: 2, category: "복부"),
         ExerciseInfo(exerciseName: "행잉 레그 레이즈", table_name: "hanginglegrise", group: 2, category: "복부"),
-        ExerciseInfo(exerciseName: "푸시업", table_name: "pushup", group: 2, category: "가슴")
+        ExerciseInfo(exerciseName: "푸시업", table_name: "pushup", group: 2, category: "가슴"),
+        ExerciseInfo(exerciseName: "버터플라이", table_name: "Butterfly", group: 1, category: "가슴"),
+        ExerciseInfo(exerciseName: "체스트 프레스", table_name: "ChestPress", group: 1, category: "가슴"),
+        ExerciseInfo(exerciseName: "시티드 체스트 프레스", table_name: "SeatedChestPress", group: 1, category: "가슴"),
+        ExerciseInfo(exerciseName: "로타리 토르소", table_name: "RotaryTorso", group: 1, category: "복부"),
+        ExerciseInfo(exerciseName: "인클라인 벤치 프레스", table_name: "Inclinebenchpress", group: 1, category: "가슴"),
+        ExerciseInfo(exerciseName: "인클라인 덤벨 프레스", table_name: "Inclinedumbbellpress", group: 1, category: "가슴")
     ]
 }
 
