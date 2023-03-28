@@ -16,7 +16,7 @@ final class configFirebase {
     
     private static let storage = Storage.storage()
     private static let storageRef = storage.reference()
-    private static let UID = saveUserData.getKeychainStringValue(forKey: .UID)!
+    private static let UID = saveUserData.getKeychainStringValue(forKey: .UID)
 
     // 에러 보고
     static func errorReport(type: String, descriptions: String, server: String? = nil) {
@@ -91,6 +91,10 @@ final class configFirebase {
     // 서버에서 사진 파일 삭제(탈퇴시 사용)
     static func removeFireStorage(subject: PassthroughSubject<Bool, Never>) {
         let typeRef = storageRef.child("privStore")
+        guard let UID = UID else {
+            configFirebase.errorReport(type: "configFirebaes", descriptions: "uid == nil")
+            return
+        }
         let imagesRef = typeRef.child(UID)
         imagesRef.listAll { list, error in
             if let error = error {
@@ -125,8 +129,12 @@ final class configFirebase {
     
     // 서버에서 자신의 운동 데이터 삭제(탈퇴시 사용)
     private static func removeFirestore_userData(subject: PassthroughSubject<Bool, Never>) {
+        guard let UID = UID else {
+            configFirebase.errorReport(type: "configFirebaes", descriptions: "uid == nil")
+            return
+        }
         let db = Firestore.firestore()
-        let ref = db.collection("userData").document("saveExInfo").collection(configFirebase.UID)
+        let ref = db.collection("userData").document("saveExInfo").collection(UID)
         ref.getDocuments { snapshot, error in
             guard let snapshot = snapshot else {
                 configFirebase.errorReport(type: "configFirebase.removeFirestore_userData", descriptions: "snapshot == nil")
@@ -155,8 +163,12 @@ final class configFirebase {
     
     // 서버에서 자신의 완료 운동 데이터 삭제(탈퇴시 사용)
     private static func removeFirestore_doneEx (subject: PassthroughSubject<Bool, Never>) {
+        guard let UID = UID else {
+            configFirebase.errorReport(type: "configFirebaes", descriptions: "uid == nil")
+            return
+        }
         let db = Firestore.firestore()
-        let ref = db.collection("userData").document("doneExInfo").collection(configFirebase.UID)
+        let ref = db.collection("userData").document("doneExInfo").collection(UID)
         ref.getDocuments { snapshot, error in
             guard let snapshot = snapshot else {
                 configFirebase.errorReport(type: "configFirebase.removeFirestore_doneEx", descriptions: "snapshot == nil")
@@ -185,8 +197,12 @@ final class configFirebase {
     
     // 서버에서 자신의 파일 삭제(탈퇴시 사용)
     private static func removeFirestore_baseInfo(subject: PassthroughSubject<Bool, Never>) {
+        guard let UID = UID else {
+            configFirebase.errorReport(type: "configFirebaes", descriptions: "uid == nil")
+            return
+        }
         let db = Firestore.firestore()
-        db.collection("baseInfo").document(configFirebase.UID).delete() { error in
+        db.collection("baseInfo").document(UID).delete() { error in
             if let error = error {
                 print("error remove document: \(error.localizedDescription)")
                 configFirebase.errorReport(type: "configFirebase.removeFirestore_baseInfo", descriptions: error.localizedDescription)
@@ -221,6 +237,10 @@ final class configFirebase {
     
     // 서버에서 해당 사진 삭제
     static func deleteImageFromFirebase(type: String? = nil, imageName: String, subject: PassthroughSubject<Bool, Never>) {
+        guard let UID = UID else {
+            configFirebase.errorReport(type: "configFirebaes", descriptions: "uid == nil")
+            return
+        }
         let typeRef = storageRef.child("privStore")
         let imagesRef = typeRef.child(UID)
         var imgName: String!
@@ -248,14 +268,17 @@ final class configFirebase {
     
     // baseInfo Token 업데이트
     static func updateToken(Token: String) {
-        let uid = saveUserData.getKeychainStringValue(forKey: .UID)!
+        guard let UID = UID else {
+            configFirebase.errorReport(type: "configFirebase.updateToken", descriptions: "uid == nil, email: \(saveUserData.getKeychainStringValue(forKey: .Email) ?? "nil"), nickName: \(saveUserData.getKeychainStringValue(forKey: .NickName) ?? "nil"), weight: \(saveUserData.getKeychainIntValue(forKey: .Weight) ?? -1), bitrth: \(saveUserData.getKeychainStringValue(forKey: .Birth) ?? "nil"), gender: \(saveUserData.getKeychainIntValue(forKey: .Gender) ?? -1)")
+            return
+        }
         let db = Firestore.firestore()
-        db.collection("baseInfo").document(uid).updateData([
+        db.collection("baseInfo").document(UID).updateData([
             "Token": Token
         ]) { error in
             if let error = error {
                 print("error: \(error.localizedDescription)")
-                configFirebase.errorReport(type: "configFirebase.updateToken", descriptions: "\(uid), Token: \(Token)_" + error.localizedDescription) // 실패 시 수동으로 입력하기 위해 에러로 전송
+                configFirebase.errorReport(type: "configFirebase.updateToken", descriptions: "\(UID), Token: \(Token)_" + error.localizedDescription) // 실패 시 수동으로 입력하기 위해 에러로 전송
             } else {
                 print("baseInfo Token값 변경 완료")
             }
@@ -300,6 +323,10 @@ final class configFirebase {
     
     // 서버에서 사진 다운
     static func downloadImage(imgNameList: [String], subject: PassthroughSubject<String, Never>) {
+        guard let UID = UID else {
+            configFirebase.errorReport(type: "configFirebaes", descriptions: "uid == nil")
+            return
+        }
         let typeRef = storageRef.child("privStore")
         let imagesRef = typeRef.child(UID)
         
@@ -327,6 +354,10 @@ final class configFirebase {
     
     // 서버에서 사진 이름 가져오기
     static func getImgNameFromFirebase(subject: PassthroughSubject<[String], Never>) {
+        guard let UID = UID else {
+            configFirebase.errorReport(type: "configFirebaes", descriptions: "uid == nil")
+            return
+        }
         let typeRef = storageRef.child("privStore")
         let imagesRef = typeRef.child(UID)
         imagesRef.listAll { snapshot, error in
@@ -349,6 +380,10 @@ final class configFirebase {
     
     // 서버에 사진 저장
     static func savePhoto(type: String? = nil, imgData: Data, subject: PassthroughSubject<String, Never>) {
+        guard let UID = UID else {
+            configFirebase.errorReport(type: "configFirebaes", descriptions: "uid == nil")
+            return
+        }
         let typeRef = storageRef.child("privStore")
         let imagesRef = typeRef.child(UID)
         let imageName: String!
@@ -395,6 +430,10 @@ final class configFirebase {
     
     // 서버에서 운동 삭제(덮어쓰기)
     static func deleteEx(date: String, uuid: String, subject: PassthroughSubject<Bool, Never>) {
+        guard let UID = UID else {
+            configFirebase.errorReport(type: "configFirebaes", descriptions: "uid == nil")
+            return
+        }
         var exList: [[String: Any]] = []
         let db = Firestore.firestore()
         db.collection("userData").document("saveExInfo").collection(UID).document(date).getDocument { snapshot, error in
@@ -437,8 +476,12 @@ final class configFirebase {
     }
     
     private static func emptyDocument(date: String, subject: PassthroughSubject<Bool, Never>) {
+        guard let UID = UID else {
+            configFirebase.errorReport(type: "configFirebaes", descriptions: "uid == nil")
+            return
+        }
         let db = Firestore.firestore()
-        let ref = db.collection("userData").document("saveExInfo").collection(configFirebase.UID).document(date)
+        let ref = db.collection("userData").document("saveExInfo").collection(UID).document(date)
         ref.delete { error in
             if let error = error {
                 print("firebase delete document error: \(error.localizedDescription)")
@@ -454,6 +497,10 @@ final class configFirebase {
     static func saveDoneEx(exName: String, set: Int16? = nil, weight: Float? = nil, count: Int16? = nil,
                            distance: Double? = nil, maxSpeed: Double? = nil, avgSpeed: Double? = nil,
                            time: Int64, date: String) { // time == sec(초), maxSpee, avgSpeed == m/s
+        guard let UID = UID else {
+            configFirebase.errorReport(type: "configFirebaes", descriptions: "uid == nil")
+            return
+        }
         let exinfo: [String: Any] = [
             "exName": exName, "set": "\(set ?? 0) 세트", "weight": "\(weight ?? 0) kg", "count": "\(count ?? 0) 회",
             "distance": "\(distance ?? 0) m", "maxSpeed": "\(maxSpeed ?? 0) m/s", "avgSpeed": "\(avgSpeed ?? 0) m/s",
@@ -489,6 +536,10 @@ final class configFirebase {
     
     // 서버에 운동 저장
     static func saveEx(exName: String, time: Int64, uuid: String, date: String) {
+        guard let UID = UID else {
+            configFirebase.errorReport(type: "configFirebaes", descriptions: "uid == nil")
+            return
+        }
         let exinfo: [String: Any] = ["exName": exName, "time": time, "uuid": uuid]
         let db = Firestore.firestore()
         db.collection("userData").document("saveExInfo").collection(UID).document(date).getDocument { snapshot, error in
@@ -519,6 +570,10 @@ final class configFirebase {
     }
     
     private static func firstSaveData(data: [[String : Any]], date: String, subject: PassthroughSubject<Bool, Never>? = nil) {
+        guard let UID = UID else {
+            configFirebase.errorReport(type: "configFirebaes", descriptions: "uid == nil")
+            return
+        }
         let db = Firestore.firestore()
         db.collection("userData").document("saveExInfo").collection(UID).document(date).setData(["info": data]) { error in
             if let error = error {
@@ -533,6 +588,10 @@ final class configFirebase {
     }
     
     private static func mergeAndSave(data: [Any], date: String, subject: PassthroughSubject<Bool, Never>? = nil) {
+        guard let UID = UID else {
+            configFirebase.errorReport(type: "configFirebaes", descriptions: "uid == nil")
+            return
+        }
         let db = Firestore.firestore()
         db.collection("userData").document("saveExInfo").collection(UID).document(date).setData(["info": data]) { error in
             if let error = error {
@@ -547,6 +606,10 @@ final class configFirebase {
     }
     
     private static func firstSaveDoneData(data: [[String : Any]], date: String, subject: PassthroughSubject<Bool, Never>? = nil) {
+        guard let UID = UID else {
+            configFirebase.errorReport(type: "configFirebaes", descriptions: "uid == nil")
+            return
+        }
         let db = Firestore.firestore()
         db.collection("userData").document("doneExInfo").collection(UID).document(date).setData(["info": data]) { error in
             if let error = error {
@@ -561,6 +624,10 @@ final class configFirebase {
     }
     
     private static func mergeDoneData(data: [Any], date: String, subject: PassthroughSubject<Bool, Never>? = nil) {
+        guard let UID = UID else {
+            configFirebase.errorReport(type: "configFirebaes", descriptions: "uid == nil")
+            return
+        }
         let db = Firestore.firestore()
         db.collection("userData").document("doneExInfo").collection(UID).document(date).setData(["info": data]) { error in
             if let error = error {

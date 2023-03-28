@@ -196,7 +196,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 extension AppDelegate: MessagingDelegate {
     // 현재 등록 토큰 가져오기 / fcm 등록 토큰을 받았을 때
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
-        // TODO: - 디바이스 토큰을 보내는 서버통신 구현
         let user = Auth.auth().currentUser
         guard let fcmToken = fcmToken else {
             print("fcmToken == nil")
@@ -205,19 +204,18 @@ extension AppDelegate: MessagingDelegate {
         }
         print("FCMToken 토큰: \(fcmToken)")
         let token = saveUserData.getKeychainStringValue(forKey: .Token)
-        // 키체인 확인 후 다르면 저장
-        if token != fcmToken {
-            if token != nil { // token값이 저장되어 있는 경우
-                // 기존 토큰값 삭제 후 키체인에 저장
-                saveUserData.removeKeychain(forKey: .Token)
-                saveUserData.setKeychain(fcmToken, forKey: .Token)
-            } else {
-                // 키체인에 저장
-                saveUserData.setKeychain(fcmToken, forKey: .Token)
-            }
-            if user != nil { // 로그인 되어있다면 토큰 값 갱신
-                configFirebase.updateToken(Token: fcmToken)
-            }
+        guard let token = token else { // token == nil
+            configFirebase.errorReport(type: "AppDelegate", descriptions: "token == nil")
+            // 키체인에 저장
+            saveUserData.setKeychain(fcmToken, forKey: .Token)
+            return
+        }
+        if token != fcmToken { // 키체인 확인 후 다르면 저장
+            saveUserData.removeKeychain(forKey: .Token) // 기존 토큰값 삭제
+            saveUserData.setKeychain(fcmToken, forKey: .Token)
+        }
+        if user != nil { // 로그인 되어있다면 토큰 값 갱신
+            configFirebase.updateToken(Token: fcmToken)
         }
     }
 }
