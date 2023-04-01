@@ -20,7 +20,7 @@ class SettingViewController: UIViewController {
     
     let sectionHeader = ["내 프로필", "앱 설정", "이용 안내", "기타"]
     let section0 = ["마이페이지"] // userInfomation
-    let section1 = ["화면 모드", "사운드 효과"]
+    let section1 = ["화면 모드", "사운드 효과", "알림 설정"]
     let section2 = ["버전 정보", "개인정보 처리 방침", "오픈소스 라이선스", "이용약관", "이용규칙", "공지사항", "문의하기"]
     let section3 = ["저작권", "로그아웃"]
     let version: String = "0.1.0" // 앱 버전 -> 업데이트 시 변경하기
@@ -94,12 +94,15 @@ extension SettingViewController: UITableViewDataSource, UITableViewDelegate {
                 case 2: mode = "다크 모드"
                 default: mode = "시스템 기본값"
                 }
-            } else {
+            } else if indexPath.item == 1 { // 사운드 효과
                 img = UIImage(systemName: "speaker.wave.3")
                 color = .link
                 let soundEffect = UserDefaults.standard.integer(forKey: "sound")
                 if soundEffect == 0 { mode = "On" }
                 else { mode = "Off" }
+            } else { // 알림 설정
+                img = UIImage(systemName: "exclamationmark.bubble")
+                color = .systemPink
             }
             defaultCell.configure(image: img, color: color, title: section1[indexPath.row], description: mode)
             return defaultCell
@@ -117,7 +120,7 @@ extension SettingViewController: UITableViewDataSource, UITableViewDelegate {
                 img = UIImage(systemName: "doc")
                 color = .systemGreen
             } else if indexPath.item == 5 { // 공지사항
-                img = UIImage(systemName: "exclamationmark.bubble")
+                img = UIImage(systemName: "megaphone")
                 color = .systemYellow
             } else if indexPath.item == 6 { // 문의하기
                 img = UIImage(systemName: "text.bubble")
@@ -195,8 +198,7 @@ extension SettingViewController {
                 alert.addAction(dark)
                 alert.addAction(cancel)
                 present(alert, animated: true)
-                return
-            } else {
+            } else if indexPath.item == 1 {
                 let alert = UIAlertController(title: "사운드 효과", message: nil, preferredStyle: .actionSheet)
                 let on = UIAlertAction(title: "On", style: .default) { _ in
                     UserDefaults.standard.set(0, forKey: "sound")
@@ -211,6 +213,9 @@ extension SettingViewController {
                 alert.addAction(off)
                 alert.addAction(cancel)
                 present(alert, animated: true)
+            } else { // 알림 설정
+                // 설정으로 이동
+                UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
             }
             
         case 2:

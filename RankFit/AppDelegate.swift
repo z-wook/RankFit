@@ -205,7 +205,6 @@ extension AppDelegate: MessagingDelegate {
         print("FCMToken 토큰: \(fcmToken)")
         let token = saveUserData.getKeychainStringValue(forKey: .Token)
         guard let token = token else { // token == nil
-            configFirebase.errorReport(type: "AppDelegate", descriptions: "token == nil")
             // 키체인에 저장
             saveUserData.setKeychain(fcmToken, forKey: .Token)
             return

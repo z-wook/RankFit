@@ -112,7 +112,8 @@ class HomeViewController: UIViewController {
 
 extension HomeViewController {
     private func configure() {
-        weeklyRankBackground.backgroundColor = UIColor.cyan.withAlphaComponent(0.6)
+//        weeklyRankBackground.backgroundColor = UIColor.cyan.withAlphaComponent(0.6)
+        weeklyRankBackground.backgroundColor = UIColor(named: "baseColor")
         weeklyRankBackground.layer.cornerRadius = 20
         pageLabel.backgroundColor = UIColor.black.withAlphaComponent(0.6)
         pageLabel.clipsToBounds = true
