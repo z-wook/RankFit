@@ -10,6 +10,8 @@ import Foundation
 struct Score_Descriptions {
     let descriptions: String = """
 
+ ※ 랭킹은 매주 초기화됩니다.
+
 - 카테고리 설명
 
 ● 마이랭킹
