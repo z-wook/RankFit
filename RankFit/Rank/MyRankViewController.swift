@@ -267,7 +267,7 @@ extension MyRankViewController {
             handler: {
                 let sb = UIStoryboard(name: "Reading", bundle: nil)
                 let vc = sb.instantiateViewController(withIdentifier: "defaultViewController") as! defaultViewController
-                vc.configure(type: "점수")
+                vc.configure(type: "랭킹")
                 vc.navigationItem.largeTitleDisplayMode = .never
                 self.navigationController?.pushViewController(vc, animated: true)
             }

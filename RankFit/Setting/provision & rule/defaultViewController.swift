@@ -33,9 +33,9 @@ class defaultViewController: UIViewController, UITextViewDelegate {
         } else if type == "저작권" {
             navigationItem.title = "저작권"
             readingText = Copyright().copyright
-        } else { // 랭킹 점수 산정방식 설명
-            navigationItem.title = "랭킹 점수 산정 방식"
-            readingText = Score_Descriptions().descriptions
+        } else { // 랭킹 도움말
+            navigationItem.title = "랭킹 도움말"
+            readingText = Rank_Descriptions().descriptions
         }
     }
 }
