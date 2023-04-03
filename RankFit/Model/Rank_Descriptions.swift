@@ -1,5 +1,5 @@
 //
-//  Score_Descriptions.swift
+//  Rank_Descriptions.swift
 //  RankFit
 //
 //  Created by 한지욱 on 2023/03/14.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Score_Descriptions {
+struct Rank_Descriptions {
     let descriptions: String = """
 
  ※ 랭킹은 매주 초기화됩니다.

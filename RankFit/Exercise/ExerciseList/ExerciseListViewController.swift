@@ -140,7 +140,7 @@ extension ExerciseListViewController: UICollectionViewDelegateFlowLayout {
     private func calculateCellWidth(text: String) -> (CGFloat, CGFloat) {
         let label = UILabel()
         label.text = text
-        label.font = .systemFont(ofSize: 14)
+        label.font = .systemFont(ofSize: 17, weight: .medium)
         label.sizeToFit()
         return (label.frame.width, label.frame.height)
     }

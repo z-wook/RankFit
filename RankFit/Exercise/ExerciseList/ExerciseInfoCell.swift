@@ -14,8 +14,7 @@ class ExerciseInfoCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-//        contentView.backgroundColor = .systemOrange
-        contentView.backgroundColor = UIColor(named: "baseColor")
+        contentView.backgroundColor = .systemOrange
         contentView.layer.cornerRadius = 10
     }
     

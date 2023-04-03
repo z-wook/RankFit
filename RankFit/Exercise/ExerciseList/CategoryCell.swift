@@ -21,19 +21,23 @@ class CategoryCell: UICollectionViewCell {
     func configure(categoryName: String) {
         categoryLabel.text = categoryName
         if select {
-            contentView.backgroundColor = .systemPink
+            contentView.backgroundColor = .systemPink.withAlphaComponent(0.8)
+            categoryLabel.textColor = .white
         } else {
-            contentView.backgroundColor = .systemCyan.withAlphaComponent(0.6)
+            contentView.backgroundColor = UIColor(named: "category")
+            categoryLabel.textColor = .black
         }
     }
     
     override var isSelected: Bool {
         didSet {
             if isSelected {
-                contentView.backgroundColor = .systemPink
+                contentView.backgroundColor = .systemPink.withAlphaComponent(0.8)
+                categoryLabel.textColor = .white
                 select = true
             } else {
-                contentView.backgroundColor = .systemCyan.withAlphaComponent(0.6)
+                contentView.backgroundColor = UIColor(named: "category")
+                categoryLabel.textColor = .black
                 select = false
             }
         }

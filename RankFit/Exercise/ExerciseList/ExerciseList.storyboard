@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
@@ -63,34 +63,34 @@
                                     <constraint firstAttribute="width" secondItem="EmH-df-ebm" secondAttribute="height" multiplier="7:1" id="9ks-ev-lXP"/>
                                 </constraints>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="POo-He-EQx">
-                                    <size key="itemSize" width="117" height="50"/>
+                                    <size key="itemSize" width="100" height="50"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="CategoryCell" id="63y-tl-kLh" customClass="CategoryCell" customModule="RankFit" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="117" height="50"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="100" height="50"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="DDE-om-D1K">
-                                            <rect key="frame" x="0.0" y="0.0" width="117" height="50"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="100" height="50"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Vn-K5-m3r">
-                                                    <rect key="frame" x="10" y="5" width="97" height="40"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="15" translatesAutoresizingMaskIntoConstraints="NO" id="4Vn-K5-m3r">
+                                                    <rect key="frame" x="12" y="7" width="76" height="36"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                                     <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="4Vn-K5-m3r" firstAttribute="leading" secondItem="DDE-om-D1K" secondAttribute="leading" constant="10" id="UBp-zQ-N5E"/>
-                                                <constraint firstAttribute="trailing" secondItem="4Vn-K5-m3r" secondAttribute="trailing" constant="10" id="aZb-CH-IMc"/>
-                                                <constraint firstAttribute="bottom" secondItem="4Vn-K5-m3r" secondAttribute="bottom" constant="5" id="bIW-fI-qpP"/>
-                                                <constraint firstItem="4Vn-K5-m3r" firstAttribute="top" secondItem="DDE-om-D1K" secondAttribute="top" constant="5" id="wSP-JY-g5o"/>
+                                                <constraint firstItem="4Vn-K5-m3r" firstAttribute="leading" secondItem="DDE-om-D1K" secondAttribute="leading" constant="12" id="UBp-zQ-N5E"/>
+                                                <constraint firstAttribute="trailing" secondItem="4Vn-K5-m3r" secondAttribute="trailing" constant="12" id="aZb-CH-IMc"/>
+                                                <constraint firstAttribute="bottom" secondItem="4Vn-K5-m3r" secondAttribute="bottom" constant="7" id="bIW-fI-qpP"/>
+                                                <constraint firstItem="4Vn-K5-m3r" firstAttribute="top" secondItem="DDE-om-D1K" secondAttribute="top" constant="7" id="wSP-JY-g5o"/>
                                             </constraints>
                                         </collectionViewCellContentView>
-                                        <size key="customSize" width="117" height="50"/>
+                                        <size key="customSize" width="100" height="50"/>
                                         <connections>
                                             <outlet property="categoryLabel" destination="4Vn-K5-m3r" id="9hw-Uq-Ukt"/>
                                         </connections>

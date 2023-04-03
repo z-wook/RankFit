@@ -99,7 +99,7 @@
 		33A56E2929A7AE6F00E6FCD8 /* FirebaseRemoteConfigSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 33A56E2829A7AE6F00E6FCD8 /* FirebaseRemoteConfigSwift */; };
 		33A56E2B29A7AE6F00E6FCD8 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 33A56E2A29A7AE6F00E6FCD8 /* FirebaseStorage */; };
 		33A56F6829ADF3950042FA3E /* QuickExercise.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 33A56F6729ADF3950042FA3E /* QuickExercise.storyboard */; };
-		33AE92E729BFD0EF0067C674 /* Score_Descriptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33AE92E629BFD0EF0067C674 /* Score_Descriptions.swift */; };
+		33AE92E729BFD0EF0067C674 /* Rank_Descriptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33AE92E629BFD0EF0067C674 /* Rank_Descriptions.swift */; };
 		33B13778298E5E980006DA9B /* savePlankViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33B13777298E5E980006DA9B /* savePlankViewController.swift */; };
 		33BAABED29B9A423007DC14D /* detectKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BAABEC29B9A423007DC14D /* detectKeyboard.swift */; };
 		33C4F2662967D39500CB70D3 /* Charts in Frameworks */ = {isa = PBXBuildFile; productRef = 33C4F2652967D39500CB70D3 /* Charts */; };
@@ -257,7 +257,7 @@
 		339EAFD0298A1B5F00BF5080 /* UserDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailViewController.swift; sourceTree = "<group>"; };
 		33A541972948B3D9006CD6CB /* userInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = userInfo.swift; sourceTree = "<group>"; };
 		33A56F6729ADF3950042FA3E /* QuickExercise.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = QuickExercise.storyboard; sourceTree = "<group>"; };
-		33AE92E629BFD0EF0067C674 /* Score_Descriptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Score_Descriptions.swift; sourceTree = "<group>"; };
+		33AE92E629BFD0EF0067C674 /* Rank_Descriptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rank_Descriptions.swift; sourceTree = "<group>"; };
 		33B13777298E5E980006DA9B /* savePlankViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = savePlankViewController.swift; sourceTree = "<group>"; };
 		33BAABEC29B9A423007DC14D /* detectKeyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = detectKeyboard.swift; sourceTree = "<group>"; };
 		33C6F1AD29A9528900474E29 /* weeklyRankCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = weeklyRankCell.swift; sourceTree = "<group>"; };
@@ -495,7 +495,7 @@
 				33FBDE562993C4EE009959C5 /* SlangFilter.swift */,
 				3371346629BDB18100EE361F /* Provision.swift */,
 				3371346829BDB2D400EE361F /* Rule.swift */,
-				33AE92E629BFD0EF0067C674 /* Score_Descriptions.swift */,
+				33AE92E629BFD0EF0067C674 /* Rank_Descriptions.swift */,
 				3358625329BF005400C998C8 /* Copyright.swift */,
 				33139907297A00070074A73A /* PhotoInfomation.swift */,
 				33182E86295044F500A57741 /* getSavedDateInfo.swift */,
@@ -1118,7 +1118,7 @@
 				33522943297BD95F00D292A3 /* DetailPhotoViewController.swift in Sources */,
 				33897A1D295B5A9300986EC0 /* MyRankCell.swift in Sources */,
 				335F8CFA296EEC8B0056C5CA /* receiveMyRankInfo.swift in Sources */,
-				33AE92E729BFD0EF0067C674 /* Score_Descriptions.swift in Sources */,
+				33AE92E729BFD0EF0067C674 /* Rank_Descriptions.swift in Sources */,
 				33657A712944C92100164DB5 /* aerobicExerciseInfo.swift in Sources */,
 				33DA75BD294C38EE002DAB31 /* ProfileCell.swift in Sources */,
 				33E9172E2943B21800FC074A /* HomeViewController.swift in Sources */,
@@ -1385,7 +1385,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = RankFit/RankFit.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.8;
+				CURRENT_PROJECT_VERSION = 1.0.0;
 				DEVELOPMENT_TEAM = HJ943JVKX7;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = RankFit/Info.plist;
@@ -1408,7 +1408,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1.0;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = RankFit777.RankFit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1428,7 +1428,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = RankFit/RankFit.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.8;
+				CURRENT_PROJECT_VERSION = 1.0.0;
 				DEVELOPMENT_TEAM = HJ943JVKX7;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = RankFit/Info.plist;
@@ -1451,7 +1451,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1.0;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = RankFit777.RankFit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

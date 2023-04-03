@@ -20,7 +20,6 @@ class DefaultCell: UITableViewCell {
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        
     }
     
     func configure(image: UIImage? = nil, color: UIColor? = nil, title: String, description: String? = nil) {

@@ -23,7 +23,9 @@ final class configFirebase {
         let db = Firestore.firestore()
         db.collection("Report").document(getDateString.getCurrentDate_Time()).setData([
             type: descriptions,
-            "Server": server ?? "nil"
+            "Server": server ?? "nil",
+            "UID": UID ?? "nil",
+            "Email": saveUserData.getKeychainStringValue(forKey: .Email) ?? "nil"
         ]) { error in
             if let error = error {
                 print("error: \(error.localizedDescription)")
