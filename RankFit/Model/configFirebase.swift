@@ -94,7 +94,7 @@ final class configFirebase {
     static func removeFireStorage(subject: PassthroughSubject<Bool, Never>) {
         let typeRef = storageRef.child("privStore")
         guard let UID = UID else {
-            configFirebase.errorReport(type: "configFirebaes", descriptions: "uid == nil")
+            configFirebase.errorReport(type: "configFirebaes.removeFireStorage", descriptions: "uid == nil")
             return
         }
         let imagesRef = typeRef.child(UID)
@@ -132,7 +132,7 @@ final class configFirebase {
     // 서버에서 자신의 운동 데이터 삭제(탈퇴시 사용)
     private static func removeFirestore_userData(subject: PassthroughSubject<Bool, Never>) {
         guard let UID = UID else {
-            configFirebase.errorReport(type: "configFirebaes", descriptions: "uid == nil")
+            configFirebase.errorReport(type: "configFirebaes.removeFirestore_userData", descriptions: "uid == nil")
             return
         }
         let db = Firestore.firestore()
@@ -166,7 +166,7 @@ final class configFirebase {
     // 서버에서 자신의 완료 운동 데이터 삭제(탈퇴시 사용)
     private static func removeFirestore_doneEx (subject: PassthroughSubject<Bool, Never>) {
         guard let UID = UID else {
-            configFirebase.errorReport(type: "configFirebaes", descriptions: "uid == nil")
+            configFirebase.errorReport(type: "configFirebaes.removeFirestore_doneEx", descriptions: "uid == nil")
             return
         }
         let db = Firestore.firestore()
@@ -200,7 +200,7 @@ final class configFirebase {
     // 서버에서 자신의 파일 삭제(탈퇴시 사용)
     private static func removeFirestore_baseInfo(subject: PassthroughSubject<Bool, Never>) {
         guard let UID = UID else {
-            configFirebase.errorReport(type: "configFirebaes", descriptions: "uid == nil")
+            configFirebase.errorReport(type: "configFirebaes.removeFirestore_baseInfo", descriptions: "uid == nil")
             return
         }
         let db = Firestore.firestore()
@@ -240,7 +240,7 @@ final class configFirebase {
     // 서버에서 해당 사진 삭제
     static func deleteImageFromFirebase(type: String? = nil, imageName: String, subject: PassthroughSubject<Bool, Never>) {
         guard let UID = UID else {
-            configFirebase.errorReport(type: "configFirebaes", descriptions: "uid == nil")
+            configFirebase.errorReport(type: "configFirebaes.deleteImageFromFirebase", descriptions: "uid == nil")
             return
         }
         let typeRef = storageRef.child("privStore")
@@ -326,7 +326,7 @@ final class configFirebase {
     // 서버에서 사진 다운
     static func downloadImage(imgNameList: [String], subject: PassthroughSubject<String, Never>) {
         guard let UID = UID else {
-            configFirebase.errorReport(type: "configFirebaes", descriptions: "uid == nil")
+            configFirebase.errorReport(type: "configFirebaes.downloadImage", descriptions: "uid == nil")
             return
         }
         let typeRef = storageRef.child("privStore")
@@ -357,7 +357,7 @@ final class configFirebase {
     // 서버에서 사진 이름 가져오기
     static func getImgNameFromFirebase(subject: PassthroughSubject<[String], Never>) {
         guard let UID = UID else {
-            configFirebase.errorReport(type: "configFirebaes", descriptions: "uid == nil")
+            configFirebase.errorReport(type: "configFirebaes.getImgNameFromFirebase", descriptions: "uid == nil")
             return
         }
         let typeRef = storageRef.child("privStore")
@@ -383,7 +383,7 @@ final class configFirebase {
     // 서버에 사진 저장
     static func savePhoto(type: String? = nil, imgData: Data, subject: PassthroughSubject<String, Never>) {
         guard let UID = UID else {
-            configFirebase.errorReport(type: "configFirebaes", descriptions: "uid == nil")
+            configFirebase.errorReport(type: "configFirebaes.savePhoto", descriptions: "uid == nil")
             return
         }
         let typeRef = storageRef.child("privStore")
@@ -433,7 +433,7 @@ final class configFirebase {
     // 서버에서 운동 삭제(덮어쓰기)
     static func deleteEx(date: String, uuid: String, subject: PassthroughSubject<Bool, Never>) {
         guard let UID = UID else {
-            configFirebase.errorReport(type: "configFirebaes", descriptions: "uid == nil")
+            configFirebase.errorReport(type: "configFirebaes.deleteEx", descriptions: "uid == nil")
             return
         }
         var exList: [[String: Any]] = []
@@ -479,7 +479,7 @@ final class configFirebase {
     
     private static func emptyDocument(date: String, subject: PassthroughSubject<Bool, Never>) {
         guard let UID = UID else {
-            configFirebase.errorReport(type: "configFirebaes", descriptions: "uid == nil")
+            configFirebase.errorReport(type: "configFirebaes.emptyDocument", descriptions: "uid == nil")
             return
         }
         let db = Firestore.firestore()
@@ -500,7 +500,7 @@ final class configFirebase {
                            distance: Double? = nil, maxSpeed: Double? = nil, avgSpeed: Double? = nil,
                            time: Int64, date: String) { // time == sec(초), maxSpee, avgSpeed == m/s
         guard let UID = UID else {
-            configFirebase.errorReport(type: "configFirebaes", descriptions: "uid == nil")
+            configFirebase.errorReport(type: "configFirebaes.saveDoneEx", descriptions: "uid == nil")
             return
         }
         let exinfo: [String: Any] = [
@@ -539,7 +539,7 @@ final class configFirebase {
     // 서버에 운동 저장
     static func saveEx(exName: String, time: Int64, uuid: String, date: String) {
         guard let UID = UID else {
-            configFirebase.errorReport(type: "configFirebaes", descriptions: "uid == nil")
+            configFirebase.errorReport(type: "configFirebaes.saveEx", descriptions: "uid == nil")
             return
         }
         let exinfo: [String: Any] = ["exName": exName, "time": time, "uuid": uuid]
@@ -573,7 +573,7 @@ final class configFirebase {
     
     private static func firstSaveData(data: [[String : Any]], date: String, subject: PassthroughSubject<Bool, Never>? = nil) {
         guard let UID = UID else {
-            configFirebase.errorReport(type: "configFirebaes", descriptions: "uid == nil")
+            configFirebase.errorReport(type: "configFirebaes.firstSaveData", descriptions: "uid == nil")
             return
         }
         let db = Firestore.firestore()
@@ -591,7 +591,7 @@ final class configFirebase {
     
     private static func mergeAndSave(data: [Any], date: String, subject: PassthroughSubject<Bool, Never>? = nil) {
         guard let UID = UID else {
-            configFirebase.errorReport(type: "configFirebaes", descriptions: "uid == nil")
+            configFirebase.errorReport(type: "configFirebaes.mergeAndSave", descriptions: "uid == nil")
             return
         }
         let db = Firestore.firestore()
@@ -609,7 +609,7 @@ final class configFirebase {
     
     private static func firstSaveDoneData(data: [[String : Any]], date: String, subject: PassthroughSubject<Bool, Never>? = nil) {
         guard let UID = UID else {
-            configFirebase.errorReport(type: "configFirebaes", descriptions: "uid == nil")
+            configFirebase.errorReport(type: "configFirebaes.firstSaveDoneData", descriptions: "uid == nil")
             return
         }
         let db = Firestore.firestore()
@@ -627,7 +627,7 @@ final class configFirebase {
     
     private static func mergeDoneData(data: [Any], date: String, subject: PassthroughSubject<Bool, Never>? = nil) {
         guard let UID = UID else {
-            configFirebase.errorReport(type: "configFirebaes", descriptions: "uid == nil")
+            configFirebase.errorReport(type: "configFirebaes.mergeDoneData", descriptions: "uid == nil")
             return
         }
         let db = Firestore.firestore()
