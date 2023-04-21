@@ -22,7 +22,7 @@ class SettingViewController: UIViewController {
     let section0 = ["마이페이지"] // userInfomation
     let section1 = ["화면 모드", "사운드 효과", "알림 설정"]
     let section2 = ["버전 정보", "개인정보 처리 방침", "오픈소스 라이선스", "이용약관", "이용규칙", "공지사항", "문의하기"]
-    let section3 = ["저작권", "로그아웃"]
+    let section3 = ["개발진", "저작권", "로그아웃"]
     let version: String = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0.0" // 버전 정보
     
     override func viewDidLoad() {
@@ -136,7 +136,10 @@ extension SettingViewController: UITableViewDataSource, UITableViewDelegate {
             guard let defaultCell = tableView.dequeueReusableCell(withIdentifier: "DefaultCell", for: indexPath) as? DefaultCell else { return UITableViewCell() }
             var img: UIImage?
             var color: UIColor?
-            if indexPath.item == 0 { // 저작권
+            if indexPath.item == 0 { // 개발진
+                img = UIImage(systemName: "person.2.circle.fill")
+                color = .label
+            } else if indexPath.item == 1 { // 저작권
                 img = UIImage(systemName: "square.and.pencil")
                 color = UIColor(named: "darkTxt_lightTxt")
             } else { // 로그아웃
@@ -262,7 +265,14 @@ extension SettingViewController {
             }
             
         case 3:
-            if indexPath.item == 0 { // 저작권
+            if indexPath.item == 0 { // 개발진
+                let sb = UIStoryboard(name: "Reading", bundle: nil)
+                let vc = sb.instantiateViewController(withIdentifier: "defaultViewController") as! defaultViewController
+                vc.navigationItem.largeTitleDisplayMode = .never
+                vc.configure(type: "개발진")
+                navigationController?.pushViewController(vc, animated: true)
+                return
+            } else if indexPath.item == 1 { // 저작권
                 let sb = UIStoryboard(name: "Reading", bundle: nil)
                 let vc = sb.instantiateViewController(withIdentifier: "defaultViewController") as! defaultViewController
                 vc.navigationItem.largeTitleDisplayMode = .never
