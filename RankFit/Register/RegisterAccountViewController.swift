@@ -267,6 +267,12 @@ class RegisterAccountViewController: UIViewController {
     }
     
     @IBAction func checkBox1(_ sender: UIButton) {
+        guard let birth = infomation.birth else { return }
+        let age = calcDate().getAge(BDay: birth) // 만 나이
+        if age < 14 {
+            showAlert(title: "회원가입 제한", description: "만 14세 미만은 회원가입할 수 없습니다.", type: "age")
+            return
+        }
         if sender.isSelected {
             sender.isSelected = false
             sender.tintColor = .lightGray
@@ -313,19 +319,19 @@ extension RegisterAccountViewController {
         let alert = UIAlertController(title: title, message: description, preferredStyle: .alert)
         let ok = UIAlertAction(title: "확인", style: .default) { _ in
             switch type {
-            case "email", "check": return
-                
+            case "email", "check", "age": return
+
             case "fail":
                 self.center?.removeObserver(self)
                 self.navigationController?.popViewController(animated: true)
                 return
-                
+
             case "auth":
                 self.center?.removeObserver(self)
                 self.navigationController?.popToRootViewController(animated: true)
                 return
                 
-            default:
+            default: // welcome
                 // Firebase에서 사진이 언제 저장 완료될지 모르기 때문에 3초 후 실행
                 DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                     DiaryViewController.reloadDiary.send(true)

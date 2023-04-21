@@ -129,6 +129,7 @@
 		33DE94AF294C6B93005AF20C /* MyProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33DE94AE294C6B93005AF20C /* MyProfileViewController.swift */; };
 		33DE94B2294CBE8F005AF20C /* MyProfile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 33DE94B1294CBE8F005AF20C /* MyProfile.storyboard */; };
 		33DE94B4294CC3EF005AF20C /* MyProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33DE94B3294CC3EF005AF20C /* MyProfileCell.swift */; };
+		33E4C02629F2598B0095142D /* Developer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E4C02529F2598B0095142D /* Developer.swift */; };
 		33E916F42943AC4A00FC074A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E916F32943AC4A00FC074A /* AppDelegate.swift */; };
 		33E916F62943AC4A00FC074A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E916F52943AC4A00FC074A /* SceneDelegate.swift */; };
 		33E916FB2943AC4A00FC074A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 33E916F92943AC4A00FC074A /* Main.storyboard */; };
@@ -286,6 +287,7 @@
 		33DE94AE294C6B93005AF20C /* MyProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileViewController.swift; sourceTree = "<group>"; };
 		33DE94B1294CBE8F005AF20C /* MyProfile.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MyProfile.storyboard; sourceTree = "<group>"; };
 		33DE94B3294CC3EF005AF20C /* MyProfileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileCell.swift; sourceTree = "<group>"; };
+		33E4C02529F2598B0095142D /* Developer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Developer.swift; sourceTree = "<group>"; };
 		33E916F02943AC4A00FC074A /* RankFit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RankFit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		33E916F32943AC4A00FC074A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		33E916F52943AC4A00FC074A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -497,6 +499,7 @@
 				3371346829BDB2D400EE361F /* Rule.swift */,
 				33AE92E629BFD0EF0067C674 /* Rank_Descriptions.swift */,
 				3358625329BF005400C998C8 /* Copyright.swift */,
+				33E4C02529F2598B0095142D /* Developer.swift */,
 				33139907297A00070074A73A /* PhotoInfomation.swift */,
 				33182E86295044F500A57741 /* getSavedDateInfo.swift */,
 				335CCD85294F2A76002E569A /* calcDate.swift */,
@@ -920,10 +923,9 @@
 			};
 			buildConfigurationList = 33E916EB2943AC4A00FC074A /* Build configuration list for PBXProject "RankFit" */;
 			compatibilityVersion = "Xcode 14.0";
-			developmentRegion = en;
+			developmentRegion = ko;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				en,
 				Base,
 				ko,
 			);
@@ -1125,6 +1127,7 @@
 				330C66B92973FF7800C44515 /* OptionDetailViewController.swift in Sources */,
 				33F8F277294DB95C007A4691 /* RegisterAccountViewController.swift in Sources */,
 				33139908297A00070074A73A /* PhotoInfomation.swift in Sources */,
+				33E4C02629F2598B0095142D /* Developer.swift in Sources */,
 				331D346D2945D26300E4CE20 /* OnboardingCell.swift in Sources */,
 				339D23D62965E34C0022BB94 /* receiveOptionRankInfo.swift in Sources */,
 				33657A732944C93500164DB5 /* ExerciseInfo.swift in Sources */,
@@ -1385,7 +1388,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = RankFit/RankFit.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.2;
+				CURRENT_PROJECT_VERSION = 1.0.0;
 				DEVELOPMENT_TEAM = HJ943JVKX7;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = RankFit/Info.plist;
@@ -1408,7 +1411,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = RankFit777.RankFit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1428,7 +1431,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = RankFit/RankFit.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.2;
+				CURRENT_PROJECT_VERSION = 1.0.0;
 				DEVELOPMENT_TEAM = HJ943JVKX7;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = RankFit/Info.plist;
@@ -1451,7 +1454,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = RankFit777.RankFit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

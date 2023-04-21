@@ -11,7 +11,8 @@ import SafariServices
 class defaultViewController: UIViewController, UITextViewDelegate {
     
     @IBOutlet weak var textView: UITextView!
-    var readingText: String!
+    private var readingText: String!
+    private var fontSize: CGFloat = 14
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,6 +22,7 @@ class defaultViewController: UIViewController, UITextViewDelegate {
         textView.isEditable = false
         textView.isSelectable = true
         textView.dataDetectorTypes = .link
+        textView.font = UIFont.systemFont(ofSize: fontSize)
     }
     
     func configure(type: String) {
@@ -33,6 +35,10 @@ class defaultViewController: UIViewController, UITextViewDelegate {
         } else if type == "저작권" {
             navigationItem.title = "저작권"
             readingText = Copyright().copyright
+        } else if type == "개발진" {
+            navigationItem.title = "개발진"
+            readingText = Developer().dev
+            fontSize = 17
         } else { // 랭킹 도움말
             navigationItem.title = "랭킹 도움말"
             readingText = Rank_Descriptions().descriptions
@@ -42,6 +48,7 @@ class defaultViewController: UIViewController, UITextViewDelegate {
 
 extension defaultViewController {
     func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
+        if navigationItem.title == "개발진" { return false }
         let vc = SFSafariViewController(url: URL)
         present(vc, animated: true)
         return false
