@@ -48,6 +48,7 @@ final class configServer {
         let saveTime = info.saveTime            // Int64
         let distance = info.distance            // Double
         let time = info.time                    // Int16
+        var retryCount: Int = 0                 // 서버 전송 실패 시 재요청을 하기 위한 카운트
         
         let parameters: Parameters = [
             "uuid": uuid,               // UUID
@@ -60,20 +61,38 @@ final class configServer {
         ]
         print("params: \(parameters)")
         
-        AF.request("http://rankfit.site/RegisterAerobic.php", method: .post, parameters: parameters).validate(statusCode: 200..<300).responseString {
-            response in
-            if let responseBody = response.value {
-                if responseBody == "Data Insert Success." {
-                    subject.send(true)
+        func sendRequest() {
+            AF.request("http://rankfit.site/RegisterAerobic.php", method: .post, parameters: parameters)
+                .validate(statusCode: 200..<300)
+                .responseString { response in
+                if let responseBody = response.value {
+                    if responseBody == "Data Insert Success." {
+                        subject.send(true)
+                    } else {
+                        if retryCount < 3 {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 1) { // 1초 후 재전송
+                                sendRequest()
+                            }
+                        } else {
+                            retryCount = 0 // 다음 전송을 위해 초기화
+                            configFirebase.errorReport(type: "configServer.sendSaveEx", descriptions: "서버에 운동 저장 실패/responseBody != Data Insert Success.", server: responseBody.debugDescription)
+                            subject.send(false)
+                        }
+                    }
                 } else {
-                    configFirebase.errorReport(type: "configServer.sendSaveEx", descriptions: "서버에 운동 저장 실패/responseBody != Data Insert Success.", server: responseBody.debugDescription)
-                    subject.send(false)
+                    if retryCount < 3 {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { // 1초 후 재전송
+                            sendRequest()
+                        }
+                    } else {
+                        retryCount = 0 // 다음 전송을 위해 초기화
+                        configFirebase.errorReport(type: "configServer.sendSaveEx", descriptions: "서버에 운동 저장 실패/responseBody = nil", server: response.debugDescription)
+                        subject.send(false)
+                    }
                 }
-            } else {
-                configFirebase.errorReport(type: "configServer.sendSaveEx", descriptions: "서버에 운동 저장 실패/responseBody = nil", server: response.debugDescription)
-                subject.send(false)
             }
         }
+        sendRequest()
     }
     
     static func sendCompleteEx(info: aerobicExerciseInfo, totalDis: Double, time: Int, saveTime: Int64, subject: PassthroughSubject<Bool, Never>) {
@@ -85,6 +104,7 @@ final class configServer {
         let userGender = saveUserData.getKeychainIntValue(forKey: .Gender) ?? 0
         let start_Timestamp = TimeStamp.getStart_OR_End_Timestamp(start_or_end: "start")
         let end_Timestamp = TimeStamp.getStart_OR_End_Timestamp(start_or_end: "end")
+        var retryCount: Int = 0                 // 서버 전송 실패 시 재요청을 하기 위한 카운트
         
         let parameters: Parameters = [
             "uuid": uuid,
@@ -101,20 +121,38 @@ final class configServer {
         ]
         print("params: \(parameters)")
         
-        AF.request("http://rankfit.site/UpdateAerobic.php", method: .post, parameters: parameters).validate(statusCode: 200..<300).responseString {
-            response in
-            if let responseBody = response.value {
-                if responseBody == "true" { // success
-                    subject.send(true)
-                } else {
-                    configFirebase.errorReport(type: "configServer.sendCompleteEx", descriptions: "서버에 완료 운동 업데이트 실패/responseBody != true", server: responseBody.debugDescription)
-                    subject.send(false)
+        func sendRequest() {
+            AF.request("http://rankfit.site/UpdateAerobic.php", method: .post, parameters: parameters)
+                .validate(statusCode: 200..<300)
+                .responseString { response in
+                    if let responseBody = response.value {
+                        if responseBody == "true" { // success
+                            subject.send(true)
+                        } else {
+                            if retryCount < 3 {
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 1) { // 1초 후 재전송
+                                    sendRequest()
+                                }
+                            } else {
+                                retryCount = 0 // 다음 전송을 위해 초기화
+                                configFirebase.errorReport(type: "configServer.sendCompleteEx", descriptions: "서버에 완료 운동 업데이트 실패/responseBody != true", server: responseBody.debugDescription)
+                                subject.send(false)
+                            }
+                        }
+                    } else {
+                        if retryCount < 3 {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 1) { // 1초 후 재전송
+                                sendRequest()
+                            }
+                        } else {
+                            retryCount = 0 // 다음 전송을 위해 초기화
+                            configFirebase.errorReport(type: "configServer.sendCompleteEx", descriptions: "서버에 완료 운동 업데이트 실패/responseBody = nil", server: response.debugDescription)
+                            subject.send(false)
+                        }
+                    }
                 }
-            } else {
-                configFirebase.errorReport(type: "configServer.sendCompleteEx", descriptions: "서버에 완료 운동 업데이트 실패/responseBody = nil", server: response.debugDescription)
-                subject.send(false)
-            }
         }
+        sendRequest()
     }
     
     static func sendDeleteEx(info: aerobicExerciseInfo, subject: PassthroughSubject<Bool, Never>? = nil) {

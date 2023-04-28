@@ -34,7 +34,7 @@ class RegisterAccountViewController: UIViewController {
     let final_returnUser = PassthroughSubject<Bool, Never>()
     var subscriptions = Set<AnyCancellable>()
     let viewModel = AuthenticationModel()
-    var infomation: userInfo!
+    var information: userInfo!
     var center: NotificationCenter?
     var nickName: String!
     var email: String!
@@ -113,7 +113,7 @@ class RegisterAccountViewController: UIViewController {
                             guard let data = snapshot.data() else {
                                 // 등록된 정보 없는 경우 회원가입
                                 // userinfo 객체 넘기기
-                                let info = userInfo(gender: self.infomation.gender, birth: self.infomation.birth, weight: self.infomation.weight, uid: result.user.uid, email: self.email, nickName: self.nickName)
+                                let info = userInfo(gender: self.information.gender, birth: self.information.birth, weight: self.information.weight, uid: result.user.uid, email: self.email, nickName: self.nickName)
                                 self.viewModel.userInfoData.send(info)
                                 return
                             }
@@ -267,7 +267,7 @@ class RegisterAccountViewController: UIViewController {
     }
     
     @IBAction func checkBox1(_ sender: UIButton) {
-        guard let birth = infomation.birth else { return }
+        guard let birth = information.birth else { return }
         let age = calcDate().getAge(BDay: birth) // 만 나이
         if age < 14 {
             showAlert(title: "회원가입 제한", description: "만 14세 미만은 회원가입할 수 없습니다.", type: "age")

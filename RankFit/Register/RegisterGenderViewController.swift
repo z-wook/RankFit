@@ -12,7 +12,7 @@ class RegisterGenderViewController: UIViewController {
     @IBOutlet weak var genderPickerView: UIPickerView!
     @IBOutlet weak var nextButton: UIButton!
     
-    var infomation: userInfo!
+    var information: userInfo!
     let gender: [String] = ["남성", "여성"] // 남성 0, 여성 1
     var pickGender: Int!
     
@@ -41,11 +41,11 @@ class RegisterGenderViewController: UIViewController {
     }
 
     @IBAction func gotoAgeVC(_ sender: UIButton) {
-        self.infomation = userInfo(gender: pickGender)
+        self.information = userInfo(gender: pickGender)
         
         let sb = UIStoryboard(name: "Register", bundle: nil)
         let vc = sb.instantiateViewController(withIdentifier: "RegisterAgeViewController") as! RegisterAgeViewController
-        vc.infomation = self.infomation
+        vc.information = self.information
         self.navigationController?.pushViewController(vc, animated: true)
     }
 }

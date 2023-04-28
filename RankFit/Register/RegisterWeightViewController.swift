@@ -12,7 +12,7 @@ class RegisterWeightViewController: UIViewController {
     @IBOutlet weak var weightPickerView: UIPickerView!
     @IBOutlet weak var nextButton: UIButton!
     
-    var infomation: userInfo!
+    var information: userInfo!
     var weight: [String] = []
     var pickWeight: String!
     
@@ -50,10 +50,10 @@ class RegisterWeightViewController: UIViewController {
     
     @IBAction func gotoNext(_ sender: UIButton) {
         let IntWeight = Int(pickWeight) ?? 0
-        self.infomation = userInfo(gender: infomation.gender, birth: infomation.birth, weight: IntWeight)
+        self.information = userInfo(gender: information.gender, birth: information.birth, weight: IntWeight)
         let sb = UIStoryboard(name: "Register", bundle: nil)
         let vc = sb.instantiateViewController(withIdentifier: "RegisterAccountViewController") as! RegisterAccountViewController
-        vc.infomation = self.infomation
+        vc.information = self.information
         self.navigationController?.pushViewController(vc, animated: true)
     }
 }

@@ -84,9 +84,9 @@ class NoticeViewController: UIViewController {
 extension NoticeViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let info = notiSubject.value else { return }
-        let infomation = info[indexPath.item]
+        let information = info[indexPath.item]
         let vc = storyboard?.instantiateViewController(withIdentifier: "NoticeDetailViewController") as! NoticeDetailViewController
-        vc.info = infomation
+        vc.info = information
         navigationController?.pushViewController(vc, animated: true)
     }
 }

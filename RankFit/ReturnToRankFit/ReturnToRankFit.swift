@@ -40,7 +40,7 @@ final class ReturnToRankFit {
                     let sliced_str = imgName[startIndex ..< endIndex]
                     timeStamp = Int64(sliced_str) ?? Int64(TimeStamp.getCurrentTimestamp())
                 }
-                let photoinfo = PhotoInfomation(imageName: imgName, saveTime: timeStamp)
+                let photoinfo = PhotoInformation(imageName: imgName, saveTime: timeStamp)
                 let result = PhotoCoreData.saveCoreData(info: photoinfo)
                 if result == false { // Firebase에서 일부 사진 저장 실패하더라도 에러 보고만 하고 계속 진행하기
                     print("coreData에 저장 못함")

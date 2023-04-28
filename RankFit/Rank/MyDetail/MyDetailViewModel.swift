@@ -38,12 +38,12 @@ final class MyDetailViewModel {
                 let allInfo = object.All
                 let myInfo = object.My
                 
-                let myInfomation = OptionRankInfo(Nickname: "나의 랭킹", Ranking: myInfo["My_Ranking"]!, Score: myInfo["My_Score"]!)
-                infoList.append(myInfomation)
+                let myInformation = OptionRankInfo(Nickname: "나의 랭킹", Ranking: myInfo["My_Ranking"]!, Score: myInfo["My_Score"]!)
+                infoList.append(myInformation)
                 
                 for i in allInfo {
-                    let allInfomation = OptionRankInfo(Nickname: i["Nickname"]!, Ranking: i["Ranking"]!, Score: i["Score"]!)
-                    infoList.append(allInfomation)
+                    let allInformation = OptionRankInfo(Nickname: i["Nickname"]!, Ranking: i["Ranking"]!, Score: i["Score"]!)
+                    infoList.append(allInformation)
                 }
                 self.receiveSubject.send(infoList)
                 

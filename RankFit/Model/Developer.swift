@@ -11,11 +11,11 @@ struct Developer {
     let dev: String = """
 
 
-● 한지욱
+●  한지욱
   - 담당: 개발 총괄
   - 이메일: jiwook.han.dev@gmail.com
 
-● 김재욱
+●  김재욱
   - 담당: 백엔드(Backend)
   - 이메일: 8370kjw@gmail.com
 """

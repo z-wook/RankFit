@@ -66,12 +66,12 @@ final class OptionRankViewModel {
                     let allInfo = object.All
                     let myInfo = object.My
                     
-                    let myInfomation = OptionRankInfo(Nickname: "나의 랭킹", Ranking: myInfo["My_Ranking"] ?? "", Score: myInfo["My_Score"] ?? "")
-                    self.infoList.append(myInfomation)
+                    let myInformation = OptionRankInfo(Nickname: "나의 랭킹", Ranking: myInfo["My_Ranking"] ?? "", Score: myInfo["My_Score"] ?? "")
+                    self.infoList.append(myInformation)
                     
                     for i in allInfo {
-                        let allInfomation = OptionRankInfo(Nickname: i["Nickname"] ?? "", Ranking: i["Ranking"] ?? "", Score: i["Score"] ?? "")
-                        self.infoList.append(allInfomation)
+                        let allInformation = OptionRankInfo(Nickname: i["Nickname"] ?? "", Ranking: i["Ranking"] ?? "", Score: i["Score"] ?? "")
+                        self.infoList.append(allInformation)
                     }
                     self.optionSubject.send(self.infoList)
                     self.infoList.removeAll() // 전송 후 초기화

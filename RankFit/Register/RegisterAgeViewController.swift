@@ -12,7 +12,7 @@ class RegisterAgeViewController: UIViewController {
     @IBOutlet weak var datePickerView: UIDatePicker!
     @IBOutlet weak var nextButton: UIButton!
     
-    var infomation: userInfo!
+    var information: userInfo!
     let formatter = DateFormatter()
     
     override func viewDidLoad() {
@@ -38,10 +38,10 @@ class RegisterAgeViewController: UIViewController {
     
     @IBAction func gotoWeightVC(_ sender: UIButton) {
         let date = formatter.string(from: datePickerView.date)
-        self.infomation = userInfo(gender: infomation.gender, birth: date)
+        self.information = userInfo(gender: information.gender, birth: date)
         let sb = UIStoryboard(name: "Register", bundle: nil)
         let vc = sb.instantiateViewController(withIdentifier: "RegisterWeightViewController") as! RegisterWeightViewController
-        vc.infomation = self.infomation
+        vc.information = self.information
         self.navigationController?.pushViewController(vc, animated: true)
     }
 }

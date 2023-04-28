@@ -1,5 +1,5 @@
 //
-//  PhotoInfomation.swift
+//  Photoinformation.swift
 //  RankFit
 //
 //  Created by 한지욱 on 2023/01/20.
@@ -7,8 +7,7 @@
 
 import Foundation
 
-struct PhotoInfomation: Codable, Hashable {
-    
+struct PhotoInformation: Codable, Hashable {
     let imageName: String
     let saveTime: Int64
     

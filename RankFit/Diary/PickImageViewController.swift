@@ -52,7 +52,7 @@ class PickImageViewController: UIViewController {
                 let endIndex = imgName.index(imgName.startIndex, offsetBy: 10) // 끝 인덱스
                 let sliced_str = imgName[startIndex ..< endIndex]
                 let timeStamp = Int64(sliced_str) ?? Int64(TimeStamp.getCurrentTimestamp())
-                let photoinfo = PhotoInfomation(imageName: imgName, saveTime: timeStamp)
+                let photoinfo = PhotoInformation(imageName: imgName, saveTime: timeStamp)
                 let result = PhotoCoreData.saveCoreData(info: photoinfo)
                 if result {
                     self.saveState.send(true)

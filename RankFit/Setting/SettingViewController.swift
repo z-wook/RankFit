@@ -19,7 +19,7 @@ class SettingViewController: UIViewController {
     var subscriptions = Set<AnyCancellable>()
     
     let sectionHeader = ["내 프로필", "앱 설정", "이용 안내", "기타"]
-    let section0 = ["마이페이지"] // userInfomation
+    let section0 = ["마이페이지"] // userInformation
     let section1 = ["화면 모드", "사운드 효과", "알림 설정"]
     let section2 = ["버전 정보", "개인정보 처리 방침", "오픈소스 라이선스", "이용약관", "이용규칙", "공지사항", "문의하기"]
     let section3 = ["개발진", "저작권", "로그아웃"]

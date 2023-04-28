@@ -29,7 +29,7 @@ final class PhotoCoreData {
         }
     }
     
-    static func saveCoreData(info: PhotoInfomation) -> Bool {
+    static func saveCoreData(info: PhotoInformation) -> Bool {
         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         let entity = NSEntityDescription.entity(forEntityName: "PhotoInfo", in: context)
         if let entity = entity {
@@ -50,8 +50,8 @@ final class PhotoCoreData {
         return false
     }
     
-    static func fetchCoreData() -> [PhotoInfomation] {
-        var photoInfoList: [PhotoInfomation] = []
+    static func fetchCoreData() -> [PhotoInformation] {
+        var photoInfoList: [PhotoInformation] = []
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let context = appDelegate.persistentContainer.viewContext
         
@@ -61,7 +61,7 @@ final class PhotoCoreData {
                 let imgName = $0.imageName ?? "이름 없음"
                 let saveTime = $0.saveTime
                 
-                let photoInfo = PhotoInfomation(imageName: imgName, saveTime: saveTime)
+                let photoInfo = PhotoInformation(imageName: imgName, saveTime: saveTime)
                 photoInfoList.append(photoInfo)
             }
         } catch {

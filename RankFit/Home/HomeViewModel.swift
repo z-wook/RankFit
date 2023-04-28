@@ -18,7 +18,6 @@ final class HomeViewModel {
                 if category != "nil" { return true }
                 else { return false }
             }
-            print("week_filteredEx: \(filteredEx)")
             return filteredEx
         } else { // month
             let Dates = getDateString().getMonthAgo()
@@ -27,7 +26,6 @@ final class HomeViewModel {
                 if category != "nil" { return true }
                 else { return false }
             }
-            print("month_filteredEx: \(filteredEx)")
             return filteredEx
         }
     }
