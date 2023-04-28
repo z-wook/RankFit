@@ -28,12 +28,12 @@ class DiaryViewController: UIViewController {
     let storage = Storage.storage()
     let picker = UIImagePickerController()
     
-    var photoList: [PhotoInfomation]! // CoreData에 저장된 사진 정보 리스트(프로필 포함)
-    var sortedPhotoList: [PhotoInfomation]! // 시간순으로 정렬한 사진 정보 리스트(프로필을 제외)
+    var photoList: [PhotoInformation]! // CoreData에 저장된 사진 정보 리스트(프로필 포함)
+    var sortedPhotoList: [PhotoInformation]! // 시간순으로 정렬한 사진 정보 리스트(프로필을 제외)
     var fireList: [String]! = [] // 파이어베이스에 저장된 사진 리스트
-    var selectedIndexPath: [IndexPath: PhotoInfomation] = [:]
+    var selectedIndexPath: [IndexPath: PhotoInformation] = [:]
     
-    typealias Item = PhotoInfomation
+    typealias Item = PhotoInformation
     enum Section {
         case main
     }
@@ -96,7 +96,7 @@ class DiaryViewController: UIViewController {
                     let sliced_str = imgName[startIndex ..< endIndex]
                     timeStamp = Int64(sliced_str) ?? Int64(TimeStamp.getCurrentTimestamp())
                 }
-                let photoinfo = PhotoInfomation(imageName: imgName, saveTime: timeStamp)
+                let photoinfo = PhotoInformation(imageName: imgName, saveTime: timeStamp)
                 let result = PhotoCoreData.saveCoreData(info: photoinfo)
                 if result {
                     let data = PhotoCoreData.fetchCoreData()
@@ -188,7 +188,7 @@ class DiaryViewController: UIViewController {
         }
     }
     
-    private func getSortedList(imgList: [PhotoInfomation]) -> [PhotoInfomation] {
+    private func getSortedList(imgList: [PhotoInformation]) -> [PhotoInformation] {
         let filter = imgList.filter { info in
             info.imageName != "profileImage.jpeg"
         }
@@ -266,7 +266,7 @@ extension DiaryViewController {
         return layout
     }
     
-    private func applyItems(items: [PhotoInfomation]) {
+    private func applyItems(items: [PhotoInformation]) {
         var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
         snapshot.appendSections([.main])
         snapshot.appendItems(items, toSection: .main)

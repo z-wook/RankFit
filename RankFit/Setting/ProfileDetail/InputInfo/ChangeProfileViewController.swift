@@ -92,7 +92,7 @@ class ChangeProfileViewController: UIViewController {
                     }
                 }
                 let timeStamp = Int64(TimeStamp.getCurrentTimestamp())
-                let photoinfo = PhotoInfomation(imageName: imgName, saveTime: timeStamp)
+                let photoinfo = PhotoInformation(imageName: imgName, saveTime: timeStamp)
                 let result = PhotoCoreData.saveCoreData(info: photoinfo)
                 if result {
                     print("Complete")

@@ -17,7 +17,7 @@ class MyProfileViewController: UIViewController {
     let section2 = ["서비스 탈퇴"]
     
     let user = getSavedDateInfo()
-    var userInfomation: [Any] = [] // ["성별", "나이", "몸무게", "닉네임", "프로필"]
+    var userInformation: [Any] = [] // ["성별", "나이", "몸무게", "닉네임", "프로필"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,7 +59,7 @@ extension MyProfileViewController: UITableViewDataSource, UITableViewDelegate {
         }
         switch indexPath.section {
         case 0:
-            cell.configCell(title: section0[indexPath.item], infomation: "\(userInfomation[indexPath.item])")
+            cell.configCell(title: section0[indexPath.item], information: "\(userInformation[indexPath.item])")
             if indexPath.item >= 3 && indexPath.item <= 5 {
                 cell.accessoryType = .disclosureIndicator
             } else {
@@ -68,12 +68,12 @@ extension MyProfileViewController: UITableViewDataSource, UITableViewDelegate {
             return cell
             
         case 1:
-            cell.configCell(title: section1[indexPath.item], infomation: "none")
+            cell.configCell(title: section1[indexPath.item], information: "none")
             cell.accessoryType = .disclosureIndicator
             return cell
             
         case 2:
-            cell.configCell(title: section2[indexPath.item], infomation: "none")
+            cell.configCell(title: section2[indexPath.item], information: "none")
             return cell
             
         default:
@@ -132,7 +132,7 @@ extension MyProfileViewController {
         let weight = saveUserData.getKeychainIntValue(forKey: .Weight) ?? 1
         let profile = "blank_profile"
 
-        userInfomation = [email, gender, age, weight, nickname, profile]
+        userInformation = [email, gender, age, weight, nickname, profile]
     }
 }
 

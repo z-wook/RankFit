@@ -10,40 +10,40 @@ import UIKit
 class MyProfileCell: UITableViewCell {
 
     @IBOutlet weak var title: UILabel!
-    @IBOutlet weak var infomation: UILabel!
+    @IBOutlet weak var information: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
         
     }
     
-    func configCell(title: String, infomation: String) {
+    func configCell(title: String, information: String) {
         self.title.text = title
         
         switch title {
-        case "이메일": self.infomation.text = infomation
+        case "이메일": self.information.text = information
             
         case "성별":
-            if infomation == "0" {
-                self.infomation.text = "남성"
-            } else if infomation == "1" {
-                self.infomation.text = "여성"
+            if information == "0" {
+                self.information.text = "남성"
+            } else if information == "1" {
+                self.information.text = "여성"
             } else { return }
             
         case "나이":
-            self.infomation.text = "만 " + infomation + "세"
+            self.information.text = "만 " + information + "세"
             
         case "몸무게":
-            self.infomation.text = infomation + "kg"
+            self.information.text = information + "kg"
         
         case "닉네임":
-            self.infomation.text = infomation
+            self.information.text = information
             
         case "프로필":
-            self.infomation.text = "사진 변경"
+            self.information.text = "사진 변경"
             
         default :
-            self.infomation.text = ""
+            self.information.text = ""
         }
     }
 }

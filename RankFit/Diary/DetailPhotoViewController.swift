@@ -22,7 +22,7 @@ class DetailPhotoViewController: UIViewController {
     let localState = PassthroughSubject<Bool, Never>()
     var reloadSubject: PassthroughSubject<Bool, Never>!
     var subscriptions = Set<AnyCancellable>()
-    var info: PhotoInfomation!
+    var info: PhotoInformation!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -119,7 +119,7 @@ class DetailPhotoViewController: UIViewController {
         timeLabel.text = timeStr
     }
     
-    private func loadImage(info: PhotoInfomation) {
+    private func loadImage(info: PhotoInformation) {
         let image = configLocalStorage.loadImageFromDocumentDirectory(imageName: info.imageName)
         guard let image = image else { return }
         DispatchQueue.main.async {

@@ -25,7 +25,7 @@ class MyDiaryCell: UICollectionViewCell {
         frontView.backgroundColor = .white.withAlphaComponent(0.6)
     }
     
-    func configure(info: PhotoInfomation) {
+    func configure(info: PhotoInformation) {
         loadImage(info: info)
         if select {
             frontView.isHidden = false
@@ -49,7 +49,7 @@ class MyDiaryCell: UICollectionViewCell {
 }
 
 extension MyDiaryCell {
-    private func loadImage(info: PhotoInfomation) {
+    private func loadImage(info: PhotoInformation) {
         img = nil
         // Cache된 이미지가 존재하면 해당 이미지를 사용
         if let imageFromCache = imageCache.object(forKey: info.imageName as NSString) {
