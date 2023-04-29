@@ -7,7 +7,6 @@
 
 import Foundation
 import Alamofire
-//import FirebaseFirestore
 import Combine
 
 final class configServer {
@@ -100,11 +99,13 @@ final class configServer {
         let userID = saveUserData.getKeychainStringValue(forKey: .UID) ?? "정보없음"
         let tableName = info.tableName
         let dis = Double(String(format: "%.2f", totalDis)) ?? 0
-        let score = round(totalDis + (totalDis / (Double(time)/60)))    // double
+        var score = round(totalDis + (totalDis / (Double(time)/60)))    // double
         let userGender = saveUserData.getKeychainIntValue(forKey: .Gender) ?? 0
         let start_Timestamp = TimeStamp.getStart_OR_End_Timestamp(start_or_end: "start")
         let end_Timestamp = TimeStamp.getStart_OR_End_Timestamp(start_or_end: "end")
-        var retryCount: Int = 0                 // 서버 전송 실패 시 재요청을 하기 위한 카운트
+        var retryCount: Int = 0     // 서버 전송 실패 시 재요청을 하기 위한 카운트
+        
+        if score < 1 { score = 1 } // 점수가 0점으로 기록되는 것을 방지하기 위해 최소 점수를 1점으로 함
         
         let parameters: Parameters = [
             "uuid": uuid,
