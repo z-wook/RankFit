@@ -38,7 +38,7 @@ class QuickAerobicViewController: UIViewController {
     var avgSpeed: Double = 0
     var type: String = "러닝"
     var timer: Timer?
-    var count = 0
+    var count = 0 // sec
     var saveTime: Int64!
     var backgroundTime: Date? // Background로 진입한 시간
     var soundEffect: AVAudioPlayer?
@@ -58,7 +58,6 @@ class QuickAerobicViewController: UIViewController {
         motionManager?.stopActivityUpdates()
         locationManager?.stopUpdatingLocation()
         center.removeObserver(self)
-        
     }
     
     @IBAction func currentLocationBtn(_ sender: UIButton) {
@@ -398,7 +397,7 @@ extension QuickAerobicViewController {
             self.backgroundView.isHidden = false
             self.indicator.startAnimating()
             // CoreData 저장 단위가(분)이기 때문에 (분)으로 맞추는것으로 통일, int형
-            let doubleCount = Double(self.count)
+            let doubleCount = Double(self.count) // sec
             var countToMin = Int16(round(doubleCount / 60)) // minute
             if countToMin < 1 {
                 countToMin = 1
@@ -406,7 +405,7 @@ extension QuickAerobicViewController {
             let time = Int64(TimeStamp.getCurrentTimestamp())
             self.saveTime = time
             let tableName = exType == "러닝" ? "running" : "cycle"
-            let dis = Double(String(format: "%.2f", self.totalDistance * 0.001)) ?? 0
+            let dis = Double(String(format: "%.2f", self.totalDistance * 0.001)) ?? 0 // km
             self.exerciseInfo = aerobicExerciseInfo(exercise: exType, table_Name: tableName, date: calcDate().currentDate(), time: countToMin, distance: dis, saveTime: time, done: true, category: "유산소")
             configServer.sendSaveEx(info: self.exerciseInfo, subject: self.saveServer)
         }
