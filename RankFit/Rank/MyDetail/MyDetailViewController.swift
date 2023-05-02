@@ -35,6 +35,10 @@ class MyDetailViewController: UIViewController {
         indicator.startAnimating()
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        subscriptions.removeAll()
+    }
+    
     @IBAction func reporting(_ sender: UIButton) {
         reportUser(index: sender.tag)
     }

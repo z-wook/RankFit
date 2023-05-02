@@ -50,6 +50,7 @@ class AnaerobicActivityViewController: UIViewController {
     override func viewDidDisappear(_ animated: Bool) {
         timer?.invalidate()
         center.removeObserver(self)
+        subscriptions.removeAll()
     }
     
     @IBAction func pauseAndPlay(_ sender: UIButton) {
@@ -78,7 +79,9 @@ class AnaerobicActivityViewController: UIViewController {
 
 extension AnaerobicActivityViewController {
     private func bind() {
-        sendState.receive(on: RunLoop.main).sink { result in
+        sendState.receive(on: RunLoop.main)
+            .sink { [weak self] result in   // viewDidDisappear시 VC를 메모리에서 제거하기 위해 약한 참조 사용
+            guard let self = self else { return } // 일시적으로 강한 참조로 사용
             self.indicator.stopAnimating()
             if result {
                 let update = ExerciseCoreData.updateCoreData(id: self.info.id, entityName: "Anaerobic", saveTime: self.saveTime, done: true)

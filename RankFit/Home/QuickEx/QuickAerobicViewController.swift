@@ -58,6 +58,7 @@ class QuickAerobicViewController: UIViewController {
         motionManager?.stopActivityUpdates()
         locationManager?.stopUpdatingLocation()
         center.removeObserver(self)
+        subscriptions.removeAll() // viewDidDisappear시 VC를 메모리에서 제거하기 위해 삭제
     }
     
     @IBAction func currentLocationBtn(_ sender: UIButton) {

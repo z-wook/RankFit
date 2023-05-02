@@ -70,8 +70,9 @@ class MyRankViewController: UIViewController {
     }
     
     private func bind() {
-        MyViewModel.MySubject.receive(on: RunLoop.main).sink { rankList in
+        MyViewModel.MySubject.receive(on: RunLoop.main).sink { [weak self] rankList in
             // 마이랭킹 순위 받아오는 과정 중 다른 옵션을 선택했을 때 apply 하지 않도록 방지
+            guard let self = self else { return }
             if self.type == "마이랭킹" && rankList?.isEmpty != true {
                 self.indicator.stopAnimating()
                 guard let rankList = rankList else {
@@ -82,7 +83,8 @@ class MyRankViewController: UIViewController {
             }
         }.store(in: &subscriptions)
         
-        OptionViewModel.optionSubject.receive(on: RunLoop.main).sink { rankList in
+        OptionViewModel.optionSubject.receive(on: RunLoop.main).sink { [weak self] rankList in
+            guard let self = self else { return }
             if rankList?.isEmpty == true { return }
             self.indicator.stopAnimating()
             guard let rankList = rankList else {
@@ -92,7 +94,8 @@ class MyRankViewController: UIViewController {
             self.applyOptionRankItems(items: rankList)
         }.store(in: &subscriptions)
         
-        MyRankViewController.profileSubject.receive(on: RunLoop.main).sink { image in
+        MyRankViewController.profileSubject.receive(on: RunLoop.main).sink { [weak self] image in
+            guard let self = self else { return }
             let sb = UIStoryboard(name: "Rank", bundle: nil)
             let vc = sb.instantiateViewController(withIdentifier: "ZoomProfileViewController") as! ZoomProfileViewController
             vc.image = image
@@ -100,7 +103,8 @@ class MyRankViewController: UIViewController {
             self.present(vc, animated: true)
         }.store(in: &subscriptions)
         
-        reporting.receive(on: RunLoop.main).sink { result in
+        reporting.receive(on: RunLoop.main).sink { [weak self] result in
+            guard let self = self else { return }
             switch result {
             case "done":
                 self.showAlert(title: "신고 완료", message: "확인 후 빠르게 조치하겠습니다.")

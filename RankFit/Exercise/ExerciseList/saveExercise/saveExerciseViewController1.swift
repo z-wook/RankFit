@@ -40,6 +40,10 @@ class saveExerciseViewController1: UIViewController {
         bind()
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        subscriptions.removeAll()
+    }
+    
     @IBAction func closeButton(_ sender: UIButton) {
         dismiss(animated: true)
     }

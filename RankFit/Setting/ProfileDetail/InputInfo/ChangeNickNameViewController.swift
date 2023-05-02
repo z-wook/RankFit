@@ -35,6 +35,10 @@ class ChangeNickNameViewController: UIViewController {
         self.tabBarController?.tabBar.isUserInteractionEnabled = true
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        subscriptions.removeAll()
+    }
+    
     private func bind() {
         nickNameCheckState.receive(on: RunLoop.main).sink { result in
             if result {

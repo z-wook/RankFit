@@ -35,6 +35,10 @@ class savePlankViewController: UIViewController {
         bind()
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        subscriptions.removeAll()
+    }
+    
     private func configure() {
         exerciseLabel.tintColor = UIColor(named: "link_cyan")
         pickerView.delegate = self
