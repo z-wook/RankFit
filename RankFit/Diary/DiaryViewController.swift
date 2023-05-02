@@ -72,18 +72,21 @@ class DiaryViewController: UIViewController {
     }
     
     private func bind() {
-        DiaryViewController.reloadDiary.receive(on: RunLoop.main).sink { _ in
+        DiaryViewController.reloadDiary.receive(on: RunLoop.main).sink { [weak self] _ in
             print("Diary Reload")
+            guard let self = self else { return }
             self.getImageInfo()
         }.store(in: &subscriptions)
         
-        imgNameState.receive(on: RunLoop.main).sink { imgNameList in
+        imgNameState.receive(on: RunLoop.main).sink { [weak self] imgNameList in
+            guard let self = self else { return }
             self.fireList = imgNameList
             // 서버에서 사진 다운 & 로컬에 사진 저장
             configFirebase.downloadImage(imgNameList: imgNameList, subject: self.downloadState)
         }.store(in: &subscriptions)
         
-        downloadState.receive(on: RunLoop.main).sink { imgName in
+        downloadState.receive(on: RunLoop.main).sink { [weak self] imgName in
+            guard let self = self else { return }
             let timeStamp: Int64!
             // coreData에 파일 정보 저장
             if imgName != "false" {
@@ -115,13 +118,15 @@ class DiaryViewController: UIViewController {
             }
         }.store(in: &subscriptions)
         
-        saveCoreState.receive(on: RunLoop.main).sink { result in
+        saveCoreState.receive(on: RunLoop.main).sink { [weak self] result in
+            guard let self = self else { return }
             if result {
                 self.getImageInfo()
             }
         }.store(in: &subscriptions)
         
-        deleteState.receive(on: RunLoop.main).sink { result in
+        deleteState.receive(on: RunLoop.main).sink { [weak self] result in
+            guard let self = self else { return }
             if result {
                 print("reload Image")
                 self.getImageInfo()

@@ -263,7 +263,8 @@ extension AerobicActivityViewController: MKMapViewDelegate {
 
 extension AerobicActivityViewController {
     private func bind() {
-        sendState.receive(on: RunLoop.main).sink { result in
+        sendState.receive(on: RunLoop.main).sink { [weak self] result in
+            guard let self = self else { return }
             self.indicator.stopAnimating()
             if result { 
                 print("서버 운동 업데이트 성공")

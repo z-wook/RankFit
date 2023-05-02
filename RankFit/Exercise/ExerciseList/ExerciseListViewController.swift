@@ -38,7 +38,8 @@ class ExerciseListViewController: UIViewController {
         viewModel.selectedItem
             .compactMap { $0 }
             .receive(on: RunLoop.main)
-            .sink { selectedExercise in
+            .sink { [weak self] selectedExercise in
+                guard let self = self else { return }
                 switch selectedExercise.group {
                 case 1, 2:
                     let sb = UIStoryboard(name: "saveExercise", bundle: nil)

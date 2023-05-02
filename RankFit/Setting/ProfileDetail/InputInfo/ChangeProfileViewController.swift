@@ -43,6 +43,10 @@ class ChangeProfileViewController: UIViewController {
         self.tabBarController?.tabBar.isUserInteractionEnabled = true
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        subscriptions.removeAll()
+    }
+    
     private func configure() {
         picker.delegate = self
         scrollView.delegate = self

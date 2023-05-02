@@ -342,7 +342,8 @@ extension SettingViewController {
     }
     
     private func bind() {
-        SettingViewController.reloadProfile.receive(on: RunLoop.main).sink { _ in
+        SettingViewController.reloadProfile.receive(on: RunLoop.main).sink { [weak self] _ in
+            guard let self = self else { return }
             print("Setting Reload")
             // auth reload
             Auth.auth().currentUser?.reload(completion: { error in
@@ -365,7 +366,8 @@ extension SettingViewController {
             }
         }.store(in: &subscriptions)
         
-        logoutState.receive(on: RunLoop.main).sink { _ in
+        logoutState.receive(on: RunLoop.main).sink { [weak self] _ in
+            guard let self = self else { return }
             do {
                 try Auth.auth().signOut()
                 print("로그아웃 성공")

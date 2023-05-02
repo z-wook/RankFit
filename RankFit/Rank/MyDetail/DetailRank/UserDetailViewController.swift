@@ -45,7 +45,8 @@ class UserDetailViewController: UIViewController {
     }
     
     private func bind() {
-        viewModel.infoSubject.receive(on: RunLoop.main).sink { info in
+        viewModel.infoSubject.receive(on: RunLoop.main).sink { [weak self] info in
+            guard let self = self else { return }
             guard let info = info else { return }
             self.indicator.stopAnimating()
             if info.isEmpty {

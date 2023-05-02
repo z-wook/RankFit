@@ -74,7 +74,8 @@ class PlankActivityViewController: UIViewController {
 
 extension PlankActivityViewController {
     private func bind() {
-        sendState.receive(on: RunLoop.main).sink { result in
+        sendState.receive(on: RunLoop.main).sink { [weak self] result in
+            guard let self = self else { return }
             self.indicator.stopAnimating()
             if result {
                 let update = ExerciseCoreData.updateCoreData(id: self.info.id, entityName: "Anaerobic", saveTime: self.saveTime, done: true)

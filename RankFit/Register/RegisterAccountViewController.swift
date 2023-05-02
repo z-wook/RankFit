@@ -54,6 +54,7 @@ class RegisterAccountViewController: UIViewController {
     
     override func viewDidDisappear(_ animated: Bool) {
         center?.removeObserver(self)
+        subscriptions.removeAll()
     }
     
     private func bind() {

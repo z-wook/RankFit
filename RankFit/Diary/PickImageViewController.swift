@@ -35,7 +35,8 @@ class PickImageViewController: UIViewController {
     }
     
     private func bind() {
-        firebaseState.receive(on: RunLoop.main).sink { imgName in
+        firebaseState.receive(on: RunLoop.main).sink { [weak self] imgName in
+            guard let self = self else { return }
             if imgName != "false" {
                 configLocalStorage.saveImageToLocal(imageName: imgName, imgData: self.ImageData, subject: self.localState)
             } else {
@@ -45,7 +46,8 @@ class PickImageViewController: UIViewController {
             }
         }.store(in: &subscriptions)
         
-        localState.receive(on: RunLoop.main).sink { imgName in
+        localState.receive(on: RunLoop.main).sink { [weak self] imgName in
+            guard let self = self else { return }
             self.indicator.stopAnimating()
             if imgName != "false" {
                 let startIndex = imgName.index(imgName.startIndex, offsetBy: 0) // 시작 인덱스

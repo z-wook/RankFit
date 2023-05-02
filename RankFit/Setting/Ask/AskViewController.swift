@@ -91,7 +91,8 @@ extension AskViewController {
     }
     
     private func bind() {
-        askSubject.receive(on: RunLoop.main).sink { result in
+        askSubject.receive(on: RunLoop.main).sink { [weak self] result in
+            guard let self = self else { return }
             if result {
                 self.showAlert(title: "문의사항 접수 완료")
             } else {

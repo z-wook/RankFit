@@ -45,7 +45,8 @@ class DetailPhotoViewController: UIViewController {
     }
     
     private func bind() {
-        firebaseState.receive(on: RunLoop.main).sink { result in
+        firebaseState.receive(on: RunLoop.main).sink { [weak self] result in
+            guard let self = self else { return }
             self.indicator.stopAnimating()
             if result {
                 // 로컬에서 삭제
