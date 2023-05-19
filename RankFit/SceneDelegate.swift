@@ -6,13 +6,12 @@
 //
 
 import UIKit
+import Combine
 import CoreLocation
 import FirebaseAuth
-import Combine
-//import NotificationCenter
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-
+    
     var window: UIWindow?
 
     // FirebaseAuth
@@ -85,7 +84,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         let notiName = NSNotification.Name("WillEnterForeground")
         NotificationCenter.default.post(name: notiName, object: nil)
-        
     }
 
     func sceneDidEnterBackground(_ scene: UIScene) {

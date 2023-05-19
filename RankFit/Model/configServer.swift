@@ -10,7 +10,6 @@ import Alamofire
 import Combine
 
 final class configServer {
-    
     // 0. 부적절한 프로필 사진
     // 1. 부적절한 닉네임
     // 2. 랭킹 오류 / 랭킹 악용 의심
@@ -68,7 +67,8 @@ final class configServer {
                     if responseBody == "Data Insert Success." {
                         subject.send(true)
                     } else {
-                        if retryCount < 3 {
+                        if retryCount < 2 {
+                            retryCount += 1
                             DispatchQueue.main.asyncAfter(deadline: .now() + 1) { // 1초 후 재전송
                                 sendRequest()
                             }
@@ -79,7 +79,8 @@ final class configServer {
                         }
                     }
                 } else {
-                    if retryCount < 3 {
+                    if retryCount < 2 {
+                        retryCount += 1
                         DispatchQueue.main.asyncAfter(deadline: .now() + 1) { // 1초 후 재전송
                             sendRequest()
                         }
@@ -101,24 +102,20 @@ final class configServer {
         let dis = Double(String(format: "%.2f", totalDis)) ?? 0
         var score = round(totalDis + (totalDis / (Double(time)/60)))    // double
         let userGender = saveUserData.getKeychainIntValue(forKey: .Gender) ?? 0
-        let start_Timestamp = TimeStamp.getStart_OR_End_Timestamp(start_or_end: "start")
-        let end_Timestamp = TimeStamp.getStart_OR_End_Timestamp(start_or_end: "end")
         var retryCount: Int = 0     // 서버 전송 실패 시 재요청을 하기 위한 카운트
-        
         if score < 1 { score = 1 } // 점수가 0점으로 기록되는 것을 방지하기 위해 최소 점수를 1점으로 함
         
         let parameters: Parameters = [
             "uuid": uuid,
             "userID": userID,           // Firebase에서 받은 UID
             "eng": tableName,           // 테이블 이름
+            "ko": info.exercise,        // 운동 명
             "userDate": saveTime,       // 운동 완료 시간(시간 갱신)
             "userDistance": dis,        // 실제 운동 거리
             "userTime": time,           // 실제 운동 시간(분)
             "Score": score,             // 거리 + 평균속도
             "userState": 1,             // 완료 1, 미완료 0
-            "userSex": userGender,
-            "start": start_Timestamp,
-            "end": end_Timestamp
+            "userSex": userGender
         ]
         print("params: \(parameters)")
         
@@ -130,7 +127,8 @@ final class configServer {
                         if responseBody == "true" { // success
                             subject.send(true)
                         } else {
-                            if retryCount < 3 {
+                            if retryCount < 2 {
+                                retryCount += 1
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) { // 1초 후 재전송
                                     sendRequest()
                                 }
@@ -141,7 +139,8 @@ final class configServer {
                             }
                         }
                     } else {
-                        if retryCount < 3 {
+                        if retryCount < 2 {
+                            retryCount += 1
                             DispatchQueue.main.asyncAfter(deadline: .now() + 1) { // 1초 후 재전송
                                 sendRequest()
                             }
@@ -162,8 +161,6 @@ final class configServer {
         let exercise = info.exercise            // String
         let tableName = info.tableName          // String
         let date_time = info.saveTime           // String
-        let start_Timestamp = TimeStamp.getStart_OR_End_Timestamp(start_or_end: "start")
-        let end_Timestamp = TimeStamp.getStart_OR_End_Timestamp(start_or_end: "end")
         
         let parameters: Parameters = [
             "userID": userID,           // Firebase에서 받은 UID
@@ -171,8 +168,7 @@ final class configServer {
             "userExercise": exercise,   // 운동 이름
             "userDate": date_time,      // 운동 저장 날짜(saveTime)
             "eng": tableName,           // 운동 영문이름
-            "start": start_Timestamp,
-            "end": end_Timestamp
+            "ko": info.exercise         // 운동 명
         ]
         print("parmas: \(parameters)")
         
@@ -251,20 +247,17 @@ final class configServer {
             score = floatScore
         }
         let userGender = saveUserData.getKeychainIntValue(forKey: .Gender) ?? 0
-        let start_Timestamp = TimeStamp.getStart_OR_End_Timestamp(start_or_end: "start")
-        let end_Timestamp = TimeStamp.getStart_OR_End_Timestamp(start_or_end: "end")
         
         let parameters: Parameters = [
             "uuid": uuid,               // UUID
             "userID": userID,           // Firebase에서 받은 UID
             "eng": tableName,           // 테이블 이름
+            "ko": info.exercise,        // 운동 명
             "userDate": saveTime,       // 운동 완료 시간(시간 갱신)
             "Score": score ?? 0,        // 점수
             "userTime": time,           // 운동 시간(초)
             "userState": 1,             // 완료 1, 미완료 0
-            "userSex": userGender,
-            "start": start_Timestamp,
-            "end": end_Timestamp
+            "userSex": userGender
         ]
         print("params: \(parameters)")
 
@@ -290,8 +283,6 @@ final class configServer {
         let exercise = info.exercise    // string
         let date_time = info.saveTime   // string
         let tableName = info.tableName
-        let start_Timestamp = TimeStamp.getStart_OR_End_Timestamp(start_or_end: "start")
-        let end_Timestamp = TimeStamp.getStart_OR_End_Timestamp(start_or_end: "end")
         
         let parameters: Parameters = [
             "userID": userID,           // Firebase에서 받은 UID
@@ -299,8 +290,7 @@ final class configServer {
             "userExercise": exercise,   // 운동 이름
             "userDate": date_time,      // 운동 저장 날짜(saveTime)
             "eng": tableName,
-            "start": start_Timestamp,
-            "end": end_Timestamp
+            "ko": info.exercise
         ]
         print("params: \(parameters)")
         

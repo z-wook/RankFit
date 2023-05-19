@@ -69,7 +69,7 @@ class AnaerobicActivityViewController: UIViewController {
         timerCounting = false
         playButton.setImage(UIImage(systemName: "play.circle"), for: .normal)
         timer?.invalidate()
-        if count < 60 { // 1분 미만의 운동은 제외하기
+        if count < 30 { // 30초 미만의 운동은 제외하기
             showExAlert()
             return
         }

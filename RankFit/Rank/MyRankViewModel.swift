@@ -46,8 +46,6 @@ final class MyRankViewModel {
         
         let birth = saveUserData.getKeychainStringValue(forKey: .Birth)
         let age = calcDate().getAge(BDay: birth!)
-        let start_Timestamp = TimeStamp.getStart_OR_End_Timestamp(start_or_end: "start")
-        let end_Timestamp = TimeStamp.getStart_OR_End_Timestamp(start_or_end: "end")
         
         for i in 0...sortedList.count-1 {
             let parameters: Parameters = [
@@ -55,9 +53,7 @@ final class MyRankViewModel {
                 "userSex": saveUserData.getKeychainIntValue(forKey: .Gender) ?? 0,
                 "userAge": age,
                 "kor": sortedList[i]["exName"] ?? "",
-                "eng": sortedList[i]["tName"] ?? "",
-                "start": start_Timestamp,
-                "end": end_Timestamp
+                "eng": sortedList[i]["tName"] ?? ""
             ]
             print("params: \(parameters)")
             
