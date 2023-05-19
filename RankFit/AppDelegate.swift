@@ -9,17 +9,22 @@ import UIKit
 import FirebaseAuth
 import FirebaseCore
 import FirebaseMessaging
+import FirebaseRemoteConfig
 import UserNotifications
 import CoreData
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
+    var remoteConfig: RemoteConfig?
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
         UIApplication.shared.applicationIconBadgeNumber = 0 // 알림 배지를 초기화
+        
         // Firebase 초기화 세팅
         FirebaseApp.configure()
+        configureFirebaseRemoteConfig()
+        getNotice()
         
         if Core.shared.isNewUser() == false {
             // 앱이 시작될 때 푸시 알림 등록을 시도
@@ -76,7 +81,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
         print("Failed to register: \(error.localizedDescription)")
-//        configFirebase.errorReport(type: "AppDelegate.didFailToRegisterForRemoteNotificationsWithError", descriptions: error.localizedDescription)
     }
     
     // 백그라운드에서 자동 푸시 알림 처리
@@ -88,17 +92,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Messaging.messaging().appDidReceiveMessage(userInfo)
         let user = Auth.auth().currentUser
         
-        let title = userInfo["Title"] as? String
-        let message = userInfo["Message"] as? String
-        
         let suspension = userInfo["Suspension"] as? String
         let userID = userInfo["userID"] as? String
-        
-        // 공지
-        if let title = title, let message = message {
-            showNotice(title: title, message: message)
-            return
-        }
         
         // 계정 정치 처리
         if let suspension = suspension, let userID = userID {
@@ -225,17 +220,8 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         let userInfo = notification.request.content.userInfo
         let user = Auth.auth().currentUser
         
-        let title = userInfo["Title"] as? String
-        let message = userInfo["Message"] as? String
-        
         let suspension = userInfo["Suspension"] as? String
         let userID = userInfo["userID"] as? String
-        
-        // 공지
-        if let title = title, let message = message {
-            showNotice(title: title, message: message)
-            return
-        }
         
         // 계정 정지 처리
         if let suspension = suspension, let userID = userID {
@@ -256,17 +242,8 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         let userInfo = response.notification.request.content.userInfo
         let user = Auth.auth().currentUser
         
-        let title = userInfo["Title"] as? String
-        let message = userInfo["Message"] as? String
-        
         let suspension = userInfo["Suspension"] as? String
         let userID = userInfo["userID"] as? String
-        
-        // 공지
-        if let title = title, let message = message {
-            showNotice(title: title, message: message)
-            return
-        }
         
         // 계정 정지 처리
         if let suspension = suspension, let userID = userID {
@@ -280,18 +257,6 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
             }
         }
         completionHandler()
-    }
-    
-    // 공지 알람
-    private func showNotice(title: String, message: String) {
-        let vc = getVC()
-        guard let vc = vc else { return }
-        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "확인", style: .default) { _ in
-            UIApplication.shared.applicationIconBadgeNumber = 0 // 알림 배지를 초기화
-        }
-        alertController.addAction(okAction)
-        vc.present(alertController, animated: true)
     }
     
     // 사용자 계정 reload
@@ -314,7 +279,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     
     // 계정 정지 알람
     private func suspendtAlert() {
-        let vc = getVC()
+        let vc = getCurrentViewController()
         guard let vc = vc else { return }
         let alertController = UIAlertController(title: "계정 사용 중지됨", message: "귀하의 계정이 사용 중지되었습니다. 문의사항은 관리자에게 해주세요.", preferredStyle: .alert)
         let okAction = UIAlertAction(title: "확인", style: .destructive) { _ in
@@ -323,10 +288,54 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         alertController.addAction(okAction)
         vc.present(alertController, animated: true)
     }
+}
+
+extension AppDelegate {
+    private func configureFirebaseRemoteConfig() {
+        remoteConfig = RemoteConfig.remoteConfig()
+        let settings = RemoteConfigSettings()
+        settings.minimumFetchInterval = 900     // 15분
+        remoteConfig?.configSettings = settings
+        remoteConfig?.setDefaults(fromPlist: "RemoteConfigDefaults")
+    }
     
-    // 현재 보이는 뷰 컨트롤러 가져오기
-    private func getVC() -> UIViewController? {
-        let vc = UIWindow().visibleViewController()
-        return vc
+    private func getNotice() {
+        guard let remoteConfig = remoteConfig else { return }
+        remoteConfig.fetch { status, error in
+            if status == .success {
+                print("Config fetched!")
+                remoteConfig.activate { changed, error in
+                    guard error == nil else {
+                        print("Error: \(String(describing: error?.localizedDescription))")
+                        configFirebase.errorReport(type: "HomeVC.getNotice", descriptions: error?.localizedDescription ?? "nil")
+                        return
+                    }
+                    if self.isNoticeHidden(remoteConfig) == false {
+                        DispatchQueue.main.async {
+                            let currentVC = self.getCurrentViewController()
+                            guard let currentVC = currentVC else { return }
+                            let noticeVC = NoticeVC(nibName: "NoticeVC", bundle: nil)
+                            noticeVC.modalPresentationStyle = .custom
+                            noticeVC.modalTransitionStyle = .crossDissolve
+                            
+                            let title = (remoteConfig["title"].stringValue ?? "").replacingOccurrences(of: "\\n", with: "\n")
+                            let detail = (remoteConfig["detail"].stringValue ?? "").replacingOccurrences(of: "\\n", with: "\n")
+                            let date = (remoteConfig["date"].stringValue ?? "").replacingOccurrences(of: "\\n", with: "\n")
+                            noticeVC.noticeContents = (title: title, detail: detail, date: date)
+                            
+                            currentVC.present(noticeVC, animated: true)
+                        }
+                    }
+                }
+            } else {
+                print("Config not fetched")
+                print("Error: \(error?.localizedDescription ?? "No error available.")")
+                configFirebase.errorReport(type: "HomeVC.getNotice", descriptions: error?.localizedDescription ?? "Config not fetched")
+            }
+        }
+    }
+    
+    private func isNoticeHidden(_ remoteConfig: RemoteConfig) -> Bool {
+        return remoteConfig["isHidden"].boolValue
     }
 }

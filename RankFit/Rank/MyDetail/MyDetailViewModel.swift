@@ -18,16 +18,12 @@ final class MyDetailViewModel {
         var infoList: [OptionRankInfo] = [] // MyRank이지만 OptionRankInfo와 같은 형식의 구제체이므로 재활용 한것임
         let birth = saveUserData.getKeychainStringValue(forKey: .Birth)
         let age = calcDate().getAge(BDay: birth!)
-        let start_Timestamp = TimeStamp.getStart_OR_End_Timestamp(start_or_end: "start")
-        let end_Timestamp = TimeStamp.getStart_OR_End_Timestamp(start_or_end: "end")
         
         let parameters: Parameters = [
             "userID": saveUserData.getKeychainStringValue(forKey: .UID) ?? "정보없음",
             "userSex": saveUserData.getKeychainIntValue(forKey: .Gender) ?? 0,
             "userAge": age,
-            "eng": info["tName"]!,
-            "start": start_Timestamp,
-            "end": end_Timestamp
+            "eng": info["tName"]!
         ]
         print("params: \(parameters)")
         
