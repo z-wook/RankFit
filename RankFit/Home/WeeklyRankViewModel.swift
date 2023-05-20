@@ -33,37 +33,43 @@ class WeeklyRank: Hashable {
 }
 
 final class WeeklyRankViewModel {
-    enum Error: String {
-        case lost = "URLSessionTask failed with error: The network connection was lost."
-        case time = "URLSessionTask failed with error: The request timed out."
+//    enum Error: String {
+//        case lost = "URLSessionTask failed with error: The network connection was lost."
+//        case time = "URLSessionTask failed with error: The request timed out."
+//    }
+    func getWeeklyRank(subject: CurrentValueSubject<[WeeklyRank]?, Never>) {
+        Task {
+            do {
+                let data = try await requestToServer()
+                getWeeklyRankListData(subject: subject, Data: data)
+            } catch {
+                print("error: \(error.localizedDescription)")
+                configFirebase.errorReport(type: "WeeklyRankVM.getWeeklyRank", descriptions: error.localizedDescription, server: error.asAFError.debugDescription)
+            }
+        }
     }
     
-    func getWeeklyRank(subject: CurrentValueSubject<[WeeklyRank]?, Never>) {
-        AF.request("http://rankfit.site/weekEXrank.php", method: .post).responseDecodable(of: weekRank.self) { response in
-            print("response: \(response)")
-            switch response.result {
-            case .success(let object):
-                let objectList = object.All
-                var list: [WeeklyRank] = []
-                for i in objectList {
-                    list.append(WeeklyRank(rank: i["Rank"] ?? "", exercise: i["Exercise"] ?? ""))
-                    if i == objectList.last {
-                        subject.send(list)
-                        return
-                    }
-                }
-                subject.send(list)
-                
-            case .failure(let error):
+    private func requestToServer() async throws -> weekRank {
+        var retryCount = 0
+        while retryCount < 3 {
+            do {
+                return try await AF.request("http://rankfit.site/weekEXrank.php", method: .post).serializingDecodable().value
+            } catch {
                 print("error: \(error.localizedDescription)")
-                let error = error.localizedDescription
-                if error == Error.lost.rawValue || error == Error.time.rawValue {
-                    print("error: \(error)")
-                    return
-                } else {
-                    configFirebase.errorReport(type: "WeeklyRankViewModel.getWeeklyRank", descriptions: error, server: response.debugDescription)
+                retryCount += 1
+                if retryCount > 3 {
+                    throw error
                 }
             }
         }
+        throw NSError(domain: "MaxRetryCountExceeded", code: 0)
+    }
+    
+    private func getWeeklyRankListData(subject: CurrentValueSubject<[WeeklyRank]?, Never>, Data: weekRank) {
+        let objectList = Data.All
+        let weeklyRankList = objectList.map {
+            WeeklyRank(rank: $0["Rank"] ?? "", exercise: $0["Exercise"] ?? "")
+        }
+        subject.send(weeklyRankList)
     }
 }

@@ -57,8 +57,8 @@ class HomeViewController: UIViewController {
         let weekList = viewModel.getCategoryList(type: "week")
         let monthList = viewModel.getCategoryList(type: "month")
         weekRankVM.getWeeklyRank(subject: rankSubject)
-        setRadarChart(week: weekList, month: monthList)
         
+        setRadarChart(week: weekList, month: monthList)
         let current_percent = viewModel.getPercentList()
         // 이전이랑 퍼센트가 같다면 차트 업로드 안함
         if prev_percents == current_percent { return }

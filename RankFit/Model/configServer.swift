@@ -39,14 +39,14 @@ final class configServer {
         }
     }
     
-    static func sendSaveEx(info: aerobicExerciseInfo, subject: PassthroughSubject<Bool, Never>){
+    static func sendSaveEx(info: aerobicExerciseInfo, subject: PassthroughSubject<Bool, Never>) {
+        let urlString = "http://rankfit.site/RegisterAerobic.php"
         let uuid = info.id
         let userID = saveUserData.getKeychainStringValue(forKey: .UID) ?? "정보없음"
         let exercise = info.exercise            // String
         let saveTime = info.saveTime            // Int64
         let distance = info.distance            // Double
         let time = info.time                    // Int16
-        var retryCount: Int = 0                 // 서버 전송 실패 시 재요청을 하기 위한 카운트
         
         let parameters: Parameters = [
             "uuid": uuid,               // UUID
@@ -59,50 +59,17 @@ final class configServer {
         ]
         print("params: \(parameters)")
         
-        func sendRequest() {
-            AF.request("http://rankfit.site/RegisterAerobic.php", method: .post, parameters: parameters)
-                .validate(statusCode: 200..<300)
-                .responseString { response in
-                if let responseBody = response.value {
-                    if responseBody == "Data Insert Success." {
-                        subject.send(true)
-                    } else {
-                        if retryCount < 2 {
-                            retryCount += 1
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 1) { // 1초 후 재전송
-                                sendRequest()
-                            }
-                        } else {
-                            retryCount = 0 // 다음 전송을 위해 초기화
-                            configFirebase.errorReport(type: "configServer.sendSaveEx", descriptions: "서버에 운동 저장 실패/responseBody != Data Insert Success.", server: responseBody.debugDescription)
-                            subject.send(false)
-                        }
-                    }
-                } else {
-                    if retryCount < 2 {
-                        retryCount += 1
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { // 1초 후 재전송
-                            sendRequest()
-                        }
-                    } else {
-                        retryCount = 0 // 다음 전송을 위해 초기화
-                        configFirebase.errorReport(type: "configServer.sendSaveEx", descriptions: "서버에 운동 저장 실패/responseBody = nil", server: response.debugDescription)
-                        subject.send(false)
-                    }
-                }
-            }
-        }
-        sendRequest()
+        requestServer(url: urlString, params: parameters, responseResult: "Data Insert Success.", subject: subject)
     }
     
     static func sendCompleteEx(info: aerobicExerciseInfo, totalDis: Double, time: Int, saveTime: Int64, subject: PassthroughSubject<Bool, Never>) {
+        let urlString = "http://rankfit.site/UpdateAerobic.php"
         let uuid = info.id
         let userID = saveUserData.getKeychainStringValue(forKey: .UID) ?? "정보없음"
         let tableName = info.tableName
         let dis = Double(String(format: "%.2f", totalDis)) ?? 0
         var score = round(totalDis + (totalDis / (Double(time)/60)))    // double
         let userGender = saveUserData.getKeychainIntValue(forKey: .Gender) ?? 0
-        var retryCount: Int = 0     // 서버 전송 실패 시 재요청을 하기 위한 카운트
         if score < 1 { score = 1 } // 점수가 0점으로 기록되는 것을 방지하기 위해 최소 점수를 1점으로 함
         
         let parameters: Parameters = [
@@ -119,43 +86,11 @@ final class configServer {
         ]
         print("params: \(parameters)")
         
-        func sendRequest() {
-            AF.request("http://rankfit.site/UpdateAerobic.php", method: .post, parameters: parameters)
-                .validate(statusCode: 200..<300)
-                .responseString { response in
-                    if let responseBody = response.value {
-                        if responseBody == "true" { // success
-                            subject.send(true)
-                        } else {
-                            if retryCount < 2 {
-                                retryCount += 1
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 1) { // 1초 후 재전송
-                                    sendRequest()
-                                }
-                            } else {
-                                retryCount = 0 // 다음 전송을 위해 초기화
-                                configFirebase.errorReport(type: "configServer.sendCompleteEx", descriptions: "서버에 완료 운동 업데이트 실패/responseBody != true", server: responseBody.debugDescription)
-                                subject.send(false)
-                            }
-                        }
-                    } else {
-                        if retryCount < 2 {
-                            retryCount += 1
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 1) { // 1초 후 재전송
-                                sendRequest()
-                            }
-                        } else {
-                            retryCount = 0 // 다음 전송을 위해 초기화
-                            configFirebase.errorReport(type: "configServer.sendCompleteEx", descriptions: "서버에 완료 운동 업데이트 실패/responseBody = nil", server: response.debugDescription)
-                            subject.send(false)
-                        }
-                    }
-                }
-        }
-        sendRequest()
+        requestServer(url: urlString, params: parameters, responseResult: "true", subject: subject)
     }
     
     static func sendDeleteEx(info: aerobicExerciseInfo, subject: PassthroughSubject<Bool, Never>? = nil) {
+        let urlString = "http://rankfit.site/DeleteAerobic.php"
         let userID = saveUserData.getKeychainStringValue(forKey: .UID) ?? "정보없음"
         let userGender = saveUserData.getKeychainIntValue(forKey: .Gender) ?? 0
         let exercise = info.exercise            // String
@@ -172,21 +107,7 @@ final class configServer {
         ]
         print("parmas: \(parameters)")
         
-        AF.request("http://rankfit.site/DeleteAerobic.php", method: .post, parameters: parameters).validate(statusCode: 200..<300).responseString {
-            response in
-            if let responseBody = response.value {
-                if responseBody == "true" { // success
-                    print("서버에서 운동 삭제 성공")
-                    subject?.send(true)
-                } else {
-                    configFirebase.errorReport(type: "configServer.sendDeleteEx", descriptions: "서버에서 운동 삭제 실패/responseBody != true", server: responseBody.debugDescription)
-                    subject?.send(false)
-                }
-            } else {
-                configFirebase.errorReport(type: "configServer.sendDeleteEx", descriptions: "서버에서 운동 삭제 실패/responseBody = nil", server: response.debugDescription)
-                subject?.send(false)
-            }
-        }
+        requestServer(url: urlString, params: parameters, responseResult: "true", subject: subject)
     }
     
     static func firebaseSave(exName: String, time: Int64, uuid: String, date: String) {
@@ -194,6 +115,7 @@ final class configServer {
     }
     
     static func sendSaveEx(info: anaerobicExerciseInfo, subject: PassthroughSubject<Bool, Never>) {
+        let urlString = "http://rankfit.site/RegisterAnaerobic.php"
         let uuid = info.id                      // uuid
         let userID = saveUserData.getKeychainStringValue(forKey: .UID) ?? "정보없음"
         let exercise = info.exercise            // string
@@ -218,23 +140,11 @@ final class configServer {
         ]
         print("params: \(parameters)")
         
-        AF.request("http://rankfit.site/RegisterAnaerobic.php", method: .post, parameters: parameters).validate(statusCode: 200..<300).responseString {
-            response in
-            if let responseBody = response.value {
-                if responseBody == "Data Insert Success." { // success
-                    subject.send(true)
-                } else {
-                    configFirebase.errorReport(type: "configServer.sendSaveEx", descriptions: "서버에 운동 저장 실패/responseBody != Data Insert Success.", server: responseBody.debugDescription)
-                    subject.send(false)
-                }
-            } else {
-                configFirebase.errorReport(type: "configServer.sendSaveEx", descriptions: "response.value = nil", server: response.debugDescription)
-                subject.send(false)
-            }
-        }
+        requestServer(url: urlString, params: parameters, responseResult: "Data Insert Success.", subject: subject)
     }
     
     static func sendCompleteEx(info: anaerobicExerciseInfo, time: Int, saveTime: Int64, subject: PassthroughSubject<Bool, Never>) {
+        let urlString = "http://rankfit.site/UpdateAnaerobic.php"
         let uuid = info.id
         let userID = saveUserData.getKeychainStringValue(forKey: .UID) ?? "정보없음"
         let tableName = info.tableName  // String
@@ -261,23 +171,11 @@ final class configServer {
         ]
         print("params: \(parameters)")
 
-        AF.request("http://rankfit.site/UpdateAnaerobic.php", method: .post, parameters: parameters).validate(statusCode: 200..<300).responseString {
-            response in
-            if let responseBody = response.value {
-                if responseBody == "true" { // success // Data Insert Success.
-                    subject.send(true)
-                } else {
-                    configFirebase.errorReport(type: "configServer.sendCompleteEx", descriptions: "서버에 완료 운동 업데이트 실패/responseBody != true", server: responseBody.debugDescription)
-                    subject.send(false)
-                }
-            } else {
-                configFirebase.errorReport(type: "configServer.sendCompleteEx", descriptions: "서버에 완료 운동 업데이트 실패/response.value = nil", server: response.debugDescription)
-                subject.send(false)
-            }
-        }
+        requestServer(url: urlString, params: parameters, responseResult: "true", subject: subject)
     }
     
     static func sendDeleteEx(info: anaerobicExerciseInfo, subject: PassthroughSubject<Bool, Never>?) {
+        let urlString = "http://rankfit.site/DeleteAnaerobic.php"
         let userID = saveUserData.getKeychainStringValue(forKey: .UID) ?? "정보없음"
         let userGender = saveUserData.getKeychainIntValue(forKey: .Gender) ?? 0
         let exercise = info.exercise    // string
@@ -294,20 +192,42 @@ final class configServer {
         ]
         print("params: \(parameters)")
         
-        AF.request("http://rankfit.site/DeleteAnaerobic.php", method: .post, parameters: parameters).validate(statusCode: 200..<300).responseString {
-            response in
-            if let responseBody = response.value {
-                if responseBody == "true" { // success
-                    print("서버에서 운동 삭제 성공")
-                    subject?.send(true)
-                } else {
-                    configFirebase.errorReport(type: "configServer.sendDeleteEx", descriptions: "서버에서 운동 삭제 실패/responseBody != true", server: responseBody.debugDescription)
-                    subject?.send(false)
+        requestServer(url: urlString, params: parameters, responseResult: "true", subject: subject)
+    }
+}
+
+extension configServer {
+    private static func requestServer(url: String, params: Parameters, responseResult: String, subject: PassthroughSubject<Bool, Never>? = nil) {
+        Task {
+            do {
+                let value = try await sendToServer(url: url, params: params)
+                if value == responseResult {
+                    return subject?.send(true)
                 }
-            } else {
-                configFirebase.errorReport(type: "configServer.sendDeleteEx", descriptions: "서버에서 운동 삭제 실패/response.value = nil", server: response.debugDescription)
+                configFirebase.errorReport(type: "configServer", descriptions: "value: \(value)", server: value.debugDescription)
+                subject?.send(false)
+            } catch {
+                print("Error: \(error.localizedDescription)")
+                configFirebase.errorReport(type: "configServer", descriptions: "requestServer Error", server: error.localizedDescription)
                 subject?.send(false)
             }
         }
+    }
+    
+    private static func sendToServer(url: String, params: Parameters) async throws -> String {
+        var retryCount = 0
+        while retryCount < 3 {
+            do {
+                return try await AF.request(url, method: .post, parameters: params).serializingString().value
+            } catch {
+                print("Send Server Error: \(error.localizedDescription)")
+                retryCount += 1
+                if retryCount > 3 {
+                    throw error
+                }
+            }
+        }
+        // This should never be reached
+        throw NSError(domain: "MaxRetryCountExceeded", code: 0)
     }
 }
