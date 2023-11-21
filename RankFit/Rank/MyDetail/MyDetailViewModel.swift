@@ -14,7 +14,7 @@ final class MyDetailViewModel {
     let receiveSubject = CurrentValueSubject<[OptionRankInfo]?, Never>(nil)
     
     func getMyDetailRank(info: [String : String]) {
-        let url = "http://rankfit.site/ExerciseRank.php"
+        let url = "http://mate.gabia.io/ExerciseRank.php"
         var infoList: [OptionRankInfo] = [] // MyRank이지만 OptionRankInfo와 같은 형식의 구제체이므로 재활용 한것임
         let birth = saveUserData.getKeychainStringValue(forKey: .Birth)
         let age = calcDate().getAge(BDay: birth!)

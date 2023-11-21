@@ -23,7 +23,7 @@ final class configServer {
             "userID": uid,          // 신고자
             "date": date            // 날짜
         ]
-        AF.request("http://rankfit.site/notify.php", method: .post, parameters: parameters).validate(statusCode: 200..<300).responseString {
+        AF.request("http://mate.gabia.io/notify.php", method: .post, parameters: parameters).validate(statusCode: 200..<300).responseString {
             response in
             if let responseBody = response.value {
                 if responseBody == "true" {
@@ -40,7 +40,7 @@ final class configServer {
     }
     
     static func sendSaveEx(info: aerobicExerciseInfo, subject: PassthroughSubject<Bool, Never>) {
-        let urlString = "http://rankfit.site/RegisterAerobic.php"
+        let urlString = "http://mate.gabia.io/RegisterAerobic.php"
         let uuid = info.id
         let userID = saveUserData.getKeychainStringValue(forKey: .UID) ?? "정보없음"
         let exercise = info.exercise            // String
@@ -63,7 +63,7 @@ final class configServer {
     }
     
     static func sendCompleteEx(info: aerobicExerciseInfo, totalDis: Double, time: Int, saveTime: Int64, subject: PassthroughSubject<Bool, Never>) {
-        let urlString = "http://rankfit.site/UpdateAerobic.php"
+        let urlString = "http://mate.gabia.io/UpdateAerobic.php"
         let uuid = info.id
         let userID = saveUserData.getKeychainStringValue(forKey: .UID) ?? "정보없음"
         let tableName = info.tableName
@@ -90,7 +90,7 @@ final class configServer {
     }
     
     static func sendDeleteEx(info: aerobicExerciseInfo, subject: PassthroughSubject<Bool, Never>? = nil) {
-        let urlString = "http://rankfit.site/DeleteAerobic.php"
+        let urlString = "http://mate.gabia.io/DeleteAerobic.php"
         let userID = saveUserData.getKeychainStringValue(forKey: .UID) ?? "정보없음"
         let userGender = saveUserData.getKeychainIntValue(forKey: .Gender) ?? 0
         let exercise = info.exercise            // String
@@ -115,7 +115,7 @@ final class configServer {
     }
     
     static func sendSaveEx(info: anaerobicExerciseInfo, subject: PassthroughSubject<Bool, Never>) {
-        let urlString = "http://rankfit.site/RegisterAnaerobic.php"
+        let urlString = "http://mate.gabia.io/RegisterAnaerobic.php"
         let uuid = info.id                      // uuid
         let userID = saveUserData.getKeychainStringValue(forKey: .UID) ?? "정보없음"
         let exercise = info.exercise            // string
@@ -144,7 +144,7 @@ final class configServer {
     }
     
     static func sendCompleteEx(info: anaerobicExerciseInfo, time: Int, saveTime: Int64, subject: PassthroughSubject<Bool, Never>) {
-        let urlString = "http://rankfit.site/UpdateAnaerobic.php"
+        let urlString = "http://mate.gabia.io/UpdateAnaerobic.php"
         let uuid = info.id
         let userID = saveUserData.getKeychainStringValue(forKey: .UID) ?? "정보없음"
         let tableName = info.tableName  // String
@@ -175,7 +175,7 @@ final class configServer {
     }
     
     static func sendDeleteEx(info: anaerobicExerciseInfo, subject: PassthroughSubject<Bool, Never>?) {
-        let urlString = "http://rankfit.site/DeleteAnaerobic.php"
+        let urlString = "http://mate.gabia.io/DeleteAnaerobic.php"
         let userID = saveUserData.getKeychainStringValue(forKey: .UID) ?? "정보없음"
         let userGender = saveUserData.getKeychainIntValue(forKey: .Gender) ?? 0
         let exercise = info.exercise    // string
@@ -218,7 +218,7 @@ extension configServer {
         var retryCount = 0
         while retryCount < 3 {
             do {
-                return try await AF.request(url, method: .post, parameters: params).serializingString().value
+                return try await AF.request(url, method: .post, parameters: params).serializingString().value // decodeJson으로 해보기
             } catch {
                 print("Send Server Error: \(error.localizedDescription)")
                 retryCount += 1

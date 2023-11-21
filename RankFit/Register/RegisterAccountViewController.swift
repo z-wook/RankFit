@@ -200,7 +200,7 @@ class RegisterAccountViewController: UIViewController {
             let parameters: Parameters = [
                 "userNickname": nickNameStr
             ]
-            AF.request("http://rankfit.site/Check.php", method: .post, parameters: parameters).validate(statusCode: 200..<300).responseString { response in
+            AF.request("http://mate.gabia.io/Check.php", method: .post, parameters: parameters).validate(statusCode: 200..<300).responseString { response in
                 // success("true") / success("false")
                 if let responseBody = response.value {
                     if responseBody == "true" {

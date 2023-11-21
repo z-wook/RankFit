@@ -53,7 +53,7 @@ final class WeeklyRankViewModel {
         var retryCount = 0
         while retryCount < 3 {
             do {
-                return try await AF.request("http://rankfit.site/weekEXrank.php", method: .post).serializingDecodable().value
+                return try await AF.request("http://mate.gabia.io/weekEXrank.php", method: .post).serializingDecodable().value
             } catch {
                 print("error: \(error.localizedDescription)")
                 retryCount += 1

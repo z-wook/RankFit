@@ -125,7 +125,7 @@ extension ReturnToRankFit {
     }
     
     private func getDetailExInfo(nickName: String) {
-        let url = "http://rankfit.site/info.php"
+        let url = "http://mate.gabia.io/info.php"
         let parameters: Parameters = [
             "userNickname": nickName,
             "start": TimeStamp.forReturnUserTimestamp(start_or_end: "start"),

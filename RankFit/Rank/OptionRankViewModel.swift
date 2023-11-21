@@ -15,7 +15,7 @@ final class OptionRankViewModel {
     var infoList: [OptionRankInfo] = []
     
     func getGenderRank() {
-        let url = "http://rankfit.site/SexRank.php"
+        let url = "http://mate.gabia.io/SexRank.php"
         let parameters: Parameters = [
             "userID": saveUserData.getKeychainStringValue(forKey: .UID) ?? "정보없음",
             "userSex": saveUserData.getKeychainIntValue(forKey: .Gender) ?? 0,
@@ -24,7 +24,7 @@ final class OptionRankViewModel {
     }
     
     func getAgeRank() {
-        let url = "http://rankfit.site/AgeRank.php"
+        let url = "http://mate.gabia.io/AgeRank.php"
         let birth = saveUserData.getKeychainStringValue(forKey: .Birth)
         let age = calcDate().getAge(BDay: birth!)
         
@@ -36,7 +36,7 @@ final class OptionRankViewModel {
     }
     
     func getCustomRank() {
-        let url = "http://rankfit.site/CustomRank.php"
+        let url = "http://mate.gabia.io/CustomRank.php"
         let birth = saveUserData.getKeychainStringValue(forKey: .Birth)
         let age = calcDate().getAge(BDay: birth!)
         
@@ -49,7 +49,7 @@ final class OptionRankViewModel {
     }
     
     func getRunningRank() {
-        let url = "http://rankfit.site/runningRank.php"
+        let url = "http://mate.gabia.io/runningRank.php"
         
         let parameters: Parameters = [
             "userID": saveUserData.getKeychainStringValue(forKey: .UID) ?? "정보없음"

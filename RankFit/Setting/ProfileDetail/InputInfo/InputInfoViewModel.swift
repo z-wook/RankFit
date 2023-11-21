@@ -22,7 +22,7 @@ final class InputInfoViewModel {
         let parameters: Parameters = [
             "image_name": uid + ".jpeg"
         ]
-        AF.request("http://rankfit.site/imageDelete.php", method: .post, parameters: parameters).validate(statusCode: 200..<300).responseString {
+        AF.request("http://mate.gabia.io/imageDelete.php", method: .post, parameters: parameters).validate(statusCode: 200..<300).responseString {
             response in
             if let responseBody = response.value {
                 if responseBody == "Success" {
@@ -49,7 +49,7 @@ final class InputInfoViewModel {
         }
         AF.upload(multipartFormData: { multipartFormData in
             multipartFormData.append(ImageData, withName: "image", fileName: uid + ".jpeg", mimeType: "image/jpeg")
-        }, to: "http://rankfit.site/image.php").response { response in
+        }, to: "http://mate.gabia.io/image.php").response { response in
             if let error = response.error {
                 print("Error uploading image: \(error.localizedDescription)")
                 configFirebase.errorReport(type: "InputInfoVM.uploadToServer", descriptions: error.localizedDescription, server: response.debugDescription)
@@ -67,7 +67,7 @@ final class InputInfoViewModel {
             "userID": id,
             "userNickname": nickName
         ]
-        AF.request("http://rankfit.site/UpdateNickname.php", method: .post, parameters: parameters).validate(statusCode: 200..<300).responseString { response in
+        AF.request("http://mate.gabia.io/UpdateNickname.php", method: .post, parameters: parameters).validate(statusCode: 200..<300).responseString { response in
             if let responseBody = response.value {
                 if responseBody == "true" {
                     subject.send(true)
@@ -86,7 +86,7 @@ final class InputInfoViewModel {
         let parameters: Parameters = [
             "userNickname": nickName
         ]
-        AF.request("http://rankfit.site/Check.php", method: .post, parameters: parameters).validate(statusCode: 200..<300).responseString {
+        AF.request("http://mate.gabia.io/Check.php", method: .post, parameters: parameters).validate(statusCode: 200..<300).responseString {
             response in
             if let responseBody = response.value {
                 if responseBody == "true" {
@@ -117,7 +117,7 @@ final class InputInfoViewModel {
             "userSex": gender,
             "userWeight": newWeight
         ]
-        AF.request("http://rankfit.site/Register.php", method: .post, parameters: parameters).validate(statusCode: 200..<300).responseString {
+        AF.request("http://mate.gabia.io/Register.php", method: .post, parameters: parameters).validate(statusCode: 200..<300).responseString {
             response in
             if let responseBody = response.value {
                 if responseBody == "true" {
