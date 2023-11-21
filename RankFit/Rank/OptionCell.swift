@@ -101,7 +101,7 @@ extension OptionCell {
         let parameters: Parameters = [
             "nickname": nickName
         ]
-        request = AF.request("http://rankfit.site/imageDown.php", method: .post, parameters: parameters).responseData { response in
+        request = AF.request("http://mate.gabia.io/imageDown.php", method: .post, parameters: parameters).responseData { response in
             switch response.result {
             case .success(let data):
                 let image = UIImage(data: data)

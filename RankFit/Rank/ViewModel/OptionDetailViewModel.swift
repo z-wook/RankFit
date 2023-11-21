@@ -14,7 +14,7 @@ final class OptionDetailViewModel {
     let infoSubject = CurrentValueSubject<[AnyHashable]?, Never>(nil)
     
     func getDetailExInfo(nickName: String) {
-        let url = "http://rankfit.site/info.php"
+        let url = "http://mate.gabia.io/info.php"
         let parameters: Parameters = [
             "userNickname": nickName,
             "start": TimeStamp.getStart_OR_End_Timestamp(start_or_end: "start"),

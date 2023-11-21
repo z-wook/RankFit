@@ -40,7 +40,7 @@ final class MyRankViewModel {
     }
     
     func getMyRank() {
-        let url = "http://rankfit.site/MyRank.php"
+        let url = "http://mate.gabia.io/MyRank.php"
         let sortedList = getSortedExList()
         count = sortedList.count
         

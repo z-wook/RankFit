@@ -45,7 +45,7 @@ final class RevokeViewModel {
         let parameters: Parameters = [
             "userID": UID
         ]
-        AF.request("http://rankfit.site/Leave.php", method: .post, parameters: parameters).validate(statusCode: 200..<300).responseString { response in
+        AF.request("http://mate.gabia.io/Leave.php", method: .post, parameters: parameters).validate(statusCode: 200..<300).responseString { response in
             guard let responseBody = response.value else {
                 print("result == nil")
                 configFirebase.errorReport(type: "RevokeVM.removeServerData", descriptions: "result == nil", server: response.debugDescription)

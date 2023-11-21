@@ -37,7 +37,7 @@ class notification: Hashable {
 
 final class NoticeViewModel {
     func getNotice(subject: CurrentValueSubject<[notification]?, Never>) {
-        AF.request("http://rankfit.site/notice.php", method: .post).responseDecodable(of: Notification.self) { response in
+        AF.request("http://mate.gabia.io/notice.php", method: .post).responseDecodable(of: Notification.self) { response in
             switch response.result {
             case .success(let object):
                 var list: [notification] = []
